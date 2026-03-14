@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="th" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&amp;family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+  * { box-sizing: border-box; }
+  body { font-family: 'Sarabun', sans-serif; margin: 0; }
+  .font-heading { font-family: 'Kanit', sans-serif; }
+  
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes slideLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(255,200,0,0.3)); }
+    50% { filter: drop-shadow(0 0 20px rgba(255,200,0,0.6)); }
+  }
+  
+  .anim-float { animation: floatIn 0.7s ease-out both; }
+  .anim-scale { animation: scaleIn 0.6s ease-out both; }
+  .anim-left { animation: slideLeft 0.6s ease-out both; }
+  .anim-right { animation: slideRight 0.6s ease-out both; }
+  .anim-glow { animation: pulse-glow 3s ease-in-out infinite; }
+  
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
+  .delay-6 { animation-delay: 0.6s; }
+  .delay-7 { animation-delay: 0.7s; }
+  .delay-8 { animation-delay: 0.8s; }
+
+  .tech-card:hover { transform: translateY(-4px) scale(1.03); }
+  .nature-card:hover { transform: translateY(-4px) scale(1.03); }
+  .benefit-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+
+  .pattern-dots {
+    background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="w-full h-full overflow-auto" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 30%, #f093fb 60%, #f5576c 100%);"><!-- Main Container -->
+   <div class="w-full max-w-4xl mx-auto px-4 py-8 md:px-8"><!-- HEADER -->
+    <header class="text-center mb-10 anim-float">
+     <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-5 py-2 mb-4"><span class="text-yellow-300 text-lg">⚡</span> <span class="text-white/90 font-medium text-sm">วิชาวิทยาศาสตร์และเทคโนโลยี ม.1</span>
+     </div>
+     <h1 id="mainTitle" class="font-heading text-3xl md:text-5xl font-extrabold text-white leading-tight mb-3" style="text-shadow: 0 4px 20px rgba(0,0,0,0.2);">ประโยชน์ของเทคโนโลยี<br>
+      ในชีวิตประจำวัน</h1>
+     <div class="flex justify-center gap-3 mt-4 anim-scale delay-3"><span class="text-4xl">📱</span> <span class="text-4xl">🚗</span> <span class="text-4xl">💻</span> <span class="text-4xl">🤖</span> <span class="text-4xl">🌐</span>
+     </div>
+    </header><!-- SECTION 1: ความหมาย -->
+    <section class="mb-8 anim-float delay-2">
+     <div class="rounded-3xl p-1" style="background: linear-gradient(135deg, #FFD93D, #FF6B6B, #6BCB77);">
+      <div class="bg-white rounded-3xl p-6 md:p-8 relative overflow-hidden">
+       <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-100 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50"></div>
+       <div class="relative">
+        <div class="flex items-center gap-3 mb-4">
+         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white font-heading font-bold text-lg shadow-lg">
+          1
+         </div>
+         <h2 class="font-heading text-xl md:text-2xl font-bold text-gray-800">ความหมายของเทคโนโลยี</h2>
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-5">
+         <div class="flex-shrink-0 text-6xl anim-glow">
+          ⚙️
+         </div>
+         <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-5 border-l-4 border-orange-400 flex-1">
+          <p class="text-gray-700 text-lg leading-relaxed"><span class="font-heading font-semibold text-orange-600">เทคโนโลยี</span> คือ สิ่งที่มนุษย์สร้างขึ้นเพื่อช่วย<span class="font-semibold text-red-500">แก้ปัญหา</span> <span class="font-semibold text-blue-500">อำนวยความสะดวก</span> หรือทำให้การทำงาน<span class="font-semibold text-green-600">ง่ายและรวดเร็วขึ้น</span></p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- SECTION 2: เปรียบเทียบ -->
+    <section class="mb-8 anim-float delay-3">
+     <div class="rounded-3xl p-1" style="background: linear-gradient(135deg, #4ECDC4, #556270);">
+      <div class="bg-white rounded-3xl p-6 md:p-8">
+       <div class="flex items-center gap-3 mb-5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-cyan-600 flex items-center justify-center text-white font-heading font-bold text-lg shadow-lg">
+         2
+        </div>
+        <h2 class="font-heading text-xl md:text-2xl font-bold text-gray-800">เทคโนโลยี VS ไม่ใช่เทคโนโลยี</h2>
+       </div>
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5"><!-- เทคโนโลยี -->
+        <div class="anim-left delay-4">
+         <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-5 text-white">
+          <div class="flex items-center gap-2 mb-4"><span class="text-2xl">✅</span>
+           <h3 class="font-heading font-bold text-lg">สิ่งที่เป็นเทคโนโลยี</h3>
+          </div>
+          <div class="space-y-3">
+           <div class="tech-card bg-white/15 backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 transition-all duration-300 cursor-default"><span class="text-2xl">📱</span> <span class="font-medium">โทรศัพท์มือถือ</span>
+           </div>
+           <div class="tech-card bg-white/15 backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 transition-all duration-300 cursor-default"><span class="text-2xl">🚗</span> <span class="font-medium">รถยนต์</span>
+           </div>
+           <div class="tech-card bg-white/15 backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 transition-all duration-300 cursor-default"><span class="text-2xl">🧺</span> <span class="font-medium">เครื่องซักผ้า</span>
+           </div>
+           <div class="tech-card bg-white/15 backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 transition-all duration-300 cursor-default"><span class="text-2xl">💻</span> <span class="font-medium">คอมพิวเตอร์</span>
+           </div>
+          </div>
+         </div>
+        </div><!-- ไม่ใช่เทคโนโลยี -->
+        <div class="anim-right delay-4">
+         <div class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-5 text-white">
+          <div class="flex items-center gap-2 mb-4"><span class="text-2xl">🌿</span>
+           <h3 class="font-heading font-bold text-lg">สิ่งที่ไม่ใช่เทคโนโลยี</h3>
+          </div>
+          <div class="space-y-3">
+           <div class="nature-card bg-white/15 backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 transition-all duration-300 cursor-default"><span class="text-2xl">🏔️</span> <span class="font-medium">ภูเขา</span>
+           </div>
+           <div class="nature-card bg-white/15 backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 transition-all duration-300 cursor-default"><span class="text-2xl">🏞️</span> <span class="font-medium">แม่น้ำ</span>
+           </div>
+           <div class="nature-card bg-white/15 backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 transition-all duration-300 cursor-default"><span class="text-2xl">🌳</span> <span class="font-medium">ต้นไม้</span>
+           </div>
+           <div class="nature-card bg-white/15 backdrop-blur-sm rounded-xl p-3 flex items-center gap-3 transition-all duration-300 cursor-default"><span class="text-2xl">🪨</span> <span class="font-medium">ก้อนหิน</span>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
+        <p class="text-gray-600 text-sm md:text-base">💡 <strong class="text-gray-800">จำง่าย ๆ:</strong> สิ่งที่<span class="text-blue-600 font-semibold">มนุษย์สร้างขึ้น</span>เพื่อแก้ปัญหา = เทคโนโลยี | สิ่งที่<span class="text-green-600 font-semibold">เกิดขึ้นเองตามธรรมชาติ</span> = ไม่ใช่เทคโนโลยี</p>
+       </div>
+      </div>
+     </div>
+    </section><!-- SECTION 3: ประโยชน์ -->
+    <section class="mb-8 anim-float delay-4">
+     <div class="rounded-3xl p-1" style="background: linear-gradient(135deg, #FA8BFF, #2BD2FF, #2BFF88);">
+      <div class="bg-white rounded-3xl p-6 md:p-8">
+       <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-400 to-purple-600 flex items-center justify-center text-white font-heading font-bold text-lg shadow-lg">
+         3
+        </div>
+        <h2 class="font-heading text-xl md:text-2xl font-bold text-gray-800">ประโยชน์ของเทคโนโลยีใกล้ตัวเรา</h2>
+       </div>
+       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><!-- การสื่อสาร -->
+        <div class="benefit-card bg-gradient-to-br from-sky-50 to-blue-100 rounded-2xl p-5 border border-blue-200 transition-all duration-300 anim-scale delay-5">
+         <div class="flex items-center gap-3 mb-3">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-3xl shadow-md">
+           📞
+          </div>
+          <h3 class="font-heading font-bold text-blue-700 text-lg">การสื่อสาร</h3>
+         </div>
+         <p class="text-gray-600 text-sm leading-relaxed">ติดต่อกันได้<strong class="text-blue-600">รวดเร็วทันใจ</strong> เช่น โทรศัพท์ อินเทอร์เน็ต วิดีโอคอล</p>
+         <div class="flex gap-2 mt-3"><span class="bg-blue-200 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">📱 โทรศัพท์</span> <span class="bg-blue-200 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">🌐 อินเทอร์เน็ต</span>
+         </div>
+        </div><!-- การเรียนรู้ -->
+        <div class="benefit-card bg-gradient-to-br from-amber-50 to-yellow-100 rounded-2xl p-5 border border-yellow-200 transition-all duration-300 anim-scale delay-6">
+         <div class="flex items-center gap-3 mb-3">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-3xl shadow-md">
+           📚
+          </div>
+          <h3 class="font-heading font-bold text-amber-700 text-lg">การเรียนรู้</h3>
+         </div>
+         <p class="text-gray-600 text-sm leading-relaxed">ค้นหาความรู้ได้<strong class="text-amber-600">ง่ายและไร้ขีดจำกัด</strong> เช่น คอมพิวเตอร์ เว็บไซต์</p>
+         <div class="flex gap-2 mt-3"><span class="bg-amber-200 text-amber-700 text-xs px-2 py-1 rounded-full font-medium">💻 คอมพิวเตอร์</span> <span class="bg-amber-200 text-amber-700 text-xs px-2 py-1 rounded-full font-medium">🔍 เว็บไซต์</span>
+         </div>
+        </div><!-- การทำงาน -->
+        <div class="benefit-card bg-gradient-to-br from-emerald-50 to-green-100 rounded-2xl p-5 border border-green-200 transition-all duration-300 anim-scale delay-7">
+         <div class="flex items-center gap-3 mb-3">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center text-3xl shadow-md">
+           🏭
+          </div>
+          <h3 class="font-heading font-bold text-emerald-700 text-lg">การทำงาน</h3>
+         </div>
+         <p class="text-gray-600 text-sm leading-relaxed">ช่วย<strong class="text-emerald-600">ประหยัดเวลาและแรงงาน</strong> ทำงานได้มากขึ้นในเวลาน้อยลง</p>
+         <div class="flex gap-2 mt-3"><span class="bg-green-200 text-green-700 text-xs px-2 py-1 rounded-full font-medium">🤖 เครื่องจักร</span> <span class="bg-green-200 text-green-700 text-xs px-2 py-1 rounded-full font-medium">🏗️ หุ่นยนต์</span>
+         </div>
+        </div><!-- ชีวิตประจำวัน -->
+        <div class="benefit-card bg-gradient-to-br from-purple-50 to-violet-100 rounded-2xl p-5 border border-purple-200 transition-all duration-300 anim-scale delay-8">
+         <div class="flex items-center gap-3 mb-3">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-violet-600 flex items-center justify-center text-3xl shadow-md">
+           🏠
+          </div>
+          <h3 class="font-heading font-bold text-purple-700 text-lg">ชีวิตประจำวัน</h3>
+         </div>
+         <p class="text-gray-600 text-sm leading-relaxed">เพิ่ม<strong class="text-purple-600">ความสะดวกสบาย</strong>ในทุก ๆ วัน ตั้งแต่ตื่นจนเข้านอน</p>
+         <div class="flex gap-2 mt-3"><span class="bg-purple-200 text-purple-700 text-xs px-2 py-1 rounded-full font-medium">🧺 เครื่องซักผ้า</span> <span class="bg-purple-200 text-purple-700 text-xs px-2 py-1 rounded-full font-medium">❄️ ตู้เย็น</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- SECTION 4: คำถามชวนคิด -->
+    <section class="mb-8 anim-float delay-5">
+     <div class="rounded-3xl p-1" style="background: linear-gradient(135deg, #f5af19, #f12711);">
+      <div class="bg-white rounded-3xl p-6 md:p-8 relative overflow-hidden pattern-dots">
+       <div class="absolute -bottom-6 -right-6 text-8xl opacity-10">
+        🤔
+       </div>
+       <div class="relative">
+        <div class="flex items-center gap-3 mb-5">
+         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white font-heading font-bold text-lg shadow-lg">
+          4
+         </div>
+         <h2 class="font-heading text-xl md:text-2xl font-bold text-gray-800">🤔 คำถามชวนคิด</h2>
+        </div>
+        <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-5 border-2 border-dashed border-orange-300 mb-5">
+         <p id="thinkQuestion" class="text-gray-700 text-lg md:text-xl leading-relaxed font-heading font-medium text-center">"เทคโนโลยีใกล้ตัวที่นักเรียนใช้ทุกวันคืออะไร<br>
+          และช่วยให้ชีวิตสะดวกขึ้นอย่างไร?"</p>
+        </div><!-- ภาพประกอบ -->
+        <div class="grid grid-cols-3 gap-3">
+         <div class="bg-gradient-to-br from-cyan-100 to-blue-200 rounded-2xl p-4 text-center anim-scale delay-6">
+          <div class="text-4xl mb-2">
+           📋
+          </div>
+          <p class="text-xs font-heading font-medium text-blue-800">ใช้แท็บเล็ต<br>
+           เรียนออนไลน์</p>
+         </div>
+         <div class="bg-gradient-to-br from-pink-100 to-rose-200 rounded-2xl p-4 text-center anim-scale delay-7">
+          <div class="text-4xl mb-2">
+           🔎
+          </div>
+          <p class="text-xs font-heading font-medium text-rose-800">ค้นหาข้อมูล<br>
+           จากโทรศัพท์</p>
+         </div>
+         <div class="bg-gradient-to-br from-lime-100 to-green-200 rounded-2xl p-4 text-center anim-scale delay-8">
+          <div class="text-4xl mb-2">
+           🎮
+          </div>
+          <p class="text-xs font-heading font-medium text-green-800">เรียนรู้ผ่าน<br>
+           แอปพลิเคชัน</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Footer -->
+    <footer class="text-center pb-6 anim-float delay-6">
+     <div class="bg-white/15 backdrop-blur-sm rounded-2xl p-4 inline-block">
+      <p class="text-white/80 text-sm font-heading">สื่อการเรียนรู้ วิชาวิทยาศาสตร์และเทคโนโลยี ม.1 🎓</p>
+     </div>
+    </footer>
+   </div>
+  </div>
+  <script>
+const defaultConfig = {
+  main_title: "ประโยชน์ของเทคโนโลยี\nในชีวิตประจำวัน",
+  think_question: "เทคโนโลยีใกล้ตัวที่นักเรียนใช้ทุกวันคืออะไร และช่วยให้ชีวิตสะดวกขึ้นอย่างไร?",
+  background_color: "#667eea",
+  surface_color: "#ffffff",
+  text_color: "#1f2937",
+  primary_action: "#3b82f6",
+  secondary_action: "#f59e0b",
+  font_family: "Kanit",
+  font_size: 16
+};
+
+function applyConfig(config) {
+  const title = document.getElementById('mainTitle');
+  const titleText = config.main_title || defaultConfig.main_title;
+  title.innerHTML = titleText.replace(/\n/g, '<br>');
+
+  const question = document.getElementById('thinkQuestion');
+  const qText = config.think_question || defaultConfig.think_question;
+  question.innerHTML = `"${qText}"`;
+
+  const font = config.font_family || defaultConfig.font_family;
+  const baseFontStack = 'Sarabun, sans-serif';
+  document.querySelectorAll('.font-heading').forEach(el => {
+    el.style.fontFamily = `${font}, ${baseFontStack}`;
+  });
+
+  const baseSize = config.font_size || defaultConfig.font_size;
+  title.style.fontSize = `${baseSize * 2.2}px`;
+  question.style.fontSize = `${baseSize * 1.15}px`;
+
+  const bg = config.background_color || defaultConfig.background_color;
+  document.getElementById('app').style.background = `linear-gradient(135deg, ${bg} 0%, #764ba2 30%, #f093fb 60%, #f5576c 100%)`;
+}
+
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => { applyConfig(config); },
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+      { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+      { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+      { get: () => config.primary_action || defaultConfig.primary_action, set: (v) => { config.primary_action = v; window.elementSdk.setConfig({ primary_action: v }); } },
+      { get: () => config.secondary_action || defaultConfig.secondary_action, set: (v) => { config.secondary_action = v; window.elementSdk.setConfig({ secondary_action: v }); } }
+    ],
+    borderables: [],
+    fontEditable: {
+      get: () => config.font_family || defaultConfig.font_family,
+      set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+    },
+    fontSizeable: {
+      get: () => config.font_size || defaultConfig.font_size,
+      set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+    }
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ["main_title", config.main_title || defaultConfig.main_title],
+    ["think_question", config.think_question || defaultConfig.think_question]
+  ])
+});
+
+lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dc40e524167d33d',t:'MTc3MzQ5OTQ2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
