@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>วัสดุในชีวิตประจำวัน - ม.1</title>
+    
+    <!-- นำเข้าฟอนต์ภาษาไทยสวยๆ จาก Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS Reset & Variables --- */
+        :root {
+            --primary-blue: #4facfe;
+            --primary-dark-blue: #00f2fe;
+            --accent-green: #43e97b;
+            --accent-orange: #ff9966;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 20px rgba(0,0,0,0.08);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Layout Container --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Animation Classes --- */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark-blue));
+            color: white;
+            padding: 60px 20px;
+            border-radius: 0 0 30px 30px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Section Titles --- */
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-orange);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- Cards & Grids --- */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+        }
+
+        /* --- Objectives Section --- */
+        .objective-card {
+            border-left: 5px solid var(--accent-green);
+            background: #f0fff4;
+        }
+
+        .objective-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* --- Materials Grid --- */
+        .material-item {
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .material-item:hover {
+            border-color: var(--primary-blue);
+            background: #f0f8ff;
+        }
+
+        .material-icon {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* --- Properties Section --- */
+        .prop-list {
+            list-style: none;
+        }
+
+        .prop-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .prop-badge {
+            background: var(--accent-orange);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-right: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .prop-desc {
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        /* --- Selection Comparison --- */
+        .selection-card {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-blue);
+        }
+
+        .selection-img {
+            font-size: 2rem;
+            margin-right: 15px;
+            width: 50px;
+            text-align: center;
+        }
+
+        /* --- Tools Section --- */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            text-align: center;
+        }
+
+        .tool-item {
+            background: white;
+            padding: 15px 5px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* --- Safety Warning --- */
+        .safety-box {
+            background: #fff3cd;
+            border: 2px solid #ffeeba;
+            color: #856404;
+            padding: 25px;
+            border-radius: var(--radius);
+        }
+
+        .safety-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .safety-list li::before {
+            content: '⚠️';
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        /* --- Think & Activity --- */
+        .think-box {
+            background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+            color: #333;
+            padding: 30px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+        }
+
+        .question-card {
+            background: rgba(255,255,255,0.8);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .activity-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .activity-table th {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .activity-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.5rem; }
+            .prop-item { flex-direction: column; text-align: center; }
+            .prop-badge { margin-right: 0; margin-bottom: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ส่วนที่ 1: Hero Section -->
+    <header class="hero fade-in-section">
+        <h1>วัสดุในชีวิตประจำวัน</h1>
+        <p>เรียนรู้เรื่องวัสดุรอบตัว การเลือกใช้ให้เหมาะสม และความปลอดภัย เพื่อการสร้างสรรค์ชิ้นงานที่ดี</p>
+    </header>
+
+    <div class="container">
+
+        <!-- ส่วนที่ 2: จุดประสงค์ -->
+        <section class="fade-in-section">
+            <h2 class="section-title">🎯 จุดประสงค์การเรียนรู้</h2>
+            <div class="grid-2">
+                <div class="card objective-card">
+                    <span class="objective-icon">🔍</span>
+                    <h3>วิเคราะห์</h3>
+                    <p>นักเรียนสามารถวิเคราะห์สมบัติของวัสดุและเครื่องมือ ที่ใช้ในการสร้างชิ้นงานได้</p>
+                </div>
+                <div class="card objective-card">
+                    <span class="objective-icon">✅</span>
+                    <h3>เลือกใช้</h3>
+                    <p>นักเรียนสามารถเลือกใช้วัสดุและเครื่องมือได้เหมาะสมกับลักษณะของงาน และคำนึงถึงความปลอดภัย</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 3: ความหมายของวัสดุ -->
+        <section class="fade-in-section">
+            <h2 class="section-title">📦 วัสดุคืออะไร?</h2>
+            <div class="card" style="text-align: center; margin-bottom: 20px;">
+                <p style="font-size: 1.2rem;"><strong>วัสดุ (Material)</strong> คือสิ่งที่นำมาใช้ในการสร้างสิ่งของ เครื่องมือ หรือผลิตภัณฑ์ต่าง ๆ รอบตัวเรา</p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="material-item">
+                    <span class="material-icon">🪵</span>
+                    <h4>ไม้</h4>
+                </div>
+                <div class="material-item">
+                    <span class="material-icon">⛓️</span>
+                    <h4>โลหะ</h4>
+                </div>
+                <div class="material-item">
+                    <span class="material-icon">🧴</span>
+                    <h4>พลาสติก</h4>
+                </div>
+                <div class="material-item">
+                    <span class="material-icon">🥛</span>
+                    <h4>แก้ว</h4>
+                </div>
+                <div class="material-item">
+                    <span class="material-icon">👕</span>
+                    <h4>ผ้า</h4>
+                </div>
+                <div class="material-item">
+                    <span class="material-icon">🏀</span>
+                    <h4>ยาง</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 4: สมบัติของวัสดุ -->
+        <section class="fade-in-section">
+            <h2 class="section-title">⚙️ สมบัติของวัสดุ</h2>
+            <div class="card">
+                <ul class="prop-list">
+                    <li class="prop-item">
+                        <span class="prop-badge">ความแข็งแรง</span>
+                        <span class="prop-desc">รับน้ำหนักได้ดี ไม่แตกหักง่าย (เช่น โลหะ)</span>
+                    </li>
+                    <li class="prop-item">
+                        <span class="prop-badge">ความยืดหยุ่น</span>
+                        <span class="prop-desc">สามารถยืดหรือโค้งงอแล้วคืนรูปได้ (เช่น ยาง, พลาสติกบางชนิด)</span>
+                    </li>
+                    <li class="prop-item">
+                        <span class="prop-badge">น้ำหนัก</span>
+                        <span class="prop-desc">ความเบาหรือหนักของวัสดุ (เช่น โฟม เบา, หิน หนัก)</span>
+                    </li>
+                    <li class="prop-item">
+                        <span class="prop-badge">การนำความร้อน</span>
+                        <span class="prop-desc">ส่งผ่านความร้อนได้ดีหรือไม่ (เช่น โลหะนำความร้อนดี)</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 5: การเลือกใช้วัสดุ -->
+        <section class="fade-in-section">
+            <h2 class="section-title">💡 เลือกใช้ให้ถูกงาน</h2>
+            
+            <div class="selection-card">
+                <div class="selection-img">🪑</div>
+                <div>
+                    <h4>ทำเก้าอี้ / โต๊ะ</h4>
+                    <p>ควรใช้ <strong>ไม้ หรือ โลหะ</strong> เพราะมีความแข็งแรง ทนทาน รับน้ำหนักคนนั่งได้</p>
+                </div>
+            </div>
+
+            <div class="selection-card">
+                <div class="selection-img">🥤</div>
+                <div>
+                    <h4>ทำขวดน้ำ</h4>
+                    <p>ควรใช้ <strong>พลาสติก หรือ สแตนเลส</strong> เพราะกันน้ำได้ ไม่รั่วซึม และพกพาสะดวก</p>
+                </div>
+            </div>
+
+            <div class="selection-card">
+                <div class="selection-img">👚</div>
+                <div>
+                    <h4>ทำเสื้อผ้า</h4>
+                    <p>ควรใช้ <strong>ผ้าฝ้าย หรือ ผ้าใยสังเคราะห์</strong> เพราะนุ่ม สวมใส่สบาย และระบายอากาศได้</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 6: เครื่องมือ -->
+        <section class="fade-in-section">
+            <h2 class="section-title">🛠️ เครื่องมือช่าง</h2>
+            <p style="text-align: center; margin-bottom: 15px;">เครื่องมือช่วยให้การทำงานตัด เจาะ ประกอบ วัสดุทำได้ง่ายและรวดเร็ว</p>
+            <div class="tools-grid">
+                <div class="tool-item">
+                    <span class="tool-icon">✂️</span>
+                    <span>กรรไกร</span>
+                </div>
+                <div class="tool-item">
+                    <span class="tool-icon">🔨</span>
+                    <span>ค้อน</span>
+                </div>
+                <div class="tool-item">
+                    <span class="tool-icon">🪚</span>
+                    <span>เลื่อย</span>
+                </div>
+                <div class="tool-item">
+                    <span class="tool-icon">🪛</span>
+                    <span>ไขควง</span>
+                </div>
+                <div class="tool-item">
+                    <span class="tool-icon">🔪</span>
+                    <span>คัตเตอร์</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 7: ความปลอดภัย -->
+        <section class="fade-in-section">
+            <h2 class="section-title">🚫 ความปลอดภัย</h2>
+            <div class="safety-box">
+                <h3 style="margin-bottom: 15px; color: #d35400;">ข้อควรระวังในการใช้งาน</h3>
+                <ul class="safety-list">
+                    <li>ใช้เครื่องมือให้ถูกประเภทกับวัสดุ</li>
+                    <li>ระวังของมีคม และใบเลื่อยขณะใช้งาน</li>
+                    <li>สวมอุปกรณ์ป้องกัน (เช่น แว่นตา, ถุงมือ) เมื่อจำเป็น</li>
+                    <li>เก็บเครื่องมือเข้าที่ให้เรียบร้อยหลังใช้งานเสร็จ</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 8: คำถามชวนคิด -->
+        <section class="fade-in-section">
+            <h2 class="section-title">🤔 คำถามชวนคิด</h2>
+            <div class="think-box">
+                <div class="question-card">
+                    1. ถ้านักเรียนต้องสร้างที่ใส่ดินสอ ควรเลือกใช้วัสดุอะไร เพราะเหตุใด?
+                </div>
+                <div class="question-card">
+                    2. วัสดุชนิดใดในบ้านของนักเรียนที่มีความแข็งแรงมากที่สุด?
+                </div>
+                <div class="question-card">
+                    3. ถ้านักเรียนออกแบบของเล่นให้เด็กเล็ก ควรเลือกวัสดุแบบใดจึงจะปลอดภัย?
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 9: Mini Activity -->
+        <section class="fade-in-section">
+            <h2 class="section-title">📝 Mini Activity</h2>
+            <p style="margin-bottom: 15px;">ลองสำรวจสิ่งของในบ้าน 3 อย่าง แล้วตอบคำถามลงในตาราง</p>
+            <table class="activity-table">
+                <thead>
+                    <tr>
+                        <th>สิ่งของ</th>
+                        <th>วัสดุที่ใช้</th>
+                        <th>เหตุผลที่เลือกวัสดุ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1. ....................</td>
+                        <td>....................</td>
+                        <td>....................</td>
+                    </tr>
+                    <tr>
+                        <td>2. ....................</td>
+                        <td>....................</td>
+                        <td>....................</td>
+                    </tr>
+                    <tr>
+                        <td>3. ....................</td>
+                        <td>....................</td>
+                        <td>....................</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>ออกแบบและพัฒนาโดย: ผู้เชี่ยวชาญด้านสื่อการเรียนรู้ดิจิทัล</p>
+        <p>วิชาออกแบบและเทคโนโลยี | ระดับชั้นมัธยมศึกษาปีที่ 1</p>
+    </footer>
+
+    <script>
+        // JavaScript สำหรับทำ Animation เมื่อเลื่อนหน้าจอ (Scroll Animation)
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // หยุดสังเกตเมื่อแสดงแล้ว
+                    }
+                });
+            }, observerOptions);
+
+            const sections = document.querySelectorAll('.fade-in-section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
