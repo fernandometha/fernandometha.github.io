@@ -1,407 +1,121 @@
-
 <!doctype html>
 <html lang="th" class="h-full">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ห้องเรียนออนไลน์</title>
+  <title>ห้องเรียนออนไลน์ครูเมธา</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&amp;family=Outfit:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700;800&amp;family=Outfit:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet">
   <style>
-    * { font-family: 'Outfit', 'Noto Sans Thai', sans-serif; }
-    html, body { margin: 0; padding: 0; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes scaleIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+    @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+    .animate-float { animation: float 4s ease-in-out infinite; }
+    .animate-fade-up { animation: fadeUp 0.8s ease-out forwards; }
+    .animate-scale-in { animation: scaleIn 0.6s ease-out forwards; }
+    .delay-1 { animation-delay: 0.2s; opacity: 0; }
+    .delay-2 { animation-delay: 0.4s; opacity: 0; }
+    .delay-3 { animation-delay: 0.6s; opacity: 0; }
+    .btn-shimmer {
+      background-size: 200% auto;
+      background-image: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+      animation: shimmer 3s linear infinite;
     }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-    @keyframes scaleIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    @keyframes slideRight {
-      from { opacity: 0; transform: translateX(-40px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.3); }
-      50% { box-shadow: 0 0 40px rgba(255, 107, 53, 0.6); }
-    }
-
-    .fade-up { animation: fadeUp 0.7s ease-out both; }
-    .fade-up-d1 { animation: fadeUp 0.7s ease-out 0.1s both; }
-    .fade-up-d2 { animation: fadeUp 0.7s ease-out 0.2s both; }
-    .fade-up-d3 { animation: fadeUp 0.7s ease-out 0.3s both; }
-    .fade-up-d4 { animation: fadeUp 0.7s ease-out 0.4s both; }
-    .fade-up-d5 { animation: fadeUp 0.7s ease-out 0.5s both; }
-    .fade-up-d6 { animation: fadeUp 0.7s ease-out 0.6s both; }
-    .float-anim { animation: float 4s ease-in-out infinite; }
-    .float-anim-d { animation: float 4s ease-in-out 1s infinite; }
-    .scale-in { animation: scaleIn 0.6s ease-out both; }
-    .slide-right { animation: slideRight 0.7s ease-out both; }
-    .cta-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
-
-    .card-hover {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card-hover:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-    }
-
-    .blob {
+    .orb {
       position: absolute;
       border-radius: 50%;
       filter: blur(80px);
-      opacity: 0.15;
+      opacity: 0.3;
       pointer-events: none;
     }
-
-    .stat-card {
-      backdrop-filter: blur(10px);
-      transition: transform 0.3s ease;
-    }
-    .stat-card:hover { transform: scale(1.05); }
   </style>
   <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full">
-  <div id="app-wrapper" class="w-full h-full overflow-auto" style="background-color: #0f1729;"><!-- Nav -->
-   <header class="sticky top-0 z-50" style="background: rgba(15,23,41,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06);">
-    <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-     <div class="flex items-center gap-2">
-      <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, #FF6B35, #FF9F1C);"><i data-lucide="graduation-cap" style="width:22px;height:22px;color:#fff;"></i>
-      </div><span id="nav-brand" class="text-xl font-bold text-white tracking-tight">LearnSpace</span>
+  <div id="app-wrapper" class="w-full h-full overflow-auto relative flex flex-col items-center justify-center" style="background: #0f172a; font-family: 'Noto Sans Thai', 'Outfit', sans-serif;"><!-- Orbs -->
+   <div class="orb" style="width:400px;height:400px;background:#6366f1;top:-100px;left:-100px;"></div>
+   <div class="orb" style="width:350px;height:350px;background:#06b6d4;bottom:-80px;right:-80px;"></div>
+   <div class="orb" style="width:250px;height:250px;background:#a855f7;top:40%;left:60%;"></div><!-- Grid pattern -->
+   <div class="absolute inset-0 opacity-[0.04]" style="background-image: linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px); background-size: 60px 60px;"></div>
+   <main class="relative z-10 flex flex-col items-center justify-center px-6 py-12 text-center max-w-3xl mx-auto"><!-- Logo -->
+    <div class="animate-scale-in animate-float mb-8">
+     <div class="rounded-3xl p-2 bg-white/10 backdrop-blur-sm border border-white/10 shadow-2xl"><img id="logo" src="https://krutopit.wordpress.com/wp-content/uploads/2025/02/kutopit-logo300-2.png" alt="โลโก้ห้องเรียนออนไลน์ครูเมธา" loading="lazy" class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-contain" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg,#6366f1,#06b6d4)'; this.alt='โลโก้ไม่สามารถโหลดได้';">
      </div>
-     <div class="hidden md:flex items-center gap-8"><a href="#courses" class="text-sm font-medium transition-colors" style="color: #94a3b8;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='#94a3b8'">คอร์สเรียน</a> <a href="#features" class="text-sm font-medium transition-colors" style="color: #94a3b8;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='#94a3b8'">จุดเด่น</a> <a href="#stats" class="text-sm font-medium transition-colors" style="color: #94a3b8;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='#94a3b8'">ผลลัพธ์</a> <button id="nav-cta" class="px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-all" style="background: linear-gradient(135deg, #FF6B35, #FF9F1C);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">เริ่มเรียนฟรี</button>
-     </div>
-    </nav>
-   </header>
-   <main><!-- Hero -->
-    <section class="relative overflow-hidden py-20 md:py-32 px-6">
-     <div class="blob w-96 h-96 top-0 right-0" style="background: #FF6B35;"></div>
-     <div class="blob w-72 h-72 bottom-0 left-10" style="background: #3B82F6;"></div>
-     <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-12 relative z-10">
-      <div class="flex-1 text-center lg:text-left">
-       <div class="fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold mb-6" style="background: rgba(255,107,53,0.12); color: #FF9F1C;"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> แพลตฟอร์มการเรียนรู้ยุคใหม่
-       </div>
-       <h1 id="hero-title" class="fade-up-d1 text-4xl md:text-6xl font-extrabold leading-tight" style="color: #ffffff;">ห้องเรียน<span style="color: #FF6B35;">ออนไลน์</span><br>
-        ที่ดีที่สุด</h1>
-       <p id="hero-subtitle" class="fade-up-d2 mt-5 text-lg md:text-xl max-w-lg mx-auto lg:mx-0" style="color: #94a3b8; line-height: 1.8;">เรียนรู้ได้ทุกที่ ทุกเวลา กับผู้เชี่ยวชาญตัวจริง<br>
-        พร้อมเนื้อหาคุณภาพและใบรับรอง</p>
-       <div class="fade-up-d3 flex flex-col sm:flex-row gap-4 mt-8 justify-center lg:justify-start"><button id="hero-cta" class="cta-glow px-8 py-4 rounded-full text-base font-bold text-white transition-all flex items-center justify-center gap-2" style="background: linear-gradient(135deg, #FF6B35, #FF9F1C);"> <i data-lucide="play-circle" style="width:20px;height:20px;"></i> เริ่มเรียนฟรี </button> <button class="px-8 py-4 rounded-full text-base font-semibold transition-all flex items-center justify-center gap-2" style="color: #e2e8f0; border: 1px solid rgba(255,255,255,0.15);" onmouseover="this.style.borderColor='#FF6B35';this.style.color='#FF6B35'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='#e2e8f0'"> <i data-lucide="info" style="width:18px;height:18px;"></i> ดูรายละเอียด </button>
-       </div>
-      </div><!-- Hero Illustration -->
-      <div class="flex-1 relative flex justify-center">
-       <div class="float-anim w-72 h-72 md:w-96 md:h-96 rounded-3xl relative" style="background: linear-gradient(145deg, #1a2744, #1e3055); border: 1px solid rgba(255,255,255,0.08);">
-        <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8">
-         <div class="w-20 h-20 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #FF6B35, #FF9F1C);"><i data-lucide="monitor-play" style="width:40px;height:40px;color:white;"></i>
-         </div>
-         <div class="text-center">
-          <div class="text-white font-bold text-lg">
-           Live Class
-          </div>
-          <div style="color: #64748b;" class="text-sm mt-1">
-           กำลังสตรีมสด...
-          </div>
-         </div>
-         <div class="flex items-center gap-3 mt-2">
-          <div class="flex -space-x-2">
-           <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold" style="border-color: #1a2744; background: #3B82F6; color: white;">
-            A
-           </div>
-           <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold" style="border-color: #1a2744; background: #FF6B35; color: white;">
-            B
-           </div>
-           <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold" style="border-color: #1a2744; background: #10B981; color: white;">
-            C
-           </div>
-          </div><span style="color: #94a3b8;" class="text-sm">+128 คน</span>
-         </div>
-        </div>
-       </div><!-- Floating badge -->
-       <div class="float-anim-d absolute -bottom-4 -left-4 md:left-0 px-4 py-3 rounded-2xl flex items-center gap-3" style="background: rgba(26,39,68,0.95); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px);">
-        <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(16,185,129,0.15);"><i data-lucide="trophy" style="width:20px;height:20px;color:#10B981;"></i>
-        </div>
-        <div>
-         <div class="text-white text-sm font-bold">
-          ใบรับรอง
-         </div>
-         <div style="color: #64748b;" class="text-xs">
-          ทุกคอร์สเรียน
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </section><!-- Courses -->
-    <section id="courses" class="py-20 px-6 relative">
-     <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-14">
-       <div class="fade-up inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold mb-4" style="background: rgba(59,130,246,0.12); color: #60A5FA;"><i data-lucide="book-open" style="width:14px;height:14px;"></i> แนะนำ
-       </div>
-       <h2 id="courses-title" class="fade-up-d1 text-3xl md:text-4xl font-extrabold text-white">คอร์ส<span style="color: #FF6B35;">ยอดนิยม</span></h2>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6"><!-- Course 1 -->
-       <div class="card-hover fade-up-d2 rounded-2xl overflow-hidden" style="background: #1a2744; border: 1px solid rgba(255,255,255,0.06);">
-        <div class="h-44 flex items-center justify-center relative" style="background: linear-gradient(135deg, #1e3a5f, #0f2440);"><i data-lucide="code-2" style="width:56px;height:56px;color:#60A5FA;opacity:0.6;"></i>
-         <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold" style="background: rgba(255,107,53,0.9); color: white;">
-          ขายดี
-         </div>
-        </div>
-        <div class="p-6">
-         <div class="flex items-center gap-2 mb-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold" style="background: rgba(59,130,246,0.12); color: #60A5FA;">Web Dev</span> <span style="color: #64748b;" class="text-xs flex items-center gap-1"><i data-lucide="clock" style="width:12px;height:12px;"></i> 24 ชม.</span>
-         </div>
-         <h3 class="text-white font-bold text-lg">Full-Stack Development</h3>
-         <p style="color: #64748b;" class="text-sm mt-2 leading-relaxed">เรียนรู้การพัฒนาเว็บไซต์ครบวงจร ตั้งแต่ Frontend ถึง Backend</p>
-         <div class="flex items-center justify-between mt-5 pt-4" style="border-top: 1px solid rgba(255,255,255,0.06);">
-          <div class="flex items-center gap-1"><i data-lucide="star" style="width:14px;height:14px;color:#FF9F1C;fill:#FF9F1C;"></i> <span class="text-white text-sm font-semibold">4.9</span> <span style="color: #64748b;" class="text-xs">(2.1k)</span>
-          </div><span class="text-lg font-extrabold" style="color: #FF6B35;">฿1,490</span>
-         </div>
-        </div>
-       </div><!-- Course 2 -->
-       <div class="card-hover fade-up-d3 rounded-2xl overflow-hidden" style="background: #1a2744; border: 1px solid rgba(255,255,255,0.06);">
-        <div class="h-44 flex items-center justify-center relative" style="background: linear-gradient(135deg, #2d1b4e, #1a1040);"><i data-lucide="palette" style="width:56px;height:56px;color:#A78BFA;opacity:0.6;"></i>
-        </div>
-        <div class="p-6">
-         <div class="flex items-center gap-2 mb-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold" style="background: rgba(167,139,250,0.12); color: #A78BFA;">Design</span> <span style="color: #64748b;" class="text-xs flex items-center gap-1"><i data-lucide="clock" style="width:12px;height:12px;"></i> 18 ชม.</span>
-         </div>
-         <h3 class="text-white font-bold text-lg">UX/UI Design Mastery</h3>
-         <p style="color: #64748b;" class="text-sm mt-2 leading-relaxed">ออกแบบ UI/UX อย่างมืออาชีพ ด้วย Figma และ Design System</p>
-         <div class="flex items-center justify-between mt-5 pt-4" style="border-top: 1px solid rgba(255,255,255,0.06);">
-          <div class="flex items-center gap-1"><i data-lucide="star" style="width:14px;height:14px;color:#FF9F1C;fill:#FF9F1C;"></i> <span class="text-white text-sm font-semibold">4.8</span> <span style="color: #64748b;" class="text-xs">(1.5k)</span>
-          </div><span class="text-lg font-extrabold" style="color: #FF6B35;">฿990</span>
-         </div>
-        </div>
-       </div><!-- Course 3 -->
-       <div class="card-hover fade-up-d4 rounded-2xl overflow-hidden" style="background: #1a2744; border: 1px solid rgba(255,255,255,0.06);">
-        <div class="h-44 flex items-center justify-center relative" style="background: linear-gradient(135deg, #1b3a2f, #0f2a1e);"><i data-lucide="bar-chart-3" style="width:56px;height:56px;color:#34D399;opacity:0.6;"></i>
-         <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold" style="background: rgba(16,185,129,0.9); color: white;">
-          ใหม่
-         </div>
-        </div>
-        <div class="p-6">
-         <div class="flex items-center gap-2 mb-3"><span class="px-2.5 py-1 rounded-md text-xs font-semibold" style="background: rgba(52,211,153,0.12); color: #34D399;">Data</span> <span style="color: #64748b;" class="text-xs flex items-center gap-1"><i data-lucide="clock" style="width:12px;height:12px;"></i> 30 ชม.</span>
-         </div>
-         <h3 class="text-white font-bold text-lg">Data Science &amp; AI</h3>
-         <p style="color: #64748b;" class="text-sm mt-2 leading-relaxed">วิเคราะห์ข้อมูลและสร้าง AI Model ด้วย Python และ ML</p>
-         <div class="flex items-center justify-between mt-5 pt-4" style="border-top: 1px solid rgba(255,255,255,0.06);">
-          <div class="flex items-center gap-1"><i data-lucide="star" style="width:14px;height:14px;color:#FF9F1C;fill:#FF9F1C;"></i> <span class="text-white text-sm font-semibold">4.7</span> <span style="color: #64748b;" class="text-xs">(890)</span>
-          </div><span class="text-lg font-extrabold" style="color: #FF6B35;">฿1,990</span>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </section><!-- Features -->
-    <section id="features" class="py-20 px-6">
-     <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-14">
-       <h2 class="text-3xl md:text-4xl font-extrabold text-white">ทำไมต้อง<span style="color: #FF6B35;">เลือกเรา</span></h2>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-       <div class="fade-up-d1 p-6 rounded-2xl text-center" style="background: rgba(26,39,68,0.6); border: 1px solid rgba(255,255,255,0.06);">
-        <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4" style="background: rgba(255,107,53,0.12);"><i data-lucide="video" style="width:26px;height:26px;color:#FF6B35;"></i>
-        </div>
-        <h3 class="text-white font-bold">สอนสด</h3>
-        <p style="color: #64748b;" class="text-sm mt-2">เรียนสดกับอาจารย์ ถาม-ตอบได้ทันที</p>
-       </div>
-       <div class="fade-up-d2 p-6 rounded-2xl text-center" style="background: rgba(26,39,68,0.6); border: 1px solid rgba(255,255,255,0.06);">
-        <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4" style="background: rgba(59,130,246,0.12);"><i data-lucide="infinity" style="width:26px;height:26px;color:#60A5FA;"></i>
-        </div>
-        <h3 class="text-white font-bold">เรียนซ้ำได้</h3>
-        <p style="color: #64748b;" class="text-sm mt-2">ดูวิดีโอย้อนหลังได้ตลอดชีพ</p>
-       </div>
-       <div class="fade-up-d3 p-6 rounded-2xl text-center" style="background: rgba(26,39,68,0.6); border: 1px solid rgba(255,255,255,0.06);">
-        <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4" style="background: rgba(16,185,129,0.12);"><i data-lucide="award" style="width:26px;height:26px;color:#10B981;"></i>
-        </div>
-        <h3 class="text-white font-bold">ใบรับรอง</h3>
-        <p style="color: #64748b;" class="text-sm mt-2">รับใบ Certificate เมื่อเรียนจบ</p>
-       </div>
-       <div class="fade-up-d4 p-6 rounded-2xl text-center" style="background: rgba(26,39,68,0.6); border: 1px solid rgba(255,255,255,0.06);">
-        <div class="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-4" style="background: rgba(167,139,250,0.12);"><i data-lucide="users" style="width:26px;height:26px;color:#A78BFA;"></i>
-        </div>
-        <h3 class="text-white font-bold">ชุมชน</h3>
-        <p style="color: #64748b;" class="text-sm mt-2">เข้าถึงกลุ่มนักเรียนและเมนเทอร์</p>
-       </div>
-      </div>
-     </div>
-    </section><!-- Stats -->
-    <section id="stats" class="py-20 px-6">
-     <div class="max-w-4xl mx-auto">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-       <div class="stat-card p-6 rounded-2xl text-center" style="background: rgba(26,39,68,0.6); border: 1px solid rgba(255,255,255,0.06);">
-        <div class="text-3xl md:text-4xl font-extrabold" style="color: #FF6B35;">
-         50K+
-        </div>
-        <div style="color: #94a3b8;" class="text-sm mt-1 font-medium">
-         นักเรียน
-        </div>
-       </div>
-       <div class="stat-card p-6 rounded-2xl text-center" style="background: rgba(26,39,68,0.6); border: 1px solid rgba(255,255,255,0.06);">
-        <div class="text-3xl md:text-4xl font-extrabold" style="color: #60A5FA;">
-         200+
-        </div>
-        <div style="color: #94a3b8;" class="text-sm mt-1 font-medium">
-         คอร์สเรียน
-        </div>
-       </div>
-       <div class="stat-card p-6 rounded-2xl text-center" style="background: rgba(26,39,68,0.6); border: 1px solid rgba(255,255,255,0.06);">
-        <div class="text-3xl md:text-4xl font-extrabold" style="color: #10B981;">
-         98%
-        </div>
-        <div style="color: #94a3b8;" class="text-sm mt-1 font-medium">
-         ความพึงพอใจ
-        </div>
-       </div>
-       <div class="stat-card p-6 rounded-2xl text-center" style="background: rgba(26,39,68,0.6); border: 1px solid rgba(255,255,255,0.06);">
-        <div class="text-3xl md:text-4xl font-extrabold" style="color: #A78BFA;">
-         80+
-        </div>
-        <div style="color: #94a3b8;" class="text-sm mt-1 font-medium">
-         ผู้เชี่ยวชาญ
-        </div>
-       </div>
-      </div>
-     </div>
-    </section><!-- CTA -->
-    <section class="py-20 px-6">
-     <div class="max-w-3xl mx-auto text-center rounded-3xl p-12 relative overflow-hidden" style="background: linear-gradient(135deg, #1a2744, #1e3055); border: 1px solid rgba(255,255,255,0.08);">
-      <div class="blob w-64 h-64 -top-20 -right-20" style="background: #FF6B35; opacity: 0.2;"></div>
-      <h2 class="text-3xl md:text-4xl font-extrabold text-white relative z-10">พร้อมเริ่ม<span style="color: #FF6B35;">เรียนรู้</span>แล้วหรือยัง?</h2>
-      <p style="color: #94a3b8;" class="mt-4 text-lg relative z-10">สมัครวันนี้ ทดลองเรียนฟรี 7 วัน ไม่มีค่าใช้จ่าย</p><button id="bottom-cta" class="mt-8 px-10 py-4 rounded-full text-base font-bold text-white transition-all relative z-10 cta-glow" style="background: linear-gradient(135deg, #FF6B35, #FF9F1C);" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'"> เริ่มเรียนฟรี </button>
-     </div>
-    </section>
-   </main><!-- Footer -->
-   <footer class="py-10 px-6" style="border-top: 1px solid rgba(255,255,255,0.06);">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-     <p id="footer-text" style="color: #475569;" class="text-sm">© 2025 ห้องเรียนออนไลน์ — สงวนลิขสิทธิ์</p>
-     <div class="flex items-center gap-5"><a href="#" style="color: #475569;" class="transition-colors" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='#475569'"><i data-lucide="facebook" style="width:18px;height:18px;"></i></a> <a href="#" style="color: #475569;" class="transition-colors" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='#475569'"><i data-lucide="twitter" style="width:18px;height:18px;"></i></a> <a href="#" style="color: #475569;" class="transition-colors" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='#475569'"><i data-lucide="instagram" style="width:18px;height:18px;"></i></a> <a href="#" style="color: #475569;" class="transition-colors" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='#475569'"><i data-lucide="youtube" style="width:18px;height:18px;"></i></a>
-     </div>
+    </div><!-- Welcome Text -->
+    <h1 id="welcomeText" class="animate-fade-up delay-1 text-2xl sm:text-4xl lg:text-5xl font-bold leading-relaxed" style="color: #e2e8f0;">ยินดีต้อนรับเข้าสู่แพลตฟอร์มการเรียนรู้ของห้องเรียนออนไลน์ครูเมธา</h1>
+    <p class="animate-fade-up delay-2 mt-5 text-base sm:text-lg max-w-xl" style="color: #94a3b8;">เริ่มต้นการเรียนรู้ที่ไม่มีขีดจำกัด พร้อมเนื้อหาคุณภาพที่ออกแบบมาเพื่อคุณ</p><!-- Button -->
+    <div class="animate-fade-up delay-3 mt-10"><a id="ctaButton" href="https://krutopit.wordpress.com/" target="_blank" rel="noopener noreferrer" class="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl" style="background: linear-gradient(135deg, #6366f1, #06b6d4);"> <span class="btn-shimmer absolute inset-0 rounded-2xl"></span> <span id="buttonLabel" class="relative z-10">เข้าสู่ห้องเรียน</span> <i data-lucide="arrow-right" class="relative z-10 w-5 h-5 transition-transform group-hover:translate-x-1"></i> </a>
     </div>
+   </main><!-- Footer -->
+   <footer class="relative z-10 pb-6 text-center" style="color: #475569;">
+    <p class="text-sm">© 2025 ห้องเรียนออนไลน์ครูเมธา</p>
    </footer>
   </div>
   <script>
+    lucide.createIcons();
+
     const defaultConfig = {
-      background_color: '#0f1729',
-      surface_color: '#1a2744',
-      text_color: '#ffffff',
-      primary_action_color: '#FF6B35',
-      secondary_action_color: '#60A5FA',
-      font_family: 'Outfit',
-      font_size: 16,
-      hero_title: 'ห้องเรียนออนไลน์ที่ดีที่สุด',
-      hero_subtitle: 'เรียนรู้ได้ทุกที่ ทุกเวลา กับผู้เชี่ยวชาญตัวจริง พร้อมเนื้อหาคุณภาพและใบรับรอง',
-      cta_text: 'เริ่มเรียนฟรี',
-      courses_title: 'คอร์สยอดนิยม',
-      footer_text: '© 2025 ห้องเรียนออนไลน์ — สงวนลิขสิทธิ์'
+      welcome_text: 'ยินดีต้อนรับเข้าสู่แพลตฟอร์มการเรียนรู้ของห้องเรียนออนไลน์ครูเมธา',
+      button_text: 'เข้าสู่ห้องเรียน',
+      background_color: '#0f172a',
+      surface_color: '#6366f1',
+      text_color: '#e2e8f0',
+      accent_color: '#06b6d4',
+      secondary_text_color: '#94a3b8',
+      font_family: 'Noto Sans Thai',
+      font_size: 16
     };
 
     function applyConfig(config) {
       const c = { ...defaultConfig, ...config };
-      const fontStack = `${c.font_family}, 'Noto Sans Thai', sans-serif`;
-
-      // Background
-      document.getElementById('app-wrapper').style.backgroundColor = c.background_color;
-
-      // Text color on headings
-      document.querySelectorAll('h1, h2, h3').forEach(el => el.style.color = c.text_color);
-
-      // Font
-      document.querySelectorAll('*').forEach(el => { el.style.fontFamily = fontStack; });
-
-      // Font size scaling
+      const font = `${c.font_family}, 'Outfit', sans-serif`;
       const base = c.font_size;
-      document.querySelectorAll('h1').forEach(el => el.style.fontSize = `${base * 2.8}px`);
-      document.querySelectorAll('h2').forEach(el => el.style.fontSize = `${base * 2.2}px`);
-      document.querySelectorAll('h3').forEach(el => el.style.fontSize = `${base * 1.15}px`);
-      document.querySelectorAll('p').forEach(el => el.style.fontSize = `${base}px`);
 
-      // Primary action color on CTA buttons
-      const gradient = `linear-gradient(135deg, ${c.primary_action_color}, #FF9F1C)`;
-      ['hero-cta', 'nav-cta', 'bottom-cta'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.style.background = gradient;
-      });
+      document.getElementById('welcomeText').textContent = c.welcome_text;
+      document.getElementById('welcomeText').style.color = c.text_color;
+      document.getElementById('welcomeText').style.fontFamily = font;
+      document.getElementById('welcomeText').style.fontSize = `${base * 2.2}px`;
 
-      // Content text
-      const titleEl = document.getElementById('hero-title');
-      if (titleEl) titleEl.innerHTML = c.hero_title.replace(/(ออนไลน์)/g, `<span style="color:${c.primary_action_color}">$1</span>`);
+      document.getElementById('buttonLabel').textContent = c.button_text;
+      document.getElementById('ctaButton').style.background = `linear-gradient(135deg, ${c.surface_color}, ${c.accent_color})`;
+      document.getElementById('ctaButton').style.fontFamily = font;
+      document.getElementById('ctaButton').style.fontSize = `${base * 1.1}px`;
 
-      const subtitleEl = document.getElementById('hero-subtitle');
-      if (subtitleEl) subtitleEl.textContent = c.hero_subtitle;
-
-      ['hero-cta', 'nav-cta', 'bottom-cta'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el && id !== 'hero-cta') el.textContent = c.cta_text;
-      });
-
-      const coursesEl = document.getElementById('courses-title');
-      if (coursesEl) coursesEl.innerHTML = c.courses_title.replace(/(ยอดนิยม)/g, `<span style="color:${c.primary_action_color}">$1</span>`);
-
-      const footerEl = document.getElementById('footer-text');
-      if (footerEl) footerEl.textContent = c.footer_text;
-
-      // Surface color on cards
-      document.querySelectorAll('.card-hover').forEach(el => el.style.backgroundColor = c.surface_color);
-
-      // Secondary action color on tags
-      // (kept minimal for clarity)
+      document.getElementById('app-wrapper').style.background = c.background_color;
+      document.getElementById('app-wrapper').style.fontFamily = font;
     }
 
     window.elementSdk.init({
       defaultConfig,
-      onConfigChange: async (config) => { applyConfig(config); },
-      mapToCapabilities: (config) => {
-        const c = { ...defaultConfig, ...config };
-        return {
-          recolorables: [
-            { get: () => c.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
-            { get: () => c.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
-            { get: () => c.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
-            { get: () => c.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } },
-            { get: () => c.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } }
-          ],
-          borderables: [],
-          fontEditable: {
-            get: () => c.font_family,
-            set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
-          },
-          fontSizeable: {
-            get: () => c.font_size,
-            set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
-          }
-        };
-      },
-      mapToEditPanelValues: (config) => {
-        const c = { ...defaultConfig, ...config };
-        return new Map([
-          ['hero_title', c.hero_title],
-          ['hero_subtitle', c.hero_subtitle],
-          ['cta_text', c.cta_text],
-          ['courses_title', c.courses_title],
-          ['footer_text', c.footer_text]
-        ]);
-      }
+      onConfigChange: async (config) => applyConfig(config),
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+          { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => config.accent_color || defaultConfig.accent_color, set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+          { get: () => config.secondary_text_color || defaultConfig.secondary_text_color, set: (v) => { config.secondary_text_color = v; window.elementSdk.setConfig({ secondary_text_color: v }); } }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+        }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['welcome_text', config.welcome_text || defaultConfig.welcome_text],
+        ['button_text', config.button_text || defaultConfig.button_text]
+      ])
     });
-
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-
-    lucide.createIcons();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dc1a515928dd034',t:'MTc3MzQ3NDE3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dc95dded574d020',t:'MTc3MzU1NTE0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
