@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ออกแบบกันก่อน - Design Before Making</title>
+    
+    <!-- Google Fonts ภาษาไทย -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           CSS VARIABLES & RESET
+           ======================================== */
+        :root {
+            --primary-blue: #2563EB;
+            --light-blue: #3B82F6;
+            --dark-blue: #1E40AF;
+            --primary-yellow: #FBBF24;
+            --light-yellow: #FCD34D;
+            --white: #FFFFFF;
+            --light-gray: #F3F4F6;
+            --medium-gray: #9CA3AF;
+            --dark-gray: #374151;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #EFF6FF 0%, #FEF3C7 100%);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           UTILITY CLASSES
+           ======================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-yellow));
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--medium-gray);
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 60px 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-title span {
+            color: var(--primary-yellow);
+        }
+
+        .hero-description {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--white);
+            font-size: 2rem;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ========================================
+           IMPORTANCE SECTION (Cards)
+           ======================================== */
+        .importance {
+            background: var(--white);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-yellow));
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-yellow);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 15px;
+        }
+
+        .card-description {
+            color: var(--medium-gray);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           STEPS SECTION (Timeline)
+           ======================================== */
+        .steps {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 50px auto 0;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-blue), var(--primary-yellow));
+            border-radius: 2px;
+        }
+
+        .step {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .step-content {
+            width: 45%;
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .step-content:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+            border: 4px solid var(--white);
+        }
+
+        .step-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 10px;
+            margin-top: 15px;
+        }
+
+        .step-description {
+            color: var(--medium-gray);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* ========================================
+           EXAMPLE SECTION
+           ======================================== */
+        .example {
+            background: var(--white);
+        }
+
+        .example-box {
+            max-width: 800px;
+            margin: 50px auto 0;
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border-radius: var(--border-radius);
+            padding: 50px;
+            box-shadow: var(--shadow-lg);
+            border: 3px solid var(--primary-yellow);
+            position: relative;
+        }
+
+        .example-box::before {
+            content: '💡';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 10px 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .example-problem {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 5px solid #EF4444;
+        }
+
+        .example-problem h4 {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.2rem;
+            color: #EF4444;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .example-solution {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #10B981;
+        }
+
+        .example-solution h4 {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.2rem;
+            color: #10B981;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .example-solution ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .example-solution li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            color: var(--dark-gray);
+        }
+
+        .example-solution li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10B981;
+            font-weight: 700;
+        }
+
+        /* ========================================
+           PRESENTATION SECTION (Icon Grid)
+           ======================================== */
+        .presentation {
+            background: linear-gradient(135deg, #DBEAFE 0%, #EFF6FF 100%);
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 50px auto 0;
+        }
+
+        .icon-item {
+            background: var(--white);
+            padding: 35px 25px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .icon-item:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-blue);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .icon-item-emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .icon-item-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+            margin-bottom: 8px;
+        }
+
+        .icon-item-desc {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+        }
+
+        /* ========================================
+           CONCLUSION SECTION
+           ======================================== */
+        .conclusion {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conclusion::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .conclusion-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .conclusion-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--primary-yellow);
+        }
+
+        .conclusion-summary {
+            font-size: 1.3rem;
+            line-height: 2;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .conclusion-points {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .conclusion-point {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .conclusion-emoji {
+            font-size: 1.5rem;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        .footer {
+            background: var(--dark-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+           ======================================== */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .step {
+                flex-direction: column !important;
+                align-items: flex-start;
+                padding-left: 50px;
+            }
+
+            .step-content {
+                width: 100%;
+            }
+
+            .step-number {
+                left: 20px;
+                transform: translateX(-50%);
+            }
+
+            .example-box {
+                padding: 30px 20px;
+            }
+
+            .conclusion-title {
+                font-size: 2rem;
+            }
+
+            .conclusion-summary {
+                font-size: 1.1rem;
+            }
+
+            .hero-badge {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-icon {
+                font-size: 3.5rem;
+            }
+
+            .card {
+                padding: 30px 20px;
+            }
+
+            .icon-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .conclusion-point {
+                padding: 15px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ========================================
+           ANIMATIONS
+           ======================================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- ========================================
+         HERO SECTION
+         ======================================== -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-icon">💡</div>
+            <h1 class="hero-title">ออกแบบ<span>กันก่อน</span></h1>
+            <p class="hero-description">
+                การออกแบบช่วยให้เราเห็นแนวทางแก้ปัญหาก่อนลงมือทำจริง<br>
+                ทำให้ประหยัดเวลา ทรัพยากร และลดข้อผิดพลาด
+            </p>
+            <div class="hero-badges">
+                <div class="hero-badge">🎯 วิเคราะห์ปัญหา</div>
+                <div class="hero-badge">📊 เลือกข้อมูล</div>
+                <div class="hero-badge">🔧 ออกแบบ solusi</div>
+            </div>
+        </div>
+        <div class="scroll-indicator">⬇</div>
+    </section>
+
+    <!-- ========================================
+         IMPORTANCE SECTION
+         ======================================== -->
+    <section class="section importance" id="importance">
+        <div class="container">
+            <h2 class="section-title">ความสำคัญของการออกแบบ</h2>
+            <p class="section-subtitle">ทำไมต้องออกแบบก่อนลงมือทำ?</p>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">❌</span>
+                    <h3 class="card-title">ลดความผิดพลาด</h3>
+                    <p class="card-description">การวางแผนล่วงหน้าช่วยให้เห็นจุดบกพร่องก่อนเริ่มงานจริง</p>
+                </div>
+                
+                <div class="card">
+                    <span class="card-icon">💰</span>
+                    <h3 class="card-title">ใช้ทรัพยากรคุ้มค่า</h3>
+                    <p class="card-description">ประหยัดเวลา งบประมาณ และวัสดุโดยไม่เสียเปล่า</p>
+                </div>
+                
+                <div class="card">
+                    <span class="card-icon">🔍</span>
+                    <h3 class="card-title">มองเห็นแนวทางชัดเจน</h3>
+                    <p class="card-description">มีแผนการทำงานที่ชัดเจน เป็นขั้นตอน</p>
+                </div>
+                
+                <div class="card">
+                    <span class="card-icon">🗣️</span>
+                    <h3 class="card-title">สื่อสารไอเดียได้</h3>
+                    <p class="card-description">นำเสนอแนวคิดให้ผู้อื่นเข้าใจได้ง่าย</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         STEPS SECTION
+         ======================================== -->
+    <section class="section steps" id="steps">
+        <div class="container">
+            <h2 class="section-title">ขั้นตอนการออกแบบเพื่อแก้ปัญหา</h2>
+            <p class="section-subtitle">5 ขั้นตอนสำคัญในการออกแบบ</p>
+            
+            <div class="timeline">
+                <div class="step">
+                    <div class="step-content">
+                        <div class="step-number">1</div>
+                        <span class="step-icon">🔍</span>
+                        <h3 class="step-title">วิเคราะห์ปัญหา</h3>
+                        <p class="step-description">เข้าใจว่าปัญหาคืออะไร และต้องการแก้ไขเรื่องใด</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-content">
+                        <div class="step-number">2</div>
+                        <span class="step-icon">📋</span>
+                        <h3 class="step-title">เลือกข้อมูลที่จำเป็น</h3>
+                        <p class="step-description">เลือกข้อมูลที่เกี่ยวข้องกับปัญหาเท่านั้น</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-content">
+                        <div class="step-number">3</div>
+                        <span class="step-icon">⚙️</span>
+                        <h3 class="step-title">พิจารณาเงื่อนไขและทรัพยากร</h3>
+                        <p class="step-description">เวลา งบประมาณ วัสดุ อุปกรณ์ ที่มีอยู่</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-content">
+                        <div class="step-number">4</div>
+                        <span class="step-icon">✏️</span>
+                        <h3 class="step-title">ออกแบบแนวทางแก้ปัญหา</h3>
+                        <p class="step-description">ภาพร่าง แผนผัง แบบจำลอง</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-content">
+                        <div class="step-number">5</div>
+                        <span class="step-icon">📢</span>
+                        <h3 class="step-title">นำเสนอแนวคิด</h3>
+                        <p class="step-description">อธิบายให้ผู้อื่นเข้าใจ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         EXAMPLE SECTION
+         ======================================== -->
+    <section class="section example" id="example">
+        <div class="container">
+            <h2 class="section-title">ตัวอย่างการออกแบบแก้ปัญหา</h2>
+            <p class="section-subtitle">สถานการณ์จริงในห้องเรียน</p>
+            
+            <div class="example-box">
+                <div class="example-problem">
+                    <h4>⚠️ ปัญหา</h4>
+                    <p>โต๊ะเรียนรก หาของไม่เจอ เสียเวลาในการค้นหาอุปกรณ์การเรียน</p>
+                </div>
+                
+                <div class="example-solution">
+                    <h4>✅ แนวคิดการออกแบบ</h4>
+                    <ul>
+                        <li>ออกแบบกล่องจัดระเบียบอุปกรณ์</li>
+                        <li>แบ่งช่องใส่ของตามประเภท</li>
+                        <li>ใช้วัสดุที่หาได้ง่ายในท้องถิ่น</li>
+                        <li>ขนาดพอดีกับโต๊ะเรียน</li>
+                        <li>สวยงามและใช้งานสะดวก</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         PRESENTATION SECTION
+         ======================================== -->
+    <section class="section presentation" id="presentation">
+        <div class="container">
+            <h2 class="section-title">วิธีการนำเสนอแนวคิดการออกแบบ</h2>
+            <p class="section-subtitle">4 วิธีสื่อสารไอเดียให้ผู้อื่นเข้าใจ</p>
+            
+            <div class="icon-grid">
+                <div class="icon-item">
+                    <span class="icon-item-emoji">📝</span>
+                    <h3 class="icon-item-title">ภาพร่าง (Sketch)</h3>
+                    <p class="icon-item-desc">วาดภาพแนวคิดเบื้องต้น</p>
+                </div>
+                
+                <div class="icon-item">
+                    <span class="icon-item-emoji">📊</span>
+                    <h3 class="icon-item-title">แผนผัง (Diagram)</h3>
+                    <p class="icon-item-desc">แสดงโครงสร้างและความสัมพันธ์</p>
+                </div>
+                
+                <div class="icon-item">
+                    <span class="icon-item-emoji">🏗️</span>
+                    <h3 class="icon-item-title">แบบจำลอง (Model)</h3>
+                    <p class="icon-item-desc">สร้างตัวอย่างชิ้นงานจริง</p>
+                </div>
+                
+                <div class="icon-item">
+                    <span class="icon-item-emoji">🎤</span>
+                    <h3 class="icon-item-title">การอธิบาย</h3>
+                    <p class="icon-item-desc">นำเสนอหน้าชั้นเรียน</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         CONCLUSION SECTION
+         ======================================== -->
+    <section class="conclusion" id="conclusion">
+        <div class="conclusion-content">
+            <h2 class="conclusion-title">🏆 ออกแบบดี มีชัยไปกว่าครึ่ง</h2>
+            <p class="conclusion-summary">
+                การออกแบบช่วยให้เราคิดอย่างเป็นระบบ<br>
+                เลือกข้อมูลที่จำเป็น<br>
+                คำนึงถึงเงื่อนไขและทรัพยากร<br>
+                และสามารถสื่อสารแนวคิดให้ผู้อื่นเข้าใจได้
+            </p>
+            <div class="conclusion-points">
+                <div class="conclusion-point">
+                    <span class="conclusion-emoji">✅</span>
+                    <span>คิดอย่างเป็นระบบ</span>
+                </div>
+                <div class="conclusion-point">
+                    <span class="conclusion-emoji">📊</span>
+                    <span>เลือกข้อมูลจำเป็น</span>
+                </div>
+                <div class="conclusion-point">
+                    <span class="conclusion-emoji">⚙️</span>
+                    <span>คำนึงถึงทรัพยากร</span>
+                </div>
+                <div class="conclusion-point">
+                    <span class="conclusion-emoji">🗣️</span>
+                    <span>สื่อสารเข้าใจ</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         FOOTER
+         ======================================== -->
+    <footer class="footer">
+        <p>รายวิชา ออกแบบและเทคโนโลยี | ชั้นมัธยมศึกษาปีที่ 2</p>
+        <p>© 2024 สื่อการเรียนรู้แบบอินโฟกราฟิก</p>
+    </footer>
+
+    <!-- ========================================
+         JAVASCRIPT
+         ======================================== -->
+    <script>
+        // ========================================
+        // SCROLL ANIMATION - Intersection Observer
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // เลือกทุก section ที่ต้องการ animate
+            const sections = document.querySelectorAll('.section');
+            
+            // ตั้งค่า Intersection Observer
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // เพิ่ม animation ให้ card แต่ละใบ
+                        const cards = entry.target.querySelectorAll('.card');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.classList.add('animate-on-scroll');
+                            }, index * 100);
+                        });
+                    }
+                });
+            }, observerOptions);
+            
+            // สังเกตทุก section
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // ========================================
+            // SMOOTH SCROLL FOR NAVIGATION
+            // ========================================
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // ========================================
+            // HERO SECTION ANIMATION
+            // ========================================
+            const heroContent = document.querySelector('.hero-content');
+            heroContent.style.opacity = '0';
+            heroContent.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                heroContent.style.transition = 'all 1s ease';
+                heroContent.style.opacity = '1';
+                heroContent.style.transform = 'translateY(0)';
+            }, 300);
+            
+            // ========================================
+            // CARD HOVER EFFECT ENHANCEMENT
+            // ========================================
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // ========================================
+            // PROGRESS INDICATOR (Optional)
+            // ========================================
+            const progressBar = document.createElement('div');
+            progressBar.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary-blue), var(--primary-yellow));
+                z-index: 1000;
+                transition: width 0.1s ease;
+            `;
+            document.body.appendChild(progressBar);
+            
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                progressBar.style.width = scrollPercent + '%';
+            });
+            
+            // ========================================
+            // CONSOLE LOG FOR DEBUGGING
+            // ========================================
+            console.log('🎨 อินโฟกราฟิก "ออกแบบกันก่อน" โหลดเรียบร้อยแล้ว!');
+            console.log('📚 เหมาะสำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 2');
+            console.log('💡 รายวิชา: ออกแบบและเทคโนโลยี');
+        });
+        
+        // ========================================
+        // ADDITIONAL INTERACTIVITY
+        // ========================================
+        // เพิ่ม effect เมื่อคลิกที่ card
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-10px) scale(1)';
+                }, 150);
+            });
+        });
+        
+        // ========================================
+        // KEYBOARD NAVIGATION
+        // ========================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                window.scrollBy({
+                    top: window.innerHeight * 0.8,
+                    behavior: 'smooth'
+                });
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                window.scrollBy({
+                    top: -window.innerHeight * 0.8,
+                    behavior: 'smooth'
+                });
+            } else if (e.key === 'Home') {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else if (e.key === 'End') {
+                window.scrollTo({
+                    top: document.documentElement.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
