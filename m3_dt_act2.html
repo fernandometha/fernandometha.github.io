@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>กิจกรรมโลจิสติกส์กับธุรกิจ | ออกแบบและเทคโนโลยี ม.3</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #2563eb;
+            --primary-green: #10b981;
+            --dark-blue: #1e40af;
+            --light-blue: #dbeafe;
+            --light-green: #d1fae5;
+            --white: #ffffff;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            overflow-x: hidden;
+        }
+
+        /* Scroll Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-up {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s ease;
+        }
+
+        .scale-up.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--white);
+            max-width: 1200px;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .hero-icons {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        .hero-icon-item {
+            text-align: center;
+            animation: bounce 2s infinite;
+        }
+
+        .hero-icon-item:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .hero-icon-item:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .hero-icon-item i {
+            font-size: 4rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .hero-icon-item span {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator i {
+            font-size: 2rem;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray-700);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Learning Goals Cards */
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .goal-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--primary-blue);
+        }
+
+        .goal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .goal-card i {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .goal-card h3 {
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .goal-card p {
+            color: var(--gray-700);
+            line-height: 1.8;
+        }
+
+        .goal-card:nth-child(2) {
+            border-left-color: var(--primary-green);
+        }
+
+        .goal-card:nth-child(2) i {
+            color: var(--primary-green);
+        }
+
+        .goal-card:nth-child(3) {
+            border-left-color: #f59e0b;
+        }
+
+        .goal-card:nth-child(3) i {
+            color: #f59e0b;
+        }
+
+        .goal-card:nth-child(4) {
+            border-left-color: #ef4444;
+        }
+
+        .goal-card:nth-child(4) i {
+            color: #ef4444;
+        }
+
+        /* Infographic Box */
+        .infographic-box {
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--light-green) 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .infographic-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .infographic-text h3 {
+            color: var(--dark-blue);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .infographic-text p {
+            color: var(--gray-700);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .infographic-examples {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .infographic-examples h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .example-list {
+            list-style: none;
+        }
+
+        .example-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .example-list li:last-child {
+            border-bottom: none;
+        }
+
+        .example-list li i {
+            color: var(--primary-green);
+            font-size: 1.2rem;
+        }
+
+        .infographic-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .infographic-visual i {
+            font-size: 10rem;
+            color: var(--primary-blue);
+            opacity: 0.2;
+        }
+
+        /* Activity Grid */
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .activity-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+        }
+
+        .activity-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .activity-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .activity-card i {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .activity-card h3 {
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .activity-card p {
+            color: var(--gray-700);
+            line-height: 1.8;
+        }
+
+        /* Importance Icons */
+        .importance-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .importance-item {
+            text-align: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .importance-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .importance-item i {
+            font-size: 3.5rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .importance-item h3 {
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .importance-item p {
+            color: var(--gray-700);
+        }
+
+        /* Comparison Layout */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .comparison-column {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .comparison-column.positive {
+            border-top: 5px solid var(--primary-green);
+        }
+
+        .comparison-column.negative {
+            border-top: 5px solid #ef4444;
+        }
+
+        .comparison-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .comparison-column.positive h3 {
+            color: var(--primary-green);
+        }
+
+        .comparison-column.negative h3 {
+            color: #ef4444;
+        }
+
+        .comparison-list {
+            list-style: none;
+        }
+
+        .comparison-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .comparison-list li:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-list li i {
+            font-size: 1.3rem;
+        }
+
+        .comparison-column.positive .comparison-list li i {
+            color: var(--primary-green);
+        }
+
+        .comparison-column.negative .comparison-list li i {
+            color: #ef4444;
+        }
+
+        /* Step Infographic */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            background: var(--white);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .step-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: var(--dark-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .step-content p {
+            color: var(--gray-700);
+        }
+
+        /* Interactive Question Box */
+        .question-box {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            color: var(--white);
+            margin-top: 2rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .question-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .question-box h3 i {
+            color: #fbbf24;
+        }
+
+        .question-content {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .question-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .example-answer {
+            background: var(--white);
+            color: var(--gray-900);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .example-answer h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .answer-item {
+            background: var(--light-blue);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .answer-item:hover {
+            transform: translateY(-5px);
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .answer-item i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            color: var(--primary-blue);
+        }
+
+        .answer-item:hover i {
+            color: var(--white);
+        }
+
+        .answer-item span {
+            display: block;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gray-900);
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        footer .subject {
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .hero-icons {
+                gap: 1.5rem;
+            }
+
+            .hero-icon-item i {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .infographic-content {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+
+            .step-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .goals-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .importance-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .infographic-box {
+                padding: 2rem;
+            }
+
+            .question-box {
+                padding: 2rem;
+            }
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">กิจกรรมโลจิสติกส์กับธุรกิจ</h1>
+            <p class="hero-subtitle">วิชาออกแบบและเทคโนโลยี | ระดับชั้นมัธยมศึกษาปีที่ 3</p>
+            <p class="hero-description">
+                โลจิสติกส์ คือ กระบวนการวางแผน ควบคุม และจัดการการเคลื่อนย้ายสินค้า ข้อมูล และทรัพยากร 
+                จากแหล่งผลิตไปยังผู้บริโภคอย่างมีประสิทธิภาพ
+            </p>
+            <div class="hero-icons">
+                <div class="hero-icon-item">
+                    <i class="fas fa-truck"></i>
+                    <span>การขนส่ง</span>
+                </div>
+                <div class="hero-icon-item">
+                    <i class="fas fa-box"></i>
+                    <span>กล่องพัสดุ</span>
+                </div>
+                <div class="hero-icon-item">
+                    <i class="fas fa-warehouse"></i>
+                    <span>คลังสินค้า</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Learning Objectives -->
+    <section id="objectives">
+        <h2 class="section-title fade-in">วัตถุประสงค์การเรียนรู้</h2>
+        <p class="section-subtitle fade-in">สิ่งที่นักเรียนจะเรียนรู้จากบทเรียนนี้</p>
+        <div class="goals-grid">
+            <div class="goal-card fade-in">
+                <i class="fas fa-book-open"></i>
+                <h3>เข้าใจความหมาย</h3>
+                <p>อธิบายความหมายและความสำคัญของโลจิสติกส์ในชีวิตประจำวันและธุรกิจได้</p>
+            </div>
+            <div class="goal-card fade-in">
+                <i class="fas fa-list-check"></i>
+                <h3>ระบุกิจกรรมหลัก</h3>
+                <p>ระบุกิจกรรมหลักของโลจิสติกส์ที่เกี่ยวข้องกับการดำเนินธุรกิจ</p>
+            </div>
+            <div class="goal-card fade-in">
+                <i class="fas fa-chart-line"></i>
+                <h3>วิเคราะห์ผลกระทบ</h3>
+                <p>วิเคราะห์ผลกระทบของโลจิสติกส์ที่มีต่อธุรกิจและสังคม</p>
+            </div>
+            <div class="goal-card fade-in">
+                <i class="fas fa-lightbulb"></i>
+                <h3>ออกแบบแนวทาง</h3>
+                <p>ออกแบบแนวทางการใช้โลจิสติกส์อย่างมีประสิทธิภาพในสถานการณ์ต่าง ๆ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Definition Section -->
+    <section id="definition">
+        <h2 class="section-title fade-in">ความหมายของโลจิสติกส์</h2>
+        <div class="infographic-box scale-up">
+            <div class="infographic-content">
+                <div class="infographic-text">
+                    <h3>โลจิสติกส์ (Logistics) คือ</h3>
+                    <p>
+                        การจัดการการเคลื่อนย้ายสินค้า วัตถุดิบ ข้อมูล และทรัพยากร ตั้งแต่ต้นทางจนถึงผู้บริโภคปลายทาง 
+                        โดยมุ่งเน้นความรวดเร็ว ประหยัดต้นทุน และมีประสิทธิภาพ
+                    </p>
+                    <div class="infographic-examples">
+                        <h4><i class="fas fa-star"></i> ตัวอย่างในชีวิตประจำวัน</h4>
+                        <ul class="example-list">
+                            <li><i class="fas fa-check-circle"></i> การสั่งของออนไลน์</li>
+                            <li><i class="fas fa-check-circle"></i> การส่งพัสดุ</li>
+                            <li><i class="fas fa-check-circle"></i> การขนส่งสินค้าไปยังร้านค้า</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="infographic-visual">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Activities -->
+    <section id="activities">
+        <h2 class="section-title fade-in">กิจกรรมหลักของโลจิสติกส์</h2>
+        <p class="section-subtitle fade-in">6 กิจกรรมสำคัญที่ขับเคลื่อนระบบโลจิสติกส์</p>
+        <div class="activity-grid">
+            <div class="activity-card fade-in">
+                <div class="activity-number">1</div>
+                <i class="fas fa-truck-moving"></i>
+                <h3>การขนส่ง (Transportation)</h3>
+                <p>การเคลื่อนย้ายสินค้า เช่น รถบรรทุก เรือ เครื่องบิน</p>
+            </div>
+            <div class="activity-card fade-in">
+                <div class="activity-number">2</div>
+                <i class="fas fa-warehouse"></i>
+                <h3>การจัดเก็บสินค้า (Warehousing)</h3>
+                <p>การเก็บสินค้าในคลังเพื่อรอการจัดส่ง</p>
+            </div>
+            <div class="activity-card fade-in">
+                <div class="activity-number">3</div>
+                <i class="fas fa-boxes"></i>
+                <h3>การจัดการสินค้าคงคลัง (Inventory)</h3>
+                <p>การควบคุมจำนวนสินค้าให้เหมาะสม</p>
+            </div>
+            <div class="activity-card fade-in">
+                <div class="activity-number">4</div>
+                <i class="fas fa-box-open"></i>
+                <h3>การบรรจุภัณฑ์ (Packaging)</h3>
+                <p>การห่อหุ้มสินค้าเพื่อป้องกันความเสียหาย</p>
+            </div>
+            <div class="activity-card fade-in">
+                <div class="activity-number">5</div>
+                <i class="fas fa-dolly"></i>
+                <h3>การกระจายสินค้า (Distribution)</h3>
+                <p>การส่งสินค้าไปยังร้านค้าหรือผู้บริโภค</p>
+            </div>
+            <div class="activity-card fade-in">
+                <div class="activity-number">6</div>
+                <i class="fas fa-database"></i>
+                <h3>การจัดการข้อมูล (Information)</h3>
+                <p>การใช้เทคโนโลยีติดตามสินค้า เช่น ระบบ Tracking</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Importance Section -->
+    <section id="importance">
+        <h2 class="section-title fade-in">ความสำคัญของโลจิสติกส์ต่อธุรกิจ</h2>
+        <div class="importance-container">
+            <div class="importance-item fade-in">
+                <i class="fas fa-coins"></i>
+                <h3>ลดต้นทุน</h3>
+                <p>ลดต้นทุนการดำเนินงาน</p>
+            </div>
+            <div class="importance-item fade-in">
+                <i class="fas fa-tachometer-alt"></i>
+                <h3>เพิ่มความรวดเร็ว</h3>
+                <p>เพิ่มความรวดเร็วในการส่งสินค้า</p>
+            </div>
+            <div class="importance-item fade-in">
+                <i class="fas fa-smile"></i>
+                <h3>ความพึงพอใจ</h3>
+                <p>สร้างความพึงพอใจให้ลูกค้า</p>
+            </div>
+            <div class="importance-item fade-in">
+                <i class="fas fa-trophy"></i>
+                <h3>การแข่งขัน</h3>
+                <p>ทำให้ธุรกิจแข่งขันได้</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Impact Section -->
+    <section id="impact">
+        <h2 class="section-title fade-in">ผลกระทบของโลจิสติกส์ต่อสังคม</h2>
+        <div class="comparison-container">
+            <div class="comparison-column positive slide-left">
+                <h3><i class="fas fa-thumbs-up"></i> ผลดี</h3>
+                <ul class="comparison-list">
+                    <li><i class="fas fa-check"></i> สินค้าเข้าถึงผู้บริโภคได้ง่าย</li>
+                    <li><i class="fas fa-check"></i> ธุรกิจเติบโต</li>
+                    <li><i class="fas fa-check"></i> เกิดการจ้างงาน</li>
+                </ul>
+            </div>
+            <div class="comparison-column negative slide-right">
+                <h3><i class="fas fa-exclamation-triangle"></i> ผลกระทบ</h3>
+                <ul class="comparison-list">
+                    <li><i class="fas fa-times"></i> การจราจร</li>
+                    <li><i class="fas fa-times"></i> มลพิษจากการขนส่ง</li>
+                    <li><i class="fas fa-times"></i> การใช้พลังงานสูง</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guidelines Section -->
+    <section id="guidelines">
+        <h2 class="section-title fade-in">แนวทางการใช้โลจิสติกส์อย่างมีประสิทธิภาพ</h2>
+        <div class="steps-container">
+            <div class="step-item fade-in">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>วางแผนเส้นทางขนส่ง</h4>
+                    <p>เลือกเส้นทางที่เหมาะสมที่สุด</p>
+                </div>
+            </div>
+            <div class="step-item fade-in">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>ใช้เทคโนโลยีติดตามสินค้า</h4>
+                    <p>ระบบ Tracking และ GPS</p>
+                </div>
+            </div>
+            <div class="step-item fade-in">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>จัดการคลังสินค้าอย่างเป็นระบบ</h4>
+                    <p>จัดเก็บและค้นหาได้ง่าย</p>
+                </div>
+            </div>
+            <div class="step-item fade-in">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>ใช้บรรจุภัณฑ์ที่เหมาะสม</h4>
+                    <p>ป้องกันความเสียหายและประหยัดพื้นที่</p>
+                </div>
+            </div>
+            <div class="step-item fade-in">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h4>ลดการใช้พลังงานในการขนส่ง</h4>
+                    <p>ใช้ยานพาหนะประหยัดพลังงาน</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Question -->
+    <section id="activity">
+        <h2 class="section-title fade-in">กิจกรรมคิดวิเคราะห์สำหรับนักเรียน</h2>
+        <div class="question-box scale-up">
+            <h3><i class="fas fa-question-circle"></i> คำถามท้าทายความคิด</h3>
+            <div class="question-content">
+                <p><strong>ลองยกตัวอย่างธุรกิจ 1 ประเภท แล้ววิเคราะห์ว่าใช้กิจกรรมโลจิสติกส์อะไรบ้าง</strong></p>
+            </div>
+            <div class="example-answer">
+                <h4><i class="fas fa-shopping-cart"></i> ตัวอย่าง: ร้านค้าออนไลน์</h4>
+                <p>ต้องมีกิจกรรมโลจิสติกส์ดังนี้:</p>
+                <div class="answer-grid">
+                    <div class="answer-item">
+                        <i class="fas fa-warehouse"></i>
+                        <span>คลังสินค้า</span>
+                    </div>
+                    <div class="answer-item">
+                        <i class="fas fa-box"></i>
+                        <span>การบรรจุสินค้า</span>
+                    </div>
+                    <div class="answer-item">
+                        <i class="fas fa-truck"></i>
+                        <span>การขนส่ง</span>
+                    </div>
+                    <div class="answer-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>ระบบติดตาม</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>บทเรียนวิชา <span class="subject">ออกแบบและเทคโนโลยี</span> | ระดับชั้นมัธยมศึกษาปีที่ 3</p>
+        <p>© 2024 Educational Infographic | สร้างเพื่อการเรียนรู้</p>
+        <p><i class="fas fa-heart"></i> ออกแบบมาเพื่อพัฒนาทักษะการคิดวิเคราะห์ของนักเรียน</p>
+    </footer>
+
+    <script>
+        // Progress Bar
+        window.addEventListener('scroll', () => {
+            const progressBar = document.getElementById('progressBar');
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            progressBar.style.width = scrollPercent + '%';
+
+            // Back to Top Button
+            const backToTop = document.getElementById('backToTop');
+            if (scrollTop > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+
+            // Scroll Animation
+            const fadeElements = document.querySelectorAll('.fade-in, .slide-left, .slide-right, .scale-up');
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('visible');
+                }
+            });
+        });
+
+        // Back to Top Function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Smooth Scroll for Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for Better Animation Performance
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .slide-left, .slide-right, .scale-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add hover effect enhancement for cards
+        document.querySelectorAll('.goal-card, .activity-card, .importance-item, .step-item').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s ease';
+            });
+        });
+
+        // Add click animation for answer items
+        document.querySelectorAll('.answer-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Initialize animations on page load
+        window.addEventListener('load', () => {
+            const heroElements = document.querySelectorAll('.hero-title, .hero-subtitle, .hero-description, .hero-icons');
+            heroElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            const scrolled = window.pageYOffset;
+            hero.style.backgroundPositionY = scrolled * 0.5 + 'px';
+        });
+
+        // Add tooltip functionality for icons
+        document.querySelectorAll('[data-tooltip]').forEach(element => {
+            element.addEventListener('mouseenter', function(e) {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'tooltip';
+                tooltip.textContent = this.getAttribute('data-tooltip');
+                tooltip.style.cssText = `
+                    position: absolute;
+                    background: #1e40af;
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    border-radius: 5px;
+                    font-size: 0.9rem;
+                    z-index: 1000;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(tooltip);
+                
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = rect.left + 'px';
+                tooltip.style.top = (rect.top - 40) + 'px';
+                
+                this.tooltip = tooltip;
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                if (this.tooltip) {
+                    this.tooltip.remove();
+                    this.tooltip = null;
+                }
+            });
+        });
+
+        console.log('📚 Educational Infographic Loaded Successfully!');
+        console.log('🎯 Subject: Design & Technology - Grade 9');
+        console.log('📦 Topic: Logistics and Business Activities');
+    </script>
+</body>
+</html>
