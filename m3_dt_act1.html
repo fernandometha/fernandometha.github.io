@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การเปลี่ยนแปลงของเทคโนโลยี | ม.3</title>
+    
+    <!-- Google Fonts: Kanit & Sarabun -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #4F46E5; /* Indigo */
+            --secondary-color: #10B981; /* Emerald */
+            --accent-color: #F59E0B; /* Amber */
+            --bg-color: #F3F4F6;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+            --white: #ffffff;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Kanit', sans-serif;
+        }
+
+        /* --- Animation Classes --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 1. Hero Section --- */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #818CF8);
+            color: var(--white);
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        header p {
+            max-width: 600px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- Container --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background: var(--accent-color);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- 2. Objectives --- */
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .obj-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+            border-bottom: 4px solid var(--primary-color);
+        }
+
+        .obj-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .obj-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .obj-number {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- 3. Definition --- */
+        .definition-box {
+            background: linear-gradient(to right, #E0E7FF, #F3E8FF);
+            border-left: 6px solid var(--primary-color);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .definition-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .definition-content {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* --- 4. Factors --- */
+        .factors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .factor-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .factor-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            background: #fdfdfd;
+        }
+
+        .factor-icon {
+            width: 60px;
+            height: 60px;
+            background: #DBEAFE;
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+
+        /* --- 5. Timeline --- */
+        .timeline-section {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 4rem;
+        }
+
+        .timeline-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .timeline-column {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .timeline-title {
+            text-align: center;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            background: #F3F4F6;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            background: #fff;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .timeline-item::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .timeline-item:last-child::after {
+            content: '';
+        }
+
+        .timeline-icon {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        /* --- 6. Impact --- */
+        .impact-container {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .impact-box {
+            flex: 1;
+            min-width: 300px;
+            padding: 2rem;
+            border-radius: 15px;
+            color: white;
+        }
+
+        .impact-positive {
+            background: linear-gradient(135deg, #10B981, #059669);
+        }
+
+        .impact-negative {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+        }
+
+        .impact-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .impact-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .impact-list li i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* --- 7. Application (Idea Box) --- */
+        .idea-box {
+            background: url('https://www.transparenttextures.com/patterns/cubes.png'), var(--accent-color);
+            padding: 2rem;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            margin-bottom: 4rem;
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .idea-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .idea-tag {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        /* --- 8. Quiz --- */
+        .quiz-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-btn {
+            padding: 1rem;
+            border: 2px solid #E5E7EB;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .quiz-btn:hover {
+            border-color: var(--primary-color);
+            background: #EEF2FF;
+        }
+
+        .quiz-feedback {
+            margin-top: 1.5rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            min-height: 30px;
+        }
+
+        .correct { color: var(--secondary-color); }
+        .wrong { color: var(--danger); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: #1F2937;
+            color: #9CA3AF;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .timeline-container { flex-direction: column; }
+            .quiz-options { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Hero Section -->
+    <header>
+        <div class="hero-icon fade-in">
+            <i class="fa-solid fa-rocket"></i>
+        </div>
+        <h1 class="fade-in">การเปลี่ยนแปลงของเทคโนโลยี</h1>
+        <h2 class="fade-in">Technology Evolution</h2>
+        <p class="fade-in">
+            เทคโนโลยีมีการเปลี่ยนแปลงอยู่ตลอดเวลา จากอดีตสู่ปัจจุบัน 
+            เพื่อช่วยแก้ปัญหาและพัฒนาคุณภาพชีวิตของมนุษย์ให้ดียิ่งขึ้น
+        </p>
+    </header>
+
+    <div class="container">
+        
+        <!-- 2. Objectives -->
+        <h2 class="section-title fade-in">วัตถุประสงค์การเรียนรู้</h2>
+        <section class="objectives-grid">
+            <div class="obj-card fade-in">
+                <div class="obj-number">1</div>
+                <div class="obj-icon"><i class="fa-solid fa-book-open"></i></div>
+                <h4>ความหมาย & พัฒนาการ</h4>
+                <p>อธิบายความหมายและพัฒนาการของเทคโนโลยีได้</p>
+            </div>
+            <div class="obj-card fade-in">
+                <div class="obj-number">2</div>
+                <div class="obj-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                <h4>วิเคราะห์การเปลี่ยนแปลง</h4>
+                <p>วิเคราะห์ตัวอย่างการเปลี่ยนแปลงจากอดีตถึงปัจจุบัน</p>
+            </div>
+            <div class="obj-card fade-in">
+                <div class="obj-number">3</div>
+                <div class="obj-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                <h4>ประเมินผลกระทบ</h4>
+                <p>วิเคราะห์ผลกระทบที่มีต่อสังคมและสิ่งแวดล้อม</p>
+            </div>
+            <div class="obj-card fade-in">
+                <div class="obj-number">4</div>
+                <div class="obj-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                <h4>สร้างนวัตกรรม</h4>
+                <p>นำความรู้ไปใช้แก้ปัญหาหรือสร้างสิ่งใหม่</p>
+            </div>
+        </section>
+
+        <!-- 3. Definition -->
+        <section class="definition-box fade-in">
+            <h3><i class="fa-solid fa-quote-left"></i> ความหมายของการเปลี่ยนแปลงของเทคโนโลยี</h3>
+            <div class="definition-content">
+                <p>หมายถึง การพัฒนา ปรับปรุง หรือคิดค้นสิ่งใหม่ เพื่อให้เทคโนโลยีมีประสิทธิภาพมากขึ้น ประหยัดพลังงานมากขึ้น และตอบสนองความต้องการของมนุษย์ได้ดีกว่าเดิม</p>
+            </div>
+        </section>
+
+        <!-- 4. Factors -->
+        <h2 class="section-title fade-in">ปัจจัยที่ทำให้เทคโนโลยีเปลี่ยนแปลง</h2>
+        <section class="factors-grid">
+            <div class="factor-card fade-in">
+                <div class="factor-icon"><i class="fa-solid fa-users"></i></div>
+                <h4>ความต้องการของมนุษย์</h4>
+                <p>ต้องการความสะดวกสบาย รวดเร็ว และปลอดภัย</p>
+            </div>
+            <div class="factor-card fade-in">
+                <div class="factor-icon"><i class="fa-solid fa-flask"></i></div>
+                <h4>ความก้าวหน้าทางวิทยาศาสตร์</h4>
+                <p>การค้นพบทฤษฎีใหม่ๆ นำมาประยุกต์ใช้</p>
+            </div>
+            <div class="factor-card fade-in">
+                <div class="factor-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h4>ปัญหาและข้อจำกัด</h4>
+                <p>เทคโนโลยีเดิมใช้งานยาก หรือมีข้อเสียต้องแก้ไข</p>
+            </div>
+            <div class="factor-card fade-in">
+                <div class="factor-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <h4>การแข่งขัน</h4>
+                <p>การแข่งขันทางเศรษฐกิจและสังคมผลักดันให้เกิดนวัตกรรม</p>
+            </div>
+        </section>
+
+        <!-- 5. Timeline -->
+        <h2 class="section-title fade-in">ตัวอย่างการเปลี่ยนแปลง</h2>
+        <section class="timeline-section fade-in">
+            <div class="timeline-container">
+                <!-- Communication -->
+                <div class="timeline-column">
+                    <div class="timeline-title">การสื่อสาร</div>
+                    <div class="timeline-item"><i class="fa-regular fa-envelope timeline-icon"></i> จดหมาย</div>
+                    <div class="timeline-item"><i class="fa-solid fa-phone timeline-icon"></i> โทรศัพท์บ้าน</div>
+                    <div class="timeline-item"><i class="fa-solid fa-mobile-screen timeline-icon"></i> โทรศัพท์มือถือ</div>
+                    <div class="timeline-item"><i class="fa-solid fa-mobile-screen-button timeline-icon"></i> สมาร์ตโฟน (5G)</div>
+                </div>
+                <!-- Data -->
+                <div class="timeline-column">
+                    <div class="timeline-title">การบันทึกข้อมูล</div>
+                    <div class="timeline-item"><i class="fa-solid fa-book timeline-icon"></i> สมุดจด</div>
+                    <div class="timeline-item"><i class="fa-regular fa-floppy-disk timeline-icon"></i> แผ่นดิสก์</div>
+                    <div class="timeline-item"><i class="fa-regular fa-compact-disc timeline-icon"></i> CD / DVD</div>
+                    <div class="timeline-item"><i class="fa-solid fa-cloud timeline-icon"></i> Cloud Storage</div>
+                </div>
+                <!-- Travel -->
+                <div class="timeline-column">
+                    <div class="timeline-title">การเดินทาง</div>
+                    <div class="timeline-item"><i class="fa-solid fa-horse timeline-icon"></i> เกวียน / ม้า</div>
+                    <div class="timeline-item"><i class="fa-solid fa-car timeline-icon"></i> รถยนต์เครื่องยนต์</div>
+                    <div class="timeline-item"><i class="fa-solid fa-train-subway timeline-icon"></i> รถไฟฟ้า</div>
+                    <div class="timeline-item"><i class="fa-solid fa-car-battery timeline-icon"></i> รถยนต์ไฟฟ้า (EV)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Impact -->
+        <h2 class="section-title fade-in">ผลกระทบของเทคโนโลยี</h2>
+        <section class="impact-container">
+            <div class="impact-box impact-positive fade-in">
+                <h3><i class="fa-solid fa-thumbs-up"></i> ด้านบวก</h3>
+                <ul class="impact-list">
+                    <li><i class="fa-solid fa-check"></i> ช่วยให้ชีวิตสะดวกสบาย รวดเร็ว</li>
+                    <li><i class="fa-solid fa-check"></i> เพิ่มประสิทธิภาพการทำงาน</li>
+                    <li><i class="fa-solid fa-check"></i> ช่วยพัฒนาการศึกษาและการสื่อสารไร้พรมแดน</li>
+                    <li><i class="fa-solid fa-check"></i> ยกระดับคุณภาพชีวิตและสาธารณสุข</li>
+                </ul>
+            </div>
+            <div class="impact-box impact-negative fade-in">
+                <h3><i class="fa-solid fa-thumbs-down"></i> ด้านลบ</h3>
+                <ul class="impact-list">
+                    <li><i class="fa-solid fa-xmark"></i> ปัญหาขยะอิเล็กทรอนิกส์ (E-Waste)</li>
+                    <li><i class="fa-solid fa-xmark"></i> การเสพติดเทคโนโลยีและโซเชียลมีเดีย</li>
+                    <li><i class="fa-solid fa-xmark"></i> การใช้ทรัพยากรธรรมชาติเพิ่มขึ้น</li>
+                    <li><i class="fa-solid fa-xmark"></i> ช่องว่างทางสังคมและอาชญากรรมไซเบอร์</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 7. Application -->
+        <section class="idea-box fade-in">
+            <h3><i class="fa-solid fa-pen-ruler"></i> การนำความรู้ไปใช้ (Idea Box)</h3>
+            <p>นักเรียนสามารถนำความรู้เรื่องการเปลี่ยนแปลงของเทคโนโลยีไปใช้ได้อย่างไร?</p>
+            <div class="idea-content">
+                <span class="idea-tag">ออกแบบสิ่งประดิษฐ์ใหม่</span>
+                <span class="idea-tag">ปรับปรุงเทคโนโลยีเดิม</span>
+                <span class="idea-tag">สร้างนวัตกรรมแก้ปัญหาในชุมชน</span>
+                <span class="idea-tag">ใช้เทคโนโลยีอย่างรู้เท่าทัน</span>
+            </div>
+        </section>
+
+        <!-- 8. Mini Quiz -->
+        <section class="quiz-section fade-in">
+            <h3><i class="fa-solid fa-circle-question"></i> Mini Quiz</h3>
+            <p>ข้อใดเป็นตัวอย่างของการเปลี่ยนแปลงของเทคโนโลยี?</p>
+            <div class="quiz-options">
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">A. สมุด → ปากกา</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, true)">B. โทรศัพท์บ้าน → สมาร์ตโฟน</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">C. หนังสือ → กระดาษ</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">D. โต๊ะ → เก้าอี้</button>
+            </div>
+            <div id="quiz-feedback" class="quiz-feedback"></div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>ออกแบบและพัฒนาโดย: ผู้เชี่ยวชาญด้าน Web Design & Infographic<br>
+        สำหรับรายวิชา ออกแบบและเทคโนโลยี ระดับชั้น ม.3</p>
+    </footer>
+
+    <script>
+        // 1. Scroll Animation Logic (Intersection Observer)
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 2. Quiz Logic
+        function checkAnswer(btn, isCorrect) {
+            const feedback = document.getElementById('quiz-feedback');
+            
+            // Reset all buttons style
+            const allBtns = document.querySelectorAll('.quiz-btn');
+            allBtns.forEach(b => {
+                b.style.background = 'white';
+                b.style.borderColor = '#E5E7EB';
+                b.style.color = 'black';
+                b.disabled = true; // Disable after answering
+            });
+
+            if (isCorrect) {
+                btn.style.background = '#D1FAE5'; // Light Green
+                btn.style.borderColor = '#10B981';
+                btn.style.color = '#065F46';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> ถูกต้อง! เก่งมากครับ';
+                feedback.className = 'quiz-feedback correct';
+            } else {
+                btn.style.background = '#FEE2E2'; // Light Red
+                btn.style.borderColor = '#EF4444';
+                btn.style.color = '#991B1B';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ลองใหม่อีกครั้งนะครับ';
+                feedback.className = 'quiz-feedback wrong';
+                
+                // Enable buttons again after 1.5 seconds
+                setTimeout(() => {
+                    allBtns.forEach(b => b.disabled = false);
+                    feedback.innerHTML = '';
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
