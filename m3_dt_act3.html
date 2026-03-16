@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เทคโนโลยีเปลี่ยนโลก - สื่อการเรียนรู้ ม.3</title>
+    
+    <!-- Google Fonts: Kanit for modern Thai typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-blue: #007BFF;
+            --dark-blue: #0056b3;
+            --accent-green: #28a745;
+            --bg-gray: #f8f9fa;
+            --text-dark: #343a40;
+            --text-light: #6c757d;
+            --white: #ffffff;
+            --shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- UTILITY CLASSES --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- ANIMATION CLASSES --- */
+        .hidden {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 1. HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 2;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            animation: bounce 2s infinite;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* --- 2. LEARNING GOALS --- */
+        .learning-goals {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .goal-card {
+            background: var(--bg-gray);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid var(--accent-green);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .goal-card:hover {
+            transform: translateY(-10px);
+            background: #e9f7ef;
+        }
+
+        .goal-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* --- 3. DEFINITION BOX --- */
+        .definition {
+            padding: 80px 0;
+            background-color: var(--bg-gray);
+        }
+
+        .def-box {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .def-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .def-text h3 {
+            color: var(--primary-blue);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .def-examples {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .example-tag {
+            background: var(--primary-blue);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* --- 4. TIMELINE --- */
+        .timeline-section {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--primary-blue);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: var(--white);
+            border: 4px solid var(--accent-green);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; }
+        .right::after { left: -10px; }
+
+        .content {
+            padding: 20px 30px;
+            background-color: var(--bg-gray);
+            position: relative;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .content h4 { color: var(--dark-blue); font-size: 1.3rem; }
+
+        /* --- 5. EXAMPLE GRID --- */
+        .examples-section {
+            padding: 80px 0;
+            background: linear-gradient(to bottom, var(--bg-gray), #e3f2fd);
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .tech-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .tech-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .tech-icon { font-size: 4rem; margin-bottom: 15px; display: block; }
+        .tech-card h4 { color: var(--primary-blue); margin-bottom: 10px; }
+
+        /* --- 6. IMPACTS (Good vs Bad) --- */
+        .impacts-section {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+
+        .impact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .impact-col {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            border-radius: 20px;
+        }
+
+        .impact-good {
+            background-color: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .impact-bad {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .impact-list li {
+            list-style: none;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .impact-list li span { margin-right: 10px; font-size: 1.3rem; }
+
+        /* --- 7. CREATIVE USE --- */
+        .creative-section {
+            padding: 80px 0;
+            background-color: var(--bg-gray);
+        }
+
+        .checklist-container {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .checklist-item:last-child { border-bottom: none; }
+        .checklist-item:hover { background-color: #f1f8ff; }
+
+        .check-icon {
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        /* --- 8. REFLECTION --- */
+        .reflection-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            color: white;
+            text-align: center;
+        }
+
+        .reflection-box {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 700px;
+            margin: 0 auto;
+            backdrop-filter: blur(5px);
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Kanit', sans-serif;
+            font-size: 1rem;
+            resize: none;
+        }
+
+        button.submit-btn {
+            margin-top: 15px;
+            padding: 10px 30px;
+            background-color: var(--accent-green);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-family: 'Kanit', sans-serif;
+            transition: var(--transition);
+        }
+
+        button.submit-btn:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: #212529;
+            color: #adb5bd;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE TIMELINE --- */
+        @media screen and (max-width: 600px) {
+            .timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-item::after { left: 21px; }
+            .left::after { left: 21px; }
+            .right { left: 0%; }
+            .left { text-align: left; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content hidden">
+            <h1>เทคโนโลยีเปลี่ยนโลก</h1>
+            <h2>Technology That Changed the World</h2>
+            <p>เทคโนโลยีเป็นเครื่องมือที่มนุษย์สร้างขึ้นเพื่อแก้ปัญหาและพัฒนาคุณภาพชีวิต ในแต่ละยุคสมัย เทคโนโลยีได้เปลี่ยนแปลงโลก เศรษฐกิจ สังคม และวิถีชีวิตของมนุษย์อย่างมาก</p>
+        </div>
+        <div class="scroll-down" onclick="document.getElementById('goals').scrollIntoView({behavior: 'smooth'})">
+            ⬇
+        </div>
+    </section>
+
+    <!-- 2. OBJECTIVES -->
+    <section id="goals" class="learning-goals">
+        <div class="container">
+            <h2 class="section-title hidden">วัตถุประสงค์การเรียนรู้</h2>
+            <p class="section-subtitle hidden">นักเรียนสามารถ...</p>
+            
+            <div class="goals-grid">
+                <div class="goal-card hidden">
+                    <span class="goal-icon">1️⃣</span>
+                    <h3>อธิบาย</h3>
+                    <p>ความหมายและพัฒนาการของเทคโนโลยีที่เปลี่ยนโลกได้</p>
+                </div>
+                <div class="goal-card hidden">
+                    <span class="goal-icon">2️⃣</span>
+                    <h3>วิเคราะห์</h3>
+                    <p>ตัวอย่างเทคโนโลยีที่ส่งผลต่อชีวิตและสังคม</p>
+                </div>
+                <div class="goal-card hidden">
+                    <span class="goal-icon">3️⃣</span>
+                    <h3>ประเมินผล</h3>
+                    <p>ผลดีและผลเสียของเทคโนโลยีต่อโลก</p>
+                </div>
+                <div class="goal-card hidden">
+                    <span class="goal-icon">4️⃣</span>
+                    <h3>ประยุกต์ใช้</h3>
+                    <p>นำความรู้ไปใช้หรือแก้ปัญหาในชีวิตประจำวันอย่างสร้างสรรค์</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DEFINITION -->
+    <section class="definition">
+        <div class="container">
+            <div class="def-box hidden">
+                <div class="def-text">
+                    <h3>เทคโนโลยีเปลี่ยนโลกคืออะไร?</h3>
+                    <p>หมายถึง เทคโนโลยีที่มีผลกระทบอย่างมากต่อวิถีชีวิต เศรษฐกิจ และสังคมของมนุษย์ ทำให้เกิดการเปลี่ยนแปลงในวงกว้าง และสร้างรูปแบบการใช้ชีวิตใหม่</p>
+                </div>
+                <div class="def-examples">
+                    <span class="example-tag">🌐 อินเทอร์เน็ต</span>
+                    <span class="example-tag">📱 สมาร์ตโฟน</span>
+                    <span class="example-tag">🤖 AI</span>
+                    <span class="example-tag">⚡ พลังงานสะอาด</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. TIMELINE -->
+    <section class="timeline-section">
+        <div class="container">
+            <h2 class="section-title hidden">พัฒนาการของเทคโนโลยี</h2>
+            <div class="timeline">
+                <div class="timeline-item left hidden">
+                    <div class="content">
+                        <h4>ยุคที่ 1: ยุคเกษตรกรรม</h4>
+                        <p>เครื่องมือพื้นฐาน เช่น คันไถ เครื่องมือเกษตร ช่วยเพิ่มผลผลิตอาหาร</p>
+                    </div>
+                </div>
+                <div class="timeline-item right hidden">
+                    <div class="content">
+                        <h4>ยุคที่ 2: ยุคอุตสาหกรรม</h4>
+                        <p>เครื่องจักรไอน้ำและโรงงาน ช่วยเพิ่มการผลิตสินค้าจำนวนมาก</p>
+                    </div>
+                </div>
+                <div class="timeline-item left hidden">
+                    <div class="content">
+                        <h4>ยุคที่ 3: ยุคสารสนเทศ</h4>
+                        <p>คอมพิวเตอร์ อินเทอร์เน็ต การสื่อสารรวดเร็วไร้พรมแดน</p>
+                    </div>
+                </div>
+                <div class="timeline-item right hidden">
+                    <div class="content">
+                        <h4>ยุคที่ 4: ยุคดิจิทัล</h4>
+                        <p>AI หุ่นยนต์ Big Data และ Internet of Things (IoT)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. EXAMPLES GRID -->
+    <section class="examples-section">
+        <div class="container">
+            <h2 class="section-title hidden">ตัวอย่างเทคโนโลยีที่เปลี่ยนโลก</h2>
+            <div class="example-grid">
+                <div class="tech-card hidden">
+                    <span class="tech-icon">📱</span>
+                    <h4>สมาร์ตโฟน</h4>
+                    <p>ทำให้การสื่อสาร การทำงาน และการเรียนรู้สะดวกขึ้นทุกที่ทุกเวลา</p>
+                </div>
+                <div class="tech-card hidden">
+                    <span class="tech-icon">🌐</span>
+                    <h4>อินเทอร์เน็ต</h4>
+                    <p>เชื่อมโยงข้อมูลทั่วโลก ทำให้เกิดสังคมออนไลน์และเศรษฐกิจดิจิทัล</p>
+                </div>
+                <div class="tech-card hidden">
+                    <span class="tech-icon">🤖</span>
+                    <h4>ปัญญาประดิษฐ์ (AI)</h4>
+                    <p>ช่วยวิเคราะห์ข้อมูล ทำงานแทนมนุษย์บางอย่าง และช่วยตัดสินใจ</p>
+                </div>
+                <div class="tech-card hidden">
+                    <span class="tech-icon">🚗</span>
+                    <h4>รถยนต์ไฟฟ้า</h4>
+                    <p>ช่วยลดมลพิษและพัฒนาระบบพลังงานสะอาดเพื่อสิ่งแวดล้อม</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. IMPACTS -->
+    <section class="impacts-section">
+        <div class="container">
+            <h2 class="section-title hidden">ผลกระทบของเทคโนโลยี</h2>
+            <div class="impact-container">
+                <div class="impact-col impact-good hidden">
+                    <h3 style="margin-bottom: 20px;">✅ ผลดี</h3>
+                    <ul class="impact-list">
+                        <li><span>✔</span> เพิ่มความสะดวกสบาย</li>
+                        <li><span>✔</span> การสื่อสารรวดเร็ว</li>
+                        <li><span>✔</span> เพิ่มประสิทธิภาพการทำงาน</li>
+                        <li><span>✔</span> สร้างนวัตกรรมใหม่</li>
+                    </ul>
+                </div>
+                <div class="impact-col impact-bad hidden">
+                    <h3 style="margin-bottom: 20px;">⚠️ ผลเสีย</h3>
+                    <ul class="impact-list">
+                        <li><span>⚠</span> การเสพติดเทคโนโลยี</li>
+                        <li><span>⚠</span> ปัญหาขยะอิเล็กทรอนิกส์</li>
+                        <li><span>⚠</span> การแทนที่แรงงานมนุษย์</li>
+                        <li><span>⚠</span> ปัญหาความเป็นส่วนตัว</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. CREATIVE USE -->
+    <section class="creative-section">
+        <div class="container">
+            <h2 class="section-title hidden">การใช้เทคโนโลยีอย่างสร้างสรรค์</h2>
+            <div class="checklist-container hidden">
+                <div class="checklist-item">
+                    <span class="check-icon">✓</span>
+                    <p>ใช้เทคโนโลยีเพื่อการเรียนรู้และพัฒนาตนเอง</p>
+                </div>
+                <div class="checklist-item">
+                    <span class="check-icon">✓</span>
+                    <p>ใช้อย่างมีวิจารณญาณ ไม่เชื่อข่าวปลอม</p>
+                </div>
+                <div class="checklist-item">
+                    <span class="check-icon">✓</span>
+                    <p>คำนึงถึงผลกระทบต่อสังคมและสิ่งแวดล้อม</p>
+                </div>
+                <div class="checklist-item">
+                    <span class="check-icon">✓</span>
+                    <p>ใช้เทคโนโลยีเพื่อแก้ปัญหาในชีวิตประจำวัน</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. REFLECTION -->
+    <section class="reflection-section">
+        <div class="container hidden">
+            <div class="reflection-box">
+                <h2>💭 คำถามชวนคิด</h2>
+                <p>นักเรียนคิดว่า เทคโนโลยีใดในปัจจุบันที่กำลัง "เปลี่ยนโลก" มากที่สุด และจะส่งผลต่ออนาคตอย่างไร?</p>
+                <textarea id="reflectionInput" placeholder="พิมพ์คำตอบของคุณที่นี่..."></textarea>
+                <button class="submit-btn" onclick="submitReflection()">ส่งคำตอบ</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>รายวิชา ออกแบบและเทคโนโลยี | ระดับชั้นมัธยมศึกษาปีที่ 3</p>
+        <p>© 2023 Educational Infographic</p>
+    </footer>
+
+    <!-- JAVASCRIPT FOR ANIMATIONS & INTERACTIVITY -->
+    <script>
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    observer.unobserve(entry.target); // Stop observing once shown
+                }
+            });
+        }, observerOptions);
+
+        // Select all hidden elements
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // Simple function for the Reflection button
+        function submitReflection() {
+            const input = document.getElementById('reflectionInput');
+            if(input.value.trim() !== "") {
+                alert("ขอบคุณสำหรับความคิดเห็น! ครูจะได้นำไปทบทวนในคาบเรียนครับ");
+                input.value = ""; // Clear input
+            } else {
+                alert("กรุณาพิมพ์คำตอบก่อนส่งครับ");
+            }
+        }
+    </script>
+</body>
+</html>
