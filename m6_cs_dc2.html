@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อาชีพในยุคดิจิทัล | วิทยาการคำนวณ ม.6</title>
+    
+    <!-- นำเข้าฟอนต์ภาษาไทยสวยๆ จาก Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- นำเข้าไอคอนจาก FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =========================================
+           1. CSS VARIABLES & RESET (การตั้งค่าเริ่มต้น)
+           ========================================= */
+        :root {
+            --bg-color: #0f172a;       /* สีพื้นหลังเข้ม (Dark Navy) */
+            --card-bg: #1e293b;        /* สีพื้นหลังการ์ด */
+            --primary: #3b82f6;        /* สีหลัก (Blue) */
+            --accent: #8b5cf6;         /* สีเน้น (Purple) */
+            --cyan: #06b6d4;           /* สีเสริม (Cyan) */
+            --text-main: #f8fafc;      /* สีตัวอักษรหลัก */
+            --text-sub: #94a3b8;       /* สีตัวอักษรรอง */
+            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Container สำหรับจัดหน้า */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* =========================================
+           2. ANIMATION CLASSES (คลาสสำหรับ Animation)
+           ========================================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           3. HERO SECTION (ส่วนหัวเรื่อง)
+           ========================================= */
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            color: var(--text-sub);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            animation: bounce 2s infinite;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* =========================================
+           4. GENERAL SECTION STYLES (รูปแบบหัวข้อทั่วไป)
+           ========================================= */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background: var(--gradient);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* =========================================
+           5. DEFINITION SECTION (ความหมาย)
+           ========================================= */
+        .definition-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .def-text h3 {
+            font-size: 2rem;
+            color: var(--cyan);
+            margin-bottom: 20px;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tech-tag {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .def-visual {
+            text-align: center;
+        }
+        
+        .def-visual i {
+            font-size: 10rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+        }
+
+        /* =========================================
+           6. CAREER CARDS (ตัวอย่างอาชีพ)
+           ========================================= */
+        .career-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .career-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .career-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-color: var(--primary);
+        }
+
+        .career-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .career-icon {
+            font-size: 3rem;
+            color: var(--cyan);
+            margin-bottom: 20px;
+        }
+
+        .career-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .career-desc {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+        }
+
+        /* =========================================
+           7. FUTURE TRENDS (แนวโน้มในอนาคต)
+           ========================================= */
+        .trend-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .trend-item {
+            flex: 1 1 300px;
+            background: rgba(255,255,255,0.03);
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .trend-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.1);
+            line-height: 1;
+        }
+
+        .trend-content h4 {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        /* =========================================
+           8. SKILLS SECTION (ทักษะที่จำเป็น)
+           ========================================= */
+        .skills-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .skill-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--primary);
+            transition: 0.3s;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .skill-circle:hover {
+            background: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .skill-circle i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .skill-circle span {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* =========================================
+           9. IMPORTANCE (ความสำคัญ)
+           ========================================= */
+        .importance-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .importance-box h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--cyan);
+        }
+
+        .importance-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .importance-list li {
+            background: rgba(0,0,0,0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* =========================================
+           10. FOOTER
+           ========================================= */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #020617;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+
+        /* =========================================
+           11. RESPONSIVE (มือถือ)
+           ========================================= */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1.1rem; }
+            .definition-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 2rem; }
+            .skill-circle { width: 120px; height: 120px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ส่วนหัวเรื่อง (Hero Section) -->
+    <header>
+        <div class="container hero-content">
+            <h1 class="reveal">อาชีพในยุคดิจิทัล<br>Digital Age Careers</h1>
+            <p class="reveal">
+                การเปลี่ยนแปลงของเทคโนโลยีทำให้เกิดอาชีพใหม่ ๆ และทำให้อาชีพเดิมต้องปรับตัว
+                เพื่อรับมือกับโลกอนาคตที่ขับเคลื่อนด้วยข้อมูลและนวัตกรรม
+            </p>
+        </div>
+        <div class="scroll-down">
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <main>
+        <!-- ส่วนที่ 2: ความหมาย (Definition) -->
+        <section id="definition">
+            <div class="container">
+                <h2 class="section-title reveal">อาชีพในยุคดิจิทัลคืออะไร?</h2>
+                <div class="definition-grid">
+                    <div class="def-text reveal">
+                        <h3>นิยาม</h3>
+                        <p>อาชีพในยุคดิจิทัล หมายถึง อาชีพที่ใช้เทคโนโลยีดิจิทัลเป็นเครื่องมือหลักในการทำงาน การติดต่อสื่อสาร และการสร้างสรรค์ผลงาน ซึ่งไม่ได้จำกัดอยู่แค่ในวงการไอที แต่กระจายไปทุกอุตสาหกรรม</p>
+                        
+                        <div class="tech-tags">
+                            <div class="tech-tag"><i class="fa-solid fa-laptop-code"></i> คอมพิวเตอร์</div>
+                            <div class="tech-tag"><i class="fa-solid fa-globe"></i> อินเทอร์เน็ต</div>
+                            <div class="tech-tag"><i class="fa-solid fa-robot"></i> AI</div>
+                            <div class="tech-tag"><i class="fa-solid fa-database"></i> Big Data</div>
+                            <div class="tech-tag"><i class="fa-solid fa-cloud"></i> Cloud</div>
+                        </div>
+                    </div>
+                    <div class="def-visual reveal">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 3: ตัวอย่างอาชีพ (Examples) -->
+        <section id="examples">
+            <div class="container">
+                <h2 class="section-title reveal">ตัวอย่างอาชีพที่น่าสนใจ</h2>
+                <div class="career-grid">
+                    <!-- Card 1 -->
+                    <div class="career-card reveal">
+                        <div class="career-icon"><i class="fa-solid fa-code"></i></div>
+                        <h3 class="career-title">โปรแกรมเมอร์</h3>
+                        <p class="career-desc">ผู้พัฒนาซอฟต์แวร์และแอปพลิเคชันเพื่อแก้ปัญหาและตอบสนองความต้องการของผู้ใช้</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="career-card reveal">
+                        <div class="career-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <h3 class="career-title">นักวิเคราะห์ข้อมูล</h3>
+                        <p class="career-desc">รวบรวมและวิเคราะห์ข้อมูลขนาดใหญ่เพื่อนำเสนอแนวทางในการตัดสินใจทางธุรกิจ</p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="career-card reveal">
+                        <div class="career-icon"><i class="fa-solid fa-brain"></i></div>
+                        <h3 class="career-title">นักพัฒนา AI</h3>
+                        <p class="career-desc">สร้างระบบปัญญาประดิษฐ์ให้สามารถเรียนรู้และทำงานแทนมนุษย์ได้</p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="career-card reveal">
+                        <div class="career-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                        <h3 class="career-title">นักการตลาดดิจิทัล</h3>
+                        <p class="career-desc">วางแผนกลยุทธ์การขายและการโฆษณาผ่านช่องทางออนไลน์และโซเชียลมีเดีย</p>
+                    </div>
+                    <!-- Card 5 -->
+                    <div class="career-card reveal">
+                        <div class="career-icon"><i class="fa-solid fa-video"></i></div>
+                        <h3 class="career-title">Content Creator</h3>
+                        <p class="career-desc">ผู้สร้างสรรค์คอนเทนต์บนแพลตฟอร์มต่าง ๆ เพื่อสร้างการรับรู้และความบันเทิง</p>
+                    </div>
+                    <!-- Card 6 -->
+                    <div class="career-card reveal">
+                        <div class="career-icon"><i class="fa-solid fa-palette"></i></div>
+                        <h3 class="career-title">UX/UI Designer</h3>
+                        <p class="career-desc">ออกแบบประสบการณ์และหน้าจอการใช้งานแอปพลิเคชันให้สวยงามและใช้งานง่าย</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 4: การเปลี่ยนแปลงในอนาคต (Future Trends) -->
+        <section id="future">
+            <div class="container">
+                <h2 class="section-title reveal">แนวโน้มการเปลี่ยนแปลง</h2>
+                <div class="trend-container">
+                    <div class="trend-item reveal">
+                        <div class="trend-number">01</div>
+                        <div class="trend-content">
+                            <h4>Automation & AI</h4>
+                            <p>งานที่ทำซ้ำ ๆ จะถูกแทนที่ด้วยระบบอัตโนมัติและ AI ทำให้มนุษย์ต้องไปทำงานที่ต้องใช้ความคิดสร้างสรรค์มากขึ้น</p>
+                        </div>
+                    </div>
+                    <div class="trend-item reveal">
+                        <div class="trend-number">02</div>
+                        <div class="trend-content">
+                            <h4>Remote Work</h4>
+                            <p>การทำงานระยะไกลหรือ Work from Anywhere จะกลายเป็นเรื่องปกติ ด้วยเทคโนโลยีการสื่อสารที่รวดเร็ว</p>
+                        </div>
+                    </div>
+                    <div class="trend-item reveal">
+                        <div class="trend-number">03</div>
+                        <div class="trend-content">
+                            <h4>New Jobs</h4>
+                            <p>เกิดอาชีพใหม่ที่ยังไม่เคยมีมาก่อน เช่น ผู้เชี่ยวชาญด้านความปลอดภัยไซเบอร์, ผู้จัดการระบบโดรน</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 5: ทักษะที่จำเป็น (Skills) -->
+        <section id="skills">
+            <div class="container">
+                <h2 class="section-title reveal">ทักษะที่จำเป็น (Must-Have Skills)</h2>
+                <div class="skills-wrapper">
+                    <div class="skill-circle reveal">
+                        <i class="fa-solid fa-laptop"></i>
+                        <span>Digital Skills</span>
+                    </div>
+                    <div class="skill-circle reveal">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <span>Creativity</span>
+                    </div>
+                    <div class="skill-circle reveal">
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                        <span>Problem Solving</span>
+                    </div>
+                    <div class="skill-circle reveal">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                        <span>Critical Thinking</span>
+                    </div>
+                    <div class="skill-circle reveal">
+                        <i class="fa-solid fa-infinity"></i>
+                        <span>Lifelong Learning</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ส่วนที่ 6: ความสำคัญ (Importance) -->
+        <section id="importance">
+            <div class="container">
+                <div class="importance-box reveal">
+                    <h3><i class="fa-solid fa-star"></i> ทำไมต้องรู้เรื่องเทคโนโลยี?</h3>
+                    <p style="margin-bottom: 30px; font-size: 1.2rem;">
+                        เทคโนโลยีไม่ใช่แค่เครื่องมือ แต่เป็นกุญแจสำคัญในการไขประตูสู่โอกาส
+                    </p>
+                    <ul class="importance-list">
+                        <li><i class="fa-solid fa-check"></i> เพิ่มประสิทธิภาพการทำงาน</li>
+                        <li><i class="fa-solid fa-check"></i> สร้างโอกาสทางเศรษฐกิจ</li>
+                        <li><i class="fa-solid fa-check"></i> สร้างนวัตกรรมใหม่</li>
+                        <li><i class="fa-solid fa-check"></i> เพิ่มโอกาสในการจ้างงาน</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2023 วิชาวิทยาการคำนวณ ม.6 | ออกแบบเพื่อการศึกษา</p>
+    </footer>
+
+    <!-- JavaScript สำหรับ Animation -->
+    <script>
+        // ใช้ Intersection Observer API เพื่อตรวจจับเมื่อ Element ปรากฏบนหน้าจอ
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    // ถ้า Element เข้ามาในหน้าจอ (isIntersecting)
+                    if (entry.isIntersecting) {
+                        // เพิ่มคลาส active เพื่อให้เกิด Animation
+                        entry.target.classList.add('active');
+                        // หยุดการสังเกต Element นั้นๆ (เพื่อให้เล่น Animation แค่ครั้งเดียว)
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.15 // เริ่มทำงานเมื่อ Element โผล่มา 15%
+            });
+
+            // สั่งให้เริ่มสังเกตทุก Element ที่มี class .reveal
+            reveals.forEach(el => {
+                revealOnScroll.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
