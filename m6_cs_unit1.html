@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การแบ่งปันข้อมูลในยุคดิจิทัล | Infographic</title>
+    
+    <!-- Google Fonts: Kanit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #0f172a; /* Dark Blue */
+            --secondary-color: #3b82f6; /* Bright Blue */
+            --accent-color: #8b5cf6; /* Purple */
+            --highlight-color: #06b6d4; /* Cyan */
+            --text-light: #f8fafc;
+            --text-dark: #1e293b;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-bg-dark: rgba(30, 41, 59, 0.9);
+            --gradient-main: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #4c1d95 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Progress Bar --- */
+        #progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: transparent;
+            z-index: 1000;
+        }
+
+        #progress-bar {
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--highlight-color));
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            background: var(--gradient-main);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(6,182,212,0.3) 0%, rgba(0,0,0,0) 70%);
+            top: 10%;
+            left: 10%;
+            animation: pulse 4s infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(0,0,0,0) 70%);
+            bottom: 10%;
+            right: 10%;
+            animation: pulse 5s infinite reverse;
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 800px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #cbd5e1;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            color: var(--highlight-color);
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 10px rgba(6,182,212,0.5));
+        }
+
+        /* --- General Layout --- */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background: var(--secondary-color);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- Section 2: Meaning --- */
+        .meaning-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .meaning-text {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .icon-item {
+            text-align: center;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .icon-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .icon-item i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Section 3: Methods (Cards) --- */
+        .methods-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .method-card {
+            background: white;
+            width: 300px;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .method-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: var(--secondary-color);
+        }
+
+        .method-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+        }
+
+        .method-icon {
+            width: 80px;
+            height: 80px;
+            background: #eff6ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--secondary-color);
+            font-size: 2rem;
+        }
+
+        /* --- Section 4: Tools --- */
+        .tools-section {
+            background: var(--primary-color);
+            color: white;
+            width: 100%;
+            max-width: 100%; /* Override default */
+        }
+
+        .tools-section .section-title {
+            color: white;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tool-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+
+        .tool-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .tool-card i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--highlight-color);
+        }
+
+        /* --- Section 5: Safety Checklist --- */
+        .safety-list {
+            list-style: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .safety-item {
+            background: white;
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .safety-item:hover {
+            transform: translateX(10px);
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .check-icon {
+            color: #10b981;
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
+            min-width: 30px;
+        }
+
+        /* --- Section 6: Privacy Warning --- */
+        .privacy-section {
+            background: #fee2e2; /* Light Red */
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            border: 2px dashed #ef4444;
+        }
+
+        .privacy-warning-icon {
+            font-size: 4rem;
+            color: #ef4444;
+            margin-bottom: 1rem;
+            animation: shake 2s infinite;
+        }
+
+        .privacy-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .privacy-data-list {
+            text-align: left;
+        }
+
+        .privacy-data-list li {
+            margin-bottom: 0.5rem;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .privacy-data-list li::before {
+            content: '⚠️';
+            margin-right: 10px;
+        }
+
+        /* --- Section 7: Summary --- */
+        .summary-box {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-box h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-points {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .point {
+            background: rgba(255,255,255,0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            width: 200px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--primary-color);
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            10% { transform: rotate(-10deg); }
+            20% { transform: rotate(10deg); }
+            30% { transform: rotate(-10deg); }
+            40% { transform: rotate(10deg); }
+            50% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .meaning-grid, .privacy-content { grid-template-columns: 1fr; }
+            .section-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <!-- 1. Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <i class="fas fa-network-wired hero-icon"></i>
+            <h1>การแบ่งปันข้อมูล (Data Sharing)</h1>
+            <p>การส่งต่อหรือแลกเปลี่ยนข้อมูลระหว่างบุคคล องค์กร หรือระบบดิจิทัล เพื่อให้เกิดประโยชน์ในการทำงาน การเรียนรู้ และการสื่อสารในยุคดิจิทัล</p>
+            <a href="#meaning" style="color: var(--highlight-color); text-decoration: none; font-weight: bold;">
+                <i class="fas fa-chevron-down"></i> เลื่อนลงเพื่อเรียนรู้
+            </a>
+        </div>
+    </header>
+
+    <!-- 2. ความหมาย -->
+    <section id="meaning">
+        <h2 class="section-title reveal">ความหมายของการแบ่งปันข้อมูล</h2>
+        <div class="meaning-grid reveal">
+            <div class="meaning-text">
+                <h3><i class="fas fa-book-open" style="color: var(--secondary-color);"></i> แนวคิดหลัก</h3>
+                <p style="margin-top: 1rem;">
+                    <strong>การแบ่งปันข้อมูล (Data Sharing)</strong> หมายถึง การส่งต่อข้อมูลจากแหล่งหนึ่งไปยังอีกแหล่งหนึ่งผ่านสื่อหรือระบบดิจิทัล เช่น การส่งไฟล์ เอกสาร รูปภาพ หรือข้อมูลผ่านอินเทอร์เน็ต
+                </p>
+            </div>
+            <div class="icon-grid">
+                <div class="icon-item">
+                    <i class="fas fa-file-alt"></i>
+                    <p>เอกสาร</p>
+                </div>
+                <div class="icon-item">
+                    <i class="fas fa-image"></i>
+                    <p>รูปภาพ</p>
+                </div>
+                <div class="icon-item">
+                    <i class="fas fa-video"></i>
+                    <p>วิดีโอ</p>
+                </div>
+                <div class="icon-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <p>สถิติ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. วิธีการ -->
+    <section id="methods" style="background-color: #f8fafc;">
+        <h2 class="section-title reveal">วิธีการแบ่งปันข้อมูลในยุคดิจิทัล</h2>
+        <div class="methods-container reveal">
+            <!-- Card 1 -->
+            <div class="method-card">
+                <div class="method-icon"><i class="fas fa-envelope"></i></div>
+                <h3>1. อีเมล (Email)</h3>
+                <p>การส่งไฟล์แนบผ่านระบบจดหมายอิเล็กทรอนิกส์ เช่น Gmail, Outlook</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="method-card">
+                <div class="method-icon"><i class="fas fa-cloud"></i></div>
+                <h3>2. Cloud Storage</h3>
+                <p>การเก็บและแชร์ไฟล์บนอินเทอร์เน็ต เช่น Google Drive, OneDrive</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="method-card">
+                <div class="method-icon"><i class="fas fa-share-alt"></i></div>
+                <h3>3. โซเชียลมีเดีย</h3>
+                <p>การแชร์ผ่านแพลตฟอร์มสังคมออนไลน์ เช่น Facebook, Line, Twitter</p>
+            </div>
+            <!-- Card 4 -->
+            <div class="method-card">
+                <div class="method-icon"><i class="fas fa-database"></i></div>
+                <h3>4. ฐานข้อมูลออนไลน์</h3>
+                <p>การใช้ Web Database หรือ Data Platform สำหรับองค์กร</p>
+            </div>
+            <!-- Card 5 -->
+            <div class="method-card">
+                <div class="method-icon"><i class="fas fa-link"></i></div>
+                <h3>5. ลิงก์แชร์ไฟล์</h3>
+                <p>การสร้าง URL สำหรับให้ผู้อื่นเข้าถึงไฟล์โดยตรง</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. เครื่องมือ -->
+    <section class="tools-section">
+        <h2 class="section-title reveal">เครื่องมือยอดนิยม</h2>
+        <div class="tools-grid reveal">
+            <div class="tool-card">
+                <i class="fab fa-google-drive"></i>
+                <h3>Google Drive</h3>
+                <p>พื้นที่เก็บข้อมูลฟรีจาก Google</p>
+            </div>
+            <div class="tool-card">
+                <i class="fab fa-microsoft"></i>
+                <h3>OneDrive</h3>
+                <p>ระบบ Cloud ของ Microsoft</p>
+            </div>
+            <div class="tool-card">
+                <i class="fab fa-dropbox"></i>
+                <h3>Dropbox</h3>
+                <p>บริการซิงค์ไฟล์ที่รวดเร็ว</p>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-paper-plane"></i>
+                <h3>WeTransfer</h3>
+                <p>ส่งไฟล์ขนาดใหญ่ได้ง่ายๆ</p>
+            </div>
+            <div class="tool-card">
+                <i class="fab fa-github"></i>
+                <h3>GitHub</h3>
+                <p>สำหรับนักพัฒนาโปรแกรม</p>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-file-word"></i>
+                <h3>Google Docs</h3>
+                <p>ทำงานเอกสารร่วมกันแบบ Real-time</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. ความปลอดภัย -->
+    <section id="safety">
+        <h2 class="section-title reveal">หลักการแบ่งปันข้อมูลอย่างปลอดภัย</h2>
+        <ul class="safety-list reveal">
+            <li class="safety-item">
+                <i class="fas fa-check-circle check-icon"></i>
+                <span>ตรวจสอบความถูกต้องของข้อมูลก่อนแชร์เสมอ</span>
+            </li>
+            <li class="safety-item">
+                <i class="fas fa-user-shield check-icon"></i>
+                <span>ไม่เปิดเผยข้อมูลส่วนบุคคลโดยไม่จำเป็น</span>
+            </li>
+            <li class="safety-item">
+                <i class="fas fa-key check-icon"></i>
+                <span>ใช้รหัสผ่านที่ปลอดภัยในการเข้าถึงระบบ</span>
+            </li>
+            <li class="safety-item">
+                <i class="fas fa-lock check-icon"></i>
+                <span>กำหนดสิทธิ์การเข้าถึงไฟล์ (View Only / Edit)</span>
+            </li>
+            <li class="safety-item">
+                <i class="fas fa-exclamation-triangle check-icon"></i>
+                <span>ระวังการแชร์ข้อมูลผ่านลิงก์สาธารณะ</span>
+            </li>
+            <li class="safety-item">
+                <i class="fas fa-shield-alt check-icon"></i>
+                <span>ใช้แพลตฟอร์มที่มีความน่าเชื่อถือและปลอดภัย</span>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 6. ความเป็นส่วนตัว -->
+    <section id="privacy">
+        <div class="privacy-section reveal">
+            <i class="fas fa-user-secret privacy-warning-icon"></i>
+            <h2 style="color: #b91c1c;">ความสำคัญของความเป็นส่วนตัว</h2>
+            <p>ข้อมูลส่วนบุคคล (Personal Data) คือข้อมูลที่สามารถระบุตัวตนได้</p>
+            
+            <div class="privacy-content">
+                <div>
+                    <ul class="privacy-data-list">
+                        <li>ชื่อ - นามสกุล</li>
+                        <li>เลขบัตรประชาชน</li>
+                        <li>ที่อยู่ปัจจุบัน</li>
+                        <li>เบอร์โทรศัพท์</li>
+                        <li>อีเมลส่วนตัว</li>
+                        <li>รูปภาพใบหน้า</li>
+                    </ul>
+                </div>
+                <div style="background: white; padding: 1.5rem; border-radius: 10px; color: #b91c1c;">
+                    <i class="fas fa-ban" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <h4>ระวัง!</h4>
+                    <p>การเผยแพร่ข้อมูลเหล่านี้โดยไม่ระมัดระวัง อาจทำให้เกิดการละเมิดสิทธิส่วนบุคคล หรือถูกมิจฉาชีพนำข้อมูลไปใช้ในทางที่ผิด</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. สรุป -->
+    <section id="summary">
+        <div class="summary-box reveal">
+            <h3><i class="fas fa-lightbulb"></i> สรุปความรู้</h3>
+            <p style="margin-bottom: 2rem; font-size: 1.1rem;">การแบ่งปันข้อมูลเป็นทักษะสำคัญในยุคดิจิทัล ผู้ใช้เทคโนโลยีควร:</p>
+            <div class="summary-points">
+                <div class="point">
+                    <i class="fas fa-cogs" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>เลือกวิธีการแชร์ที่เหมาะสม</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-laptop-code" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>ใช้เครื่องมืออย่างมีประสิทธิภาพ</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-shield-virus" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>คำนึงถึงความปลอดภัย</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>เคารพสิทธิผู้อื่น</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>วิชาวิทยาการคำนวณ ระดับชั้นมัธยมศึกษาปีที่ 6</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">หัวข้อ: การแบ่งปันข้อมูลในยุคดิจิทัล</p>
+        <p style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.6;">© 2023 Digital Learning Media</p>
+    </footer>
+
+    <script>
+        // 1. Scroll Animation (Reveal on Scroll)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        // 2. Progress Bar Logic
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+            
+            // Trigger reveal function inside scroll event
+            reveal();
+        };
+
+        // 3. Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Trigger reveal once on load
+        reveal();
+    </script>
+</body>
+</html>
