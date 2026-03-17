@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผลกระทบของเทคโนโลยี | Infographic Website</title>
+    
+    <!-- Google Fonts: Kanit for Modern Thai Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-color: #4f46e5; /* Indigo */
+            --secondary-color: #06b6d4; /* Cyan */
+            --accent-color: #8b5cf6; /* Violet */
+            --bg-dark: #0f172a; /* Slate 900 */
+            --bg-card: #1e293b; /* Slate 800 */
+            --text-light: #f1f5f9;
+            --text-gray: #94a3b8;
+            --positive-color: #10b981; /* Emerald */
+            --negative-color: #ef4444; /* Red */
+            --gradient-main: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        .highlight {
+            color: var(--secondary-color);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- SECTION 1: HEADER --- */
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Background Elements */
+        header::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--primary-color);
+            filter: blur(150px);
+            opacity: 0.3;
+            top: -50px;
+            left: -50px;
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: var(--secondary-color);
+            filter: blur(150px);
+            opacity: 0.2;
+            bottom: -100px;
+            right: -100px;
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 30px); }
+        }
+
+        .hero-content {
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-desc {
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            animation: bounce 2s infinite;
+            font-size: 2rem;
+            color: var(--secondary-color);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* --- SECTION 2: DEFINITION --- */
+        #definition {
+            padding: 5rem 0;
+            background-color: var(--bg-dark);
+        }
+
+        .def-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .def-text {
+            font-size: 1.8rem;
+            font-weight: 300;
+        }
+
+        .def-highlight {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        /* --- SECTION 3 & 4: GRID CARDS --- */
+        .impact-section {
+            padding: 5rem 0;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-gray);
+        }
+
+        .card li::before {
+            content: '•';
+            color: var(--secondary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Specific Styles for Positive/Negative */
+        .card.positive { border-top-color: var(--positive-color); }
+        .card.positive .card-icon { color: var(--positive-color); }
+        
+        .card.negative { border-top-color: var(--negative-color); }
+        .card.negative .card-icon { color: var(--negative-color); }
+
+        /* --- SECTION 5: SOLUTIONS --- */
+        #solutions {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, var(--bg-dark), #162032);
+        }
+
+        .solution-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .solution-item {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 1.5rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .solution-item:hover {
+            background: var(--secondary-color);
+            color: var(--bg-dark);
+            transform: scale(1.05);
+        }
+
+        .solution-number {
+            background: var(--secondary-color);
+            color: var(--bg-dark);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .solution-item:hover .solution-number {
+            background: var(--bg-dark);
+            color: var(--secondary-color);
+        }
+
+        /* --- SECTION 6: CRITICAL THINKING --- */
+        #questions {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .question-box {
+            background: var(--gradient-main);
+            padding: 3rem;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 40px rgba(79, 70, 229, 0.4);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question-list {
+            text-align: left;
+            margin-top: 2rem;
+            background: rgba(0,0,0,0.2);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .question-item {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .question-item span {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            background-color: #020617;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-desc { font-size: 1.1rem; }
+            .section-title { font-size: 2rem; }
+            .def-text { font-size: 1.4rem; }
+            .solution-item { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: HEADER -->
+    <header>
+        <div class="hero-content reveal">
+            <h1 class="hero-title">ผลกระทบของเทคโนโลยี<br><span class="highlight">Technology Impacts</span></h1>
+            <p class="hero-desc">
+                "เทคโนโลยีช่วยพัฒนาคุณภาพชีวิตของมนุษย์ แต่ในขณะเดียวกันก็อาจก่อให้เกิดผลกระทบต่อสังคม เศรษฐกิจ และสิ่งแวดล้อม หากใช้อย่างไม่เหมาะสม"
+            </p>
+        </div>
+        <div class="scroll-down">⬇</div>
+    </header>
+
+    <div class="container">
+        <!-- SECTION 2: DEFINITION -->
+        <section id="definition">
+            <h2 class="section-title reveal">ความหมาย</h2>
+            <div class="def-card reveal">
+                <p class="def-text">
+                    ผลกระทบของเทคโนโลยี หมายถึง <br>
+                    <span class="def-highlight">การเปลี่ยนแปลงที่เกิดขึ้นต่อมนุษย์ สังคม เศรษฐกิจ และสิ่งแวดล้อม</span>
+                    <br>จากการใช้หรือพัฒนาเทคโนโลยี
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 3: POSITIVE IMPACTS -->
+        <section id="positive" class="impact-section">
+            <h2 class="section-title reveal">ผลกระทบด้านบวก <span class="highlight">Positive</span></h2>
+            <p class="section-subtitle reveal">เทคโนโลยีช่วยยกระดับคุณภาพชีวิตในมิติต่างๆ</p>
+            
+            <div class="grid-container">
+                <!-- Card 1 -->
+                <div class="card positive reveal">
+                    <span class="card-icon">👤</span>
+                    <h3 class="card-title">ด้านมนุษย์</h3>
+                    <ul>
+                        <li>การแพทย์พัฒนา รักษาโรคได้ดีขึ้น</li>
+                        <li>การสื่อสารสะดวกรวดเร็ว</li>
+                        <li>การเรียนรู้ออนไลน์ไร้ขีดจำกัด</li>
+                    </ul>
+                </div>
+                <!-- Card 2 -->
+                <div class="card positive reveal">
+                    <span class="card-icon">🤝</span>
+                    <h3 class="card-title">ด้านสังคม</h3>
+                    <ul>
+                        <li>การติดต่อสื่อสารรวดเร็ว</li>
+                        <li>การทำงานร่วมกันง่ายขึ้น</li>
+                        <li>เข้าถึงข้อมูลข่าวสารทั่วโลก</li>
+                    </ul>
+                </div>
+                <!-- Card 3 -->
+                <div class="card positive reveal">
+                    <span class="card-icon">📈</span>
+                    <h3 class="card-title">ด้านเศรษฐกิจ</h3>
+                    <ul>
+                        <li>เพิ่มประสิทธิภาพการผลิต</li>
+                        <li>เกิดธุรกิจใหม่ (Startup)</li>
+                        <li>เพิ่มโอกาสทางอาชีพ</li>
+                    </ul>
+                </div>
+                <!-- Card 4 -->
+                <div class="card positive reveal">
+                    <span class="card-icon">🌱</span>
+                    <h3 class="card-title">ด้านสิ่งแวดล้อม</h3>
+                    <ul>
+                        <li>เทคโนโลยีพลังงานสะอาด</li>
+                        <li>ระบบจัดการทรัพยากร</li>
+                        <li>การเกษตรอัจฉริยะ (Smart Farm)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: NEGATIVE IMPACTS -->
+        <section id="negative" class="impact-section">
+            <h2 class="section-title reveal">ผลกระทบด้านลบ <span style="color: var(--negative-color);">Negative</span></h2>
+            <p class="section-subtitle reveal">ผลเสียที่ต้องตระหนักและเฝ้าระวัง</p>
+            
+            <div class="grid-container">
+                <!-- Card 1 -->
+                <div class="card negative reveal">
+                    <span class="card-icon">📱</span>
+                    <h3 class="card-title">ด้านมนุษย์</h3>
+                    <ul>
+                        <li>เสพติดเทคโนโลยี</li>
+                        <li>ปัญหาสุขภาพจากหน้าจอ</li>
+                        <li>ขาดการปฏิสัมพันธ์ในชีวิตจริง</li>
+                    </ul>
+                </div>
+                <!-- Card 2 -->
+                <div class="card negative reveal">
+                    <span class="card-icon">⚠️</span>
+                    <h3 class="card-title">ด้านสังคม</h3>
+                    <ul>
+                        <li>ข่าวปลอม (Fake News)</li>
+                        <li>การกลั่นแกล้งออนไลน์</li>
+                        <li>ความเหลื่อมล้ำด้านเทคโนโลยี</li>
+                    </ul>
+                </div>
+                <!-- Card 3 -->
+                <div class="card negative reveal">
+                    <span class="card-icon">📉</span>
+                    <h3 class="card-title">ด้านเศรษฐกิจ</h3>
+                    <ul>
+                        <li>การแทนที่แรงงานด้วย AI/Robot</li>
+                        <li>ความเหลื่อมล้ำทางรายได้</li>
+                        <li>อาชญากรรมทางไซเบอร์</li>
+                    </ul>
+                </div>
+                <!-- Card 4 -->
+                <div class="card negative reveal">
+                    <span class="card-icon">🏭</span>
+                    <h3 class="card-title">ด้านสิ่งแวดล้อม</h3>
+                    <ul>
+                        <li>ขยะอิเล็กทรอนิกส์ (E-Waste)</li>
+                        <li>มลพิษจากอุตสาหกรรม</li>
+                        <li>การใช้พลังงานสูง</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: SOLUTIONS -->
+        <section id="solutions">
+            <h2 class="section-title reveal">แนวทางการป้องกันและแก้ไข</h2>
+            <div class="solution-container reveal">
+                <div class="solution-item">
+                    <div class="solution-number">1</div>
+                    ใช้เทคโนโลยีอย่างมีจริยธรรม
+                </div>
+                <div class="solution-item">
+                    <div class="solution-number">2</div>
+                    ตรวจสอบข้อมูลก่อนแชร์
+                </div>
+                <div class="solution-item">
+                    <div class="solution-number">3</div>
+                    ใช้เทคโนโลยีอย่างพอดี (Digital Detox)
+                </div>
+                <div class="solution-item">
+                    <div class="solution-number">4</div>
+                    ส่งเสริมการรีไซเคิลขยะอิเล็กทรอนิกส์
+                </div>
+                <div class="solution-item">
+                    <div class="solution-number">5</div>
+                    พัฒนาเทคโนโลยีที่เป็นมิตรกับสิ่งแวดล้อม
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: CRITICAL THINKING -->
+        <section id="questions">
+            <div class="question-box reveal">
+                <h2 style="font-size: 2rem; margin-bottom: 1rem;">🤔 คำถามชวนคิด (Critical Thinking)</h2>
+                <p>ให้นักเรียนลองวิเคราะห์และตอบคำถามต่อไปนี้</p>
+                <div class="question-list">
+                    <div class="question-item">
+                        <span>💡</span>
+                        เทคโนโลยีที่นักเรียนใช้มากที่สุดคืออะไร?
+                    </div>
+                    <div class="question-item">
+                        <span>⚖️</span>
+                        เทคโนโลยีนั้นมีผลดีและผลเสียต่อตัวนักเรียนอย่างไรบ้าง?
+                    </div>
+                    <div class="question-item">
+                        <span>🛡️</span>
+                        เราจะใช้เทคโนโลยีนั้นอย่างรับผิดชอบได้อย่างไร?
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>รายวิชาออกแบบและเทคโนโลยี | ระดับชั้นมัธยมศึกษาปีที่ 4</p>
+        <p>&copy; 2023 Technology Education Infographic</p>
+    </footer>
+
+    <!-- JAVASCRIPT FOR SCROLL ANIMATION -->
+    <script>
+        // ใช้ Intersection Observer เพื่อตรวจจับเมื่อ Element เข้าสู่หน้าจอ
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // หากต้องการให้ Animation เกิดขึ้นครั้งเดียว ให้ uncomment บรรทัดล่าง
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                threshold: 0.15 // เริ่ม Animation เมื่อ Element โผล่มา 15%
+            });
+
+            reveals.forEach(reveal => {
+                revealOnScroll.observe(reveal);
+            });
+        });
+    </script>
+</body>
+</html>
