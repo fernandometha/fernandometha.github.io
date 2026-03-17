@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Computing - บทเรียน ม.6</title>
+    
+    <!-- Google Fonts: Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #4F46E5; /* Indigo */
+            --secondary-color: #0EA5E9; /* Sky Blue */
+            --accent-color: #8B5CF6; /* Violet */
+            --dark-bg: #1E293B;
+            --light-bg: #F8FAFC;
+            --white: #ffffff;
+            --text-main: #334155;
+            --text-light: #64748B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Animation Classes --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: -50px;
+            left: -50px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 800px;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .scroll-down {
+            margin-top: 3rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* --- Container --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* --- Section Titles --- */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background: var(--secondary-color);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- Meaning Section --- */
+        .meaning-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .meaning-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .resource-list li {
+            list-style: none;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .resource-list li i {
+            color: var(--secondary-color);
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* --- Characteristics Section --- */
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .char-box {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-color);
+            transition: transform 0.3s;
+        }
+
+        .char-box:hover {
+            transform: translateY(-10px);
+        }
+
+        .char-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Service Models (IaaS, PaaS, SaaS) --- */
+        .models-section {
+            background-color: #E0F2FE; /* Light Blue BG */
+        }
+
+        .models-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .model-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .model-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+        }
+
+        .iaas::before { background: #EF4444; }
+        .paas::before { background: #F59E0B; }
+        .saas::before { background: #10B981; }
+
+        .model-icon {
+            font-size: 3.5rem;
+            width: 80px;
+            text-align: center;
+        }
+
+        .iaas .model-icon { color: #EF4444; }
+        .paas .model-icon { color: #F59E0B; }
+        .saas .model-icon { color: #10B981; }
+
+        /* --- Examples Section --- */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .example-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .example-item:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .example-item i {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Pros & Cons --- */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .comp-card {
+            padding: 2rem;
+            border-radius: 20px;
+        }
+
+        .pros {
+            background: #DCFCE7; /* Light Green */
+            border: 2px solid #86EFAC;
+        }
+
+        .cons {
+            background: #FEE2E2; /* Light Red */
+            border: 2px solid #FCA5A5;
+        }
+
+        .comp-list li {
+            list-style: none;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: start;
+        }
+
+        .pros li i { color: #16A34A; margin-right: 10px; margin-top: 4px;}
+        .cons li i { color: #DC2626; margin-right: 10px; margin-top: 4px;}
+
+        /* --- Quiz Section --- */
+        .quiz-section {
+            background: var(--dark-bg);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .quiz-btn {
+            background: var(--white);
+            color: var(--text-main);
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .quiz-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-height: 1.5em;
+        }
+
+        .correct { color: #4ADE80; }
+        .wrong { color: #F87171; }
+
+        /* --- Footer --- */
+        footer {
+            background: #0F172A;
+            color: #94A3B8;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .meaning-grid, .comparison-grid, .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            .model-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .model-icon { margin-bottom: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Hero Section -->
+    <section class="hero">
+        <h1 class="reveal">การประมวลผลแบบคลาวด์</h1>
+        <h2 class="reveal" style="font-weight: 300; font-size: 1.5rem;">(Cloud Computing)</h2>
+        <p class="reveal">เทคโนโลยีที่ช่วยให้ผู้ใช้สามารถจัดเก็บข้อมูล ประมวลผล และใช้ซอฟต์แวร์ผ่านอินเทอร์เน็ต <br>โดยไม่ต้องติดตั้งหรือใช้เครื่องคอมพิวเตอร์ประสิทธิภาพสูง</p>
+        <div class="scroll-down reveal">
+            <i class="fa-solid fa-chevron-down fa-2x"></i>
+        </div>
+    </section>
+
+    <!-- 2. Meaning Section -->
+    <section class="container">
+        <h2 class="section-title reveal">Cloud Computing คืออะไร?</h2>
+        <div class="meaning-grid reveal">
+            <div class="meaning-card">
+                <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+                    คือการให้บริการทรัพยากรคอมพิวเตอร์ผ่านอินเทอร์เน็ต แทนที่จะเก็บข้อมูลไว้ในฮาร์ดดิสก์ของเครื่องตัวเอง หรือรันโปรแกรมบนเครื่องตัวเอง
+                </p>
+                <ul class="resource-list">
+                    <li><i class="fa-solid fa-server"></i> เซิร์ฟเวอร์ (Servers)</li>
+                    <li><i class="fa-solid fa-database"></i> ฐานข้อมูล (Databases)</li>
+                    <li><i class="fa-solid fa-network-wired"></i> ระบบเครือข่าย (Networking)</li>
+                    <li><i class="fa-solid fa-cloud"></i> พื้นที่จัดเก็บข้อมูล (Storage)</li>
+                    <li><i class="fa-solid fa-laptop-code"></i> ซอฟต์แวร์ (Software)</li>
+                </ul>
+            </div>
+            <div style="text-align: center;">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 15rem; color: var(--secondary-color); opacity: 0.2;"></i>
+                <p style="margin-top: 1rem; font-weight: bold; color: var(--primary-color);">เข้าถึงได้ทุกที่ ทุกเวลา</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Characteristics Section -->
+    <section class="container" style="background-color: #F1F5F9; border-radius: 30px;">
+        <h2 class="section-title reveal">ลักษณะสำคัญ</h2>
+        <div class="char-grid reveal">
+            <div class="char-box">
+                <i class="fa-solid fa-wifi char-icon"></i>
+                <h3>ใช้งานผ่านอินเทอร์เน็ต</h3>
+                <p>ต้องมีการเชื่อมต่อเครือข่าย</p>
+            </div>
+            <div class="char-box">
+                <i class="fa-solid fa-globe char-icon"></i>
+                <h3>เข้าถึงได้ทุกที่</h3>
+                <p>ไม่จำกัดสถานที่และอุปกรณ์</p>
+            </div>
+            <div class="char-box">
+                <i class="fa-solid fa-scale-balanced char-icon"></i>
+                <h3>ปรับขนาดได้</h3>
+                <p>เพิ่มหรือลดทรัพยากรตามความต้องการ</p>
+            </div>
+            <div class="char-box">
+                <i class="fa-solid fa-credit-card char-icon"></i>
+                <h3>จ่ายตามจริง</h3>
+                <p>Pay-as-you-go (ใช้เท่าไหร่จ่ายเท่านั้น)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Service Models Section -->
+    <section class="models-section">
+        <div class="container">
+            <h2 class="section-title reveal">รูปแบบบริการ (Service Models)</h2>
+            <div class="models-stack reveal">
+                
+                <!-- SaaS -->
+                <div class="model-card saas">
+                    <div class="model-icon"><i class="fa-solid fa-layer-group"></i></div>
+                    <div>
+                        <h3 style="color: #10B981;">SaaS (Software as a Service)</h3>
+                        <p><strong>ระดับผู้ใช้ทั่วไป:</strong> ให้บริการซอฟต์แวร์สำเร็จรูปผ่านอินเทอร์เน็ต ผู้ใช้ไม่ต้องติดตั้งโปรแกรม</p>
+                        <small>เช่น: Google Docs, Gmail, Netflix</small>
+                    </div>
+                </div>
+
+                <!-- PaaS -->
+                <div class="model-card paas">
+                    <div class="model-icon"><i class="fa-solid fa-code"></i></div>
+                    <div>
+                        <h3 style="color: #F59E0B;">PaaS (Platform as a Service)</h3>
+                        <p><strong>ระดับนักพัฒนา:</strong> ให้แพลตฟอร์มและเครื่องมือสำหรับเขียนโปรแกรมและสร้างแอปพลิเคชัน</p>
+                        <small>เช่น: Google App Engine, Heroku</small>
+                    </div>
+                </div>
+
+                <!-- IaaS -->
+                <div class="model-card iaas">
+                    <div class="model-icon"><i class="fa-solid fa-server"></i></div>
+                    <div>
+                        <h3 style="color: #EF4444;">IaaS (Infrastructure as a Service)</h3>
+                        <p><strong>ระดับระบบ:</strong> ให้เช่าโครงสร้างพื้นฐาน เช่น เซิร์ฟเวอร์เสมือน, พื้นที่เก็บข้อมูล</p>
+                        <small>เช่น: Amazon EC2, Google Compute Engine</small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Examples Section -->
+    <section class="container">
+        <h2 class="section-title reveal">ตัวอย่างในชีวิตประจำวัน</h2>
+        <div class="examples-grid reveal">
+            <div class="example-item">
+                <i class="fa-brands fa-google-drive" style="color: #4285F4;"></i>
+                <p>Google Drive</p>
+            </div>
+            <div class="example-item">
+                <i class="fa-brands fa-dropbox" style="color: #0061FE;"></i>
+                <p>Dropbox</p>
+            </div>
+            <div class="example-item">
+                <i class="fa-brands fa-microsoft" style="color: #00A4EF;"></i>
+                <p>OneDrive</p>
+            </div>
+            <div class="example-item">
+                <i class="fa-solid fa-file-word" style="color: #2B579A;"></i>
+                <p>Google Docs</p>
+            </div>
+            <div class="example-item">
+                <i class="fa-brands fa-netflix" style="color: #E50914;"></i>
+                <p>Netflix</p>
+            </div>
+            <div class="example-item">
+                <i class="fa-brands fa-spotify" style="color: #1DB954;"></i>
+                <p>Spotify</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6 & 7. Pros & Cons Section -->
+    <section class="container">
+        <div class="comparison-grid reveal">
+            <div class="comp-card pros">
+                <h3 style="color: #16A34A; margin-bottom: 1rem; font-size: 1.5rem;"><i class="fa-solid fa-thumbs-up"></i> ข้อดี</h3>
+                <ul class="comp-list">
+                    <li><i class="fa-solid fa-check"></i> ลดค่าใช้จ่ายด้านฮาร์ดแวร์</li>
+                    <li><i class="fa-solid fa-check"></i> เข้าถึงข้อมูลได้ทุกที่ทุกเวลา</li>
+                    <li><i class="fa-solid fa-check"></i> ทำงานร่วมกัน (Collaboration) ได้ง่าย</li>
+                    <li><i class="fa-solid fa-check"></i> มีระบบสำรองข้อมูลอัตโนมัติ</li>
+                </ul>
+            </div>
+            <div class="comp-card cons">
+                <h3 style="color: #DC2626; margin-bottom: 1rem; font-size: 1.5rem;"><i class="fa-solid fa-triangle-exclamation"></i> ข้อควรระวัง</h3>
+                <ul class="comp-list">
+                    <li><i class="fa-solid fa-xmark"></i> ต้องพึ่งพาการเชื่อมต่ออินเทอร์เน็ต</li>
+                    <li><i class="fa-solid fa-xmark"></i> ความเสี่ยงด้านความปลอดภัยของข้อมูล</li>
+                    <li><i class="fa-solid fa-xmark"></i> ปัญหาความเป็นส่วนตัว (Privacy)</li>
+                    <li><i class="fa-solid fa-xmark"></i> หากผู้ให้บริการปิดตัว อาจสูญเสียข้อมูล</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Organization Use -->
+    <section class="container" style="text-align: center;">
+        <h2 class="section-title reveal">การใช้งานในองค์กร</h2>
+        <div class="char-grid reveal">
+            <div class="char-box" style="border-bottom-color: var(--secondary-color);">
+                <i class="fa-solid fa-building char-icon" style="color: var(--secondary-color);"></i>
+                <h4>เก็บข้อมูลบริษัท</h4>
+            </div>
+            <div class="char-box" style="border-bottom-color: var(--secondary-color);">
+                <i class="fa-solid fa-chalkboard-user char-icon" style="color: var(--secondary-color);"></i>
+                <h4>ระบบเรียนออนไลน์</h4>
+            </div>
+            <div class="char-box" style="border-bottom-color: var(--secondary-color);">
+                <i class="fa-solid fa-rotate char-icon" style="color: var(--secondary-color);"></i>
+                <h4>ระบบ Disaster Recovery</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Mini Quiz -->
+    <section class="quiz-section">
+        <div class="quiz-container reveal">
+            <h3 style="margin-bottom: 1rem;">Mini Quiz: ทดสอบความเข้าใจ</h3>
+            <p>ข้อใดคือบริการ Cloud แบบซอฟต์แวร์ (Software as a Service)?</p>
+            
+            <div class="quiz-options">
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">A. ซอฟต์แวร์ที่ติดตั้งในเครื่อง</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, true)">B. SaaS</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">C. ฮาร์ดแวร์</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">D. ระบบเครือข่าย</button>
+            </div>
+            
+            <div id="feedback" class="feedback"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2023 Educational Infographic - Cloud Computing for Grade 12</p>
+        <p>Designed for Learning</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 1. Scroll Animation Logic
+        window.addEventListener('scroll', reveal);
+
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+
+            for (var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+
+                if (revealtop < windowheight - revealpoint) {
+                    reveals[i].classList.add('active');
+                } else {
+                    // Optional: Remove class to animate again on scroll up
+                    // reveals[i].classList.remove('active'); 
+                }
+            }
+        }
+        
+        // Trigger once on load
+        reveal();
+
+        // 2. Quiz Logic
+        function checkAnswer(btn, isCorrect) {
+            const feedback = document.getElementById('feedback');
+            const allBtns = document.querySelectorAll('.quiz-btn');
+
+            // Reset styles
+            allBtns.forEach(b => {
+                b.style.background = 'white';
+                b.style.color = '#334155';
+                b.disabled = true; // Disable buttons after answer
+            });
+
+            if (isCorrect) {
+                btn.style.background = '#4ADE80'; // Green
+                btn.style.color = '#064E3B';
+                feedback.innerHTML = '<i class="fa-solid fa-check-circle"></i> ถูกต้อง! SaaS คือบริการซอฟต์แวร์';
+                feedback.className = 'feedback correct';
+            } else {
+                btn.style.background = '#F87171'; // Red
+                btn.style.color = '#7F1D1D';
+                feedback.innerHTML = '<i class="fa-solid fa-xmark-circle"></i> ยังไม่ถูกต้อง ลองใหม่นะ';
+                feedback.className = 'feedback wrong';
+                
+                // Enable buttons again if wrong (optional feature)
+                setTimeout(() => {
+                    allBtns.forEach(b => b.disabled = false);
+                    btn.style.background = 'white';
+                    btn.style.color = '#334155';
+                    feedback.innerHTML = '';
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
