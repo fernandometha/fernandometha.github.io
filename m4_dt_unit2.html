@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทเรียน: การเปลี่ยนแปลงของเทคโนโลยี</title>
+    
+    <!-- Google Fonts: Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --primary-color: #0f4c81; /* Classic Blue */
+            --secondary-color: #00b4d8; /* Cyan */
+            --accent-color: #ff9f1c; /* Orange for highlights */
+            --bg-light: #f8f9fa;
+            --text-dark: #333;
+            --text-light: #fff;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --transition: all 0.4s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Utility Classes --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--secondary-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .section-title-wrapper {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        /* --- 1. Hero Section --- */
+        #hero {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), #0077b6);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content {
+            z-index: 2;
+            padding: 20px;
+            animation: fadeInDown 1.5s ease;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-desc {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+        }
+
+        .hero-icons {
+            font-size: 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .hero-icons i {
+            color: var(--secondary-color);
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 50%;
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+        }
+
+        .hero-icons i:hover {
+            transform: scale(1.2) rotate(10deg);
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* --- 2. Definition Section --- */
+        #definition {
+            background: white;
+        }
+
+        .def-box {
+            background: linear-gradient(to right, #e0f7fa, #ffffff);
+            border-left: 5px solid var(--secondary-color);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .def-box strong {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* --- 3. Factors Section (Cards) --- */
+        #factors {
+            background-color: #f0f4f8;
+        }
+
+        .factors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .factor-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .factor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .factor-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .factor-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .factor-desc {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .factor-example {
+            background: #eefbff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .factor-example span {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        /* --- 4. Timeline Section --- */
+        #timeline {
+            background: white;
+        }
+
+        .timeline-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* The vertical line */
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid var(--accent-color);
+            top: 20px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+            text-align: right;
+        }
+
+        .right {
+            left: 50%;
+            text-align: left;
+        }
+
+        .right::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+        }
+
+        .timeline-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        /* --- 5. Impacts Section --- */
+        #impacts {
+            background: linear-gradient(to bottom right, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+        }
+        
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        #impacts h2 {
+            color: white;
+        }
+        #impacts h2::after {
+            background: white;
+        }
+
+        .impacts-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .impact-box {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .impact-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .impact-list {
+            list-style: none;
+        }
+
+        .impact-list li {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .impact-list li i {
+            margin-right: 15px;
+            width: 20px;
+        }
+
+        .good i { color: #4caf50; }
+        .bad i { color: #ff5252; }
+
+        /* --- 6. Think Section --- */
+        #think {
+            background: white;
+            text-align: center;
+        }
+
+        .think-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .think-card {
+            background: #fff;
+            border: 2px dashed var(--primary-color);
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            transition: var(--transition);
+        }
+
+        .think-card:hover {
+            background: #f0f8ff;
+            transform: scale(1.02);
+        }
+
+        .think-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #222;
+            color: #888;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-10px);}
+            60% {transform: translateX(-50%) translateY(-5px);}
+        }
+
+        /* Scroll Reveal Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Responsive Design --- */
+        @media screen and (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-desc { font-size: 1.1rem; }
+            
+            .timeline-container::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-item::after { left: 21px; }
+            .left { text-align: left; }
+            .right { left: 0; }
+            
+            .impacts-wrapper { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Hero Section -->
+    <header id="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">การเปลี่ยนแปลงของเทคโนโลยี</h1>
+            <p class="hero-desc">"เทคโนโลยีมีการเปลี่ยนแปลงอยู่ตลอดเวลา เพื่อตอบสนองความต้องการของมนุษย์และแก้ปัญหาในสังคม"</p>
+            <div class="hero-icons">
+                <i class="fas fa-lightbulb" title="นวัตกรรม"></i>
+                <i class="fas fa-network-wired" title="เครือข่าย"></i>
+                <i class="fas fa-rocket" title="วิวัฒนาการ"></i>
+            </div>
+        </div>
+        <div class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- 2. Definition Section -->
+    <section id="definition" class="section-padding reveal">
+        <div class="container">
+            <div class="section-title-wrapper">
+                <h2>ความหมาย</h2>
+            </div>
+            <div class="def-box">
+                <strong>การเปลี่ยนแปลงของเทคโนโลยี คืออะไร?</strong>
+                <p>คือการพัฒนา ปรับปรุง หรือคิดค้นเทคโนโลยีใหม่ ๆ เพื่อให้มีประสิทธิภาพมากขึ้น สะดวกขึ้น และตอบสนองความต้องการของมนุษย์ได้ดียิ่งขึ้นกว่าเดิม</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Factors Section -->
+    <section id="factors" class="section-padding reveal">
+        <div class="container">
+            <div class="section-title-wrapper">
+                <h2>ปัจจัยที่ทำให้เทคโนโลยีเปลี่ยนแปลง</h2>
+            </div>
+            <div class="factors-grid">
+                <!-- Card 1 -->
+                <div class="factor-card">
+                    <div class="factor-icon"><i class="fas fa-user-check"></i></div>
+                    <h3 class="factor-title">1. ความต้องการของมนุษย์</h3>
+                    <p class="factor-desc">มนุษย์ต้องการความสะดวก รวดเร็ว และคุณภาพชีวิตที่ดีขึ้น</p>
+                    <div class="factor-example">ตัวอย่าง: <span>โทรศัพท์บ้าน → สมาร์ตโฟน</span></div>
+                </div>
+                <!-- Card 2 -->
+                <div class="factor-card">
+                    <div class="factor-icon"><i class="fas fa-microscope"></i></div>
+                    <h3 class="factor-title">2. ความก้าวหน้าทางวิทยาศาสตร์</h3>
+                    <p class="factor-desc">การค้นพบทางวิทยาศาสตร์ช่วยให้เกิดเทคโนโลยีใหม่</p>
+                    <div class="factor-example">ตัวอย่าง: <span>อินเทอร์เน็ต, ดาวเทียม</span></div>
+                </div>
+                <!-- Card 3 -->
+                <div class="factor-card">
+                    <div class="factor-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="factor-title">3. เศรษฐกิจและการแข่งขัน</h3>
+                    <p class="factor-desc">องค์กรหรือประเทศพัฒนาเทคโนโลยีเพื่อแข่งขันทางเศรษฐกิจ</p>
+                    <div class="factor-example">ตัวอย่าง: <span>รถยนต์ไฟฟ้า</span></div>
+                </div>
+                <!-- Card 4 -->
+                <div class="factor-card">
+                    <div class="factor-icon"><i class="fas fa-tools"></i></div>
+                    <h3 class="factor-title">4. ปัญหาของเทคโนโลยีเดิม</h3>
+                    <p class="factor-desc">เทคโนโลยีเดิมอาจไม่ตอบโจทย์ จึงต้องพัฒนาใหม่</p>
+                    <div class="factor-example">ตัวอย่าง: <span>หลอดไส้ → หลอด LED</span></div>
+                </div>
+                <!-- Card 5 -->
+                <div class="factor-card">
+                    <div class="factor-icon"><i class="fas fa-leaf"></i></div>
+                    <h3 class="factor-title">5. สิ่งแวดล้อมและทรัพยากร</h3>
+                    <p class="factor-desc">เทคโนโลยีต้องปรับตัวเพื่อลดผลกระทบต่อสิ่งแวดล้อม</p>
+                    <div class="factor-example">ตัวอย่าง: <span>พลังงานสะอาด, พลังงานแสงอาทิตย์</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Timeline Section -->
+    <section id="timeline" class="section-padding reveal">
+        <div class="container">
+            <div class="section-title-wrapper">
+                <h2>ตัวอย่างการเปลี่ยนแปลง (การสื่อสาร)</h2>
+            </div>
+            <div class="timeline-container">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>จดหมาย</h3>
+                        <p>การสื่อสารแบบดั้งเดิม ใช้เวลานาน</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>โทรศัพท์บ้าน</h3>
+                        <p>การสื่อสารทางเสียงแบบ Real-time แต่ติดที่</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>โทรศัพท์มือถือ</h3>
+                        <p>พกพาได้ โทรได้ทุกที่</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>สมาร์ตโฟน</h3>
+                        <p>ทำได้ทุกอย่าง อินเทอร์เน็ต โซเชียล</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>วิดีโอคอล / AI</h3>
+                        <p>เห็นหน้ากัน และมีการใช้ AI ช่วยแปลภาษา</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Impacts Section -->
+    <section id="impacts" class="section-padding reveal">
+        <div class="container">
+            <div class="section-title-wrapper">
+                <h2>ผลกระทบของการเปลี่ยนแปลง</h2>
+            </div>
+            <div class="impacts-wrapper">
+                <!-- Pros -->
+                <div class="impact-box good">
+                    <h3><i class="fas fa-thumbs-up"></i> ผลดี</h3>
+                    <ul class="impact-list">
+                        <li><i class="fas fa-check-circle"></i> ทำให้ชีวิตสะดวกและรวดเร็วขึ้น</li>
+                        <li><i class="fas fa-check-circle"></i> เพิ่มประสิทธิภาพการทำงาน</li>
+                        <li><i class="fas fa-check-circle"></i> สร้างนวัตกรรมใหม่ๆ ที่ไม่เคยมีมาก่อน</li>
+                        <li><i class="fas fa-check-circle"></i> การเข้าถึงข้อมูลข่าวสารง่ายขึ้น</li>
+                    </ul>
+                </div>
+                <!-- Cons -->
+                <div class="impact-box bad">
+                    <h3><i class="fas fa-exclamation-triangle"></i> ผลกระทบที่ต้องระวัง</h3>
+                    <ul class="impact-list">
+                        <li><i class="fas fa-times-circle"></i> การพึ่งพาเทคโนโลยีมากเกินไป</li>
+                        <li><i class="fas fa-times-circle"></i> ปัญหาขยะอิเล็กทรอนิกส์และสิ่งแวดล้อม</li>
+                        <li><i class="fas fa-times-circle"></i> การเปลี่ยนแปลงอาชีพ (บางอาชีพหายไป)</li>
+                        <li><i class="fas fa-times-circle"></i> ช่องว่างระหว่างวัยและสังคม</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Think Section -->
+    <section id="think" class="section-padding reveal">
+        <div class="container">
+            <div class="section-title-wrapper">
+                <h2>คำถามชวนคิด</h2>
+            </div>
+            <div class="think-cards">
+                <div class="think-card">
+                    <div class="think-question"><i class="fas fa-question-circle"></i> เทคโนโลยีใดในชีวิตประจำวันที่เปลี่ยนแปลงมากที่สุดในช่วง 10 ปีที่ผ่านมา?</div>
+                    <p>เพราะเหตุใดจึงเปลี่ยนแปลงรวดเร็วเช่นนั้น?</p>
+                </div>
+                <div class="think-card">
+                    <div class="think-question"><i class="fas fa-question-circle"></i> ปัจจัยใดมีผลต่อการเปลี่ยนแปลงของเทคโนโลยีมากที่สุด?</div>
+                    <p>ระหว่าง "ความต้องการมนุษย์" หรือ "สิ่งแวดล้อม"? เพราะอะไร?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>รายวิชา ออกแบบและเทคโนโลยี | ระดับชั้นมัธยมศึกษาปีที่ 4</p>
+        <p>&copy; 2023 Educational Infographic Design</p>
+    </footer>
+
+    <!-- JavaScript for Animations -->
+    <script>
+        // Function to handle scroll animations
+        window.addEventListener('scroll', reveal);
+
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+
+            for (var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+
+                if (revealtop < windowheight - revealpoint) {
+                    reveals[i].classList.add('active');
+                } else {
+                    reveals[i].classList.remove('active');
+                }
+            }
+        }
+        
+        // Trigger once on load
+        reveal();
+    </script>
+</body>
+</html>
