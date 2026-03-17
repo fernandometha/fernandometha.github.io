@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แนวคิดเกี่ยวกับปัญญาประดิษฐ์ (AI) - วิทยาการคำนวณ ม.6</title>
+    <!-- นำเข้าฟอนต์ภาษาไทยสวยๆ จาก Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+         * =========================================
+         *  CSS VARIABLES & GLOBAL STYLES
+         * =========================================
+         */
+        :root {
+            --primary-color: #2563eb;       /* น้ำเงินหลัก */
+            --secondary-color: #7c3aed;     /* ม่วง */
+            --accent-color: #06b6d4;        /* ฟ้าสว่าง */
+            --bg-dark: #0f172a;             /* พื้นหลังเข้ม */
+            --bg-card: #1e293b;             /* พื้นหลังการ์ด */
+            --text-light: #f8fafc;          /* ตัวหนังสือสว่าง */
+            --text-gray: #94a3b8;           /* ตัวหนังสือเทา */
+            --success: #10b981;             /* สีเขียว (เฉลยถูก) */
+            --error: #ef4444;               /* สีแดง (เฉลยผิด) */
+            --font-main: 'Prompt', sans-serif;
+            --font-body: 'Sarabun', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-main);
+            font-weight: 700;
+        }
+
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 
+         * =========================================
+         *  HEADER SECTION
+         * =========================================
+         */
+        header {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background decoration */
+        header::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--primary-color);
+            filter: blur(150px);
+            opacity: 0.2;
+            border-radius: 50%;
+            top: -50px;
+            left: -50px;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: var(--secondary-color);
+            filter: blur(150px);
+            opacity: 0.2;
+            border-radius: 50%;
+            bottom: -50px;
+            right: -50px;
+        }
+
+        .header-content {
+            z-index: 1;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .tag {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-top: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            animation: bounce 2s infinite;
+            font-size: 2rem;
+            color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        /* 
+         * =========================================
+         *  SECTION 2: WHAT IS AI?
+         * =========================================
+         */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--accent-color);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--secondary-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .ai-definition {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .def-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .def-list {
+            list-style: none;
+        }
+
+        .def-list li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .def-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .def-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .mini-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s;
+        }
+
+        .mini-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .mini-card span {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 
+         * =========================================
+         *  SECTION 3: COMPONENTS (4 BOXES)
+         * =========================================
+         */
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .comp-box {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border-top: 4px solid var(--accent-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comp-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(6, 182, 212, 0.2);
+        }
+
+        .comp-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: rgba(255,255,255,0.1);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .comp-box h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        /* 
+         * =========================================
+         *  SECTION 4: TYPES OF AI
+         * =========================================
+         */
+        .types-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .type-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 300px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .type-card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .type-level {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .level-1 { background: rgba(6, 182, 212, 0.2); color: var(--accent-color); }
+        .level-2 { background: rgba(124, 58, 237, 0.2); color: var(--secondary-color); }
+        .level-3 { background: rgba(239, 68, 68, 0.2); color: var(--error); }
+
+        /* 
+         * =========================================
+         *  SECTION 5: EXAMPLES (GRID)
+         * =========================================
+         */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .example-item {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: default;
+        }
+
+        .example-item:hover {
+            background: var(--primary-color);
+        }
+
+        .example-item span {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 
+         * =========================================
+         *  SECTION 6: TIMELINE
+         * =========================================
+         */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--bg-card);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+
+        .tl-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .tl-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: var(--bg-dark);
+            border: 4px solid var(--accent-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left { left: 0; }
+        .right { left: 50%; }
+        .right::after { left: -10px; }
+
+        .tl-content {
+            padding: 20px;
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* 
+         * =========================================
+         *  SECTION 7 & 8: PROS & CONS
+         * =========================================
+         */
+        .pros-cons-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .pc-box {
+            padding: 2rem;
+            border-radius: 20px;
+        }
+
+        .pc-pros {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+        }
+
+        .pc-cons {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+        }
+
+        .pc-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .pc-list li span { margin-right: 10px; }
+
+        /* 
+         * =========================================
+         *  SECTION 9: SUMMARY
+         * =========================================
+         */
+        .summary-box {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        .summary-box p {
+            font-size: 1.3rem;
+            font-weight: 300;
+        }
+
+        /* 
+         * =========================================
+         *  SECTION 10: QUIZ
+         * =========================================
+         */
+        .quiz-container {
+            background: var(--bg-card);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-btn {
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+            font-family: var(--font-main);
+            font-size: 1rem;
+        }
+
+        .quiz-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .quiz-btn.correct {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .quiz-btn.wrong {
+            background: var(--error);
+            border-color: var(--error);
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            font-weight: bold;
+            text-align: center;
+            min-height: 1.5rem;
+        }
+
+        /* 
+         * =========================================
+         *  FOOTER
+         * =========================================
+         */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            background: #000;
+            color: var(--text-gray);
+            margin-top: 4rem;
+        }
+
+        /* 
+         * =========================================
+         *  RESPONSIVE DESIGN
+         * =========================================
+         */
+        @media screen and (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .ai-definition { grid-template-columns: 1fr; }
+            .timeline::after { left: 31px; }
+            .tl-container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .tl-container::after { left: 21px; }
+            .left::after, .right::after { left: 21px; }
+            .right { left: 0%; }
+            .pros-cons-wrapper { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-content reveal">
+            <span class="tag">วิทยาการคำนวณ ม.6</span>
+            <h1>แนวคิดเกี่ยวกับปัญญาประดิษฐ์</h1>
+            <p style="font-size: 1.5rem; color: var(--accent-color); font-weight: bold;">Artificial Intelligence (AI)</p>
+            <p class="tagline">เทคโนโลยีที่ทำให้คอมพิวเตอร์สามารถคิด เรียนรู้ และตัดสินใจได้คล้ายมนุษย์</p>
+        </div>
+        <div class="scroll-down" onclick="document.getElementById('section-def').scrollIntoView({behavior: 'smooth'})">
+            ▼
+        </div>
+    </header>
+
+    <!-- Section 2: What is AI? -->
+    <section id="section-def">
+        <h2 class="section-title reveal">ปัญญาประดิษฐ์คืออะไร?</h2>
+        <div class="ai-definition reveal">
+            <div class="def-text">
+                <h3>AI คืออะไร?</h3>
+                <p style="margin-bottom: 1rem; color: var(--text-gray);">
+                    AI (Artificial Intelligence) คือ เทคโนโลยีที่ทำให้คอมพิวเตอร์หรือเครื่องจักรสามารถจำลองความฉลาดของมนุษย์ได้ โดยเน้นความสามารถหลักๆ ดังนี้:
+                </p>
+                <ul class="def-list">
+                    <li>เรียนรู้จากข้อมูล (Learning)</li>
+                    <li>วิเคราะห์และตัดสินใจ (Reasoning)</li>
+                    <li>แก้ปัญหา (Problem Solving)</li>
+                    <li>ทำงานที่ต้องใช้สติปัญญา (Perception)</li>
+                </ul>
+            </div>
+            <div class="def-cards">
+                <div class="mini-card">
+                    <span>👁️</span>
+                    <h4>จดจำภาพ</h4>
+                </div>
+                <div class="mini-card">
+                    <span>🎙️</span>
+                    <h4>รู้จำเสียง</h4>
+                </div>
+                <div class="mini-card">
+                    <span>🌐</span>
+                    <h4>แปลภาษา</h4>
+                </div>
+                <div class="mini-card">
+                    <span>📊</span>
+                    <h4>วิเคราะห์ข้อมูล</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Key Components -->
+    <section>
+        <h2 class="section-title reveal">องค์ประกอบสำคัญของ AI</h2>
+        <div class="components-grid reveal">
+            <div class="comp-box">
+                <div class="comp-icon">📂</div>
+                <h4>1. ข้อมูล (Data)</h4>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">ข้อมูลจำนวนมากที่ใช้เป็นวัตถุดิบในการฝึกสอน AI</p>
+            </div>
+            <div class="comp-box">
+                <div class="comp-icon">⚙️</div>
+                <h4>2. อัลกอริทึม (Algorithm)</h4>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">สูตรหรือกฎเกณฑ์ทางคณิตศาสตร์ในการประมวลผล</p>
+            </div>
+            <div class="comp-box">
+                <div class="comp-icon">🧠</div>
+                <h4>3. Machine Learning</h4>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">กระบวนการที่ทำให้ AI เรียนรู้และปรับปรุงตัวเองได้</p>
+            </div>
+            <div class="comp-box">
+                <div class="comp-icon">💻</div>
+                <h4>4. พลังประมวลผล</h4>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">Hardware ที่มีความเร็วสูงในการคำนวณซับซ้อน</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Types of AI -->
+    <section>
+        <h2 class="section-title reveal">ประเภทของ AI</h2>
+        <div class="types-container reveal">
+            <div class="type-card">
+                <span class="type-level level-1">Narrow AI</span>
+                <h3>AI แบบแคบ</h3>
+                <p>ทำงานเฉพาะด้านเก่งมาก แต่ทำอย่างอื่นไม่ได้</p>
+                <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:1rem 0;">
+                <p style="font-size:0.9rem; color:var(--text-gray);">เช่น: ระบบแนะนำสินค้า, Siri, Google Translate</p>
+            </div>
+            <div class="type-card">
+                <span class="type-level level-2">General AI</span>
+                <h3>AI แบบทั่วไป</h3>
+                <p>มีความฉลาดเทียบเท่ามนุษย์ ทำงานได้หลากหลาย</p>
+                <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:1rem 0;">
+                <p style="font-size:0.9rem; color:var(--text-gray);">สถานะ: ยังอยู่ในขั้นการพัฒนาและวิจัย</p>
+            </div>
+            <div class="type-card">
+                <span class="type-level level-3">Super AI</span>
+                <h3>AI แบบเหนือมนุษย์</h3>
+                <p>มีความฉลาดเหนือกว่ามนุษย์ในทุกด้าน</p>
+                <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:1rem 0;">
+                <p style="font-size:0.9rem; color:var(--text-gray);">สถานะ: เป็นแนวคิดในอนาคต (Sci-Fi)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Examples -->
+    <section>
+        <h2 class="section-title reveal">AI ในชีวิตประจำวัน</h2>
+        <div class="examples-grid reveal">
+            <div class="example-item"><span>📱</span>ผู้ช่วยอัจฉริยะ</div>
+            <div class="example-item"><span>🎬</span>แนะนำวิดีโอ</div>
+            <div class="example-item"><span>🚗</span>รถยนต์ไร้คนขับ</div>
+            <div class="example-item"><span>🏥</span>วิเคราะห์โรค</div>
+            <div class="example-item"><span>💬</span>Chatbot</div>
+            <div class="example-item"><span>🔒</span>สแกนใบหน้า</div>
+            <div class="example-item"><span>🎮</span>เกม NPC</div>
+            <div class="example-item"><span>🎵</span>แต่งเพลง</div>
+        </div>
+    </section>
+
+    <!-- Section 6: Workflow Timeline -->
+    <section>
+        <h2 class="section-title reveal">ขั้นตอนการทำงานของ AI</h2>
+        <div class="timeline reveal">
+            <div class="tl-container left">
+                <div class="tl-content">
+                    <h3>1. เก็บรวบรวมข้อมูล</h3>
+                    <p style="font-size:0.9rem; color:var(--text-gray);">รวบรวมข้อมูลที่เกี่ยวข้องกับปัญหา</p>
+                </div>
+            </div>
+            <div class="tl-container right">
+                <div class="tl-content">
+                    <h3>2. เตรียมข้อมูล</h3>
+                    <p style="font-size:0.9rem; color:var(--text-gray);">ทำความสะอาดและจัดระเบียบข้อมูล</p>
+                </div>
+            </div>
+            <div class="tl-container left">
+                <div class="tl-content">
+                    <h3>3. ฝึกโมเดล (Training)</h3>
+                    <p style="font-size:0.9rem; color:var(--text-gray);">ใช้ Algorithm เรียนรู้จากข้อมูล</p>
+                </div>
+            </div>
+            <div class="tl-container right">
+                <div class="tl-content">
+                    <h3>4. ทดสอบ (Testing)</h3>
+                    <p style="font-size:0.9rem; color:var(--text-gray);">ตรวจสอบความแม่นยำของโมเดล</p>
+                </div>
+            </div>
+            <div class="tl-container left">
+                <div class="tl-content">
+                    <h3>5. ใช้งานจริง (Deployment)</h3>
+                    <p style="font-size:0.9rem; color:var(--text-gray);">นำโมเดลไปใช้แก้ปัญหา</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7 & 8: Pros & Cons -->
+    <section>
+        <h2 class="section-title reveal">ข้อดี vs ข้อจำกัด</h2>
+        <div class="pros-cons-wrapper reveal">
+            <div class="pc-box pc-pros">
+                <h3 style="color: var(--success); margin-bottom: 1rem;">✅ ข้อดีของ AI</h3>
+                <ul class="pc-list">
+                    <li><span>🚀</span> ทำงานรวดเร็วและแม่นยำ</li>
+                    <li><span>📈</span> วิเคราะห์ข้อมูลมหาศาลได้</li>
+                    <li><span>🤖</span> ทำงานแทนมนุษย์ในงานเสี่ยงอันตราย</li>
+                    <li><span>💡</span> ช่วยสนับสนุนการตัดสินใจ</li>
+                </ul>
+            </div>
+            <div class="pc-box pc-cons">
+                <h3 style="color: var(--error); margin-bottom: 1rem;">⚠️ ข้อจำกัดและผลกระทบ</h3>
+                <ul class="pc-list">
+                    <li><span>👷</span> อาจแทนที่แรงงานบางอาชีพ</li>
+                    <li><span>🔒</span> ปัญหาความเป็นส่วนตัว (Privacy)</li>
+                    <li><span>⚖️</span> อคติของข้อมูล (Bias)</li>
+                    <li><span>💰</span> ต้นทุนการพัฒนาสูง</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 9: Summary -->
+    <section>
+        <div class="summary-box reveal">
+            <h2 style="margin-bottom: 1rem;">สรุปความรู้</h2>
+            <p>
+                "ปัญญาประดิษฐ์เป็นเทคโนโลยีที่ทำให้คอมพิวเตอร์สามารถเรียนรู้ วิเคราะห์ และตัดสินใจได้ โดยอาศัยข้อมูล อัลกอริทึม และพลังประมวลผล ซึ่งกำลังมีบทบาทสำคัญต่อการพัฒนาเทคโนโลยีและสังคมในอนาคต"
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 10: Interactive Quiz -->
+    <section>
+        <h2 class="section-title reveal">ทดสอบความเข้าใจ</h2>
+        <div class="quiz-container reveal">
+            <h3 style="margin-bottom: 1rem;">ข้อใดคือองค์ประกอบสำคัญของ AI?</h3>
+            <div class="quiz-options">
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">A. ข้อมูล (Data)</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">B. อัลกอริทึม (Algorithm)</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">C. การเรียนรู้ของเครื่อง (Machine Learning)</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, true)">D. ถูกทุกข้อ</button>
+            </div>
+            <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>รายวิชา วิทยาการคำนวณ | ระดับชั้น มัธยมศึกษาปีที่ 6</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">© 2023 Educational Infographic Design</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // 1. Scroll Animation Logic
+        // ใช้ IntersectionObserver เพื่อตรวจจับเมื่อ Element เข้ามาในหน้าจอ
+        const observerOptions = {
+            threshold: 0.1 // Trigger เมื่อเห็น 10% ของ element
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 2. Quiz Logic
+        function checkAnswer(btn, isCorrect) {
+            const feedback = document.getElementById('quiz-feedback');
+            const allBtns = document.querySelectorAll('.quiz-btn');
+            
+            // Disable all buttons after selection
+            allBtns.forEach(button => {
+                button.disabled = true;
+                button.style.cursor = 'default';
+            });
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                feedback.innerHTML = "🎉 ถูกต้อง! องค์ประกอบหลักคือ ข้อมูล, อัลกอริทึม และ Machine Learning";
+                feedback.style.color = "var(--success)";
+            } else {
+                btn.classList.add('wrong');
+                feedback.innerHTML = "❌ ยังไม่ถูกต้อง ลองทบทวนส่วน 'องค์ประกอบสำคัญของ AI' อีกครั้งนะ";
+                feedback.style.color = "var(--error)";
+                
+                // Highlight the correct answer
+                allBtns[3].classList.add('correct'); // Index 3 is "ถูกทุกข้อ"
+            }
+        }
+    </script>
+</body>
+</html>
