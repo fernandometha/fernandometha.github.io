@@ -11,14 +11,11 @@
             --secondary-color: #4ECDC4;
             --accent-color: #FFE66D;
             --text-color: #2C3E50;
-            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            --pastel-gradient: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
-            --pastel-warm: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
         }
 
         body {
-            font-family: 'Nunito', 'Kanit', sans-serif;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            font-family: 'Kanit', 'Nunito', sans-serif;
+            background: linear-gradient(-45deg, #ffecd2 0%, #fcb69f 50%, #a1c4fd 100%);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             margin: 0;
@@ -27,6 +24,8 @@
             align-items: center;
             min-height: 100vh;
             color: var(--text-color);
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         @keyframes gradientBG {
@@ -37,19 +36,27 @@
 
         .game-container {
             background: rgba(255, 255, 255, 0.95);
-            width: 90%;
+            width: 100%;
             max-width: 600px;
             border-radius: 25px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             text-align: center;
             position: relative;
             overflow: hidden;
+            border: 4px solid white;
         }
 
-        h1, h2 {
+        h1 {
             color: #FF6B6B;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(255,107,107,0.2);
+        }
+
+        h2 {
+            color: #4ECDC4;
+            font-size: 1.4rem;
         }
 
         .btn {
@@ -57,18 +64,25 @@
             border: none;
             padding: 15px 40px;
             color: white;
+            font-family: 'Kanit', sans-serif;
             font-size: 1.2rem;
-            font-weight: bold;
+            font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             margin-top: 20px;
             box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+            width: 100%;
+            max-width: 300px;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.6);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
         }
 
         .screen {
@@ -89,116 +103,192 @@
         .stats-bar {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
-            font-weight: bold;
-            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1rem;
             color: #555;
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 10px;
         }
 
         .progress-container {
             width: 100%;
             background-color: #e0e0e0;
             border-radius: 10px;
-            margin-bottom: 20px;
-            height: 15px;
+            margin-bottom: 15px;
+            height: 12px;
             overflow: hidden;
         }
 
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            background: linear-gradient(90deg, #ff9a9e 0%, #fecfef 100%);
             transition: width 0.3s ease;
+            border-radius: 10px;
         }
 
         .timer-box {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: #FF6B6B;
-            font-weight: 900;
+            font-weight: 700;
             margin-bottom: 15px;
+            background: #fff0f0;
+            padding: 8px;
+            border-radius: 10px;
+            display: inline-block;
+            min-width: 150px;
         }
 
         .question-text {
-            font-size: 1.4rem;
-            margin-bottom: 25px;
-            font-weight: 700;
+            font-size: 1.3rem;
+            margin: 20px 0 25px;
+            font-weight: 600;
             color: #2C3E50;
+            line-height: 1.5;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 12px;
         }
 
         .option-btn {
             background: white;
             border: 3px solid #4ECDC4;
             color: #2C3E50;
-            padding: 15px;
+            padding: 12px 8px;
             border-radius: 15px;
+            font-family: 'Kanit', sans-serif;
             font-size: 1.1rem;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
-        .option-btn:hover {
+        .option-btn:hover:not(:disabled) {
             background: #4ECDC4;
             color: white;
+            transform: translateY(-2px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
         .option-btn.correct {
             background: #2ecc71 !important;
             border-color: #27ae60 !important;
             color: white !important;
+            animation: popIn 0.3s ease;
         }
 
         .option-btn.wrong {
             background: #e74c3c !important;
             border-color: #c0392b !important;
             color: white !important;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
         /* Result Screen */
         .score-circle {
-            width: 150px;
-            height: 150px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            margin: 20px auto;
-            box-shadow: 0 10px 20px rgba(118, 75, 162, 0.4);
+            margin: 15px auto;
+            box-shadow: 0 10px 25px rgba(118, 75, 162, 0.4);
+            border: 5px solid white;
         }
 
         .status-msg {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            font-weight: bold;
+            font-size: 1.4rem;
+            margin: 15px 0;
+            font-weight: 700;
+            min-height: 40px;
         }
 
         .pass { color: #27ae60; }
         .fail { color: #e74c3c; }
 
+        .feedback-text {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            font-size: 1rem;
+        }
+
         .instruction-box {
-            background-color: #f0f8ff;
-            border-left: 5px solid #4facfe;
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            border-radius: 15px;
             padding: 15px;
             text-align: left;
-            border-radius: 5px;
             margin-bottom: 20px;
-            color: #444;
+            color: #2C3E50;
+            font-size: 0.95rem;
+        }
+
+        .instruction-box h3 {
+            margin: 0 0 10px 0;
+            color: #FF6B6B;
+            font-size: 1.1rem;
+        }
+
+        .instruction-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .instruction-box li {
+            margin-bottom: 5px;
+        }
+
+        .english-word {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            color: #FF6B6B;
+            background: #fff0f5;
+            padding: 2px 8px;
+            border-radius: 5px;
         }
 
         @media (max-width: 500px) {
             .options-grid {
                 grid-template-columns: 1fr;
             }
+            h1 { font-size: 1.5rem; }
+            .question-text { font-size: 1.15rem; }
+            .option-btn { font-size: 1.2rem; padding: 15px; }
         }
     </style>
 </head>
@@ -207,37 +297,38 @@
 <div class="game-container">
     <!-- Start Screen -->
     <div id="start-screen" class="screen active">
-        <h1>🇬🇧 CVC Words Quiz 🇬🇧</h1>
-        <p style="font-size: 1.2rem;">วิชาภาษาอังกฤษเพิ่มเติม (ม.1)</p>
+        <h1>🇬🇧 เกมคำศัพท์ CVC Words 🇬🇧</h1>
+        <p style="font-size: 1.1rem; color: #666;">วิชาภาษาอังกฤษเพิ่มเติม • ชั้นมัธยมศึกษาปีที่ 1</p>
         
         <div class="instruction-box">
-            <h3>📜 วิธีเล่น:</h3>
+            <h3>📜 วิธีเล่นเกม:</h3>
             <ul>
-                <li>ตอบคำถามเกี่ยวกับคำศัพท์ 1 พยางค์ (CVC Words)</li>
-                <li>มีเวลา <strong>1 นาที</strong> ต่อข้อ</li>
-                <li>ตอบถูก <strong>+1 คะแนน</strong> ❌ ตอบผิด <strong>-1 คะแนน</strong></li>
-                <li>ต้องได้คะแนนรวม <strong>12 คะแนน</strong> ขึ้นไปจึงจะผ่าน</li>
+                <li>📝 มีคำถามทั้งหมด <strong>20 ข้อ</strong> เกี่ยวกับคำศัพท์ 1 พยางค์</li>
+                <li>⏰ มีเวลาตอบข้อละ <strong>60 วินาที</strong></li>
+                <li>✅ ตอบถูกได้ <strong>+1 คะแนน</strong></li>
+                <li>❌ ตอบผิดหรือหมดเวลา <strong>-1 คะแนน</strong></li>
+                <li>🎯 ต้องได้คะแนน <strong>12 คะแนนขึ้นไป</strong> จึงจะผ่าน</li>
             </ul>
         </div>
 
-        <button class="btn" onclick="startGame()">เริ่มเกม 🚀</button>
+        <button class="btn" onclick="startGame()">▶️ เริ่มเล่นเกม</button>
     </div>
 
     <!-- Quiz Screen -->
     <div id="quiz-screen" class="screen">
         <div class="stats-bar">
-            <span>ข้อที่: <span id="q-number">1</span>/20</span>
-            <span>คะแนน: <span id="score">0</span></span>
+            <span>📍 ข้อที่ <span id="q-number">1</span>/20</span>
+            <span>⭐ คะแนน: <span id="score">0</span></span>
         </div>
         
         <div class="progress-container">
             <div id="progress-bar" class="progress-bar"></div>
         </div>
 
-        <div class="timer-box">⏰ <span id="timer">60</span> วินาที</div>
+        <div class="timer-box">⏰ เหลือเวลา <span id="timer">60</span> วิ.</div>
 
         <div id="question-container">
-            <div class="question-text" id="question">คำถามจะปรากฏที่นี่</div>
+            <div class="question-text" id="question">กำลังโหลดคำถาม...</div>
             <div class="options-grid" id="options">
                 <!-- Options will be injected here -->
             </div>
@@ -246,151 +337,116 @@
 
     <!-- Result Screen -->
     <div id="result-screen" class="screen">
-        <h1>🏁 จบเกม! 🏁</h1>
+        <h1>🏁 จบเกมแล้ว! 🏁</h1>
         <div class="score-circle" id="final-score">0</div>
         <div class="status-msg" id="status-msg"></div>
-        <p id="feedback-text"></p>
-        <button class="btn" onclick="restartGame()">เล่นอีกครั้ง 🔄</button>
+        <p class="feedback-text" id="feedback-text"></p>
+        <button class="btn" onclick="restartGame()">🔄 เล่นอีกครั้ง</button>
     </div>
 </div>
 
 <script>
-    // Game Data: 20 Questions
+    // Game Data: 20 Questions (Thai questions & options, English CVC content)
     const questions = [
         {
-            q: "Which word is a CVC word? (คำใดเป็นคำ 1 พยางค์แบบ CVC)",
-            options: ["Cake", "Cat", "Bike", "Phone"],
+            q: "ข้อใดคือคำศัพท์แบบ <span class='english-word'>CVC</span> (พยัญชนะ-สระ-พยัญชนะ)?",
+            options: ["Cake (เค้ก)", "Cat (แมว)", "Bike (จักรยาน)", "Phone (โทรศัพท์)"],
             answer: 1 // Cat
         },
         {
-            q: "Fill in the missing vowel: D _ g",
+            q: "เติมสระที่หายไป: <span class='english-word'>D _ g</span> (สุนัข)",
             options: ["a", "e", "o", "u"],
             answer: 2 // Dog
         },
         {
-            q: "Which word rhymes with 'Bat'?",
-            options: ["Hat", "Bet", "Bit", "Boot"],
+            q: "คำใดออกเสียงสัมผัสกับ <span class='english-word'>Bat</span> (ค้างคาว)?",
+            options: ["Hat (หมวก)", "Bet (เดิมพัน)", "Bit (เล็กน้อย)", "Boot (รองเท้าบูท)"],
             answer: 0 // Hat
         },
         {
-            q: "Identify the vowel sound in 'Sun'.",
-            options: ["Short A", "Short E", "Short I", "Short U"],
-            answer: 3 // Short U
+            q: "คำใดมีเสียงสระสั้น <span class='english-word'>'u'</span>?",
+            options: ["Bus (รถบัส)", "Bike (จักรยาน)", "Bee (ผึ้ง)", "Boy (เด็กชาย)"],
+            answer: 0 // Bus
         },
         {
-            q: "Which word has a short 'o' sound?",
-            options: ["Cone", "Hot", "Go", "Rose"],
+            q: "คำใดมีเสียงสระสั้น <span class='english-word'>'o'</span>?",
+            options: ["Cone (กรวย)", "Hot (ร้อน)", "Go (ไป)", "Rose (กุหลาบ)"],
             answer: 1 // Hot
         },
         {
-            q: "What is the CVC pattern for 'Bed'?",
-            options: ["CVC", "CVCC", "CCVC", "CCV"],
+            q: "โครงสร้างของคำว่า <span class='english-word'>Bed</span> (เตียงนอน) คือข้อใด?",
+            options: ["CVC (พยัญชนะ-สระ-พยัญชนะ)", "CVCC", "CCVC", "CCV"],
             answer: 0 // CVC
         },
         {
-            q: "Choose the correct spelling: A small animal that says 'meow'.",
-            options: ["Kit", "Kitn", "Kitten", "Kat"],
-            answer: 0 // Kit (CVC word)
+            q: "เลือกคำศัพท์ที่ถูกต้อง: สัตว์ตัวเล็กที่ร้อง 'เหมียว' คือ?",
+            options: ["Kit (ลูกแมว)", "Kitn (สะกดผิด)", "Kitten (ลูกแมว - 2 พยางค์)", "Kat (สะกดผิด)"],
+            answer: 0 // Kit
         },
         {
-            q: "Which word starts with the 'b' sound?",
-            options: ["Bag", "Tag", "Sag", "Wag"],
+            q: "คำใดขึ้นต้นด้วยเสียงพยัญชนะ <span class='english-word'>'b'</span>?",
+            options: ["Bag (กระเป๋า)", "Tag (ป้ายชื่อ)", "Sag (หย่อน)", "Wag (กระดิก)"],
             answer: 0 // Bag
         },
         {
-            q: "Select the word that means 'Opposite of Wet'.",
-            options: ["Dry", "Hot", "Cold", "Big"],
+            q: "เลือกคำศัพท์ที่มีความหมายว่า 'ตรงข้ามกับเปียก (Wet)'",
+            options: ["Dry (แห้ง)", "Hot (ร้อน)", "Cold (เย็น)", "Big (ใหญ่)"],
             answer: 0 // Dry
         },
         {
-            q: "Which word contains the letter 'i'?",
-            options: ["Pot", "Pig", "Pug", "Pen"],
+            q: "คำใดมีตัวอักษร <span class='english-word'>'i'</span> อยู่?",
+            options: ["Pot (หม้อ)", "Pig (หมู)", "Pug (สุนัขปั๊ก)", "Pen (ปากกา)"],
             answer: 1 // Pig
         },
         {
-            q: "Fill in the blank: I sit on a _ _ _ .",
-            options: ["Dog", "Log", "Dig", "Dug"],
+            q: "เติมคำในช่องว่าง: ฉันนั่งบน <span class='english-word'>_ _ _</span> (ท่อนไม้)",
+            options: ["Dog (สุนัข)", "Log (ท่อนไม้)", "Dig (ขุด)", "Dug (ขุด - อดีต)"],
             answer: 1 // Log
         },
         {
-            q: "Which word is NOT a CVC word?",
-            options: ["Run", "Man", "See", "Fan"],
-            answer: 2 // See (CVC pattern but long vowel, usually treated as CV in phonics context, but strictly CVC structure. Let's change to make it clearer)
-            // Let's adjust logic: "See" is technically CVC but usually taught as CV (long vowel). Better option: "Bee" or "Tree".
-            // Let's use: "Bee" instead of See in logic check, but options are fixed. 
-            // Actually, "See" is CVC but let's pick a clearer non-CVC like "Play" or "She".
-            // Revised Question below in logic if needed, but for now let's assume "See" is tricky.
-            // Let's change options to be safer: "Run", "Man", "She", "Fan". "She" is CVC but irregular.
-            // Let's change Q to: "Which word has a long vowel sound?" -> "Cake"
-        },
-        // Let's rewrite Q12 to be safer
-        {
-            q: "Which word has a long vowel sound? (เสียงยาว)",
-            options: ["Cat", "Cake", "Sit", "Hop"],
+            q: "คำใดมีเสียงสระยาว (Long Vowel)?",
+            options: ["Cat (แมว)", "Cake (เค้ก)", "Sit (นั่ง)", "Hop (กระโดด)"],
             answer: 1 // Cake
         },
         {
-            q: "What is the last letter in 'Fox'?",
+            q: "ตัวอักษรสุดท้ายของคำว่า <span class='english-word'>Fox</span> (สุนัขจิ้งจอก) คือ?",
             options: ["F", "O", "X", "S"],
             answer: 2 // X
         },
         {
-            q: "Choose the CVC word for 'Opposite of Big'.",
-            options: ["Small", "Tiny", "Lit", "Big"],
-            answer: 2 // Lit (Wait, Lit isn't opposite of big). Let's change.
-            // New Q: "Which word means 'Not Sad'?"
-        },
-         {
-            q: "Which word means 'Not Sad'?",
-            options: ["Mad", "Bad", "Glad", "Dad"],
+            q: "เลือกคำศัพท์ที่มีความหมายว่า 'ไม่เศร้า (Not Sad)'",
+            options: ["Mad (โกรธ)", "Bad (เลว)", "Glad (ยินดี)", "Dad (พ่อ)"],
             answer: 2 // Glad
         },
         {
-            q: "Identify the CVC word: A vehicle with two wheels.",
-            options: ["Bus", "Car", "Van", "Bike"],
-            answer: 0 // Bus
+            q: "คำใดคือยานพาหนะที่มีสองล้อ?",
+            options: ["Bus (รถบัส)", "Car (รถยนต์)", "Van (รถตู้)", "Bike (จักรยาน)"],
+            answer: 3 // Bike (Note: Bike is CVCe, but included for variety)
         },
         {
-            q: "Which word rhymes with 'Mop'?",
-            options: ["Map", "Top", "Cup", "Cap"],
+            q: "คำใดออกเสียงสัมผัสกับ <span class='english-word'>Mop</span> (ไม้ถูพื้น)?",
+            options: ["Map (แผนที่)", "Top (ด้านบน)", "Cup (ถ้วย)", "Cap (หมวกแก๊ป)"],
             answer: 1 // Top
         },
         {
-            q: "Fill in the blank: The _ _ _ is red. (Fruit)",
-            options: ["Pan", "Pen", "Pin", "Pot"],
-            // Wait, none are fruits. Let's change options.
+            q: "คำใดคืออุปกรณ์ที่ใช้ในการทำอาหาร?",
+            options: ["Pan (กระทะ)", "Pen (ปากกา)", "Pin (เข็มหมุด)", "Pit (หลุม)"],
+            answer: 0 // Pan
         },
         {
-            q: "Fill in the blank: A red fruit. _ _ _ .",
-            options: ["Pan", "Pen", "Pin", "Pot"], 
-            // None fit well. Let's try: "A place to cook." -> Pan.
-            // Let's change question text.
-        },
-        {
-            q: "Which word is a cooking tool?",
-            options: ["Pan", "Pen", "Pin", "Pot"],
-            answer: 0 // Pan (or Pot, but Pan is distinct CVC)
-        },
-        {
-            q: "Select the word with the short 'e' sound.",
-            options: ["He", "She", "Bed", "Be"],
+            q: "เลือกคำศัพท์ที่มีเสียงสระสั้น <span class='english-word'>'e'</span>",
+            options: ["He (เขา)", "She (เธอ)", "Bed (เตียง)", "Be (เป็น)"],
             answer: 2 // Bed
         },
         {
-            q: "Which word means 'Father's brother'?",
-            options: ["Dad", "Unc", "Uncle", "Pop"],
-            // Uncle is 2 syllables. Pop is CVC. Dad is CVC.
-            // Let's change Q.
-        },
-        {
-            q: "Which word means 'Male parent'?",
-            options: ["Mom", "Dad", "Sis", "Bro"],
+            q: "คำใดมีความหมายว่า 'พ่อ (ชายผู้ให้กำเนิด)'?",
+            options: ["Mom (แม่)", "Dad (พ่อ)", "Sis (พี่สาว/น้องสาว)", "Bro (พี่ชาย/น้องชาย)"],
             answer: 1 // Dad
         },
         {
-            q: "Complete the word: H _ _ (A place to live)",
-            options: ["at", "ot", "ut", "it"],
-            answer: 0 // Hat? No. Hot? No. Hut!
+            q: "เติมคำในช่องว่าง: <span class='english-word'>H _ _</span> (กระท่อม/ที่พักเล็กๆ)",
+            options: ["at (ที่)", "ot (อท)", "ut (อัท)", "it (อิท)"],
+            answer: 2 // Hut
         }
     ];
 
@@ -400,6 +456,7 @@
     let timer;
     let timeLeft = 60;
     const passingScore = 12;
+    let isAnswered = false;
 
     // DOM Elements
     const startScreen = document.getElementById('start-screen');
@@ -426,9 +483,10 @@
     }
 
     function loadQuestion() {
+        isAnswered = false;
         resetTimer();
         const currentQ = questions[currentQuestionIndex];
-        questionEl.innerText = currentQ.q;
+        questionEl.innerHTML = currentQ.q;
         qNumberEl.innerText = currentQuestionIndex + 1;
         
         // Update Progress Bar
@@ -438,7 +496,7 @@
         optionsEl.innerHTML = '';
         currentQ.options.forEach((opt, index) => {
             const btn = document.createElement('button');
-            btn.innerText = opt;
+            btn.innerHTML = opt;
             btn.classList.add('option-btn');
             btn.onclick = () => checkAnswer(index, btn);
             optionsEl.appendChild(btn);
@@ -453,6 +511,13 @@
         timer = setInterval(() => {
             timeLeft--;
             timerEl.innerText = timeLeft;
+            
+            // Change color when time is low
+            if(timeLeft <= 10) {
+                timerEl.style.color = '#e74c3c';
+                timerEl.style.background = '#ffebee';
+            }
+            
             if (timeLeft <= 0) {
                 clearInterval(timer);
                 handleTimeOut();
@@ -462,10 +527,14 @@
 
     function resetTimer() {
         clearInterval(timer);
+        timerEl.style.color = '#FF6B6B';
+        timerEl.style.background = '#fff0f0';
     }
 
     function handleTimeOut() {
-        // Treat as wrong answer
+        if(isAnswered) return;
+        isAnswered = true;
+        
         const buttons = optionsEl.querySelectorAll('.option-btn');
         buttons.forEach(btn => btn.disabled = true);
         
@@ -476,13 +545,16 @@
         score--;
         scoreEl.innerText = score;
 
-        setTimeout(nextQuestion, 1500);
+        setTimeout(nextQuestion, 2000);
     }
 
     function checkAnswer(selectedIndex, btnElement) {
+        if(isAnswered) return;
+        isAnswered = true;
+        
         clearInterval(timer);
         const buttons = optionsEl.querySelectorAll('.option-btn');
-        buttons.forEach(btn => btn.disabled = true); // Prevent multiple clicks
+        buttons.forEach(btn => btn.disabled = true);
 
         const correctIndex = questions[currentQuestionIndex].answer;
 
@@ -491,12 +563,12 @@
             score++;
         } else {
             btnElement.classList.add('wrong');
-            buttons[correctIndex].classList.add('correct'); // Show correct one
+            buttons[correctIndex].classList.add('correct');
             score--;
         }
 
         scoreEl.innerText = score;
-        setTimeout(nextQuestion, 1500);
+        setTimeout(nextQuestion, 2000);
     }
 
     function nextQuestion() {
@@ -515,15 +587,13 @@
         finalScoreEl.innerText = score;
         
         if (score >= passingScore) {
-            statusMsgEl.innerText = "ยอดเยี่ยม! คุณผ่านเกณฑ์ 🎉";
-            statusMsgEl.classList.add('pass');
-            statusMsgEl.classList.remove('fail');
-            feedbackTextEl.innerText = "เก่งมาก! คุณมีความเข้าใจเรื่อง CVC Words ได้ดีมาก";
+            statusMsgEl.innerText = "🎉 เยี่ยมมาก! คุณผ่านเกณฑ์แล้ว";
+            statusMsgEl.className = "status-msg pass";
+            feedbackTextEl.innerHTML = `คุณทำคะแนนได้ <strong>${score} จาก 20</strong> คะแนน<br>เก่งมาก! คุณเข้าใจเรื่อง CVC Words ได้ดีมากเลย 👏`;
         } else {
-            statusMsgEl.innerText = "พยายามอีกนิดนะ! 😅";
-            statusMsgEl.classList.add('fail');
-            statusMsgEl.classList.remove('pass');
-            feedbackTextEl.innerText = `คุณได้ ${score} คะแนน ต้องได้ ${passingScore} คะแนนจึงจะผ่าน ลองทบทวนแล้วเล่นใหม่นะ`;
+            statusMsgEl.innerText = "💪 พยายามอีกนิดนะ!";
+            statusMsgEl.className = "status-msg fail";
+            feedbackTextEl.innerHTML = `คุณทำคะแนนได้ <strong>${score} จาก 20</strong> คะแนน<br>ต้องได้ <strong>${passingScore} คะแนน</strong> จึงจะผ่าน<br>ลองทบทวนคำศัพท์แล้วเล่นใหม่นะ 📚`;
         }
     }
 
