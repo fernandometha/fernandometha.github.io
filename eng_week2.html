@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เสียงสระในภาษาอังกฤษเทียบกับภาษาไทย</title>
+    <style>
+        /* ====================
+           CSS Reset & Base
+           ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', 'Prompt', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        /* ====================
+           Container & Layout
+           ==================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* ====================
+           Header Section
+           ==================== */
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: bounceIn 1s ease;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .header-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* ====================
+           Section Styles
+           ==================== */
+        .section {
+            padding: 30px 20px;
+            border-bottom: 2px dashed #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title .icon {
+            font-size: 2rem;
+        }
+
+        /* ====================
+           Card Grid System
+           ==================== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-color: #667eea;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card-vowel {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .card-thai {
+            font-size: 1.5rem;
+            color: #764ba2;
+            margin-bottom: 5px;
+        }
+
+        .card-example {
+            font-size: 1rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .card-sound-btn {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease;
+        }
+
+        .card-sound-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .card-sound-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ====================
+           Color Variations
+           ==================== */
+        .section-short .card {
+            border-top: 4px solid #ff6b6b;
+        }
+
+        .section-long .card {
+            border-top: 4px solid #4ecdc4;
+        }
+
+        .section-diphthong .card {
+            border-top: 4px solid #ffe66d;
+        }
+
+        .section-tips {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        }
+
+        /* ====================
+           Tips Section
+           ==================== */
+        .tips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .tip-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tip-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .tip-box p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .tip-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        /* ====================
+           Animations
+           ==================== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* ====================
+           Responsive Design
+           ==================== */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+            }
+
+            .card-vowel {
+                font-size: 2.5rem;
+            }
+
+            .card-thai {
+                font-size: 1.2rem;
+            }
+
+            .tips-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .section {
+                padding: 20px 15px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ====================
+           Footer
+           ==================== */
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .footer-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        /* ====================
+           Sound Effect Modal
+           ==================== */
+        .sound-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            text-align: center;
+        }
+
+        .sound-modal.active {
+            display: block;
+            animation: bounceIn 0.3s ease;
+        }
+
+        .sound-modal .icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .sound-modal h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .sound-modal p {
+            color: #666;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-icon">🔊</div>
+            <h1>เสียงสระในภาษาอังกฤษ</h1>
+            <p>เทียบเสียงกับภาษาไทย - เรียนรู้ได้ง่ายๆ!</p>
+        </header>
+
+        <!-- Section 1: Short Vowels -->
+        <section class="section section-short">
+            <h2 class="section-title">
+                <span class="icon">🐢</span>
+                สระเสียงสั้น (Short Vowels)
+            </h2>
+            <p>ออกเสียงสั้น กระชับ รวดเร็ว</p>
+            <div class="card-grid">
+                <div class="card" onclick="playSound('a', 'แอะ', 'cat')">
+                    <div class="card-vowel">a</div>
+                    <div class="card-thai">แอะ</div>
+                    <div class="card-example">cat (แมว)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+                <div class="card" onclick="playSound('e', 'เะ', 'bed')">
+                    <div class="card-vowel">e</div>
+                    <div class="card-thai">เะ</div>
+                    <div class="card-example">bed (เตียง)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+                <div class="card" onclick="playSound('i', 'อิ', 'sit')">
+                    <div class="card-vowel">i</div>
+                    <div class="card-thai">อิ</div>
+                    <div class="card-example">sit (นั่ง)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+                <div class="card" onclick="playSound('o', 'ออ', 'dog')">
+                    <div class="card-vowel">o</div>
+                    <div class="card-thai">ออ</div>
+                    <div class="card-example">dog (สุนัข)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+                <div class="card" onclick="playSound('u', 'อะ', 'cup')">
+                    <div class="card-vowel">u</div>
+                    <div class="card-thai">อะ</div>
+                    <div class="card-example">cup (ถ้วย)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Long Vowels -->
+        <section class="section section-long">
+            <h2 class="section-title">
+                <span class="icon">🐌</span>
+                สระเสียงยาว (Long Vowels)
+            </h2>
+            <p>ออกเสียงยาว ช้าๆ เหมือนชื่อสระ</p>
+            <div class="card-grid">
+                <div class="card" onclick="playSound('a', 'เอ', 'cake')">
+                    <div class="card-vowel">a</div>
+                    <div class="card-thai">เอ</div>
+                    <div class="card-example">cake (เค้ก)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+                <div class="card" onclick="playSound('e', 'อี', 'see')">
+                    <div class="card-vowel">e</div>
+                    <div class="card-thai">อี</div>
+                    <div class="card-example">see (เห็น)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+                <div class="card" onclick="playSound('i', 'ไอ', 'bike')">
+                    <div class="card-vowel">i</div>
+                    <div class="card-thai">ไอ</div>
+                    <div class="card-example">bike (จักรยาน)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+                <div class="card" onclick="playSound('o', 'โอ', 'home')">
+                    <div class="card-vowel">o</div>
+                    <div class="card-thai">โอ</div>
+                    <div class="card-example">home (บ้าน)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+                <div class="card" onclick="playSound('u', 'ยู', 'cube')">
+                    <div class="card-vowel">u</div>
+                    <div class="card-thai">ยู</div>
+                    <div class="card-example">cube (ลูกบาศก์)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Diphthongs -->
+        <section class="section section-diphthong">
+            <h2 class="section-title">
+                <span class="icon">🎭</span>
+                สระผสม (Diphthongs)
+            </h2>
+            <p>เกิดจากการผสมเสียงสระ 2 เสียง</p>
+            <div class="card-grid">
+                <div class="card" onclick="playSound('ai', 'ไอ', 'rain')">
+                    <div class="card-vowel">ai</div>
+                    <div class="card-thai">ไอ</div>
+                    <div class="card-example">rain (ฝน)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+                <div class="card" onclick="playSound('ow', 'เอา', 'cow')">
+                    <div class="card-vowel">ow</div>
+                    <div class="card-thai">เอา</div>
+                    <div class="card-example">cow (วัว)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+                <div class="card" onclick="playSound('oi', 'ออย', 'coin')">
+                    <div class="card-vowel">oi</div>
+                    <div class="card-thai">ออย</div>
+                    <div class="card-example">coin (เหรียญ)</div>
+                    <button class="card-sound-btn">🔊 ฟังเสียง</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Tips -->
+        <section class="section section-tips">
+            <h2 class="section-title">
+                <span class="icon">💡</span>
+                เทคนิคจำง่าย
+            </h2>
+            <div class="tips-container">
+                <div class="tip-box">
+                    <div class="tip-icon">🐢</div>
+                    <h3>เสียงสั้น</h3>
+                    <p>ออกเสียง <strong>สั้น เร็ว กระชับ</strong><br>เหมือนเต่าเดินช้าๆ แต่เสียงสั้น!</p>
+                </div>
+                <div class="tip-box">
+                    <div class="tip-icon">🐌</div>
+                    <h3>เสียงยาว</h3>
+                    <p>ออกเสียง <strong>ยาว ช้าๆ</strong><br>อ่านเหมือนชื่อสระในภาษาไทย</p>
+                </div>
+                <div class="tip-box">
+                    <div class="tip-icon">🎯</div>
+                    <h3>ฝึกฝน</h3>
+                    <p>ฟังและพูดตามบ่อยๆ<br>จะทำให้จำได้แม่น!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-icon">📚</div>
+            <p>สื่อการเรียนรู้ภาษาอังกฤษ ระดับชั้นมัธยมศึกษาปีที่ 1</p>
+            <p>สร้างด้วย ❤️ เพื่อการศึกษา</p>
+        </footer>
+    </div>
+
+    <!-- Sound Modal -->
+    <div class="overlay" id="overlay"></div>
+    <div class="sound-modal" id="soundModal">
+        <div class="icon">🔊</div>
+        <h3 id="modalTitle">เสียงสระ</h3>
+        <p id="modalText">กำลังเล่นเสียง...</p>
+    </div>
+
+    <script>
+        // ====================
+        // Sound Simulation
+        // ====================
+        function playSound(vowel, thaiSound, example) {
+            // แสดง Modal
+            const modal = document.getElementById('soundModal');
+            const overlay = document.getElementById('overlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalText = document.getElementById('modalText');
+
+            modalTitle.textContent = `เสียง ${vowel} (${thaiSound})`;
+            modalText.textContent = `ตัวอย่าง: ${example}`;
+            
+            modal.classList.add('active');
+            overlay.classList.add('active');
+
+            // จำลองการเล่นเสียง (ใน实际情况可以使用 Web Audio API หรือไฟล์เสียงจริง)
+            console.log(`Playing sound: ${vowel} - ${thaiSound} - ${example}`);
+
+            // ปิด Modal หลังจาก 2 วินาที
+            setTimeout(() => {
+                modal.classList.remove('active');
+                overlay.classList.remove('active');
+            }, 2000);
+        }
+
+        // ====================
+        // Close Modal on Overlay Click
+        // ====================
+        document.getElementById('overlay').addEventListener('click', function() {
+            const modal = document.getElementById('soundModal');
+            const overlay = document.getElementById('overlay');
+            
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // ====================
+        // Add Hover Animation to Cards
+        // ====================
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.animation = 'pulse 0.5s ease';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.animation = '';
+            });
+        });
+
+        // ====================
+        // Add Scroll Animation
+        // ====================
+        document.querySelectorAll('.section').forEach((section, index) => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.6s ease';
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            observer.observe(section);
+        });
+
+        // ====================
+        // Keyboard Navigation
+        // ====================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('soundModal');
+                const overlay = document.getElementById('overlay');
+                
+                modal.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+
+        // ====================
+        // Welcome Message
+        // ====================
+        window.addEventListener('load', function() {
+            console.log('🎓 ยินดีต้อนรับสู่บทเรียนเสียงสระภาษาอังกฤษ!');
+            console.log('💡 คลิกที่การ์ดเพื่อฟังเสียงสระ');
+        });
+    </script>
+</body>
+</html>
