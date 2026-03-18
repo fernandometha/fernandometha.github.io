@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำศัพท์ชีวิตประจำวัน (Daily Life Vocabulary)</title>
+    
+    <!-- นำเข้าฟอนต์น่ารักๆ จาก Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --primary-color: #FF9F1C;
+            --secondary-color: #2EC4B6;
+            --bg-color: #CBF3F0;
+            --card-bg: #FFFFFF;
+            --text-color: #2B2D42;
+            --font-en: 'Fredoka', sans-serif;
+            --font-th: 'Kanit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-th);
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#FFBF69 2px, transparent 2px);
+            background-size: 30px 30px;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Header Section --- */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #FF9F1C, #FFBF69);
+            color: white;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            animation: slideDown 1s ease-out;
+        }
+
+        h1 {
+            font-family: var(--font-en);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* --- Container --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Section Titles --- */
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 5px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- Vocabulary Grid --- */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        /* --- Cards --- */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        /* Category Colors */
+        .cat-family { border-color: #FF9F1C; }
+        .cat-school { border-color: #2EC4B6; }
+        .cat-home { border-color: #E71D36; }
+        .cat-food { border-color: #70E000; }
+        .cat-daily { border-color: #9D4EDD; }
+
+        .emoji-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        .en-word {
+            font-family: var(--font-en);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        .th-word {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .audio-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: var(--font-th);
+            font-weight: 600;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-btn:hover {
+            background-color: #249d92;
+        }
+
+        .audio-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* --- Tips Section --- */
+        .tips-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .tips-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .tips-list li {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- Random Button Area --- */
+        .random-area {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .random-btn {
+            background: linear-gradient(45deg, #FF9F1C, #E71D36);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: var(--font-en);
+            box-shadow: 0 5px 15px rgba(231, 29, 54, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .random-btn:hover {
+            transform: scale(1.1) rotate(-2deg);
+        }
+
+        /* --- Modal for Random Word --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            animation: popIn 0.3s ease-out;
+            max-width: 90%;
+            width: 400px;
+        }
+
+        .close-modal {
+            margin-top: 20px;
+            background: #ccc;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* --- Animations --- */
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .vocab-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Daily Life Vocabulary</h1>
+        <p class="subtitle">คำศัพท์ภาษาอังกฤษพื้นฐานรอบตัว สำหรับน้องๆ ม.1</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- ส่วนคำศัพท์ -->
+        <h2 class="section-title">📚 คำศัพท์น่ารู้ (Vocabulary)</h2>
+        <div class="vocab-grid" id="vocabContainer">
+            <!-- Cards will be injected here by JavaScript -->
+        </div>
+
+        <!-- ส่วนเทคนิคการจำ -->
+        <h2 class="section-title">💡 เทคนิคการจำ (Tips)</h2>
+        <section class="tips-section">
+            <ul class="tips-list">
+                <li>🏷️ <span>แปะป้ายชื่อสิ่งของรอบบ้าน</span></li>
+                <li>🎧 <span>ฟังเพลงภาษาอังกฤษบ่อยๆ</span></li>
+                <li>📱 <span>เปลี่ยนภาษาในมือถือเป็นอังกฤษ</span></li>
+                <li>🗣️ <span>ฝึกพูดออกเสียงดังๆ หน้ากระจก</span></li>
+            </ul>
+        </section>
+
+        <!-- ปุ่มสุ่มคำศัพท์ -->
+        <div class="random-area">
+            <button class="random-btn" onclick="showRandomWord()">🎲 Random Word!</button>
+        </div>
+
+    </div>
+
+    <!-- Modal สำหรับแสดงคำศัพท์สุ่ม -->
+    <div id="randomModal" class="modal">
+        <div class="modal-content">
+            <div id="randomEmoji" style="font-size: 4rem;"></div>
+            <h2 id="randomEn" style="font-family: var(--font-en); font-size: 2rem; color: var(--secondary-color);"></h2>
+            <p id="randomTh" style="font-size: 1.5rem; color: #666;"></p>
+            <button class="audio-btn" style="margin-top:15px;" onclick="playRandomAudio()">🔊 ฟังเสียงอ่าน</button>
+            <br>
+            <button class="close-modal" onclick="closeModal()">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
+    <script>
+        // --- ข้อมูลคำศัพท์ (Data) ---
+        const vocabularyData = [
+            // ครอบครัว
+            { id: 1, category: 'cat-family', en: 'Mother', th: 'แม่', emoji: '👩' },
+            { id: 2, category: 'cat-family', en: 'Father', th: 'พ่อ', emoji: '👨' },
+            { id: 3, category: 'cat-family', en: 'Sibling', th: 'พี่น้อง', emoji: '👫' },
+            { id: 4, category: 'cat-family', en: 'Grandparents', th: 'ปู่ย่าตายาย', emoji: '👴👵' },
+            
+            // โรงเรียน
+            { id: 5, category: 'cat-school', en: 'Classroom', th: 'ห้องเรียน', emoji: '🏫' },
+            { id: 6, category: 'cat-school', en: 'Library', th: 'ห้องสมุด', emoji: '📚' },
+            { id: 7, category: 'cat-school', en: 'Cafeteria', th: 'โรงอาหาร', emoji: '🍽️' },
+            { id: 8, category: 'cat-school', en: 'Uniform', th: 'ชุดนักเรียน', emoji: '👔' },
+
+            // บ้าน
+            { id: 9, category: 'cat-home', en: 'Kitchen', th: 'ห้องครัว', emoji: '🍳' },
+            { id: 10, category: 'cat-home', en: 'Bedroom', th: 'ห้องนอน', emoji: '🛏️' },
+            { id: 11, category: 'cat-home', en: 'Living Room', th: 'ห้องนั่งเล่น', emoji: '🛋️' },
+            { id: 12, category: 'cat-home', en: 'Bathroom', th: 'ห้องน้ำ', emoji: '🚿' },
+
+            // อาหาร
+            { id: 13, category: 'cat-food', en: 'Breakfast', th: 'อาหารเช้า', emoji: '🍳' },
+            { id: 14, category: 'cat-food', en: 'Delicious', th: 'อร่อย', emoji: '😋' },
+            { id: 15, category: 'cat-food', en: 'Vegetable', th: 'ผัก', emoji: '🥦' },
+            { id: 16, category: 'cat-food', en: 'Fruit', th: 'ผลไม้', emoji: '🍎' },
+
+            // กิจวัตร
+            { id: 17, category: 'cat-daily', en: 'Wake up', th: 'ตื่นนอน', emoji: '⏰' },
+            { id: 18, category: 'cat-daily', en: 'Take a shower', th: 'อาบน้ำ', emoji: '🚿' },
+            { id: 19, category: 'cat-daily', en: 'Brush teeth', th: 'แปรงฟัน', emoji: '🪥' },
+            { id: 20, category: 'cat-daily', en: 'Go to bed', th: 'เข้านอน', emoji: '🌙' }
+        ];
+
+        // --- ฟังก์ชันสร้างการ์ด (Render Cards) ---
+        const vocabContainer = document.getElementById('vocabContainer');
+
+        function renderCards() {
+            vocabContainer.innerHTML = '';
+            vocabularyData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `card ${item.category}`;
+                card.innerHTML = `
+                    <span class="emoji-icon">${item.emoji}</span>
+                    <div class="en-word">${item.en}</div>
+                    <div class="th-word">${item.th}</div>
+                    <button class="audio-btn" onclick="speakText('${item.en}')">
+                        🔊 ฟังเสียง
+                    </button>
+                `;
+                vocabContainer.appendChild(card);
+            });
+        }
+
+        // --- ฟังก์ชันแปลงข้อความเป็นเสียง (Text to Speech) ---
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US'; // ตั้งค่าเป็นภาษาอังกฤษ
+                utterance.rate = 0.9; // ความเร็วในการพูด (ช้าลงนิดหน่อยเพื่อให้อ่านชัด)
+                utterance.pitch = 1.1; // เสียงสูงนิดหน่อยให้น่ารัก
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('ขออภัย เบราว์เซอร์ของคุณไม่รองรับระบบเสียงอ่าน');
+            }
+        }
+
+        // --- ฟังก์ชันสุ่มคำศัพท์ (Random Word) ---
+        let currentRandomWord = null;
+
+        function showRandomWord() {
+            const randomIndex = Math.floor(Math.random() * vocabularyData.length);
+            currentRandomWord = vocabularyData[randomIndex];
+
+            document.getElementById('randomEmoji').textContent = currentRandomWord.emoji;
+            document.getElementById('randomEn').textContent = currentRandomWord.en;
+            document.getElementById('randomTh').textContent = currentRandomWord.th;
+            
+            document.getElementById('randomModal').style.display = 'flex';
+            
+            // เล่นเสียงอัตโนมัติเมื่อเปิด
+            setTimeout(() => speakText(currentRandomWord.en), 500);
+        }
+
+        function playRandomAudio() {
+            if(currentRandomWord) {
+                speakText(currentRandomWord.en);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('randomModal').style.display = 'none';
+            window.speechSynthesis.cancel(); // หยุดเสียงถ้าปิดหน้าต่าง
+        }
+
+        // ปิด Modal เมื่อคลิกพื้นที่ว่าง
+        window.onclick = function(event) {
+            const modal = document.getElementById('randomModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // เริ่มทำงานเมื่อโหลดหน้าเว็บ
+        window.onload = renderCards;
+
+    </script>
+</body>
+</html>
