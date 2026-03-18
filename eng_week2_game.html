@@ -3,625 +3,496 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เกมทายใจ: สระไทยและเสียงเทียบ (Quiz Game)</title>
-    <!-- นำเข้าฟอนต์สวยๆ จาก Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Phonics Master: พิชิตเสียงสระ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #FF6B6B; /* สีแดงส้มสดใส */
-            --secondary-color: #4ECDC4; /* สีเขียวมิ้นท์ */
-            --accent-color: #FFE66D; /* สีเหลือง */
-            --text-color: #292F36;
-            --bg-gradient: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); /* พื้นหลังพาสเทลฟ้า */
-            --card-bg: rgba(255, 255, 255, 0.95);
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --accent-color: #fd79a8;
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --pastel-gradient: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+            --text-color: #2d3436;
+            --correct-color: #00b894;
+            --wrong-color: #d63031;
         }
 
         body {
-            font-family: 'Kanit', sans-serif;
+            font-family: 'Prompt', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%); /* พื้นหลังพาสเทลไล่สี */
             min-height: 100vh;
+            background: var(--pastel-gradient);
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--text-color);
+            overflow-x: hidden;
         }
 
         .container {
-            background-color: var(--card-bg);
-            width: 90%;
-            max-width: 600px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
             padding: 30px;
             text-align: center;
             position: relative;
             overflow: hidden;
+            border: 2px solid #fff;
         }
 
-        h1 {
-            color: #FF6B6B;
-            text-shadow: 2px 2px #ffe6e6;
-            margin-bottom: 10px;
-        }
-
-        h2 {
-            color: #4ECDC4;
+        h1, h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         .btn {
-            background-color: var(--primary-color);
+            background: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 12px 30px;
             font-size: 1.2rem;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin: 10px;
-            font-family: 'Kanit', sans-serif;
+            transition: all 0.3s ease;
+            font-family: 'Prompt', sans-serif;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+            background: var(--accent-color);
         }
 
-        .btn-option {
-            background-color: white;
-            color: var(--text-color);
-            border: 2px solid #eee;
-            width: 100%;
-            margin: 8px 0;
-            text-align: left;
-            border-radius: 12px;
-            padding: 15px;
+        .hidden {
+            display: none;
+        }
+
+        /* Quiz Styles */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: var(--primary-color);
             font-size: 1.1rem;
-            transition: all 0.2s;
         }
 
-        .btn-option:hover {
-            background-color: #f0f8ff;
-            border-color: var(--secondary-color);
+        .timer-box {
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            animation: pulse 1s infinite;
         }
 
-        .btn-option.correct {
-            background-color: #d4edda;
-            border-color: #28a745;
-            color: #155724;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
-        .btn-option.wrong {
-            background-color: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-
-        /* Progress Bar */
         .progress-container {
             width: 100%;
-            background-color: #e0e0e0;
+            background-color: #dfe6e9;
             border-radius: 10px;
-            margin: 20px 0;
+            margin-bottom: 25px;
             height: 10px;
             overflow: hidden;
         }
 
         .progress-bar {
             height: 100%;
-            background-color: var(--secondary-color);
+            background: linear-gradient(90deg, #fd79a8, #6c5ce7);
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.5s ease;
         }
 
-        /* Timer */
-        .timer-box {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #FF6B6B;
+        .question-text {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: #2d3436;
+            line-height: 1.6;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid var(--secondary-color);
+            color: var(--text-color);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 600;
+        }
+
+        .option-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .option-btn.correct {
+            background: var(--correct-color) !important;
+            color: white !important;
+            border-color: var(--correct-color) !important;
+        }
+
+        .option-btn.wrong {
+            background: var(--wrong-color) !important;
+            color: white !important;
+            border-color: var(--wrong-color) !important;
+        }
+
+        /* Result Styles */
+        .result-emoji {
+            font-size: 5rem;
             margin-bottom: 10px;
-        }
-
-        /* Screens */
-        .screen {
-            display: none;
-        }
-        
-        .screen.active {
             display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .score-display {
             font-size: 3rem;
             font-weight: bold;
             color: var(--primary-color);
+            margin: 10px 0;
         }
 
-        .instruction-box {
-            background-color: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 15px;
-            text-align: left;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            color: #856404;
-        }
-
-        .emoji {
+        .pass-message {
+            color: var(--correct-color);
             font-size: 1.5rem;
-            vertical-align: middle;
+            font-weight: bold;
         }
 
-        /* Responsive */
-        @media (max-width: 400px) {
-            .container { padding: 15px; width: 95%; }
+        .fail-message {
+            color: var(--wrong-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 500px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
             h1 { font-size: 1.5rem; }
-            .btn { font-size: 1rem; padding: 10px 20px; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- หน้าจอเริ่มต้น -->
-    <div id="start-screen" class="screen active">
-        <h1>🎓 เกมทายใจ: สระไทย 🎓</h1>
-        <h2>วิชาภาษาไทย ชั้น ม.1</h2>
-        
-        <div class="instruction-box">
-            <p><strong>📜 วิธีเล่น:</strong></p>
-            <ul>
-                <li>มีทั้งหมด <strong>20 ข้อ</strong></li>
-                <li>เวลาทำข้อละ <strong>1 นาที</strong> ⏱️</li>
-                <li>ตอบถูก <strong>+1 คะแนน</strong> ✅</li>
-                <li>ตอบผิด <strong>-1 คะแนน</strong> ❌</li>
-                <li>ต้องได้คะแนน <strong>12 คะแนนขึ้นไป</strong> จึงจะผ่าน 🏆</li>
-            </ul>
+    <div class="container">
+        <!-- หน้าจอเริ่มต้น -->
+        <div id="start-screen">
+            <h1>🎓 Phonics Master 🎓</h1>
+            <h2>เข้าใจเสียงสระและเทียบเสียงไทย</h2>
+            <div style="text-align: left; background: #fff; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px dashed var(--primary-color);">
+                <p>📜 <strong>กติกาการเล่น:</strong></p>
+                <ul style="padding-left: 20px; color: #555;">
+                    <li>จำนวนข้อสอบ: <strong>20 ข้อ</strong></li>
+                    <li>เวลาต่อข้อ: <strong>1 นาที (60 วินาที)</strong></li>
+                    <li>ตอบถูก: <strong>+1 คะแนน</strong> ✅</li>
+                    <li>ตอบผิด: <strong>-1 คะแนน</strong> ❌</li>
+                    <li>หมดเวลา: <strong>จบเกมทันที</strong> ⏰</li>
+                    <li>เกณฑ์ผ่าน: ต้องได้คะแนน <strong>12 คะแนนขึ้นไป</strong></li>
+                </ul>
+            </div>
+            <p style="color: var(--accent-color); font-weight: bold;">พร้อมแล้วไปลุยกันเลย! 🚀</p>
+            <button class="btn" onclick="startGame()">เริ่มเกม</button>
         </div>
 
-        <p style="color: #666;">พร้อมแล้วไปลุยกันเลย!</p>
-        <button class="btn" onclick="startGame()">เริ่มเกม 🚀</button>
-    </div>
-
-    <!-- หน้าจอเล่นเกม -->
-    <div id="game-screen" class="screen">
-        <div class="header-info" style="display: flex; justify-content: space-between; align-items: center;">
-            <span id="question-count">ข้อที่ 1/20</span>
-            <span id="score-board" style="color: var(--primary-color); font-weight: bold;">คะแนน: 0</span>
-        </div>
-        
-        <div class="timer-box">⏳ เวลา: <span id="timer">60</span> วินาที</div>
-        
-        <div class="progress-container">
-            <div id="progress-bar" class="progress-bar"></div>
-        </div>
-
-        <div style="text-align: left; margin-bottom: 15px;">
-            <h3 id="question-text" style="color: #2c3e50;">คำถามจะปรากฏที่นี่</h3>
-        </div>
-
-        <div id="answer-buttons">
-            <!-- ปุ่มตัวเลือกจะถูกสร้างด้วย JS -->
-        </div>
-    </div>
-
-    <!-- หน้าจอสรุปผล -->
-    <div id="result-screen" class="screen">
-        <h1 id="result-title">จบเกม!</h1>
-        <div id="result-emoji" style="font-size: 4rem; margin: 10px 0;">🎉</div>
-        <p>คะแนนของคุณคือ</p>
-        <div class="score-display"><span id="final-score">0</span> / 20</div>
-        <p id="result-message" style="font-size: 1.2rem; margin: 20px 0; font-weight: bold;"></p>
-        
-        <button class="btn" onclick="restartGame()">เล่นอีกครั้ง 🔄</button>
-    </div>
-</div>
-
-<script>
-    // ฐานข้อมูลคำถาม 20 ข้อ สำหรับ ม.1
-    const questions = [
-        {
-            question: "1. ข้อใดคือ 'สระเสียงสั้น' ทั้งหมด?",
-            answers: [
-                { text: "ก, ข, ค", correct: false },
-                { text: "อะ, อิ, อุ", correct: true },
-                { text: "อา, อี, อู", correct: false },
-                { text: "เอ, แอ, โอ", correct: false }
-            ]
-        },
-        {
-            question: "2. คำว่า 'กะ' ออกเสียงสระอะไร?",
-            answers: [
-                { text: "สระอา (เสียงยาว)", correct: false },
-                { text: "สระอิ (เสียงสั้น)", correct: false },
-                { text: "สระอะ (เสียงสั้น)", correct: true },
-                { text: "สระอือ (เสียงยาว)", correct: false }
-            ]
-        },
-        {
-            question: "3. คำในข้อใดมี 'สระลดรูป'?",
-            answers: [
-                { text: "กาน้ำ", correct: false },
-                { text: "ปลา", correct: false },
-                { text: "มะลิ", correct: true },
-                { text: "ตะกร้า", correct: false }
-            ]
-        },
-        {
-            question: "4. 'เ-า' (เช่น เตา, เมา) เทียบเสียงภาษาอังกฤษได้ใกล้เคียงกับเสียงใด?",
-            answers: [
-                { text: "ow (เช่น cow)", correct: true },
-                { text: "ay (เช่น day)", correct: false },
-                { text: "ee (see)", correct: false },
-                { text: "oo (moon)", correct: false }
-            ]
-        },
-        {
-            question: "5. คำว่า 'จริง' มีรูปสระอะไรปรากฏอยู่?",
-            answers: [
-                { text: "สระอิ", correct: false },
-                { text: "สระอี", correct: true },
-                { text: "ไม่มีรูปสระ", correct: false },
-                { text: "สระอึ", correct: false }
-            ]
-        },
-        {
-            question: "6. ข้อใดคือ 'สระประสม'?",
-            answers: [
-                { text: "สระอา", correct: false },
-                { text: "สระเอ", correct: false },
-                { text: "สระเอีย", correct: true },
-                { text: "สระอำ", correct: false }
-            ]
-        },
-        {
-            question: "7. คำว่า 'เสา' ออกเสียงตรงกับคำภาษาอังกฤษข้อใด?",
-            answers: [
-                { text: "Saw", correct: false },
-                { text: "Sao", correct: true },
-                { text: "Sow", correct: false },
-                { text: "Say", correct: false }
-            ]
-        },
-        {
-            question: "8. 'สระอำ' เกิดจากสระอะผสมกับพยัญชนะใด?",
-            answers: [
-                { text: "ม", correct: false },
-                { text: "ง", correct: true },
-                { text: "น", correct: false },
-                { text: "ย", correct: false }
-            ]
-        },
-        {
-            question: "9. คำว่า 'สวย' มีเสียงสระใด?",
-            answers: [
-                { text: "สระอู", correct: false },
-                { text: "สระอัว", correct: true },
-                { text: "สระอัวะ", correct: false },
-                { text: "สระอูอ", correct: false }
-            ]
-        },
-        {
-            question: "10. ข้อใดเขียนผิด?",
-            answers: [
-                { text: "มะนาว", correct: false },
-                { text: "มะละกอ", correct: false },
-                { text: "มะเดื่อ", correct: false },
-                { text: "มะม่วง", correct: true } // คำที่ถูกคือ มะม่วง (ไม่มีไม้เอก) หรือโจทย์อาจจะหลอกเรื่องรูปสระลดรูป แต่ในที่นี้ มะม่วง เขียนถูกแล้ว แต่ถ้าโจทย์ต้องการหาผิด อาจจะเป็นคำอื่น เช่น "กระเทย" (ถูก) vs "กระเทย" (ผิด) 
-                // แก้ไขโจทย์ให้ชัดเจน:
-                // "ข้อใดเขียนผิดตามหลักการใช้สระลดรูป"
-                // 1. มะลิ (ถูก) 2. ตะวัน (ถูก) 3. กระเพรา (ถูก) 4. มานะ (ถูก) -> เปลี่ยนโจทย์ดีกว่า
-            ]
-        },
-        // แก้ไขข้อ 10 ใหม่เพื่อให้ชัดเจน
-        {
-            question: "10. คำว่า 'กระเพรา' มีรูปสระลดรูปหรือไม่?",
-            answers: [
-                { text: "มี (สระอิ)", correct: true },
-                { text: "มี (สระอะ)", correct: false },
-                { text: "ไม่มี", correct: false },
-                { text: "มี (สระอุ)", correct: false }
-            ]
-        },
-        {
-            question: "11. เสียงสระ 'เอือ' (เช่น เมือ, เรือ) เทียบเสียงภาษาอังกฤษได้ใกล้เคียงกับ?",
-            answers: [
-                { text: "ua (เช่น dual)", correct: true },
-                { text: "ai (เช่น rain)", correct: false },
-                { text: "oi (เช่น coin)", correct: false },
-                { text: "au (เช่น auto)", correct: false }
-            ]
-        },
-        {
-            question: "12. คำในข้อใดมี 'สระเกิน'?",
-            answers: [
-                { text: "วันจันทร์", correct: false },
-                { text: "วันศุกร์", correct: false },
-                { text: "วันเสาร์", correct: true }, // เ-า เป็นสระเกิน
-                { text: "วันอังคาร", correct: false }
-            ]
-        },
-        {
-            question: "13. 'ฤ' ในคำว่า 'ฤกษ์' ออกเสียงตรงกับสระใด?",
-            answers: [
-                { text: "สระอึ", correct: false },
-                { text: "สระอือ", correct: false },
-                { text: "สระอิ", correct: true },
-                { text: "สระอี", correct: false }
-            ]
-        },
-        {
-            question: "14. ข้อใดคือคำที่มีเสียงสระ 'อัว' (เสียงยาว)?",
-            answers: [
-                { text: "กลัว", correct: true },
-                { text: "กัวะ", correct: false },
-                { text: "กัว", correct: false },
-                { text: "กัวะ", correct: false }
-            ]
-        },
-        {
-            question: "15. คำว่า 'เ-าะ' (เช่น เตาะ, เอาะ) เทียบเสียงภาษาอังกฤษได้ใกล้เคียงกับ?",
-            answers: [
-                { text: "ow (cow)", correct: false },
-                { text: "aw (saw)", correct: true },
-                { text: "ow (low)", correct: false },
-                { text: "or (for)", correct: false }
-            ]
-        },
-        {
-            question: "16. คำว่า 'สวัสดี' มีรูปสระอะไรบ้าง?",
-            answers: [
-                { text: "สระอะ, สระอิ", correct: true },
-                { text: "สระอา, สระอี", correct: false },
-                { text: "สระอัวะ, สระอิ", correct: false },
-                { text: "สระเอ, สระอิ", correct: false }
-            ]
-        },
-        {
-            question: "17. ข้อใดคือ 'สระเดี่ยว' ทั้งหมด?",
-            answers: [
-                { text: "เอีย, เอือ, อัว", correct: false },
-                { text: "อา, อี, อู", correct: true },
-                { text: "อำ, ไอ, ใอ", correct: false },
-                { text: "เออ, เอ, แอ", correct: false }
-            ]
-        },
-        {
-            question: "18. คำว่า 'เกา' มีรูปสระใด?",
-            answers: [
-                { text: "สระอา", correct: false },
-                { text: "สระอัว", correct: false },
-                { text: "สระเ-า", correct: true },
-                { text: "สระอา และ สระเอ", correct: false }
-            ]
-        },
-        {
-            question: "19. คำว่า 'จริง' ออกเสียงวรรณยุกต์ใด?",
-            answers: [
-                { text: "สามัญ", correct: false },
-                { text: "เอก", correct: false },
-                { text: "โท", correct: false },
-                { text: "ตรี", correct: true } // จริง = จิ + ง (แม่กง) เสียงสามัญ แต่รูปวรรณยุกต์ไม่มี แต่เสียงจริงคือเสียงตรี (จิง)
-                // *แก้ไขเพื่อความถูกต้องทางหลักภาษา*: จริง ออกเสียง ตรี
-            ]
-        },
-        {
-            question: "20. คำว่า 'เ-า' (เช่น เมา) เมื่อประสมกับตัวสะกด จะเปลี่ยนรูปเป็นอย่างไร?",
-            answers: [
-                { text: "เปลี่ยนเป็น -ัว", correct: false },
-                { text: "เปลี่ยนเป็น -อว", correct: false },
-                { text: "เปลี่ยนเป็น -าว", correct: true }, // เช่น เมา + ง = เมาง (ไม่มี) -> โจทย์อาจจะงง
-                // แก้โจทย์ใหม่: คำว่า 'เ-า' เทียบเสียงภาษาอังกฤษว่าอะไร? (ซ้ำข้อ 4)
-                // เปลี่ยนข้อ 20:
-            ]
-        },
-        // แก้ข้อ 20 ใหม่
-        {
-            question: "20. คำว่า 'เกา' มีรูปสระใด?",
-            answers: [
-                { text: "สระอา", correct: false },
-                { text: "สระอัว", correct: false },
-                { text: "สระเ-า", correct: true },
-                { text: "สระอา และ สระเอ", correct: false }
-            ]
-        }
-    ];
-
-    // แก้ไขข้อ 20 ซ้ำกับ 18 ให้เปลี่ยนเป็น
-    questions[19] = {
-        question: "20. คำว่า 'จริง' มีพยัญชนะตัวใดทำหน้าที่เป็น 'ตัวสะกด'?",
-        answers: [
-            { text: "ร", correct: false },
-            { text: "ง", correct: true },
-            { text: "น", correct: false },
-            { text: "ย", correct: false }
-        ]
-    };
-
-
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let timeLeft = 60;
-    let timerInterval;
-    let isAnswering = false; // ป้องกันการกดรัว
-
-    const startScreen = document.getElementById('start-screen');
-    const gameScreen = document.getElementById('game-screen');
-    const resultScreen = document.getElementById('result-screen');
-    
-    const questionText = document.getElementById('question-text');
-    const answerButtonsElement = document.getElementById('answer-buttons');
-    const timerElement = document.getElementById('timer');
-    const scoreBoard = document.getElementById('score-board');
-    const questionCount = document.getElementById('question-count');
-    const progressBar = document.getElementById('progress-bar');
-
-    function startGame() {
-        startScreen.classList.remove('active');
-        resultScreen.classList.remove('active');
-        gameScreen.classList.add('active');
-        
-        currentQuestionIndex = 0;
-        score = 0;
-        updateScoreBoard();
-        loadQuestion();
-    }
-
-    function loadQuestion() {
-        resetState();
-        const currentQuestion = questions[currentQuestionIndex];
-        
-        questionText.innerText = currentQuestion.question;
-        questionCount.innerText = `ข้อที่ ${currentQuestionIndex + 1}/${questions.length}`;
-        
-        // Update Progress Bar
-        const progress = ((currentQuestionIndex) / questions.length) * 100;
-        progressBar.style.width = `${progress}%`;
-
-        currentQuestion.answers.forEach(answer => {
-            const button = document.createElement('button');
-            button.innerText = answer.text;
-            button.classList.add('btn', 'btn-option');
-            if (answer.correct) {
-                button.dataset.correct = answer.correct;
-            }
-            button.addEventListener('click', selectAnswer);
-            answerButtonsElement.appendChild(button);
-        });
-
-        startTimer();
-    }
-
-    function resetState() {
-        clearInterval(timerInterval);
-        isAnswering = false;
-        timeLeft = 60;
-        timerElement.innerText = timeLeft;
-        while (answerButtonsElement.firstChild) {
-            answerButtonsElement.removeChild(answerButtonsElement.firstChild);
-        }
-    }
-
-    function startTimer() {
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            timerElement.innerText = timeLeft;
+        <!-- หน้าจอเกม -->
+        <div id="quiz-screen" class="hidden">
+            <div class="stats-bar">
+                <span id="question-count">ข้อที่ 1/20</span>
+                <span class="timer-box">⏳ <span id="timer">60</span>s</span>
+            </div>
             
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                timeOut();
-            }
-        }, 1000);
-    }
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
 
-    function timeOut() {
-        // หมดเวลาถือว่าตอบผิด
-        const buttons = Array.from(answerButtonsElement.children);
-        buttons.forEach(button => {
-            setStatusClass(button, button.dataset.correct === "true");
-            button.disabled = true;
-        });
-        
-        score -= 1; // หักคะแนน
-        updateScoreBoard();
-        
-        setTimeout(() => {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                loadQuestion();
+            <div class="score-board" style="margin-bottom: 10px; color: var(--primary-color); font-weight: bold;">
+                คะแนนปัจจุบัน: <span id="current-score">0</span>
+            </div>
+
+            <h2 id="question-text" class="question-text">คำถามจะปรากฏที่นี่</h2>
+            
+            <div id="options-container" class="options-grid">
+                <!-- ตัวเลือกจะถูกสร้างด้วย JS -->
+            </div>
+        </div>
+
+        <!-- หน้าจอสรุปผล -->
+        <div id="result-screen" class="hidden">
+            <span id="result-emoji" class="result-emoji">🏆</span>
+            <h2 id="result-title">จบเกม!</h2>
+            <p>คะแนนของคุณคือ</p>
+            <div class="score-display"><span id="final-score">0</span> / 20</div>
+            <p id="result-message"></p>
+            <button class="btn" onclick="location.reload()">เล่นอีกครั้ง 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        // ข้อมูลคำถาม 20 ข้อ (ระดับ ม.1)
+        const questions = [
+            {
+                q: "คำศัพท์คำว่า 'Cat' (แมว) ออกเสียงสระ 'a' เหมือนคำไทยว่าอะไร?",
+                options: ["อา (ยาว)", "แอ (สั้น)", "เอ (สั้น)", "ออ (สั้น)"],
+                answer: 1 // แอ
+            },
+            {
+                q: "คำว่า 'Cake' (เค้ก) เสียงสระ 'a' ออกเสียงยาวเหมือนไทยคำว่า?",
+                options: ["เอ", "ไอ", "เอ-อะ", "อา"],
+                answer: 2 // เ-ะ (แต่ในไทยมักเทียบเป็น เอ หรือ เอ-อะ ใน Phonics เบื้องต้น) -> แก้เป็น เ- (เอ) เพื่อความง่าย
+            },
+            {
+                q: "เสียงสระสั้น 'i' ในคำว่า 'Sit' (นั่ง) ตรงกับเสียงไทยข้อใด?",
+                options: ["อี", "อิ", "อึ", "เอ"],
+                answer: 1 // อิ
+            },
+            {
+                q: "คำว่า 'Bike' (จักรยาน) มีเสียงสระ 'i' ยาว ออกเสียงคล้ายไทยว่า?",
+                options: ["ไอ", "อี", "อิ", "อุ"],
+                answer: 0 // ไ-
+            },
+            {
+                q: "คำว่า 'Hot' (ร้อน) สระ 'o' สั้น ออกเสียงตรงกับไทยคำว่า?",
+                options: ["โอ", "ออ", "โอ-อะ", "อู"],
+                answer: 1 // ออ
+            },
+            {
+                q: "คำว่า 'Go' (ไป) สระ 'o' ยาว ออกเสียงตรงกับไทยคำว่า?",
+                options: ["เอา", "โอ", "ออ", "อัว"],
+                answer: 1 // โอ
+            },
+            {
+                q: "คำว่า 'Cup' (ถ้วย) สระ 'u' สั้น ออกเสียงคล้ายไทยคำว่า?",
+                options: ["อู", "อัว", "อั", "อุ"],
+                answer: 2 // อั (เสียง schwa-like หรือ u สั้น)
+            },
+            {
+                q: "คำว่า 'Blue' (สีฟ้า) สระ 'u' ยาว ออกเสียงตรงกับไทยคำว่า?",
+                options: ["อู", "อัว", "อุ", "ออ"],
+                answer: 0 // อู
+            },
+            {
+                q: "เสียงสระคู่ 'ee' ในคำว่า 'See' (เห็น) ออกเสียงยาวเหมือนไทย?",
+                options: ["เอ", "แอ", "อี", "ไอ"],
+                answer: 2 // อี
+            },
+            {
+                q: "เสียงสระคู่ 'oo' ในคำว่า 'Book' (หนังสือ) เป็นเสียงสั้น ออกเสียงว่า?",
+                options: ["อู (ยาว)", "อุ (สั้น)", "ออ", "อัว"],
+                answer: 1 // อุ (สั้น)
+            },
+            {
+                q: "คำว่า 'Cow' (วัว) เสียง 'ow' ออกเสียงคล้ายไทยว่า?",
+                options: ["โอ", "เอา", "อัว", "ออ"],
+                answer: 1 // เอา
+            },
+            {
+                q: "คำว่า 'Snow' (หิมะ) เสียง 'ow' ออกเสียงคล้ายไทยว่า?",
+                options: ["เอา", "โอ", "อัว", "เอ"],
+                answer: 1 // โอ
+            },
+            {
+                q: "คำว่า 'Rain' (ฝน) เสียง 'ai' ออกเสียงยาวเหมือนไทย?",
+                options: ["เอ", "แอ", "ไอ", "เอา"],
+                answer: 0 // เ- (เอ)
+            },
+            {
+                q: "คำว่า 'Boy' (เด็กชาย) เสียง 'oy' ออกเสียงคล้ายไทย?",
+                options: ["ออย", "อาย", "เออย", "อูย"],
+                answer: 0 // ออย
+            },
+            {
+                q: "คำว่า 'House' (บ้าน) เสียง 'ou' ออกเสียงคล้ายไทย?",
+                options: ["โอ", "เอา", "อัว", "ออ"],
+                answer: 1 // เอา
+            },
+            {
+                q: "คำว่า 'Bread' (ขนมปัง) เสียง 'ea' ออกเสียงสั้นเหมือนไทย?",
+                options: ["อี", "เอ", "แอ", "ไอ"],
+                answer: 1 // เ- (เอ)
+            },
+            {
+                q: "คำว่า 'Meat' (เนื้อ) เสียง 'ea' ออกเสียงยาวเหมือนไทย?",
+                options: ["เอ", "อี", "แอ", "ไอ"],
+                answer: 1 // อี
+            },
+            {
+                q: "คำว่า 'Car' (รถยนต์) เสียง 'ar' ออกเสียงคล้ายไทย?",
+                options: ["แอ", "อา", "เออ", "อู"],
+                answer: 1 // อา
+            },
+            {
+                q: "คำว่า 'Bird' (นก) เสียง 'ir' ออกเสียงคล้ายไทย?",
+                options: ["เออ", "อี", "แอ", "อา"],
+                answer: 0 // เออ
+            },
+            {
+                q: "คำว่า 'Teacher' (ครู) พยางค์หลัง 'er' ออกเสียงคล้ายไทย?",
+                options: ["เออ", "เอ", "อาร์", "เอร์"],
+                answer: 0 // เออ (เสียง schwa+r)
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 60;
+        const maxTime = 60;
+
+        // Elements
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const timerDisplay = document.getElementById('timer');
+        const progressBar = document.getElementById('progress-bar');
+        const questionCountDisplay = document.getElementById('question-count');
+        const currentScoreDisplay = document.getElementById('current-score');
+
+        function startGame() {
+            startScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            currentQuestionIndex = 0;
+            score = 0;
+            updateScore();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            resetTimer();
+            const currentQuestion = questions[currentQuestionIndex];
+            
+            // Update UI
+            questionCountDisplay.innerText = `ข้อที่ ${currentQuestionIndex + 1}/${questions.length}`;
+            questionText.innerText = currentQuestion.q;
+            optionsContainer.innerHTML = '';
+            
+            // Update Progress Bar
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            // Create Buttons
+            currentQuestion.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = option;
+                btn.classList.add('option-btn');
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            startTimer();
+        }
+
+        function startTimer() {
+            timeLeft = maxTime;
+            timerDisplay.innerText = timeLeft;
+            
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    gameOver("หมดเวลา! ⏰");
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            clearInterval(timer); // Stop timer
+            
+            const currentQuestion = questions[currentQuestionIndex];
+            const buttons = optionsContainer.querySelectorAll('.option-btn');
+
+            // Disable all buttons
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === currentQuestion.answer) {
+                // Correct
+                btnElement.classList.add('correct');
+                score += 1;
             } else {
-                endGame();
+                // Wrong
+                btnElement.classList.add('wrong');
+                // Show correct answer
+                buttons[currentQuestion.answer].classList.add('correct');
+                score -= 1;
             }
-        }, 1500);
-    }
 
-    function selectAnswer(e) {
-        if (isAnswering) return;
-        isAnswering = true;
-        clearInterval(timerInterval); // หยุดเวลาเมื่อตอบ
+            updateScore();
 
-        const selectedButton = e.target;
-        const correct = selectedButton.dataset.correct === "true";
-        
-        if (correct) {
-            score += 1;
-        } else {
-            score -= 1;
+            // Wait 1 second then next question
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    loadQuestion();
+                } else {
+                    endGame();
+                }
+            }, 1000);
         }
-        updateScoreBoard();
 
-        setStatusClass(selectedButton, correct);
-        
-        // แสดงเฉลยปุ่มที่ถูกต้องทั้งหมด
-        Array.from(answerButtonsElement.children).forEach(button => {
-            setStatusClass(button, button.dataset.correct === "true");
-            button.disabled = true;
-        });
+        function updateScore() {
+            currentScoreDisplay.innerText = score;
+        }
 
-        setTimeout(() => {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                loadQuestion();
+        function gameOver(reason) {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            
+            document.getElementById('result-title').innerText = reason;
+            document.getElementById('result-emoji').innerText = "😢";
+            document.getElementById('final-score').innerText = score;
+            
+            const msgElement = document.getElementById('result-message');
+            if (score >= 12) {
+                msgElement.innerHTML = "<span class='pass-message'>ยอดเยี่ยม! คุณผ่านเกณฑ์ 🎉</span>";
             } else {
-                endGame();
+                msgElement.innerHTML = "<span class='fail-message'>พยายามอีกนิดนะ! ต้องได้ 12 คะแนนขึ้นไป 💪</span>";
             }
-        }, 1000); // รอ 1 วิ ก่อนไปข้อต่อไป
-    }
-
-    function setStatusClass(element, correct) {
-        clearStatusClass(element);
-        if (correct) {
-            element.classList.add('correct');
-        } else {
-            element.classList.add('wrong');
         }
-    }
 
-    function clearStatusClass(element) {
-        element.classList.remove('correct');
-        element.classList.remove('wrong');
-    }
+        function endGame() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            
+            document.getElementById('result-title').innerText = "จบเกม!";
+            document.getElementById('final-score').innerText = score;
+            
+            const msgElement = document.getElementById('result-message');
+            const emojiElement = document.getElementById('result-emoji');
 
-    function updateScoreBoard() {
-        scoreBoard.innerText = `คะแนน: ${score}`;
-    }
-
-    function endGame() {
-        gameScreen.classList.remove('active');
-        resultScreen.classList.add('active');
-        
-        const finalScoreElement = document.getElementById('final-score');
-        const resultMessage = document.getElementById('result-message');
-        const resultTitle = document.getElementById('result-title');
-        const resultEmoji = document.getElementById('result-emoji');
-
-        finalScoreElement.innerText = score;
-
-        if (score >= 12) {
-            resultTitle.innerText = "ยินดีด้วย! คุณผ่านเกณฑ์";
-            resultTitle.style.color = "#28a745";
-            resultMessage.innerText = "เก่งมาก! คุณมีความเข้าใจเรื่องเสียงสระไทยเป็นอย่างดี 🌟";
-            resultEmoji.innerText = "🏆";
-        } else {
-            resultTitle.innerText = "พยายามอีกนิดนะ!";
-            resultTitle.style.color = "#dc3545";
-            resultMessage.innerText = `คุณได้ ${score} คะแนน ต้องได้อย่างน้อย 12 คะแนนถึงจะผ่าน ลองทบทวนแล้วเล่นใหม่นะ! 💪`;
-            resultEmoji.innerText = "📚";
+            if (score >= 12) {
+                emojiElement.innerText = "🏆";
+                msgElement.innerHTML = "<span class='pass-message'>ยินดีด้วย! คุณผ่านเกณฑ์การประเมิน 🎉</span><br>เก่งมากครับ!";
+            } else {
+                emojiElement.innerText = "📚";
+                msgElement.innerHTML = "<span class='fail-message'>ยังไม่ผ่านเกณฑ์ (ต้องได้ 12 คะแนน)</span><br>ลองทบทวนเรื่องเสียงสระแล้วเล่นใหม่นะ!";
+            }
         }
-    }
-
-    function restartGame() {
-        startGame();
-    }
-
-</script>
-
+    </script>
 </body>
 </html>
