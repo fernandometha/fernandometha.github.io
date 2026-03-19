@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I am... Quiz Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --pastel-blue: #AECBFA;
+            --pastel-pink: #F48FB1;
+            --pastel-green: #81C784;
+            --pastel-yellow: #FFF59D;
+            --pastel-purple: #CE93D8;
+            --text-color: #455A64;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .game-container {
+            background: var(--white);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header & Progress --- */
+        .header {
+            padding: 20px;
+            background: #F3E5F5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #E1BEE7;
+        }
+
+        .score-board {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--pastel-purple);
+        }
+
+        .timer-box {
+            background: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: #eee;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FF8A80, #FF5252);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* --- Screens --- */
+        .screen {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--pastel-pink);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0px #FCE4EC;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            background: var(--pastel-blue);
+            color: #1565C0;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(174, 203, 250, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(174, 203, 250, 0.6);
+        }
+
+        .btn-start { background: var(--pastel-green); color: #1B5E20; }
+        .btn-restart { background: var(--pastel-pink); color: #880E4F; }
+
+        /* --- Quiz Options --- */
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #37474F;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .option-btn {
+            background: #F5F5F5;
+            border: 2px solid #E0E0E0;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-btn:hover {
+            background: #E3F2FD;
+            border-color: var(--pastel-blue);
+        }
+
+        .option-btn.correct {
+            background: var(--pastel-green);
+            color: white;
+            border-color: var(--pastel-green);
+        }
+
+        .option-btn.wrong {
+            background: #FFCDD2;
+            color: #B71C1C;
+            border-color: #EF5350;
+        }
+
+        /* --- Result Styles --- */
+        .result-emoji {
+            font-size: 5rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        .pass-msg { color: var(--pastel-green); }
+        .fail-msg { color: #EF5350; }
+
+        .final-score {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--pastel-purple);
+            margin: 10px 0;
+        }
+
+        /* Responsive */
+        @media (min-width: 600px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Header (Visible during game) -->
+    <div class="header" id="gameHeader" style="display: none;">
+        <div class="score-board">คะแนน: <span id="scoreDisplay">0</span></div>
+        <div class="timer-box">
+            <span>⏱️</span> <span id="timerDisplay">60</span>
+        </div>
+    </div>
+
+    <!-- 1. Start Screen -->
+    <div id="startScreen" class="screen active">
+        <h1>I am... Quiz 🎓</h1>
+        <div style="font-size: 4rem; margin-bottom: 20px;">🇬🇧</div>
+        <p><strong>กติกาการเล่น:</strong></p>
+        <ul style="text-align: left; margin-bottom: 20px; list-style: none; padding-left: 20px;">
+            <li>📝 มีทั้งหมด <strong>20 ข้อ</strong></li>
+            <li>⏱️ จับเวลาข้อละ <strong>1 นาที</strong></li>
+            <li>✅ ตอบถูก <strong>+1 คะแนน</strong></li>
+            <li>❌ ตอบผิด <strong>-1 คะแนน</strong></li>
+            <li>⚠️ หมดเวลา = <strong>จบเกมทันที</strong></li>
+            <li>🏆 ต้องได้ <strong>12 คะแนน</strong> ขึ้นไปจึงจะผ่าน</li>
+        </ul>
+        <button class="btn btn-start" onclick="startGame()">เริ่มเกมเลย! 🚀</button>
+    </div>
+
+    <!-- 2. Game Screen -->
+    <div id="gameScreen" class="screen">
+        <div style="width: 100%; margin-bottom: 10px; text-align: left; color: #90A4AE; font-size: 0.9rem;">
+            ข้อที่ <span id="questionCount">1</span> / 20
+        </div>
+        <div class="question-text" id="questionText">
+            Loading...
+        </div>
+        <div class="options-grid" id="optionsContainer">
+            <!-- Options will be injected here -->
+        </div>
+    </div>
+
+    <!-- 3. End Screen -->
+    <div id="endScreen" class="screen">
+        <span class="result-emoji" id="resultEmoji">🏆</span>
+        <h2 id="resultTitle">จบเกม!</h2>
+        <p id="resultMessage">สรุปผลการทำแบบทดสอบ</p>
+        <div class="final-score" id="finalScoreDisplay">0</div>
+        <p id="passFailText" style="font-weight: bold;"></p>
+        <button class="btn btn-restart" onclick="startGame()">เล่นอีกครั้ง 🔄</button>
+    </div>
+</div>
+
+<script>
+    // --- Game Data (20 Questions) ---
+    const questions = [
+        { q: "I ___ a student.", options: ["is", "am", "are", "be"], ans: 1 },
+        { q: "I ___ not hungry.", options: ["am", "is", "are", "do"], ans: 0 },
+        { q: "___ I late?", options: ["Is", "Are", "Am", "Do"], ans: 2 },
+        { q: "I'm ___ teacher.", options: ["a", "an", "the", "two"], ans: 0 },
+        { q: "I am happy. (แปลว่า?)", options: ["ฉันหิว", "ฉันเศร้า", "ฉันมีความสุข", "ฉันเหนื่อย"], ans: 2 },
+        { q: "I am ___ Thai.", options: ["a", "an", "no article", "the"], ans: 2 },
+        { q: "I ___ sad today.", options: ["is", "am", "are", "be"], ans: 1 },
+        { q: "Am I ___?", options: ["right", "rights", "a right", "the right"], ans: 0 },
+        { q: "I'm not ___ . I want water.", options: ["hungry", "thirsty", "tired", "sad"], ans: 0 }, // Trick question context
+        { q: "I am ___ boy.", options: ["a", "an", "two", "many"], ans: 0 },
+        { q: "I am ___ artist.", options: ["a", "an", "the", "some"], ans: 1 },
+        { q: "I ___ not a doctor.", options: ["is", "am", "are", "do"], ans: 1 },
+        { q: "I'm ___ years old.", options: ["twelve", "twelveth", "twelve's", "twelves"], ans: 0 },
+        { q: "___ I your friend?", options: ["Is", "Are", "Am", "Be"], ans: 2 },
+        { q: "I am ___ . (ฉันชื่อสมชาย)", options: ["Somchai", "a Somchai", "the Somchai", "Mr. Somchai"], ans: 0 },
+        { q: "I'm not ___ . (ฉันไม่โกรธ)", options: ["angry", "happy", "sad", "tired"], ans: 0 },
+        { q: "I am ___ student in this class.", options: ["a", "an", "the", "some"], ans: 2 }, // Specific context
+        { q: "Am I ___?", options: ["correct", "correctly", "correction", "corrects"], ans: 0 },
+        { q: "I ___ ready.", options: ["is", "am", "are", "be"], ans: 1 },
+        { q: "I'm not ___ . (ฉันไม่หนาว)", options: ["hot", "cold", "warm", "cool"], ans: 1 }
+    ];
+
+    // --- Game State Variables ---
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 60;
+    const totalTime = 60;
+    const passScore = 12;
+
+    // --- DOM Elements ---
+    const startScreen = document.getElementById('startScreen');
+    const gameScreen = document.getElementById('gameScreen');
+    const endScreen = document.getElementById('endScreen');
+    const gameHeader = document.getElementById('gameHeader');
+    
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const questionCountDisplay = document.getElementById('questionCount');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const progressBar = document.getElementById('progressBar');
+
+    const finalScoreDisplay = document.getElementById('finalScoreDisplay');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultMessage = document.getElementById('resultMessage');
+    const passFailText = document.getElementById('passFailText');
+    const resultEmoji = document.getElementById('resultEmoji');
+
+    // --- Functions ---
+
+    function startGame() {
+        // Reset State
+        currentQuestionIndex = 0;
+        score = 0;
+        timeLeft = totalTime;
+        
+        // Update UI
+        scoreDisplay.innerText = score;
+        startScreen.classList.remove('active');
+        endScreen.classList.remove('active');
+        gameScreen.classList.add('active');
+        gameHeader.style.display = 'flex';
+        
+        loadQuestion();
+        startTimer();
+    }
+
+    function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(() => {
+            timeLeft--;
+            timerDisplay.innerText = timeLeft;
+            
+            // Update Timer Bar Color based on urgency
+            if(timeLeft < 10) {
+                timerDisplay.style.color = 'red';
+            } else {
+                timerDisplay.style.color = 'var(--text-color)';
+            }
+
+            if (timeLeft <= 0) {
+                endGame(true); // True means time out
+            }
+        }, 1000);
+    }
+
+    function loadQuestion() {
+        const currentQ = questions[currentQuestionIndex];
+        
+        // Update Progress Bar
+        const progress = ((currentQuestionIndex) / questions.length) * 100;
+        progressBar.style.width = `${progress}%`;
+
+        // Update Text
+        questionCountDisplay.innerText = currentQuestionIndex + 1;
+        questionText.innerText = currentQ.q;
+        
+        // Create Options
+        optionsContainer.innerHTML = '';
+        currentQ.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.classList.add('option-btn');
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btnElement) {
+        const currentQ = questions[currentQuestionIndex];
+        const isCorrect = selectedIndex === currentQ.ans;
+        const allButtons = document.querySelectorAll('.option-btn');
+
+        // Disable all buttons to prevent double clicking
+        allButtons.forEach(btn => btn.disabled = true);
+
+        if (isCorrect) {
+            btnElement.classList.add('correct');
+            score += 1;
+        } else {
+            btnElement.classList.add('wrong');
+            // Highlight the correct answer
+            allButtons[currentQ.ans].classList.add('correct');
+            score -= 1;
+        }
+
+        scoreDisplay.innerText = score;
+
+        // Delay before next question
+        setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                endGame(false); // False means finished naturally
+            }
+        }, 1000);
+    }
+
+    function endGame(isTimeOut) {
+        clearInterval(timer);
+        gameScreen.classList.remove('active');
+        gameHeader.style.display = 'none';
+        endScreen.classList.add('active');
+
+        finalScoreDisplay.innerText = score;
+        progressBar.style.width = '100%';
+
+        if (isTimeOut) {
+            resultTitle.innerText = "หมดเวลา! ⏰";
+            resultMessage.innerText = "คุณทำเวลาไม่ทันในเกมนี้";
+            resultEmoji.innerText = "😵";
+            passFailText.innerText = `คะแนนของคุณ: ${score} / ${questions.length}`;
+            passFailText.className = "fail-msg";
+        } else {
+            if (score >= passScore) {
+                resultTitle.innerText = "ยินดีด้วย! 🎉";
+                resultMessage.innerText = "คุณทำคะแนนได้ยอดเยี่ยมมาก";
+                resultEmoji.innerText = "🏆";
+                passFailText.innerText = `ผ่านเกณฑ์! (ได้ ${score} คะแนน)`;
+                passFailText.className = "pass-msg";
+            } else {
+                resultTitle.innerText = "พยายามอีกนิดนะ! 💪";
+                resultMessage.innerText = "คุณยังทำได้ไม่ถึงเกณฑ์ที่กำหนด";
+                resultEmoji.innerText = "📚";
+                passFailText.innerText = `ตกเกณฑ์ (ต้องการ ${passScore} คะแนน)`;
+                passFailText.className = "fail-msg";
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
