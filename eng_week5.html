@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำสะกด -t และ -n</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Section Cards */
+        .section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section h2 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 1.5em;
+        }
+
+        /* Word Cards */
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .word-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .word-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .word-card.t-sound {
+            border-color: #ff6b6b;
+        }
+
+        .word-card.n-sound {
+            border-color: #4ecdc4;
+        }
+
+        .word-card .emoji {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .word-card .english {
+            font-family: 'Comic Neue', cursive;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+
+        .word-card .thai {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #ddd;
+        }
+
+        .comparison-table th {
+            background: #764ba2;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .comparison-table .t-col {
+            background: #ffeaa7;
+        }
+
+        .comparison-table .n-col {
+            background: #81ecec;
+        }
+
+        /* Interactive Section */
+        .interactive {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .interactive h2 {
+            color: white;
+        }
+
+        .btn {
+            background: #f093fb;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .game-area {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .game-question {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .game-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .game-btn {
+            padding: 15px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .game-btn.t-btn {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .game-btn.n-btn {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .game-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.3em;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #00b894;
+            color: white;
+            display: block;
+        }
+
+        .feedback.wrong {
+            background: #d63031;
+            color: white;
+            display: block;
+        }
+
+        /* Summary */
+        .summary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            font-size: 1.5em;
+            border: 5px solid white;
+        }
+
+        .summary strong {
+            background: rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .word-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section h2 {
+                font-size: 1.4em;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .word-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+        }
+
+        /* Animation */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .word-card:hover .emoji {
+            animation: bounce 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📚 คำสะกด -t และ -n</h1>
+            <p>เรียนรู้การออกเสียงคำภาษาอังกฤษพื้นฐาน</p>
+        </div>
+
+        <!-- Section -t -->
+        <div class="section">
+            <h2><span class="section-icon">🔴</span> คำสะกด -t</h2>
+            <p style="font-size: 1.2em;">ออกเสียง <strong>ต (เสียงสั้น)</strong></p>
+            <div class="word-grid">
+                <div class="word-card t-sound" onclick="playSound('cat')">
+                    <span class="emoji">🐱</span>
+                    <span class="english">cat</span>
+                    <span class="thai">แคท</span>
+                </div>
+                <div class="word-card t-sound" onclick="playSound('hat')">
+                    <span class="emoji">🎩</span>
+                    <span class="english">hat</span>
+                    <span class="thai">แฮท</span>
+                </div>
+                <div class="word-card t-sound" onclick="playSound('sit')">
+                    <span class="emoji">🪑</span>
+                    <span class="english">sit</span>
+                    <span class="thai">ซิท</span>
+                </div>
+                <div class="word-card t-sound" onclick="playSound('hot')">
+                    <span class="emoji">🔥</span>
+                    <span class="english">hot</span>
+                    <span class="thai">ฮอท</span>
+                </div>
+                <div class="word-card t-sound" onclick="playSound('cut')">
+                    <span class="emoji">✂️</span>
+                    <span class="english">cut</span>
+                    <span class="thai">คัท</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section -n -->
+        <div class="section">
+            <h2><span class="section-icon">🔵</span> คำสะกด -n</h2>
+            <p style="font-size: 1.2em;">ออกเสียง <strong>น (เสียงนาสิก)</strong></p>
+            <div class="word-grid">
+                <div class="word-card n-sound" onclick="playSound('man')">
+                    <span class="emoji">👨</span>
+                    <span class="english">man</span>
+                    <span class="thai">แมน</span>
+                </div>
+                <div class="word-card n-sound" onclick="playSound('pen')">
+                    <span class="emoji">🖊️</span>
+                    <span class="english">pen</span>
+                    <span class="thai">เพน</span>
+                </div>
+                <div class="word-card n-sound" onclick="playSound('sun')">
+                    <span class="emoji">☀️</span>
+                    <span class="english">sun</span>
+                    <span class="thai">ซัน</span>
+                </div>
+                <div class="word-card n-sound" onclick="playSound('ten')">
+                    <span class="emoji">🔢</span>
+                    <span class="english">ten</span>
+                    <span class="thai">เทน</span>
+                </div>
+                <div class="word-card n-sound" onclick="playSound('run')">
+                    <span class="emoji">🏃</span>
+                    <span class="english">run</span>
+                    <span class="thai">รัน</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="section">
+            <h2><span class="section-icon">⚖️</span> เปรียบเทียบเสียง</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>ลักษณะ</th>
+                    <th class="t-col">-t</th>
+                    <th class="n-col">-n</th>
+                </tr>
+                <tr>
+                    <td>เสียง</td>
+                    <td class="t-col">ต (สั้น)</td>
+                    <td class="n-col">น (นาสิก)</td>
+                </tr>
+                <tr>
+                    <td>ตำแหน่งลิ้น</td>
+                    <td class="t-col">ปลายลิ้นแตะปุ่มเหงือก</td>
+                    <td class="n-col">ปลายลิ้นแตะปุ่มเหงือก + ลมออกทางจมูก</td>
+                </tr>
+                <tr>
+                    <td>ตัวอย่าง</td>
+                    <td class="t-col">cat, hat, sit</td>
+                    <td class="n-col">man, pen, sun</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Interactive Section -->
+        <div class="section interactive">
+            <h2><span class="section-icon">🎮</span> กิจกรรมสนุกๆ</h2>
+            <div style="text-align: center; margin: 20px 0;">
+                <button class="btn" onclick="playAllSounds()">🔊 ฟังเสียงทั้งหมด</button>
+            </div>
+            
+            <div class="game-area">
+                <div class="game-question" id="gameQuestion">
+                    คำว่า "cat" ลงท้ายด้วยเสียงอะไร?
+                </div>
+                <div class="game-options">
+                    <button class="game-btn t-btn" onclick="checkAnswer('t')">-t (ต)</button>
+                    <button class="game-btn n-btn" onclick="checkAnswer('n')">-n (น)</button>
+                </div>
+                <div class="feedback" id="feedback"></div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <button class="btn" onclick="nextQuestion()" style="background: #667eea;">คำถามถัดไป ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary">
+            <p>📝 สรุป</p>
+            <strong>-t = เสียง ต</strong>
+            <strong>-n = เสียง น</strong>
+            <p style="margin-top: 15px; font-size: 1.2em;">ฝึกฝนบ่อยๆ จะเก่งขึ้นนะ! 💪</p>
+        </div>
+    </div>
+
+    <script>
+        // Sound simulation
+        function playSound(word) {
+            const pronunciations = {
+                'cat': 'แคท',
+                'hat': 'แฮท',
+                'sit': 'ซิท',
+                'hot': 'ฮอท',
+                'cut': 'คัท',
+                'man': 'แมน',
+                'pen': 'เพน',
+                'sun': 'ซัน',
+                'ten': 'เทน',
+                'run': 'รัน'
+            };
+            
+            alert(`🔊 ${word} = ${pronunciations[word]}`);
+        }
+
+        function playAllSounds() {
+            alert('🔊 ฟังเสียงทั้งหมด:\n\n-t: cat, hat, sit, hot, cut\n-n: man, pen, sun, ten, run');
+        }
+
+        // Game logic
+        const questions = [
+            { word: 'cat', answer: 't' },
+            { word: 'man', answer: 'n' },
+            { word: 'hat', answer: 't' },
+            { word: 'sun', answer: 'n' },
+            { word: 'sit', answer: 't' },
+            { word: 'pen', answer: 'n' },
+            { word: 'hot', answer: 't' },
+            { word: 'ten', answer: 'n' },
+            { word: 'cut', answer: 't' },
+            { word: 'run', answer: 'n' }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('gameQuestion').innerHTML = 
+                `คำถามที่ ${currentQuestion + 1}: คำว่า "<strong>${q.word}</strong>" ลงท้ายด้วยเสียงอะไร?`;
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('feedback').style.display = 'none';
+        }
+
+        function checkAnswer(answer) {
+            const q = questions[currentQuestion];
+            const feedback = document.getElementById('feedback');
+            
+            if (answer === q.answer) {
+                feedback.textContent = '✅ ถูกต้อง! เก่งมาก!';
+                feedback.className = 'feedback correct';
+                score++;
+            } else {
+                feedback.textContent = '❌ ยังไม่ถูกต้อง ลองใหม่นะ!';
+                feedback.className = 'feedback wrong';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion >= questions.length) {
+                alert(`🎉 จบเกม! คะแนนของคุณ: ${score}/${questions.length}`);
+                currentQuestion = 0;
+                score = 0;
+            }
+            loadQuestion();
+        }
+
+        // Initialize game
+        loadQuestion();
+
+        // Add hover effects
+        document.querySelectorAll('.word-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
