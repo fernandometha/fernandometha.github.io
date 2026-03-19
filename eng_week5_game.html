@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Quiz: -t vs -n Spelling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --pastel-bg: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+            --container-bg: rgba(255, 255, 255, 0.95);
+            --primary-color: #FF6B6B; /* สดใส */
+            --secondary-color: #4ECDC4; /* สดใส */
+            --text-color: #2d3436;
+            --btn-hover: #ffeaa7;
+            --correct: #55efc4;
+            --wrong: #ff7675;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', 'Kanit', sans-serif;
+            background-image: var(--pastel-bg);
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+
+        .game-container {
+            background: var(--container-bg);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 2px solid #fff;
+            transition: all 0.3s ease;
+        }
+
+        h1, h2 {
+            color: #6c5ce7;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            font-family: 'Kanit', sans-serif;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #22a6b3;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Quiz Elements */
+        .progress-container {
+            width: 100%;
+            background-color: #dfe6e9;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .timer-box {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #d63031;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #2d3436;
+            background: #fff;
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px dashed #b2bec3;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background-color: white;
+            border: 2px solid #dfe6e9;
+            color: var(--text-color);
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        .option-btn:hover {
+            background-color: var(--btn-hover);
+            border-color: #fdcb6e;
+            transform: translateY(-2px);
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct);
+            color: white;
+            border-color: var(--correct);
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong);
+            color: white;
+            border-color: var(--wrong);
+        }
+
+        .score-board {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-weight: bold;
+            color: #6c5ce7;
+            font-size: 1.2rem;
+        }
+
+        /* Result Screen */
+        .result-emoji {
+            font-size: 5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .final-score {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .instruction-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffecb5;
+            padding: 15px;
+            text-align: left;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: #856404;
+            font-size: 0.95rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .game-container {
+                padding: 20px;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen active">
+            <h1>🇬🇧 English Spelling Quiz 🇬🇧</h1>
+            <h2>เรื่อง คำสะกด -t, -n</h2>
+            
+            <div class="instruction-box">
+                <strong>📜 วิธีเล่น:</strong>
+                <ul>
+                    <li>จำนวน 20 ข้อ</li>
+                    <li>เวลาข้อละ 1 นาที ⏱️</li>
+                    <li>ตอบถูก <span style="color:green">+1 คะแนน</span> | ตอบผิด <span style="color:red">-1 คะแนน</span></li>
+                    <li>ถ้าหมดเวลา เกมจะจบลงทันที!</li>
+                    <li>ต้องได้คะแนน <strong>12 คะแนน</strong> ขึ้นไป จึงจะผ่าน 🎓</li>
+                </ul>
+            </div>
+
+            <p>พร้อมที่จะท้าทายความสามารถหรือยัง? 🚀</p>
+            <button class="btn" onclick="startGame()">เริ่มเกม!</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <div class="score-board">คะแนน: <span id="current-score">0</span></div>
+            
+            <div class="timer-box">
+                <span>⏳</span> <span id="time-left">60</span> วินาที
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="question-text" id="question-text">
+                Loading Question...
+            </div>
+
+            <div class="options-grid" id="options-container">
+                <!-- Options will be injected here -->
+            </div>
+        </div>
+
+        <!-- End Screen -->
+        <div id="end-screen" class="screen">
+            <span class="result-emoji" id="result-emoji">🏁</span>
+            <h2 id="end-title">จบเกม!</h2>
+            <p>คะแนนของคุณคือ:</p>
+            <div class="final-score" id="final-score-display">0 / 20</div>
+            <p id="pass-fail-msg" style="font-size: 1.2rem; margin-top: 10px;"></p>
+            <button class="btn" onclick="restartGame()">เล่นอีกครั้ง 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        // ข้อมูลคำถาม 20 ข้อ
+        const questions = [
+            { q: "I have a pet ca__ (แมว)", options: ["cat", "can", "cap", "car"], a: 0 },
+            { q: "The sun is brigh__ (สว่าง)", options: ["brighn", "bright", "brighm", "brighh"], a: 1 },
+            { q: "I wan__ to go home. (ต้องการ)", options: ["wann", "want", "wans", "wani"], a: 1 },
+            { q: "A straigh__ line. (ตรง)", options: ["straighn", "straighs", "straight", "straighr"], a: 2 },
+            { q: "A quiet stree__. (ถนน)", options: ["street", "streen", "streem", "streej"], a: 0 },
+            { q: "A fligh__ to London. (เที่ยวบิน)", options: ["flighn", "flighm", "flight", "flighh"], a: 2 },
+            { q: "A shor__ story. (สั้น)", options: ["shorn", "short", "shors", "shorl"], a: 1 },
+            { q: "A swee__ cake. (หวาน)", options: ["sweel", "sweem", "sweet", "sween"], a: 2 },
+            { q: "A gian__ monster. (ยักษ์)", options: ["giant", "giann", "giam", "gias"], a: 0 },
+            { q: "A stude__ (นักเรียน)", options: ["student", "studenn", "studem", "studenr"], a: 0 },
+            { q: "A patien__ (คนไข้/อดทน)", options: ["patienr", "patient", "patienm", "patienl"], a: 1 },
+            { q: "A presen__ (ของขวัญ/ปัจจุบัน)", options: ["presenr", "presenm", "present", "presenn"], a: 2 },
+            { q: "A differe__ (แตกต่าง)", options: ["differe", "differen", "different", "differenr"], a: 2 },
+            { q: "A confiden__ (มั่นใจ)", options: ["confident", "confidenr", "confidenm", "confidenn"], a: 0 },
+            { q: "A pare__ (พ่อแม่)", options: ["paren", "parent", "parens", "parenn"], a: 1 },
+            { q: "A garde__ (สวน)", options: ["garden", "garder", "gardem", "garden"], a: 0 },
+            { q: "A kitch__ (ห้องครัว)", options: ["kitchel", "kitchen", "kitchel", "kitchel"], a: 1 },
+            { q: "A butto__ (ปุ่ม)", options: ["button", "buttom", "butto", "butto"], a: 0 },
+            { q: "A lesso__ (บทเรียน)", options: ["lesson", "lessom", "lessol", "lessok"], a: 0 },
+            { q: "A sil__ (เงียบ)", options: ["sile", "silm", "siln", "silent"], a: 3 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timeLeft = 60;
+        let timerInterval;
+        const passingScore = 12;
+
+        // Elements
+        const startScreen = document.getElementById('start-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const endScreen = document.getElementById('end-screen');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const currentScoreEl = document.getElementById('current-score');
+        const timeLeftEl = document.getElementById('time-left');
+        const progressBar = document.getElementById('progress-bar');
+        const finalScoreEl = document.getElementById('final-score-display');
+        const passFailMsg = document.getElementById('pass-fail-msg');
+        const resultEmoji = document.getElementById('result-emoji');
+        const endTitle = document.getElementById('end-title');
+
+        function startGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            timeLeft = 60;
+            currentScoreEl.innerText = score;
+            
+            startScreen.classList.remove('active');
+            endScreen.classList.remove('active');
+            gameScreen.classList.add('active');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            clearInterval(timerInterval);
+            timeLeft = 60;
+            timeLeftEl.innerText = timeLeft;
+            
+            // Update Progress Bar
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            if (currentQuestionIndex >= questions.length) {
+                endGame();
+                return;
+            }
+
+            const currentQ = questions[currentQuestionIndex];
+            questionText.innerText = `ข้อ ${currentQuestionIndex + 1}: ${currentQ.q}`;
+            optionsContainer.innerHTML = '';
+
+            currentQ.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.classList.add('option-btn');
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Start Timer
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timeLeftEl.innerText = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    // หมดเวลา ให้จบเกมทันทีตามโจทย์
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            clearInterval(timerInterval); // Stop timer
+            
+            const currentQ = questions[currentQuestionIndex];
+            const buttons = optionsContainer.querySelectorAll('.option-btn');
+
+            // Disable all buttons
+            buttons.forEach(b => b.disabled = true);
+
+            if (selectedIndex === currentQ.a) {
+                // ถูก
+                btnElement.classList.add('correct');
+                score += 1;
+            } else {
+                // ผิด
+                btnElement.classList.add('wrong');
+                // Highlight correct answer
+                buttons[currentQ.a].classList.add('correct');
+                score -= 1;
+            }
+
+            currentScoreEl.innerText = score;
+
+            // Delay before next question
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 1000);
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            gameScreen.classList.remove('active');
+            endScreen.classList.add('active');
+
+            finalScoreEl.innerText = `${score} / 20`;
+
+            if (score >= passingScore) {
+                resultEmoji.innerText = "🎉🏆🎉";
+                endTitle.innerText = "ยินดีด้วย! คุณผ่านเกณฑ์";
+                endTitle.style.color = "#2ecc71";
+                passFailMsg.innerText = `ยอดเยี่ยม! คุณทำได้ ${score} คะแนน (ผ่านเกณฑ์ ${passingScore})`;
+                passFailMsg.style.color = "#27ae60";
+            } else {
+                resultEmoji.innerText = "😢📉";
+                endTitle.innerText = "พยายามอีกนิดนะ";
+                endTitle.style.color = "#e74c3c";
+                passFailMsg.innerText = `คุณได้ ${score} คะแนน (ต้องการ ${passingScore} คะแนนเพื่อผ่าน)`;
+                passFailMsg.style.color = "#c0392b";
+            }
+        }
+
+        function restartGame() {
+            startGame();
+        }
+    </script>
+</body>
+</html>
