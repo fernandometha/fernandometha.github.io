@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Vocabulary Quiz - ม.1</title>
+    <!-- นำเข้าฟอนต์ภาษาไทยสวยๆ จาก Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --pastel-gradient: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --text-color: #444;
+            --correct-color: #2ecc71;
+            --wrong-color: #e74c3c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%); /* ส้มพาสเทล */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Container หลัก */
+        .container {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #fff;
+        }
+
+        h1, h2 {
+            color: #ff6b6b; /* สีชมพูสดใส */
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        /* ปุ่มกดต่างๆ */
+        .btn {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            font-family: 'Prompt', sans-serif;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        /* หน้าจอเกม */
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #6c5ce7; /* สีม่วงสดใส */
+        }
+
+        .timer-box {
+            background: #ffeaa7;
+            padding: 5px 15px;
+            border-radius: 15px;
+            color: #d35400;
+        }
+
+        .score-box {
+            background: #55efc4;
+            padding: 5px 15px;
+            border-radius: 15px;
+            color: #00b894;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #a18cd1 0%, #fbc2eb 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* ตัวเลือกคำตอบ */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background: #fff;
+            border: 2px solid #dfe6e9;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Prompt', sans-serif;
+            color: #2d3436;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .option-btn:hover {
+            border-color: #74b9ff;
+            background-color: #f0f8ff;
+            transform: scale(1.02);
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-color);
+            color: white;
+            border-color: var(--correct-color);
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-color);
+            color: white;
+            border-color: var(--wrong-color);
+        }
+
+        /* หน้าจอสรุปผล */
+        .result-emoji {
+            font-size: 5rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        .pass-message { color: #2ecc71; font-weight: bold; font-size: 1.5rem; }
+        .fail-message { color: #e74c3c; font-weight: bold; font-size: 1.5rem; }
+
+        /* Animation */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        .hidden { display: none; }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .options-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- หน้าจอเริ่มต้น -->
+        <div id="start-screen">
+            <h1>🇬🇧 English Quiz: Daily Life 🇬🇧</h1>
+            <h2>คำศัพท์ในชีวิตประจำวัน (ม.1)</h2>
+            <div style="text-align: left; background: #fff3cd; padding: 15px; border-radius: 10px; margin-bottom: 20px; color: #856404;">
+                <strong>📜 วิธีเล่น:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>มีทั้งหมด <strong>20 ข้อ</strong></li>
+                    <li>จับเวลาข้อละ <strong>1 นาที</strong></li>
+                    <li>ตอบถูก <strong>+1 คะแนน</strong></li>
+                    <li>ตอบผิด <strong>-1 คะแนน</strong></li>
+                    <li>หมดเวลา = จบเกมทันที ⏰</li>
+                    <li>ต้องได้คะแนน <strong>12 คะแนนขึ้นไป</strong> จึงจะผ่าน ✅</li>
+                </ul>
+            </div>
+            <button class="btn" onclick="startGame()">เริ่มเกมเลย! 🚀</button>
+        </div>
+
+        <!-- หน้าจอเกม -->
+        <div id="game-screen" class="hidden">
+            <div class="game-header">
+                <div class="score-box">Score: <span id="score">0</span></div>
+                <div class="timer-box">Time: <span id="timer">60</span>s</div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <h2 id="question-text" style="color: #6c5ce7; font-size: 1.4rem;">Question goes here?</h2>
+
+            <div class="options-grid" id="options-container">
+                <!-- ตัวเลือกจะถูกสร้างด้วย JS -->
+            </div>
+        </div>
+
+        <!-- หน้าจอสรุปผล -->
+        <div id="result-screen" class="hidden">
+            <span class="result-emoji" id="result-emoji">🏆</span>
+            <h2 id="result-title">Game Over!</h2>
+            <p>คุณทำคะแนนได้: <strong id="final-score" style="font-size: 2rem; color: #ff6b6b;">0</strong> / 20</p>
+            <p id="result-message">Message</p>
+            <button class="btn" onclick="location.reload()">เล่นใหม่อีกครั้ง 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        // ข้อมูลคำถาม 20 ข้อ
+        const questions = [
+            { q: "ความหมายของคำว่า 'Breakfast' คืออะไร?", options: ["อาหารเช้า", "อาหารกลางวัน", "อาหารเย็น", "ของว่าง"], answer: 0 },
+            { q: "คำศัพท์ใดหมายถึง 'โรงเรียน'?", options: ["Hospital", "School", "Market", "Station"], answer: 1 },
+            { q: "'Library' คือสถานที่สำหรับทำอะไร?", options: ["ซื้อของ", "เล่นกีฬา", "ยืมหนังสือ", "นอนหลับ"], answer: 2 },
+            { q: "ข้อใดคือความหมายของ 'Brother'?", options: ["พี่สาว/น้องสาว", "พ่อ", "แม่", "พี่ชาย/น้องชาย"], answer: 3 },
+            { q: "เราใช้ 'Umbrella' เมื่อไหร่?", options: ["เมื่อแดดออก", "เมื่อฝนตก", "เมื่อหนาว", "เมื่อร้อน"], answer: 1 },
+            { q: "คำศัพท์ 'Delicious' แปลว่าอะไร?", options: ["น่าเกลียด", "อร่อย", "น่ากลัว", "เหนื่อย"], answer: 1 },
+            { q: "交通工具 (ยานพาหนะ) ข้อใดคือ 'Bus'?", options: ["รถยนต์", "รถจักรยาน", "รถประจำทาง", "เครื่องบิน"], answer: 2 },
+            { q: "สี 'Yellow' คือสีอะไร?", options: ["สีแดง", "สีเขียว", "สีเหลือง", "สีฟ้า"], answer: 2 },
+            { q: "'Vegetables' หมายถึง?", options: ["ผลไม้", "เนื้อสัตว์", "ผัก", "ขนม"], answer: 2 },
+            { q: "คำว่า 'Happy' ตรงข้ามกับคำว่าอะไร?", options: ["Sad", "Joyful", "Glad", "Fun"], answer: 0 },
+            { q: "ห้องสำหรับ 'Cooking' (ทำอาหาร) คือห้องใด?", options: ["Bedroom", "Bathroom", "Kitchen", "Living room"], answer: 2 },
+            { q: "'Doctor' ทำงานอยู่ที่ไหน?", options: ["School", "Hospital", "Police Station", "Bank"], answer: 1 },
+            { q: "ข้อใดคือ 'Water'?", options: ["น้ำ", "ไฟ", "ลม", "ดิน"], answer: 0 },
+            { q: "เราใช้ 'Toothbrush' เพื่อทำอะไร?", options: ["แปรงฟัน", "หวีผม", "ล้างหน้า", "ตัดเล็บ"], answer: 0 },
+            { q: "'Sunday' คือวันอะไร?", options: ["วันจันทร์", "วันอาทิตย์", "วันศุกร์", "วันเสาร์"], answer: 1 },
+            { q: "คำศัพท์ 'Expensive' หมายถึง?", options: ["ถูก", "แพง", "ใหม่", "เก่า"], answer: 1 },
+            { q: "'Garden' คือสถานที่ใด?", options: ["โรงจอดรถ", "สวน", "ระเบียง", "หลังคา"], answer: 1 },
+            { q: "สัตว์ชนิดใดคือ 'Elephant'?", options: ["สิงโต", "ช้าง", "ลิง", "เสือ"], answer: 1 },
+            { q: "คำกริยา 'Run' หมายถึง?", options: ["เดิน", "วิ่ง", "กระโดด", "นั่ง"], answer: 1 },
+            { q: "'Thank you' ใช้เมื่อไหร่?", options: ["เมื่อขอโทษ", "เมื่อขอบคุณ", "เมื่อทักทาย", "เมื่อลา"], answer: 1 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 60;
+        const passingScore = 12;
+
+        // Elements
+        const startScreen = document.getElementById('start-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const scoreEl = document.getElementById('score');
+        const timerEl = document.getElementById('timer');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const progressBar = document.getElementById('progress-bar');
+        const finalScoreEl = document.getElementById('final-score');
+        const resultMessageEl = document.getElementById('result-message');
+        const resultTitleEl = document.getElementById('result-title');
+        const resultEmojiEl = document.getElementById('result-emoji');
+
+        function startGame() {
+            startScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreEl.innerText = score;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            // Reset Timer
+            clearInterval(timer);
+            timeLeft = 60;
+            timerEl.innerText = timeLeft;
+            startTimer();
+
+            // Update Progress Bar
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            // Check if game finished
+            if (currentQuestionIndex >= questions.length) {
+                endGame();
+                return;
+            }
+
+            // Load Content
+            const currentQ = questions[currentQuestionIndex];
+            questionText.innerText = `${currentQuestionIndex + 1}. ${currentQ.q}`;
+            optionsContainer.innerHTML = '';
+
+            currentQ.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.classList.add('option-btn');
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timerEl.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    // หมดเวลา = จบเกมทันที ตามโจทย์
+                    gameOverByTime(); 
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            clearInterval(timer); // Stop timer
+            
+            const currentQ = questions[currentQuestionIndex];
+            const buttons = optionsContainer.querySelectorAll('.option-btn');
+
+            // Disable all buttons
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === currentQ.answer) {
+                // ถูกต้อง
+                btnElement.classList.add('correct');
+                score++;
+            } else {
+                // ผิด
+                btnElement.classList.add('wrong');
+                // Highlight correct answer
+                buttons[currentQ.answer].classList.add('correct');
+                score--;
+            }
+
+            scoreEl.innerText = score;
+            currentQuestionIndex++;
+
+            // Delay before next question
+            setTimeout(() => {
+                loadQuestion();
+            }, 1000);
+        }
+
+        function gameOverByTime() {
+            // จบเกมเพราะหมดเวลา
+            endGame();
+        }
+
+        function endGame() {
+            gameScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            finalScoreEl.innerText = score;
+
+            if (score >= passingScore) {
+                resultTitleEl.innerText = "ยินดีด้วย! คุณผ่านเกณฑ์";
+                resultTitleEl.style.color = "#2ecc71";
+                resultMessageEl.innerHTML = `<span class="pass-message">ยอดเยี่ยมมาก! คะแนน ${score} >= 12 ผ่านฉลุย! 🎉</span>`;
+                resultEmojiEl.innerText = "🏆";
+            } else {
+                resultTitleEl.innerText = "พยายามอีกนิดนะ!";
+                resultTitleEl.style.color = "#e74c3c";
+                resultMessageEl.innerHTML = `<span class="fail-message">คะแนน ${score} < 12 ยังไม่ผ่านเกณฑ์ ลองใหม่อีกครั้งนะ 💪</span>`;
+                resultEmojiEl.innerText = "📚";
+            }
+        }
+    </script>
+</body>
+</html>
