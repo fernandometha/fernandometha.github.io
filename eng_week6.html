@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำสะกด -d และ -k (Final Consonants)</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-d: #4facfe;
+            --secondary-d: #00f2fe;
+            --primary-k: #ff9a9e;
+            --secondary-k: #fecfef;
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Kanit', sans-serif;
+        }
+
+        /* --- Header Section --- */
+        header {
+            background: linear-gradient(135deg, var(--primary-d) 0%, var(--secondary-d) 100%);
+            color: var(--text-light);
+            text-align: center;
+            padding: 3rem 1rem;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* --- Container --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+        }
+
+        /* --- Section Styling --- */
+        section {
+            margin-bottom: 3rem;
+            opacity: 0; /* For animation */
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        section:nth-child(1) { animation-delay: 0.2s; }
+        section:nth-child(2) { animation-delay: 0.4s; }
+        section:nth-child(3) { animation-delay: 0.6s; }
+        section:nth-child(4) { animation-delay: 0.8s; }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background: var(--text-dark);
+            margin: 5px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- Word Cards Grid --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .word-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 5px solid transparent;
+            cursor: default;
+        }
+
+        .word-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .word-card.d-card { border-color: var(--primary-d); }
+        .word-card.k-card { border-color: var(--primary-k); }
+
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .word-en {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Kanit', sans-serif;
+            color: var(--text-dark);
+            display: block;
+        }
+
+        .word-th {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        /* --- Comparison Table --- */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            color: white;
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.2rem;
+        }
+
+        .th-d { background-color: var(--primary-d); }
+        .th-k { background-color: var(--primary-k); }
+
+        /* --- Tips Section --- */
+        .tips-box {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border-left: 10px solid #ffd700;
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tips-list li {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .tips-list li::before {
+            content: '💡';
+            margin-right: 10px;
+        }
+
+        /* --- Interactive Section --- */
+        .interactive-zone {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .game-card {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1.5rem auto;
+            max-width: 400px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .game-word {
+            font-size: 3rem;
+            font-weight: bold;
+            font-family: 'Kanit', sans-serif;
+            margin-bottom: 1rem;
+        }
+
+        .game-meaning {
+            font-size: 1.5rem;
+            min-height: 2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .game-meaning.visible {
+            opacity: 1;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-family: 'Kanit', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        .btn-next {
+            background-color: #ffd700;
+            color: #333;
+        }
+
+        .btn-show {
+            background-color: white;
+            color: #764ba2;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Responsive Tweaks --- */
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            .word-card { padding: 1rem; }
+            .emoji { font-size: 2.5rem; }
+            .comparison-table th, .comparison-table td { padding: 0.5rem; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>คำสะกด -d และ -k</h1>
+        <p>Final Consonants: ฝึกอ่านและออกเสียงคำศัพท์พื้นฐาน</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Section 1: Sound -d -->
+        <section id="sound-d">
+            <h2 class="section-title" style="color: var(--primary-d);">เสียง /d/ (ด)</h2>
+            <div class="card-grid">
+                <div class="word-card d-card">
+                    <span class="emoji">🛏️</span>
+                    <span class="word-en">bed</span>
+                    <span class="word-th">เตียง</span>
+                </div>
+                <div class="word-card d-card">
+                    <span class="emoji">🔴</span>
+                    <span class="word-en">red</span>
+                    <span class="word-th">สีแดง</span>
+                </div>
+                <div class="word-card d-card">
+                    <span class="emoji">😢</span>
+                    <span class="word-en">sad</span>
+                    <span class="word-th">เศร้า</span>
+                </div>
+                <div class="word-card d-card">
+                    <span class="emoji">👨</span>
+                    <span class="word-en">dad</span>
+                    <span class="word-th">พ่อ</span>
+                </div>
+                <div class="word-card d-card">
+                    <span class="emoji">🍔</span>
+                    <span class="word-en">food</span>
+                    <span class="word-th">อาหาร</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Sound -k -->
+        <section id="sound-k">
+            <h2 class="section-title" style="color: var(--primary-k);">เสียง /k/ (ค/ก)</h2>
+            <div class="card-grid">
+                <div class="word-card k-card">
+                    <span class="emoji">📕</span>
+                    <span class="word-en">book</span>
+                    <span class="word-th">หนังสือ</span>
+                </div>
+                <div class="word-card k-card">
+                    <span class="emoji">🥛</span>
+                    <span class="word-en">milk</span>
+                    <span class="word-th">นม</span>
+                </div>
+                <div class="word-card k-card">
+                    <span class="emoji">🦆</span>
+                    <span class="word-en">duck</span>
+                    <span class="word-th">เป็ด</span>
+                </div>
+                <div class="word-card k-card">
+                    <span class="emoji">🪑</span>
+                    <span class="word-en">desk</span>
+                    <span class="word-th">โต๊ะ</span>
+                </div>
+                <div class="word-card k-card">
+                    <span class="emoji">⚫</span>
+                    <span class="word-en">black</span>
+                    <span class="word-th">สีดำ</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Comparison -->
+        <section id="comparison">
+            <h2 class="section-title">เปรียบเทียบความแตกต่าง</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th class="th-d">เสียง -d</th>
+                        <th class="th-k">เสียง -k</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>เสียงก้อง (Voiced)</td>
+                        <td>เสียงไม่ก้อง (Unvoiced)</td>
+                    </tr>
+                    <tr>
+                        <td>ลิ้นแตะปุ่มเหงือก</td>
+                        <td>ลิ้นแตะเพดานอ่อน</td>
+                    </tr>
+                    <tr>
+                        <td>เสียงนุ่มนวล</td>
+                        <td>เสียงกระชับ สั้น</td>
+                    </tr>
+                    <tr>
+                        <td>ตัวอย่าง: bad, bed</td>
+                        <td>ตัวอย่าง: back, book</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 4: Tips -->
+        <section id="tips">
+            <h2 class="section-title">เทคนิคการจำ</h2>
+            <div class="tips-box">
+                <ul class="tips-list">
+                    <li><strong>-d</strong> = เสียง <strong>ด</strong> นุ่มๆ (เหมือนเสียงกระซิบ)</li>
+                    <li><strong>-k</strong> = เสียง <strong>ก</strong> สั้นๆ หยุดทันที (เหมือนเสียงสะอึก)</li>
+                    <li>ลองเอามืออังคอ: ออกเสียง -d คอจะสั่น แต่ -k คอจะไม่สั่น</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 5: Interactive (JavaScript) -->
+        <section id="interactive">
+            <h2 class="section-title" style="color: #764ba2;">🎮 โซนฝึกฝน (Interactive)</h2>
+            <div class="interactive-zone">
+                <p>กดปุ่มเพื่อสุ่มคำศัพท์ แล้วทายความหมาย!</p>
+                
+                <div class="game-card">
+                    <div class="game-word" id="gameWord">???</div>
+                    <div class="game-meaning" id="gameMeaning">...</div>
+                </div>
+
+                <button class="btn btn-next" onclick="nextWord()">สุ่มคำใหม่ 🎲</button>
+                <button class="btn btn-show" onclick="toggleMeaning()">เฉลย 👁️</button>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // ข้อมูลคำศัพท์
+        const words = [
+            { en: "bed", th: "เตียง" },
+            { en: "red", th: "สีแดง" },
+            { en: "sad", th: "เศร้า" },
+            { en: "dad", th: "พ่อ" },
+            { en: "food", th: "อาหาร" },
+            { en: "book", th: "หนังสือ" },
+            { en: "milk", th: "นม" },
+            { en: "duck", th: "เป็ด" },
+            { en: "desk", th: "โต๊ะ" },
+            { en: "black", th: "สีดำ" }
+        ];
+
+        let currentWordIndex = -1;
+
+        // ฟังก์ชันสุ่มคำศัพท์
+        function nextWord() {
+            const wordDisplay = document.getElementById('gameWord');
+            const meaningDisplay = document.getElementById('gameMeaning');
+            
+            // Random logic
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * words.length);
+            } while (newIndex === currentWordIndex && words.length > 1);
+
+            currentWordIndex = newIndex;
+
+            // Animation effect
+            wordDisplay.style.opacity = 0;
+            meaningDisplay.classList.remove('visible');
+
+            setTimeout(() => {
+                wordDisplay.textContent = words[currentWordIndex].en;
+                meaningDisplay.textContent = words[currentWordIndex].th;
+                wordDisplay.style.opacity = 1;
+            }, 200);
+        }
+
+        // ฟังก์ชันแสดง/ซ่อนคำแปล
+        function toggleMeaning() {
+            const meaningDisplay = document.getElementById('gameMeaning');
+            meaningDisplay.classList.toggle('visible');
+        }
+
+        // เริ่มเกมครั้งแรกเมื่อโหลดหน้าเว็บ
+        window.onload = nextWord;
+    </script>
+
+</body>
+</html>
