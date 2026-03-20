@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Quiz: Things Around Us (ม.1)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --pastel-bg: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-color: #4a4a4a;
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --correct-color: #2ecc71;
+            --wrong-color: #e74c3c;
+            --btn-hover: #f0f0f0;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: var(--pastel-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .emoji-display {
+            font-size: 80px;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        /* Buttons */
+        .btn {
+            background: white;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.2s;
+            font-family: 'Prompt', sans-serif;
+            width: 80%;
+            max-width: 300px;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .btn-start {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(37, 117, 252, 0.4);
+        }
+
+        .btn-start:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+        }
+        
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Game HUD */
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .timer-box {
+            background: #ffeaa7;
+            padding: 5px 15px;
+            border-radius: 15px;
+            color: #d35400;
+        }
+
+        .score-box {
+            background: #55efc4;
+            padding: 5px 15px;
+            border-radius: 15px;
+            color: #00b894;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Feedback Colors */
+        .correct-answer {
+            background-color: var(--correct-color) !important;
+            color: white !important;
+            border-color: var(--correct-color) !important;
+        }
+
+        .wrong-answer {
+            background-color: var(--wrong-color) !important;
+            color: white !important;
+            border-color: var(--wrong-color) !important;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #666;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        /* Result Screen */
+        .result-emoji {
+            font-size: 100px;
+        }
+        
+        .pass-text { color: var(--correct-color); font-weight: bold; }
+        .fail-text { color: var(--wrong-color); font-weight: bold; }
+
+        .instruction-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            text-align: left;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- หน้าจอเริ่มเกม -->
+        <div id="start-screen" class="screen active">
+            <h1>📝 English Quiz: Things</h1>
+            <h2>สำหรับนักเรียนชั้น ม.1</h2>
+            
+            <div class="emoji-display">🎒📱🧸</div>
+
+            <div class="instruction-box">
+                <strong>📜 วิธีเล่น:</strong>
+                <ul>
+                    <li>มีทั้งหมด <strong>20 ข้อ</strong></li>
+                    <li>จับเวลาข้อละ <strong>1 นาที</strong> (หมดเวลา = จบเกมทันที)</li>
+                    <li>ตอบถูก <strong>+1 คะแนน</strong></li>
+                    <li>ตอบผิด <strong>-1 คะแนน</strong></li>
+                    <li>ต้องได้คะแนน <strong>12 คะแนนขึ้นไป</strong> จึงจะผ่าน</li>
+                </ul>
+            </div>
+
+            <button class="btn btn-start" onclick="startGame()">เริ่มเกมเลย!</button>
+        </div>
+
+        <!-- หน้าจอเล่นเกม -->
+        <div id="game-screen" class="screen">
+            <div class="hud">
+                <div class="score-box">คะแนน: <span id="score">0</span></div>
+                <div class="timer-box">⏱️ <span id="timer">60</span> วินาที</div>
+            </div>
+
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+
+            <div id="question-container">
+                <div class="emoji-display" id="q-emoji">❓</div>
+                <h3 id="q-text">คำถามจะปรากฏที่นี่</h3>
+                <div id="options-container">
+                    <!-- ปุ่มตัวเลือกจะถูกสร้างด้วย JS -->
+                </div>
+                <div id="explanation" class="explanation"></div>
+            </div>
+        </div>
+
+        <!-- หน้าจอสรุปผล -->
+        <div id="end-screen" class="screen">
+            <div id="result-emoji" class="result-emoji">🏆</div>
+            <h1 id="result-title">จบเกม!</h1>
+            <p>คะแนนของคุณคือ: <span id="final-score" style="font-size: 1.5rem; font-weight: bold;">0</span> / 20</p>
+            <p id="pass-fail-msg"></p>
+            <button class="btn btn-start" onclick="location.reload()">เล่นใหม่อีกครั้ง</button>
+        </div>
+    </div>
+
+    <script>
+        // ข้อมูลคำถาม 20 ข้อ (เชื่อมโยงคำกับสิ่งจริงผ่าน Emoji)
+        const questions = [
+            {
+                emoji: "📚",
+                question: "What do you read to learn new things?",
+                options: ["A Pen", "A Book", "A Chair", "A Bag"],
+                answer: 1,
+                explanation: "Book (หนังสือ) ใช้สำหรับอ่านเพื่อหาความรู้"
+            },
+            {
+                emoji: "🖊️",
+                question: "What do you use to write on paper?",
+                options: ["A Pen", "A Spoon", "A Plate", "A Cup"],
+                answer: 0,
+                explanation: "Pen (ปากกา) ใช้สำหรับเขียน"
+            },
+            {
+                emoji: "🪑",
+                question: "What do you sit on in the classroom?",
+                options: ["A Bed", "A Table", "A Chair", "A Sofa"],
+                answer: 2,
+                explanation: "Chair (เก้าอี้) ใช้สำหรับนั่งในห้องเรียน"
+            },
+            {
+                emoji: "🎒",
+                question: "What do you carry your books in?",
+                options: ["A Box", "A Backpack", "A Basket", "A Pocket"],
+                answer: 1,
+                explanation: "Backpack (กระเป๋าเป้) ใช้ใส่หนังสือ"
+            },
+            {
+                emoji: "🧥",
+                question: "What do you wear to keep warm in winter?",
+                options: ["A T-shirt", "Shorts", "A Jacket", "Sandals"],
+                answer: 2,
+                explanation: "Jacket (เสื้อแจ็คเก็ต) ใส่เพื่อให้ความอบอุ่น"
+            },
+            {
+                emoji: "🥤",
+                question: "What do you drink water from?",
+                options: ["A Plate", "A Cup", "A Bowl", "A Spoon"],
+                answer: 1,
+                explanation: "Cup (แก้วน้ำ) ใช้สำหรับดื่ม"
+            },
+            {
+                emoji: "📱",
+                question: "What do you use to call your friends?",
+                options: ["A TV", "A Computer", "A Mobile Phone", "A Radio"],
+                answer: 2,
+                explanation: "Mobile Phone (โทรศัพท์มือถือ) ใช้โทรหาเพื่อน"
+            },
+            {
+                emoji: "🧹",
+                question: "What do you use to sweep the floor?",
+                options: ["A Broom", "A Mop", "A Brush", "A Vacuum"],
+                answer: 0,
+                explanation: "Broom (ไม้กวาด) ใช้สำหรับกวาดพื้น"
+            },
+            {
+                emoji: "🧼",
+                question: "What do you use to wash your hands?",
+                options: ["Shampoo", "Soap", "Toothpaste", "Perfume"],
+                answer: 1,
+                explanation: "Soap (สบู่) ใช้สำหรับล้างมือ"
+            },
+            {
+                emoji: "🛏️",
+                question: "Where do you sleep at night?",
+                options: ["On a Chair", "On a Bed", "On a Table", "On the Floor"],
+                answer: 1,
+                explanation: "Bed (เตียงนอน) ใช้สำหรับนอนหลับ"
+            },
+            {
+                emoji: "🚪",
+                question: "What do you open to enter a room?",
+                options: ["A Window", "A Door", "A Wall", "A Roof"],
+                answer: 1,
+                explanation: "Door (ประตู) ใช้เปิดเพื่อเข้าห้อง"
+            },
+            {
+                emoji: "🪞",
+                question: "What do you look into to see your face?",
+                options: ["A Mirror", "A Glass", "A Photo", "A Window"],
+                answer: 0,
+                explanation: "Mirror (กระจกเงา) ใช้ส่องดูหน้า"
+            },
+            {
+                emoji: "📷",
+                question: "What do you use to take photos?",
+                options: ["A Camera", "A Watch", "A Key", "A Map"],
+                answer: 0,
+                explanation: "Camera (กล้องถ่ายรูป) ใช้ถ่ายภาพ"
+            },
+            {
+                emoji: "🎸",
+                question: "Which instrument has strings and you play with your hands?",
+                options: ["A Drum", "A Piano", "A Guitar", "A Flute"],
+                answer: 2,
+                explanation: "Guitar (กีตาร์) เป็นเครื่องดนตรีมีสาย"
+            },
+            {
+                emoji: "🧸",
+                question: "What is a soft toy that looks like a bear?",
+                options: ["A Doll", "A Teddy Bear", "A Robot", "A Car"],
+                answer: 1,
+                explanation: "Teddy Bear (ตุ๊กตาหมี) เป็นของเล่นนุ่มๆ"
+            },
+            {
+                emoji: "🚲",
+                question: "What has two wheels and you pedal it?",
+                options: ["A Car", "A Bus", "A Bicycle", "A Train"],
+                answer: 2,
+                explanation: "Bicycle (จักรยาน) มีสองล้อและต้องปั่น"
+            },
+            {
+                emoji: "🌂",
+                question: "What do you use when it rains?",
+                options: ["Sunglasses", "An Umbrella", "A Hat", "A Fan"],
+                answer: 1,
+                explanation: "Umbrella (ร่ม) ใช้กันฝน"
+            },
+            {
+                emoji: "🧴",
+                question: "What liquid do you put on your hair to clean it?",
+                options: ["Shampoo", "Lotion", "Oil", "Water"],
+                answer: 0,
+                explanation: "Shampoo (แชมพู) ใช้สระผม"
+            },
+            {
+                emoji: "🧦",
+                question: "What do you wear on your feet inside your shoes?",
+                options: ["Gloves", "Socks", "Hats", "Belts"],
+                answer: 1,
+                explanation: "Socks (ถุงเท้า) ใส่ที่เท้าก่อนใส่รองเท้า"
+            },
+            {
+                emoji: "🗑️",
+                question: "Where do you throw away trash?",
+                options: ["In a Box", "In a Trash Can", "On the Floor", "In a Bag"],
+                answer: 1,
+                explanation: "Trash Can (ถังขยะ) ใช้ทิ้งขยะ"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 60;
+        let isAnswering = false; // ป้องกันการกดซ้ำ
+
+        // Elements
+        const startScreen = document.getElementById('start-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const endScreen = document.getElementById('end-screen');
+        const scoreEl = document.getElementById('score');
+        const timerEl = document.getElementById('timer');
+        const progressBar = document.getElementById('progress-bar');
+        const qEmoji = document.getElementById('q-emoji');
+        const qText = document.getElementById('q-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanationEl = document.getElementById('explanation');
+
+        function startGame() {
+            startScreen.classList.remove('active');
+            gameScreen.classList.add('active');
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreEl.innerText = score;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                endGame();
+                return;
+            }
+
+            // Reset state
+            isAnswering = false;
+            timeLeft = 60;
+            timerEl.innerText = timeLeft;
+            explanationEl.style.display = 'none';
+            explanationEl.innerHTML = '';
+            
+            // Update Progress Bar
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            // Load Content
+            const currentQ = questions[currentQuestionIndex];
+            qEmoji.innerText = currentQ.emoji;
+            qText.innerText = currentQ.question;
+            optionsContainer.innerHTML = '';
+
+            currentQ.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.classList.add('btn');
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Start Timer
+            clearInterval(timer);
+            timer = setInterval(() => {
+                timeLeft--;
+                timerEl.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    timeUp();
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(selectedIndex, btnElement) {
+            if (isAnswering) return;
+            isAnswering = true;
+            clearInterval(timer);
+
+            const currentQ = questions[currentQuestionIndex];
+            const buttons = optionsContainer.querySelectorAll('.btn');
+
+            if (selectedIndex === currentQ.answer) {
+                // ถูก
+                score += 1;
+                btnElement.classList.add('correct-answer');
+                explanationEl.innerHTML = `<strong>✅ ถูกต้อง!</strong> ${currentQ.explanation}`;
+            } else {
+                // ผิด
+                score -= 1;
+                btnElement.classList.add('wrong-answer');
+                // เฉลยข้อที่ถูก
+                buttons[currentQ.answer].classList.add('correct-answer');
+                explanationEl.innerHTML = `<strong>❌ ผิดครับ!</strong> คำตอบที่ถูกคือ ${currentQ.options[currentQ.answer]} <br> ${currentQ.explanation}`;
+            }
+
+            scoreEl.innerText = score;
+            explanationEl.style.display = 'block';
+
+            // รอ 2 วินาทีแล้วไปข้อต่อไป
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 2500);
+        }
+
+        function timeUp() {
+            if (isAnswering) return;
+            isAnswering = true;
+            clearInterval(timer);
+            
+            // ถือว่าตอบผิด
+            score -= 1;
+            scoreEl.innerText = score;
+
+            const currentQ = questions[currentQuestionIndex];
+            const buttons = optionsContainer.querySelectorAll('.btn');
+            
+            // เฉลย
+            buttons[currentQ.answer].classList.add('correct-answer');
+            explanationEl.innerHTML = `<strong>⏰ หมดเวลา!</strong> คำตอบคือ ${currentQ.options[currentQ.answer]}`;
+            explanationEl.style.display = 'block';
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 2500);
+        }
+
+        function endGame() {
+            gameScreen.classList.remove('active');
+            endScreen.classList.add('active');
+            
+            const finalScoreEl = document.getElementById('final-score');
+            const passFailMsg = document.getElementById('pass-fail-msg');
+            const resultTitle = document.getElementById('result-title');
+            const resultEmoji = document.getElementById('result-emoji');
+
+            finalScoreEl.innerText = score;
+
+            if (score >= 12) {
+                resultTitle.innerText = "ยินดีด้วย! คุณผ่านเกณฑ์";
+                resultTitle.style.color = "var(--correct-color)";
+                passFailMsg.innerHTML = "<span class='pass-text'>ยอดเยี่ยมมาก! คุณมีความรู้เรื่องสิ่งของรอบตัวดีมาก</span> 🎉";
+                resultEmoji.innerText = "🏆";
+            } else {
+                resultTitle.innerText = "พยายามอีกนิดนะ";
+                resultTitle.style.color = "var(--wrong-color)";
+                passFailMsg.innerHTML = "<span class='fail-text'>คะแนนยังไม่ถึงเกณฑ์ (ต้องได้ 12 คะแนน)</span> ลองทบทวนคำศัพท์แล้วมาเล่นใหม่นะ 💪";
+                resultEmoji.innerText = "📚";
+            }
+        }
+    </script>
+</body>
+</html>
