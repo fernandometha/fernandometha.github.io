@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมทายชื่อภาษาอังกฤษ (English Names Quiz)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --pastel-bg: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --accent-color: #ffe66d;
+            --text-color: #2d3436;
+            --correct-color: #2ecc71;
+            --wrong-color: #e74c3c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            border: 5px solid white;
+        }
+
+        /* Header & Typography */
+        h1, h2, h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 0px #ffe66d;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Start Screen */
+        .start-content {
+            text-align: center;
+        }
+
+        .rules-box {
+            background: #f0f8ff;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .rules-box ul {
+            list-style: none;
+            padding-left: 10px;
+        }
+
+        .rules-box li {
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .rules-box li i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-family: 'Kanit', sans-serif;
+            font-weight: bold;
+            color: white;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+            background: #ff5252;
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: #3dbdb4;
+        }
+
+        /* Game Screen */
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .score-board {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .timer-box {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: #eee;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3436;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Kanit', sans-serif;
+            color: #495057;
+        }
+
+        .option-btn:hover {
+            background: #e3f2fd;
+            border-color: var(--secondary-color);
+        }
+
+        .option-btn.correct {
+            background: var(--correct-color);
+            color: white;
+            border-color: var(--correct-color);
+        }
+
+        .option-btn.wrong {
+            background: var(--wrong-color);
+            color: white;
+            border-color: var(--wrong-color);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* Result Screen */
+        .result-content {
+            text-align: center;
+        }
+
+        .final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin: 20px 0;
+            text-shadow: 2px 2px 0px #ffe66d;
+        }
+
+        .pass-badge {
+            background: var(--correct-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        .fail-badge {
+            background: var(--wrong-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .feedback-text {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.3s;
+        }
+
+        /* Responsive */
+        @media (min-width: 600px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen active">
+            <h1>🎓 English Names Quiz</h1>
+            <div class="start-content">
+                <p>ยินดีต้อนรับสู่เกมทดสอบความรู้เรื่อง <strong>"การอ่านและเขียนชื่อภาษาอังกฤษ"</strong></p>
+                
+                <div class="rules-box">
+                    <h3>📜 กติกาการเล่น</h3>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> มีทั้งหมด <strong>20 ข้อ</strong></li>
+                        <li><i class="fas fa-stopwatch"></i> เวลาข้อละ <strong>1 นาที (60 วินาที)</strong></li>
+                        <li><i class="fas fa-plus-circle"></i> ตอบถูก <strong>+1 คะแนน</strong></li>
+                        <li><i class="fas fa-minus-circle"></i> ตอบผิด <strong>-1 คะแนน</strong></li>
+                        <li><i class="fas fa-trophy"></i> ต้องได้คะแนน <strong>12 คะแนนขึ้นไป</strong> จึงจะผ่าน</li>
+                    </ul>
+                </div>
+
+                <p style="color: var(--secondary-color); font-weight: bold;">พร้อมแล้วไปลุยกันเลย! 🚀</p>
+                <button class="btn" onclick="startGame()">เริ่มเกม</button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="score-board">คะแนน: <span id="current-score">0</span></div>
+                <div class="timer-box">
+                    <i class="far fa-clock"></i> <span id="timer">60</span>s
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+
+            <div class="question-card">
+                <div style="font-size: 0.9rem; color: #888; margin-bottom: 5px;">ข้อที่ <span id="q-number">1</span> / 20</div>
+                <div id="question-text" class="question-text">คำถามจะปรากฏที่นี่</div>
+            </div>
+
+            <div id="options-container" class="options-grid">
+                <!-- Options will be injected here -->
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="screen">
+            <div class="result-content">
+                <h2>🏁 จบเกม!</h2>
+                
+                <div id="pass-status"></div>
+                
+                <div class="final-score" id="final-score-display">0</div>
+                <p class="feedback-text" id="feedback-text"></p>
+                
+                <button class="btn btn-secondary" onclick="restartGame()">เล่นอีกครั้ง 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game Data (20 Questions)
+        const questions = [
+            {
+                q: "ในชื่อ 'John Smith' คำว่า 'Smith' คืออะไร?",
+                options: ["First Name (ชื่อจริง)", "Last Name (นามสกุล)", "Middle Name (ชื่อกลาง)", "Nickname (ชื่อเล่น)"],
+                answer: 1
+            },
+            {
+                q: "ข้อใดคือการเขียนชื่อที่ถูกต้อง?",
+                options: ["tom hanks", "Tom Hanks", "TOM HANKS", "Tom hanks"],
+                answer: 1
+            },
+            {
+                q: "ชื่อ 'Emma Watson' อ่านออกเสียงว่าอย่างไร?",
+                options: ["เอ็มม่า วัตสัน", "เอ็มม่า วอทสัน", "เอมม่า วัตสัน", "เอมม่า วอทสัน"],
+                answer: 0
+            },
+            {
+                q: "First Name หมายถึงข้อใด?",
+                options: ["นามสกุล", "ชื่อเล่น", "ชื่อจริง", "ชื่อกลาง"],
+                answer: 2
+            },
+            {
+                q: "ข้อใดคือ 'Last Name' ของ 'David Beckham'?",
+                options: ["David", "Beckham", "Dav", "Bek"],
+                answer: 1
+            },
+            {
+                q: "การอ่านชื่อภาษาอังกฤษ อ่านจากทิศทางใด?",
+                options: ["ขวาไปซ้าย", "ซ้ายไปขวา", "บนลงล่าง", "ล่างขึ้นบน"],
+                answer: 1
+            },
+            {
+                q: "ข้อใดเขียนชื่อผิด?",
+                options: ["Lisa Blackpink", "Taylor Swift", "chris evans", "Jennifer Lopez"],
+                answer: 2
+            },
+            {
+                q: "คำว่า 'Nickname' แปลว่าอะไร?",
+                options: ["ชื่อจริง", "นามสกุล", "ชื่อเล่น", "ชื่อเต็ม"],
+                answer: 2
+            },
+            {
+                q: "ในชื่อ 'Michael Jordan' ใครคือคนที่มี First Name?",
+                options: ["Michael", "Jordan", "Mike", "MJ"],
+                answer: 0
+            },
+            {
+                q: "ข้อใดคือคำทักทายเมื่อถามชื่อ?",
+                options: ["How are you?", "What is your name?", "Where are you from?", "How old are you?"],
+                answer: 1
+            },
+            {
+                q: "ชื่อ 'Sarah Johnson' มีกี่พยางค์ (โดยประมาณ)?",
+                options: ["2 พยางค์", "3 พยางค์", "4 พยางค์", "5 พยางค์"],
+                answer: 2 // Sa-rah John-son
+            },
+            {
+                q: "ข้อใดคือตัวอย่างของ 'Full Name'?",
+                options: ["Tom", "Tommy", "Tom Cruise", "Mr. T"],
+                answer: 2
+            },
+            {
+                q: "ตัวอักษรแรกของชื่อและนามสกุลต้องเป็นอย่างไร?",
+                options: ["ตัวพิมพ์เล็ก", "ตัวพิมพ์ใหญ่", "ตัวเลข", "สัญลักษณ์"],
+                answer: 1
+            },
+            {
+                q: "อ่านชื่อ 'Robert Downey Jr.' อย่างไร?",
+                options: ["โรเบิร์ต ดาวน์นีย์ จูเนียร์", "โรเบิร์ต ดาวน์นีย์ จูเนียร์", "โรเบิร์ต โดว์นีย์ จูเนียร์", "โรเบิร์ต โดว์นีย์ จูเนียร์"],
+                answer: 0
+            },
+            {
+                q: "ในวัฒนธรรมตะวันตก ชื่อใดมักจะอยู่ข้างหน้า?",
+                options: ["Last Name", "First Name", "Middle Name", "Surname"],
+                answer: 1
+            },
+            {
+                q: "ข้อใดคือ 'Middle Name' ของ 'John Fitzgerald Kennedy'?",
+                options: ["John", "Kennedy", "Fitzgerald", "JFK"],
+                answer: 2
+            },
+            {
+                q: "ถ้าคุณชื่อ 'สมชาย' จะเขียนเป็นภาษาอังกฤษอย่างไรให้ถูกต้อง?",
+                options: ["somchai", "SOMCHAI", "Somchai", "sOmChAi"],
+                answer: 2
+            },
+            {
+                q: "คำว่า 'Surname' มีความหมายเหมือนกับคำใด?",
+                options: ["First Name", "Last Name", "Nickname", "Given Name"],
+                answer: 1
+            },
+            {
+                q: "ชื่อ 'Leonardo DiCaprio' อ่านว่าอย่างไร?",
+                options: ["ลีโอนาร์โด ดิคาปริโอ", "ลีโอนาร์โด ดิแคปริโอ", "ลิโอนาร์โด ดิคาปริโอ", "ลิโอนาร์โด ดิแคปริโอ"],
+                answer: 0
+            },
+            {
+                q: "ข้อใดคือข้อดีของการมีชื่อภาษาอังกฤษ?",
+                options: ["ทำให้ดูเท่", "ใช้สื่อสารกับชาวต่างชาติได้", "เขียนยากขึ้น", "จำยากขึ้น"],
+                answer: 1
+            }
+        ];
+
+        // Game State Variables
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 60;
+        const maxTime = 60;
+        const passScore = 12;
+
+        // DOM Elements
+        const startScreen = document.getElementById('start-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const scoreDisplay = document.getElementById('current-score');
+        const timerDisplay = document.getElementById('timer');
+        const progressBar = document.getElementById('progress-bar');
+        const qNumberDisplay = document.getElementById('q-number');
+        const finalScoreDisplay = document.getElementById('final-score-display');
+        const feedbackText = document.getElementById('feedback-text');
+        const passStatus = document.getElementById('pass-status');
+
+        // Initialize Game
+        function startGame() {
+            score = 0;
+            currentQuestionIndex = 0;
+            scoreDisplay.innerText = score;
+            
+            startScreen.classList.remove('active');
+            resultScreen.classList.remove('active');
+            gameScreen.classList.add('active');
+            
+            loadQuestion();
+        }
+
+        // Load Question
+        function loadQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                endGame();
+                return;
+            }
+
+            // Reset Timer
+            clearInterval(timer);
+            timeLeft = maxTime;
+            timerDisplay.innerText = timeLeft;
+            startTimer();
+
+            // Update UI
+            const currentQ = questions[currentQuestionIndex];
+            questionText.innerText = currentQ.q;
+            qNumberDisplay.innerText = currentQuestionIndex + 1;
+            
+            // Update Progress Bar
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            // Render Options
+            optionsContainer.innerHTML = '';
+            currentQ.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Timer Logic
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        // Handle Time Out
+        function handleTimeOut() {
+            // Disable all buttons
+            const buttons = optionsContainer.querySelectorAll('.option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            // Show correct answer
+            const correctIndex = questions[currentQuestionIndex].answer;
+            buttons[correctIndex].classList.add('correct');
+            
+            // Penalty for timeout (optional, treating as wrong answer)
+            score--; 
+            scoreDisplay.innerText = score;
+            
+            // Shake effect
+            gameScreen.classList.add('shake');
+            setTimeout(() => gameScreen.classList.remove('shake'), 500);
+
+            // Next question delay
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 1500);
+        }
+
+        // Check Answer
+        function checkAnswer(selectedIndex, btnElement) {
+            clearInterval(timer);
+            
+            const buttons = optionsContainer.querySelectorAll('.option-btn');
+            const correctIndex = questions[currentQuestionIndex].answer;
+
+            // Disable all buttons
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                // Correct
+                btnElement.classList.add('correct');
+                score++;
+                scoreDisplay.innerText = score;
+            } else {
+                // Wrong
+                btnElement.classList.add('wrong');
+                buttons[correctIndex].classList.add('correct'); // Show correct answer
+                score--;
+                scoreDisplay.innerText = score;
+                
+                // Shake effect
+                gameScreen.classList.add('shake');
+                setTimeout(() => gameScreen.classList.remove('shake'), 500);
+            }
+
+            // Next question delay
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 1500);
+        }
+
+        // End Game
+        function endGame() {
+            gameScreen.classList.remove('active');
+            resultScreen.classList.add('active');
+            
+            finalScoreDisplay.innerText = score;
+            
+            if (score >= passScore) {
+                passStatus.innerHTML = '<div class="pass-badge">🎉 ผ่านเกณฑ์! เยี่ยมมาก!</div>';
+                feedbackText.innerText = "คุณมีความรู้เรื่องชื่อภาษาอังกฤษดีมากครับ!";
+                feedbackText.style.color = "var(--correct-color)";
+            } else {
+                passStatus.innerHTML = '<div class="fail-badge">😢 ยังไม่ผ่านเกณฑ์</div>';
+                feedbackText.innerText = `ต้องได้ ${passScore} คะแนนถึงจะผ่านนะ ลองทบทวนแล้วเล่นใหม่อีกครั้ง!`;
+                feedbackText.style.color = "var(--wrong-color)";
+            }
+        }
+
+        // Restart Game
+        function restartGame() {
+            startGame();
+        }
+    </script>
+</body>
+</html>
