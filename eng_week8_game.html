@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This is... Quiz Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --pastel-pink: #FFB7B2;
+            --pastel-blue: #AECBFA;
+            --pastel-green: #B9F6CA;
+            --pastel-purple: #E1BEE7;
+            --pastel-yellow: #FFF9C4;
+            --bright-text: #2C3E50;
+            --accent-color: #FF6B6B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Kanit', 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--bright-text);
+            overflow: hidden;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Header & Progress */
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: #eee;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FF9A9E, #FECFEF);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Timer */
+        .timer-box {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--pastel-yellow);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 800;
+            color: #F57F17;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Start Screen */
+        h1 {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        .instruction-card {
+            background: var(--pastel-blue);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: left;
+            margin: 20px 0;
+            color: #1A237E;
+        }
+
+        .instruction-card ul {
+            list-style: none;
+            padding-left: 10px;
+        }
+
+        .instruction-card li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Game Screen */
+        .question-text {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid var(--pastel-purple);
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--bright-text);
+            font-weight: 600;
+        }
+
+        .option-btn:hover {
+            background: var(--pastel-purple);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .option-btn.correct {
+            background: var(--pastel-green);
+            border-color: #4CAF50;
+            color: #1B5E20;
+        }
+
+        .option-btn.wrong {
+            background: var(--pastel-pink);
+            border-color: #F44336;
+            color: #B71C1C;
+        }
+
+        /* Result Screen */
+        .score-display {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin: 20px 0;
+        }
+
+        .result-message {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #FF9A9E, #FECFEF);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            transition: transform 0.2s;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 2rem; }
+            .question-text { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen active">
+        <h1>🎮 This is... Quiz</h1>
+        <p style="font-size: 1.2rem; color: #666;">ทดสอบความรู้ภาษาอังกฤษ ม.1</p>
+        
+        <div class="instruction-card">
+            <h3>📜 วิธีเล่น:</h3>
+            <ul>
+                <li>📝 มีทั้งหมด <strong>20 ข้อ</strong></li>
+                <li>⏱️ มีเวลาข้อละ <strong>60 วินาที</strong> (หมดเวลาจบเกมทันที!)</li>
+                <li>✅ ตอบถูก <strong>+1 คะแนน</strong></li>
+                <li>❌ ตอบผิด <strong>-1 คะแนน</strong></li>
+                <li>🏆 ต้องได้ <strong>12 คะแนนขึ้นไป</strong> จึงจะผ่าน</li>
+            </ul>
+        </div>
+
+        <button class="btn-primary" onclick="startGame()">เริ่มเกมเลย! 🚀</button>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <div class="timer-box">
+            ⏳ <span id="timer">60</span>s
+        </div>
+        
+        <div class="header-info">
+            <span>ข้อที่: <span id="q-number">1</span>/20</span>
+            <span>คะแนน: <span id="score">0</span></span>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="question-text" id="question">
+            คำถามจะปรากฏที่นี่...
+        </div>
+
+        <div class="options-grid" id="options">
+            <!-- Options will be injected here -->
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="result-screen" class="screen">
+        <h1 id="result-title">จบเกม!</h1>
+        <div class="score-display" id="final-score">0</div>
+        <p class="result-message" id="result-msg">ข้อความสรุป</p>
+        
+        <button class="btn-primary" onclick="restartGame()">เล่นอีกครั้ง 🔄</button>
+    </div>
+</div>
+
+<script>
+    // --- Game Data (20 Questions) ---
+    const questions = [
+        {
+            q: "This is ___ apple. (เติม a หรือ an)",
+            options: ["a", "an", "am", "is"],
+            answer: 1 // Index of correct answer
+        },
+        {
+            q: "___ is a book. (สิ่งนี้คือหนังสือ)",
+            options: ["That", "These", "This", "Those"],
+            answer: 2
+        },
+        {
+            q: "Is this a cat? (ใช่แมวไหม?)",
+            options: ["Yes, it is.", "No, it is.", "Yes, this is.", "No, this isn't."],
+            answer: 0
+        },
+        {
+            q: "This is not a pen. = ?",
+            options: ["This is a pen.", "This isn't a pen.", "Is this a pen?", "This are a pen."],
+            answer: 1
+        },
+        {
+            q: "This is ___ hour. (hour ออกเสียง ออ)",
+            options: ["a", "an", "the", "one"],
+            answer: 1
+        },
+        {
+            q: "Is this your bag?",
+            options: ["Yes, it is.", "Yes, I am.", "No, it is.", "Yes, this is."],
+            answer: 0
+        },
+        {
+            q: "This is ___ university. (ออกเสียง ยู)",
+            options: ["an", "a", "two", "some"],
+            answer: 1
+        },
+        {
+            q: "What is this? It is ___ elephant.",
+            options: ["a", "an", "two", "five"],
+            answer: 1
+        },
+        {
+            q: "This is a ruler. แปลว่า?",
+            options: ["นี่คือไม้บรรทัด", "นั่นคือไม้บรรทัด", "นี่คือปากกา", "นี่คือสมุด"],
+            answer: 0
+        },
+        {
+            q: "Is this an orange?",
+            options: ["No, it isn't.", "No, it is.", "Yes, it isn't.", "No, this isn't."],
+            answer: 0
+        },
+        {
+            q: "This is ___ egg.",
+            options: ["a", "an", "two", "many"],
+            answer: 1
+        },
+        {
+            q: "___ is my friend. (นี่คือเพื่อนของฉัน)",
+            options: ["That", "These", "This", "They"],
+            answer: 2
+        },
+        {
+            q: "This is not a dog. (ประโยคนี้ถูกหรือผิด?)",
+            options: ["ถูก", "ผิด", "ไม่รู้", "ไม่มีคำตอบ"],
+            answer: 0
+        },
+        {
+            q: "Is this a snake? (ใช่ งู ไหม?)",
+            options: ["Yes, it is.", "No, it is.", "Yes, this is.", "No, it are."],
+            answer: 0
+        },
+        {
+            q: "This is an honest man. (honest ออกเสียง ออ)",
+            options: ["ใช้ a", "ใช้ an", "ใช้ the", "ไม่ต้องเติม"],
+            answer: 1
+        },
+        {
+            q: "This is a map. (map คือ?)",
+            options: ["หมวก", "แผนที่", "แมลง", "แม่"],
+            answer: 1
+        },
+        {
+            q: "This isn't a car. แปลว่า?",
+            options: ["นี่คือรถ", "นี่ไม่ใช่รถ", "นั่นคือรถ", "นั่นไม่ใช่รถ"],
+            answer: 1
+        },
+        {
+            q: "Is this a pencil?",
+            options: ["Yes, it is.", "No, it is.", "Yes, it are.", "No, it am."],
+            answer: 0
+        },
+        {
+            q: "This is ___ one-eyed monster. (ออกเสียง วัน)",
+            options: ["an", "a", "two", "some"],
+            answer: 1
+        },
+        {
+            q: "สรุป: This is ใช้กับสิ่งของที่อยู่...",
+            options: ["ไกลตัว", "ใกล้ตัว", "บนฟ้า", "ใต้น้ำ"],
+            answer: 1
+        }
+    ];
+
+    // --- Game Variables ---
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 60;
+    let isGameActive = false;
+
+    // --- DOM Elements ---
+    const startScreen = document.getElementById('start-screen');
+    const gameScreen = document.getElementById('game-screen');
+    const resultScreen = document.getElementById('result-screen');
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const scoreEl = document.getElementById('score');
+    const qNumberEl = document.getElementById('q-number');
+    const timerEl = document.getElementById('timer');
+    const progressBar = document.getElementById('progress-bar');
+    const finalScoreEl = document.getElementById('final-score');
+    const resultMsgEl = document.getElementById('result-msg');
+    const resultTitleEl = document.getElementById('result-title');
+
+    // --- Functions ---
+
+    function startGame() {
+        currentQuestionIndex = 0;
+        score = 0;
+        isGameActive = true;
+        
+        // UI Reset
+        startScreen.classList.remove('active');
+        resultScreen.classList.remove('active');
+        gameScreen.classList.add('active');
+        
+        updateScore();
+        loadQuestion();
+        startTimer();
+    }
+
+    function startTimer() {
+        timeLeft = 60;
+        timerEl.innerText = timeLeft;
+        
+        clearInterval(timer);
+        timer = setInterval(() => {
+            timeLeft--;
+            timerEl.innerText = timeLeft;
+            
+            if (timeLeft <= 10) {
+                timerEl.style.color = "#D32F2F"; // Red warning
+                timerEl.parentElement.style.animation = "shake 0.5s infinite";
+            } else {
+                timerEl.style.color = "#F57F17";
+                timerEl.parentElement.style.animation = "none";
+            }
+
+            if (timeLeft <= 0) {
+                endGame(true); // True means time out
+            }
+        }, 1000);
+    }
+
+    function loadQuestion() {
+        if (currentQuestionIndex >= questions.length) {
+            endGame(false);
+            return;
+        }
+
+        const qData = questions[currentQuestionIndex];
+        questionEl.innerText = qData.q;
+        qNumberEl.innerText = currentQuestionIndex + 1;
+        
+        // Update Progress Bar
+        const progress = ((currentQuestionIndex) / questions.length) * 100;
+        progressBar.style.width = `${progress}%`;
+
+        // Render Options
+        optionsEl.innerHTML = '';
+        qData.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsEl.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btnElement) {
+        if (!isGameActive) return;
+
+        const correctIndex = questions[currentQuestionIndex].answer;
+        const allBtns = document.querySelectorAll('.option-btn');
+
+        // Disable all buttons to prevent double clicking
+        allBtns.forEach(btn => btn.disabled = true);
+
+        if (selectedIndex === correctIndex) {
+            // Correct
+            score++;
+            btnElement.classList.add('correct');
+            btnElement.innerHTML += " ✅";
+        } else {
+            // Wrong
+            score--;
+            btnElement.classList.add('wrong');
+            btnElement.innerHTML += " ❌";
+            
+            // Show correct answer
+            allBtns[correctIndex].classList.add('correct');
+            
+            // Shake effect on container
+            document.querySelector('.game-container').classList.add('shake');
+            setTimeout(() => document.querySelector('.game-container').classList.remove('shake'), 500);
+        }
+
+        updateScore();
+
+        // Wait 1 second then next question
+        setTimeout(() => {
+            currentQuestionIndex++;
+            loadQuestion();
+        }, 1000);
+    }
+
+    function updateScore() {
+        scoreEl.innerText = score;
+    }
+
+    function endGame(isTimeOut) {
+        isGameActive = false;
+        clearInterval(timer);
+        
+        gameScreen.classList.remove('active');
+        resultScreen.classList.add('active');
+        
+        finalScoreEl.innerText = score;
+
+        if (isTimeOut) {
+            resultTitleEl.innerText = "⏰ หมดเวลา!";
+            resultMsgEl.innerText = "คุณทำเวลาไม่ทัน เกมจบลงแล้วครับ";
+            resultMsgEl.style.color = "#D32F2F";
+        } else {
+            if (score >= 12) {
+                resultTitleEl.innerText = "🎉 ยินดีด้วย!";
+                resultMsgEl.innerText = `คุณทำคะแนนได้ ${score} คะแนน ผ่านเกณฑ์แล้ว เก่งมาก!`;
+                resultMsgEl.style.color = "#388E3C";
+            } else {
+                resultTitleEl.innerText = "😢 ยังไม่ผ่าน";
+                resultMsgEl.innerText = `คุณทำคะแนนได้ ${score} คะแนน ต้องได้ 12 คะแนนขึ้นไปนะ ลองใหม่อีกครั้ง!`;
+                resultMsgEl.style.color = "#F57F17";
+            }
+        }
+    }
+
+    function restartGame() {
+        startGame();
+    }
+</script>
+
+</body>
+</html>
