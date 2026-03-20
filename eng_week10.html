@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ชื่อภาษาอังกฤษ (Reading Names) - สื่อการสอน ม.1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --accent-color: #FFE66D;
+            --dark-color: #2C3E50;
+            --light-color: #F7F9FC;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        header {
+            background: var(--gradient-1);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            animation: slideDown 1s ease-out;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--dark-color);
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Section Styles */
+        section {
+            margin: 40px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.4s; }
+        section:nth-child(4) { animation-delay: 0.6s; }
+        section:nth-child(5) { animation-delay: 0.8s; }
+        section:nth-child(6) { animation-delay: 1.0s; }
+        section:nth-child(7) { animation-delay: 1.2s; }
+        section:nth-child(8) { animation-delay: 1.4s; }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .section-title i {
+            font-size: 2.2rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card-primary { border-left-color: var(--primary-color); }
+        .card-secondary { border-left-color: var(--secondary-color); }
+        .card-accent { border-left-color: var(--accent-color); }
+
+        /* Grid Layout */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* Meaning Section */
+        .meaning-box {
+            background: var(--gradient-3);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        /* Structure Section */
+        .name-structure {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .name-part {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            min-width: 200px;
+            transition: transform 0.3s;
+        }
+
+        .name-part:hover {
+            transform: scale(1.05);
+        }
+
+        .name-part h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .name-part .example {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-top: 10px;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            animation: bounce 2s infinite;
+        }
+
+        /* Reading Section */
+        .reading-example {
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            border: 2px dashed var(--secondary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .english-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .thai-pronunciation {
+            font-size: 1.3rem;
+            color: var(--dark-color);
+            background: var(--accent-color);
+            padding: 5px 15px;
+            border-radius: 10px;
+        }
+
+        /* Writing Section */
+        .correct-wrong {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .example-box {
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+
+        .wrong {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #dc3545;
+            text-decoration: line-through;
+        }
+
+        /* Vocabulary Section */
+        .vocab-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .vocab-card:hover {
+            border-color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        .vocab-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .vocab-card h3 {
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .vocab-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Names Grid Section */
+        .names-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .name-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .name-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-2);
+        }
+
+        .name-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .name-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+
+        .name-card .english {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            font-family: 'Nunito', sans-serif;
+            margin-bottom: 8px;
+        }
+
+        .name-card .thai {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .name-card .gender {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .boy { background: #e3f2fd; color: #1976d2; }
+        .girl { background: #fce4ec; color: #c2185b; }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            padding: 15px;
+            background: var(--light-color);
+            border-radius: 10px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quiz-option {
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-option:hover {
+            background: var(--light-color);
+            border-color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .quiz-option.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .quiz-result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: none;
+        }
+
+        .quiz-result.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .result-good {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .result-bad {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .reset-btn {
+            margin-top: 15px;
+            padding: 12px 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .reset-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1.2rem; }
+            .section-title { font-size: 1.5rem; }
+            .name-structure { flex-direction: column; }
+            .arrow { transform: rotate(90deg); }
+            .card { padding: 20px; }
+            .quiz-container { padding: 20px; }
+        }
+
+        /* Decorative Elements */
+        .floating-icon {
+            position: fixed;
+            opacity: 0.1;
+            font-size: 4rem;
+            z-index: -1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative Background Icons -->
+    <i class="fas fa-book floating-icon" style="top: 10%; left: 5%; color: #667eea;"></i>
+    <i class="fas fa-pencil-alt floating-icon" style="top: 60%; right: 5%; color: #f5576c; animation-delay: 5s;"></i>
+    <i class="fas fa-graduation-cap floating-icon" style="bottom: 10%; left: 10%; color: #4facfe; animation-delay: 10s;"></i>
+
+    <header>
+        <h1><i class="fas fa-id-card"></i> ชื่อภาษาอังกฤษ</h1>
+        <p class="subtitle">Reading Names</p>
+        <span class="grade-badge">มัธยมศึกษาปีที่ 1</span>
+    </header>
+
+    <div class="container">
+        <!-- Section 1: ความหมาย -->
+        <section>
+            <h2 class="section-title">
+                <i class="fas fa-question-circle"></i>
+                ความหมายของชื่อภาษาอังกฤษ
+            </h2>
+            <div class="meaning-box">
+                <i class="fas fa-lightbulb" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                <p>
+                    <strong>ชื่อภาษาอังกฤษ (English Name)</strong> คือคำหรือกลุ่มคำที่ใช้เรียกขานบุคคล 
+                    เพื่อระบุตัวตนและแยกแยะความแตกต่างจากบุคคลอื่น<br><br>
+                    โดยทั่วไปประกอบด้วย <strong>ชื่อจริง (First Name)</strong> และ <strong>นามสกุล (Last Name)</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 2: โครงสร้างชื่อ -->
+        <section>
+            <h2 class="section-title">
+                <i class="fas fa-sitemap"></i>
+                โครงสร้างชื่อ
+            </h2>
+            <div class="name-structure">
+                <div class="name-part card-primary">
+                    <i class="fas fa-user" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 10px;"></i>
+                    <h3>First Name</h3>
+                    <p>ชื่อจริง / ชื่อตัว</p>
+                    <div class="example">John</div>
+                </div>
+                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="name-part card-secondary">
+                    <i class="fas fa-users" style="font-size: 3rem; color: var(--secondary-color); margin-bottom: 10px;"></i>
+                    <h3>Last Name</h3>
+                    <p>นามสกุล / ชื่อสกุล</p>
+                    <div class="example">Smith</div>
+                </div>
+            </div>
+            <div class="card" style="text-align: center; background: var(--light-color);">
+                <p style="font-size: 1.3rem;"><strong>ตัวอย่าง:</strong> <span style="color: var(--primary-color); font-size: 1.5rem;">John Smith</span>, <span style="color: var(--secondary-color); font-size: 1.5rem;">Anna Brown</span></p>
+            </div>
+        </section>
+
+        <!-- Section 3: การอ่านชื่อ -->
+        <section>
+            <h2 class="section-title">
+                <i class="fas fa-volume-up"></i>
+                การอ่านชื่อ
+            </h2>
+            <div class="card">
+                <div style="background: var(--accent-color); padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-weight: bold; font-size: 1.2rem;">
+                    <i class="fas fa-arrow-right"></i> อ่านจาก <strong>ซ้ายไปขวา</strong> <i class="fas fa-arrow-right"></i>
+                </div>
+                <p style="text-align: center; font-size: 1.2rem; margin-bottom: 20px;">
+                    <strong>ชื่อจริงก่อน</strong> → <strong>นามสกุลทีหลัง</strong>
+                </p>
+                
+                <div class="reading-example">
+                    <span class="english-name">Mike Brown</span>
+                    <span class="thai-pronunciation">ไมค์ บราวน์</span>
+                </div>
+                
+                <div class="reading-example">
+                    <span class="english-name">Emma Watson</span>
+                    <span class="thai-pronunciation">เอ็มม่า วัตสัน</span>
+                </div>
+                
+                <div class="reading-example">
+                    <span class="english-name">David Beckham</span>
+                    <span class="thai-pronunciation">เดวิด เบ็คแฮม</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: การเขียนชื่อ -->
+        <section>
+            <h2 class="section-title">
+                <i class="fas fa-pen-fancy"></i>
+                การเขียนชื่อ
+            </h2>
+            <div class="card">
+                <div style="background: #fff3cd; padding: 20px; border-radius: 15px; margin-bottom: 20px; border-left: 5px solid #ffc107;">
+                    <h3 style="color: #856404; margin-bottom: 10px;"><i class="fas fa-exclamation-triangle"></i> กฎสำคัญ!</h3>
+                    <p style="font-size: 1.2rem;"><strong>ตัวอักษรตัวแรกต้องเป็นตัวพิมพ์ใหญ่ (Capital Letter)</strong></p>
+                </div>
+                
+                <h3 style="margin-bottom: 15px; color: var(--primary-color);">ตัวอย่างการเขียนที่ถูกต้องและไม่ถูกต้อง:</h3>
+                
+                <div class="correct-wrong">
+                    <div class="example-box correct">
+                        <i class="fas fa-check-circle"></i>
+                        Tom Hanks
+                    </div>
+                    <div class="example-box wrong">
+                        <i class="fas fa-times-circle"></i>
+                        tom hanks
+                    </div>
+                </div>
+                
+                <div class="correct-wrong">
+                    <div class="example-box correct">
+                        <i class="fas fa-check-circle"></i>
+                        Jennifer Lopez
+                    </div>
+                    <div class="example-box wrong">
+                        <i class="fas fa-times-circle"></i>
+                        JENNIFER LOPEZ
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: คำศัพท์สำคัญ -->
+        <section>
+            <h2 class="section-title">
+                <i class="fas fa-book-open"></i>
+                คำศัพท์สำคัญ
+            </h2>
+            <div class="grid-2">
+                <div class="vocab-card">
+                    <i class="fas fa-id-badge"></i>
+                    <h3>Name</h3>
+                    <p>ชื่อ, นาม</p>
+                </div>
+                <div class="vocab-card">
+                    <i class="fas fa-user"></i>
+                    <h3>First Name</h3>
+                    <p>ชื่อจริง, ชื่อตัว</p>
+                </div>
+                <div class="vocab-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Last Name</h3>
+                    <p>นามสกุล, ชื่อสกุล</p>
+                </div>
+                <div class="vocab-card">
+                    <i class="fas fa-smile"></i>
+                    <h3>Nickname</h3>
+                    <p>ชื่อเล่น</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: ตัวอย่างชื่อภาษาอังกฤษ (เพิ่มใหม่) -->
+        <section>
+            <h2 class="section-title">
+                <i class="fas fa-address-book"></i>
+                ตัวอย่างชื่อภาษาอังกฤษ
+            </h2>
+            <div class="names-grid">
+                <div class="name-card">
+                    <div class="name-icon">👦</div>
+                    <div class="english">John Smith</div>
+                    <div class="thai">จอห์น สมิธ</div>
+                    <span class="gender boy">ชาย</span>
+                </div>
+                
+                <div class="name-card">
+                    <div class="name-icon">👧</div>
+                    <div class="english">Emma Watson</div>
+                    <div class="thai">เอ็มม่า วัตสัน</div>
+                    <span class="gender girl">หญิง</span>
+                </div>
+                
+                <div class="name-card">
+                    <div class="name-icon">👦</div>
+                    <div class="english">Michael Jordan</div>
+                    <div class="thai">ไมเคิล จอร์แดน</div>
+                    <span class="gender boy">ชาย</span>
+                </div>
+                
+                <div class="name-card">
+                    <div class="name-icon">👧</div>
+                    <div class="english">Sarah Johnson</div>
+                    <div class="thai">ซาราห์ จอห์นสัน</div>
+                    <span class="gender girl">หญิง</span>
+                </div>
+                
+                <div class="name-card">
+                    <div class="name-icon">👦</div>
+                    <div class="english">David Beckham</div>
+                    <div class="thai">เดวิด เบ็คแฮม</div>
+                    <span class="gender boy">ชาย</span>
+                </div>
+                
+                <div class="name-card">
+                    <div class="name-icon">👧</div>
+                    <div class="english">Lisa Blackpink</div>
+                    <div class="thai">ลิซ่า แบล็คพิงค์</div>
+                    <span class="gender girl">หญิง</span>
+                </div>
+                
+                <div class="name-card">
+                    <div class="name-icon">👦</div>
+                    <div class="english">Tom Holland</div>
+                    <div class="thai">ทอม ฮอลแลนด์</div>
+                    <span class="gender boy">ชาย</span>
+                </div>
+                
+                <div class="name-card">
+                    <div class="name-icon">👧</div>
+                    <div class="english">Jennifer Lawrence</div>
+                    <div class="thai">เจนนิเฟอร์ ลอว์เรนซ์</div>
+                    <span class="gender girl">หญิง</span>
+                </div>
+                
+                <div class="name-card">
+                    <div class="name-icon">👦</div>
+                    <div class="english">Chris Evans</div>
+                    <div class="thai">คริส อีแวนส์</div>
+                    <span class="gender boy">ชาย</span>
+                </div>
+                
+                <div class="name-card">
+                    <div class="name-icon">👧</div>
+                    <div class="english">Taylor Swift</div>
+                    <div class="thai">เทย์เลอร์ สวิฟต์</div>
+                    <span class="gender girl">หญิง</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Mini Quiz -->
+        <section>
+            <h2 class="section-title">
+                <i class="fas fa-quiz"></i>
+                Mini Quiz - ทดสอบความเข้าใจ
+            </h2>
+            <div class="quiz-container">
+                <div id="quiz-content">
+                    <!-- คำถามที่ 1 -->
+                    <div class="quiz-item" id="q1">
+                        <div class="quiz-question">
+                            1. ข้อใดเขียนชื่อภาษาอังกฤษได้ถูกต้อง?
+                        </div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(1, 'a', false)">
+                                <span>A.</span> tom hanks
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(1, 'b', true)">
+                                <span>B.</span> Tom Hanks
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(1, 'c', false)">
+                                <span>C.</span> TOM HANKS
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- คำถามที่ 2 -->
+                    <div class="quiz-item" id="q2" style="margin-top: 30px;">
+                        <div class="quiz-question">
+                            2. "First Name" หมายถึงอะไร?
+                        </div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(2, 'a', false)">
+                                <span>A.</span> นามสกุล
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(2, 'b', true)">
+                                <span>B.</span> ชื่อจริง
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(2, 'c', false)">
+                                <span>C.</span> ชื่อเล่น
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- คำถามที่ 3 -->
+                    <div class="quiz-item" id="q3" style="margin-top: 30px;">
+                        <div class="quiz-question">
+                            3. การอ่านชื่อภาษาอังกฤษอ่านจากทิศทางใด?
+                        </div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(3, 'a', false)">
+                                <span>A.</span> ขวาไปซ้าย
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(3, 'b', true)">
+                                <span>B.</span> ซ้ายไปขวา
+                            </div>
+                            <div class="quiz-option" onclick="checkAnswer(3, 'c', false)">
+                                <span>C.</span> บนลงล่าง
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="quiz-result" class="quiz-result"></div>
+                    <button class="reset-btn" onclick="resetQuiz()" style="display: none;" id="resetBtn">
+                        <i class="fas fa-redo"></i> ทำแบบทดสอบอีกครั้ง
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let score = 0;
+        let answeredQuestions = 0;
+        const totalQuestions = 3;
+
+        function checkAnswer(questionNum, selectedOption, isCorrect) {
+            // ป้องกันการตอบซ้ำ
+            const currentQuestion = document.getElementById(`q${questionNum}`);
+            const options = currentQuestion.querySelectorAll('.quiz-option');
+            
+            options.forEach(opt => {
+                opt.classList.add('disabled');
+                opt.style.cursor = 'not-allowed';
+            });
+
+            // แสดงคำตอบที่ถูกต้อง
+            options.forEach(opt => {
+                if (opt.getAttribute('onclick').includes('true')) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+                options.forEach(opt => {
+                    if (opt.getAttribute('onclick').includes(`'${selectedOption}'`)) {
+                        opt.classList.add('correct');
+                    }
+                });
+            } else {
+                options.forEach(opt => {
+                    if (opt.getAttribute('onclick').includes(`'${selectedOption}'`)) {
+                        opt.classList.add('wrong');
+                    }
+                });
+            }
+
+            answeredQuestions++;
+
+            // ตรวจสอบว่าตอบครบทุกข้อหรือยัง
+            if (answeredQuestions === totalQuestions) {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            const resultDiv = document.getElementById('quiz-result');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            let message = '';
+            let className = '';
+            
+            if (score === totalQuestions) {
+                message = `🎉 เยี่ยมมาก! คุณทำได้ ${score}/${totalQuestions} คะแนน`;
+                className = 'result-good';
+            } else if (score >= 2) {
+                message = `👍 ดีมาก! คุณทำได้ ${score}/${totalQuestions} คะแนน`;
+                className = 'result-good';
+            } else {
+                message = `📚 ลองทบทวนอีกครั้งนะ คุณทำได้ ${score}/${totalQuestions} คะแนน`;
+                className = 'result-bad';
+            }
+            
+            resultDiv.textContent = message;
+            resultDiv.className = `quiz-result show ${className}`;
+            resetBtn.style.display = 'inline-block';
+            
+            // เลื่อนไปที่ผลลัพธ์
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function resetQuiz() {
+            score = 0;
+            answeredQuestions = 0;
+            
+            // รีเซ็ตทุกคำถาม
+            for (let i = 1; i <= totalQuestions; i++) {
+                const question = document.getElementById(`q${i}`);
+                const options = question.querySelectorAll('.quiz-option');
+                
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'wrong', 'disabled');
+                    opt.style.cursor = 'pointer';
+                });
+            }
+            
+            // ซ่อนผลลัพธ์
+            document.getElementById('quiz-result').classList.remove('show');
+            document.getElementById('resetBtn').style.display = 'none';
+            
+            // เลื่อนกลับไปที่คำถามแรก
+            document.getElementById('q1').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // เพิ่ม Animation เมื่อ Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, observerOptions);
+
+        // สังเกตทุก section
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // เพิ่ม Interactive Effect ให้กับ Name Cards
+        document.querySelectorAll('.name-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
