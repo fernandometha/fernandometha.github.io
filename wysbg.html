@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="th" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบประมาณการงบประมาณโรงเรียน</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <style>
+* { font-family: 'Sarabun', sans-serif; }
+html, body { height: 100%; margin: 0; }
+.app-wrapper { height: 100%; overflow: auto; }
+@media print {
+  .no-print { display: none !important; }
+  .print-area { padding: 0 !important; margin: 0 !important; }
+  .print-table { box-shadow: none !important; }
+  body { background: white !important; }
+}
+.sidebar-link { transition: all 0.2s; }
+.sidebar-link:hover, .sidebar-link.active { background: rgba(139,92,246,0.15); color: #7c3aed; }
+.sidebar-link.active { border-right: 3px solid #7c3aed; font-weight: 600; }
+.card-stat { transition: transform 0.2s; }
+.card-stat:hover { transform: translateY(-2px); }
+.modal-overlay { animation: fadeIn 0.2s; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+input:focus { outline: none; box-shadow: 0 0 0 2px rgba(139,92,246,0.3); }
+.badge-purple { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+</style>
+  <script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        p: { 50:'#faf5ff',100:'#f3e8ff',200:'#e9d5ff',300:'#d8b4fe',400:'#c084fc',500:'#a855f7',600:'#9333ea',700:'#7c3aed',800:'#6b21a8',900:'#581c87' },
+        pastel: { pink:'#fce7f3', blue:'#dbeafe', green:'#d1fae5', yellow:'#fef3c7', purple:'#ede9fe', orange:'#ffedd5' }
+      }
+    }
+  }
+}
+</script>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-p-50 via-white to-pastel-purple">
+  <div class="app-wrapper flex"><!-- Sidebar -->
+   <aside class="no-print w-64 bg-white shadow-lg flex flex-col flex-shrink-0" style="min-height:100%">
+    <div class="p-4 border-b border-p-100 flex flex-col items-center"><img src="https://img1.pic.in.th/images/wys_logo.jpg" alt="โลโก้โรงเรียน" style="width:150px;height:150px;object-fit:contain;border-radius:50%;border:3px solid #c084fc" loading="lazy" onerror="this.style.background='#ede9fe';this.alt='โลโก้';">
+     <h1 id="schoolNameDisplay" class="mt-2 text-sm font-bold text-p-800 text-center">โรงเรียนวังใหญ่วิทยาคม</h1><span class="text-xs text-p-500">ระบบประมาณการงบประมาณ</span>
+    </div>
+    <nav class="flex-1 py-4"><a href="#" class="sidebar-link active flex items-center gap-3 px-5 py-3 text-sm text-gray-600" data-page="dashboard"> <i data-lucide="layout-dashboard" class="w-5 h-5"></i>แดชบอร์ด </a> <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-3 text-sm text-gray-600" data-page="subsidy"> <i data-lucide="wallet" class="w-5 h-5"></i>เงินอุดหนุนรายหัว </a> <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-3 text-sm text-gray-600" data-page="development"> <i data-lucide="book-open" class="w-5 h-5"></i>เงินพัฒนาผู้เรียน </a> <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-3 text-sm text-gray-600" data-page="students"> <i data-lucide="users" class="w-5 h-5"></i>จำนวนนักเรียน </a> <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-3 text-sm text-gray-600" data-page="ratio"> <i data-lucide="pie-chart" class="w-5 h-5"></i>สัดส่วนงบประมาณ </a> <a href="#" class="sidebar-link flex items-center gap-3 px-5 py-3 text-sm text-gray-600" data-page="report"> <i data-lucide="printer" class="w-5 h-5"></i>รายงาน / พิมพ์ </a>
+    </nav>
+    <div class="p-4 border-t border-p-100 text-center text-xs text-gray-400">
+     © 2025 Budget System
+    </div>
+   </aside><!-- Main -->
+   <main class="flex-1 overflow-auto">
+    <header class="no-print bg-white shadow-sm px-6 py-4 flex items-center justify-between">
+     <h2 id="pageTitle" class="text-xl font-bold text-p-800">แดชบอร์ด</h2><span class="text-xs text-gray-400">ปีงบประมาณ 2568</span>
+    </header>
+    <div class="p-6"><!-- Dashboard -->
+     <section id="page-dashboard">
+      <div id="dashCards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"></div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+       <div class="bg-white rounded-xl shadow p-5">
+        <h3 class="font-bold text-p-700 mb-3 flex items-center gap-2"><i data-lucide="bar-chart-3" class="w-5 h-5"></i>สรุปงบประมาณแยกตามกลุ่ม</h3>
+        <div id="ratioSummary"></div>
+       </div>
+       <div class="bg-white rounded-xl shadow p-5">
+        <h3 class="font-bold text-p-700 mb-3 flex items-center gap-2"><i data-lucide="info" class="w-5 h-5"></i>รายละเอียดงบประมาณ</h3>
+        <div id="budgetDetail"></div>
+       </div>
+      </div>
+     </section><!-- Subsidy Page -->
+     <section id="page-subsidy" class="hidden">
+      <div class="flex justify-between items-center mb-4">
+       <h3 class="font-semibold text-p-700">ข้อมูลเงินอุดหนุนรายหัว</h3><button onclick="openModal('subsidy')" class="bg-p-600 hover:bg-p-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i>เพิ่มข้อมูล</button>
+      </div>
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+       <table class="w-full text-sm">
+        <thead class="bg-p-100 text-p-800">
+         <tr>
+          <th class="p-3 text-left">ID</th>
+          <th class="p-3 text-right">ม.ต้น (บาท)</th>
+          <th class="p-3 text-right">ม.ปลาย (บาท)</th>
+          <th class="p-3 text-center">จัดการ</th>
+         </tr>
+        </thead>
+        <tbody id="subsidyTable"></tbody>
+       </table>
+      </div>
+     </section><!-- Development Page -->
+     <section id="page-development" class="hidden">
+      <div class="flex justify-between items-center mb-4">
+       <h3 class="font-semibold text-p-700">ข้อมูลเงินพัฒนาผู้เรียน</h3><button onclick="openModal('development')" class="bg-p-600 hover:bg-p-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i>เพิ่มข้อมูล</button>
+      </div>
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+       <table class="w-full text-sm">
+        <thead class="bg-p-100 text-p-800">
+         <tr>
+          <th class="p-3 text-left">ID</th>
+          <th class="p-3 text-right">ม.ต้น (บาท)</th>
+          <th class="p-3 text-right">ม.ปลาย (บาท)</th>
+          <th class="p-3 text-center">จัดการ</th>
+         </tr>
+        </thead>
+        <tbody id="developmentTable"></tbody>
+       </table>
+      </div>
+     </section><!-- Students Page -->
+     <section id="page-students" class="hidden">
+      <div class="flex justify-between items-center mb-4">
+       <h3 class="font-semibold text-p-700">กำหนดจำนวนนักเรียน</h3><button onclick="openModal('students')" class="bg-p-600 hover:bg-p-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i>เพิ่มข้อมูล</button>
+      </div>
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+       <table class="w-full text-sm">
+        <thead class="bg-p-100 text-p-800">
+         <tr>
+          <th class="p-3 text-left">ID</th>
+          <th class="p-3 text-right">ม.ต้น (คน)</th>
+          <th class="p-3 text-right">ม.ปลาย (คน)</th>
+          <th class="p-3 text-center">จัดการ</th>
+         </tr>
+        </thead>
+        <tbody id="studentsTable"></tbody>
+       </table>
+      </div>
+     </section><!-- Ratio Page -->
+     <section id="page-ratio" class="hidden">
+      <div class="flex justify-between items-center mb-4">
+       <h3 class="font-semibold text-p-700">กำหนดสัดส่วนงบประมาณ (รวม 100%)</h3><button onclick="openModal('ratio')" class="bg-p-600 hover:bg-p-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i>เพิ่มข้อมูล</button>
+      </div>
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+       <table class="w-full text-sm">
+        <thead class="bg-p-100 text-p-800">
+         <tr>
+          <th class="p-3 text-left">ID</th>
+          <th class="p-3 text-right">วิชาการ(%)</th>
+          <th class="p-3 text-right">บุคคล(%)</th>
+          <th class="p-3 text-right">งบประมาณ(%)</th>
+          <th class="p-3 text-right">ทั่วไป(%)</th>
+          <th class="p-3 text-right">สาธารณูปโภค(%)</th>
+          <th class="p-3 text-right">รวม(%)</th>
+          <th class="p-3 text-center">จัดการ</th>
+         </tr>
+        </thead>
+        <tbody id="ratioTable"></tbody>
+       </table>
+      </div>
+     </section><!-- Report Page -->
+     <section id="page-report" class="hidden">
+      <div class="no-print mb-4 flex gap-3"><button onclick="window.print()" class="bg-p-600 hover:bg-p-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2"><i data-lucide="printer" class="w-4 h-4"></i>พิมพ์รายงาน</button>
+      </div>
+      <div id="reportContent" class="print-area bg-white rounded-xl shadow p-6"></div>
+     </section>
+    </div>
+   </main>
+  </div><!-- Modal -->
+  <div id="modalOverlay" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50 modal-overlay no-print">
+   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+    <div class="bg-gradient-to-r from-p-600 to-p-400 px-6 py-4 flex justify-between items-center">
+     <h3 id="modalTitle" class="text-white font-bold text-lg"></h3><button onclick="closeModal()" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <form id="modalForm" class="p-6 space-y-4"></form>
+    <div class="px-6 pb-5 flex justify-end gap-3"><button onclick="closeModal()" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 text-sm hover:bg-gray-50">ยกเลิก</button> <button onclick="saveForm()" class="px-4 py-2 rounded-lg bg-p-600 text-white text-sm hover:bg-p-700">บันทึก</button>
+    </div>
+   </div>
+  </div>
+  <script>
+// ========== DATA STORE (localStorage JSON) ==========
+const STORE_KEYS = { subsidy:'budget_subsidy', development:'budget_development', students:'budget_students', ratio:'budget_ratio' };
+function getData(key){ return JSON.parse(localStorage.getItem(STORE_KEYS[key])||'[]'); }
+function setData(key,d){ localStorage.setItem(STORE_KEYS[key],JSON.stringify(d)); }
+function nextId(arr){ return arr.length?Math.max(...arr.map(x=>x.id))+1:1; }
+
+// Default data (will seed if empty)
+const DEFAULT_DATA = {
+  subsidy: [{ id:1, lower:3500, upper:3800 }],
+  development: [{ id:1, lower:1950, upper:2100 }],
+  students: [{ id:1, lower:320, upper:280 }],
+  ratio: [{ id:1, academic:40, personnel:10, budget_g:15, general:15, utility:20 }]
+};
+// Seed defaults if empty
+Object.keys(DEFAULT_DATA).forEach(k=>{ if(!getData(k).length) setData(k, DEFAULT_DATA[k]); });
+
+// ========== NAVIGATION ==========
+let currentPage = 'dashboard';
+let currentModal = null;
+let editingId = null;
+
+$(document).on('click','.sidebar-link',function(e){
+  e.preventDefault();
+  const pg = $(this).data('page');
+  currentPage = pg;
+  $('.sidebar-link').removeClass('active');
+  $(this).addClass('active');
+  $('[id^=page-]').addClass('hidden');
+  $('#page-'+pg).removeClass('hidden');
+  const titles = {dashboard:'แดชบอร์ด',subsidy:'เงินอุดหนุนรายหัว',development:'เงินพัฒนาผู้เรียน',students:'จำนวนนักเรียน',ratio:'สัดส่วนงบประมาณ',report:'รายงาน / พิมพ์'};
+  $('#pageTitle').text(titles[pg]||'');
+  renderPage(pg);
+});
+
+// ========== RENDER ==========
+function fmt(n){ return Number(n||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtInt(n){ return Number(n||0).toLocaleString('th-TH'); }
+
+function renderPage(pg){
+  if(pg==='subsidy') renderTable('subsidy',['id','lower','upper'],['ID','ม.ต้น (บาท)','ม.ปลาย (บาท)'],'subsidyTable');
+  else if(pg==='development') renderTable('development',['id','lower','upper'],['ID','ม.ต้น (บาท)','ม.ปลาย (บาท)'],'developmentTable');
+  else if(pg==='students') renderTable('students',['id','lower','upper'],['ID','ม.ต้น (คน)','ม.ปลาย (คน)'],'studentsTable',true);
+  else if(pg==='ratio') renderRatio();
+  else if(pg==='dashboard') renderDashboard();
+  else if(pg==='report') renderReport();
+  lucide.createIcons();
+}
+
+function renderTable(key,fields,labels,tbId,isInt){
+  const data=getData(key);
+  let html='';
+  data.forEach(r=>{
+    html+=`<tr class="border-t border-gray-100 hover:bg-p-50">
+      <td class="p-3">${r.id}</td>
+      <td class="p-3 text-right">${isInt?fmtInt(r.lower):fmt(r.lower)}</td>
+      <td class="p-3 text-right">${isInt?fmtInt(r.upper):fmt(r.upper)}</td>
+      <td class="p-3 text-center flex justify-center gap-2">
+        <button onclick="editItem('${key}',${r.id})" class="text-p-600 hover:text-p-800"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+        <button onclick="deleteItem('${key}',${r.id})" class="text-red-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+      </td></tr>`;
+  });
+  if(!data.length) html='<tr><td colspan="4" class="p-6 text-center text-gray-400">ยังไม่มีข้อมูล</td></tr>';
+  $('#'+tbId).html(html);
+  lucide.createIcons();
+}
+
+function renderRatio(){
+  const data=getData('ratio');
+  let html='';
+  data.forEach(r=>{
+    const total=Number(r.academic)+Number(r.personnel)+Number(r.budget_g)+Number(r.general)+Number(r.utility);
+    const cls=total===100?'text-green-600 font-bold':'text-red-500 font-bold';
+    html+=`<tr class="border-t border-gray-100 hover:bg-p-50">
+      <td class="p-3">${r.id}</td>
+      <td class="p-3 text-right">${r.academic}%</td>
+      <td class="p-3 text-right">${r.personnel}%</td>
+      <td class="p-3 text-right">${r.budget_g}%</td>
+      <td class="p-3 text-right">${r.general}%</td>
+      <td class="p-3 text-right">${r.utility}%</td>
+      <td class="p-3 text-right ${cls}">${total}%</td>
+      <td class="p-3 text-center flex justify-center gap-2">
+        <button onclick="editItem('ratio',${r.id})" class="text-p-600 hover:text-p-800"><i data-lucide="edit-2" class="w-4 h-4"></i></button>
+        <button onclick="deleteItem('ratio',${r.id})" class="text-red-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+      </td></tr>`;
+  });
+  if(!data.length) html='<tr><td colspan="8" class="p-6 text-center text-gray-400">ยังไม่มีข้อมูล</td></tr>';
+  $('#ratioTable').html(html);
+  lucide.createIcons();
+}
+
+function calcBudget(){
+  const sub=getData('subsidy')[0]||{lower:0,upper:0};
+  const dev=getData('development')[0]||{lower:0,upper:0};
+  const stu=getData('students')[0]||{lower:0,upper:0};
+  const rat=getData('ratio')[0]||{academic:0,personnel:0,budget_g:0,general:0,utility:0};
+
+  const subsidyLower=sub.lower*stu.lower;
+  const subsidyUpper=sub.upper*stu.upper;
+  const subsidyTotal=subsidyLower+subsidyUpper;
+
+  const devLower=dev.lower*stu.lower;
+  const devUpper=dev.upper*stu.upper;
+  const devTotal=devLower+devUpper;
+
+  const reserve=subsidyTotal*0.10;
+  const subsidyAfterReserve=subsidyTotal-reserve;
+
+  // สัดส่วนใช้กับเงินอุดหนุนหลังหักสำรอง
+  const ratAcademic=subsidyAfterReserve*(rat.academic/100);
+  const ratPersonnel=subsidyAfterReserve*(rat.personnel/100);
+  const ratBudget=subsidyAfterReserve*(rat.budget_g/100);
+  const ratGeneral=subsidyAfterReserve*(rat.general/100);
+  const ratUtility=subsidyAfterReserve*(rat.utility/100);
+
+  // เงินพัฒนาผู้เรียน ใช้ได้เฉพาะกลุ่มวิชาการ
+  const academicWithDev=ratAcademic+devTotal;
+
+  const grandTotal=subsidyTotal+devTotal;
+
+  return { sub,dev,stu,rat, subsidyLower,subsidyUpper,subsidyTotal, devLower,devUpper,devTotal, reserve,subsidyAfterReserve, ratAcademic,ratPersonnel,ratBudget,ratGeneral,ratUtility, academicWithDev, grandTotal };
+}
+
+function renderDashboard(){
+  const b=calcBudget();
+  const cards=[
+    {label:'งบอุดหนุนรายหัว',val:fmt(b.subsidyTotal),icon:'wallet',color:'from-p-500 to-p-700'},
+    {label:'เงินพัฒนาผู้เรียน',val:fmt(b.devTotal),icon:'book-open',color:'from-pink-400 to-pink-600'},
+    {label:'เงินสำรองจ่าย (10%)',val:fmt(b.reserve),icon:'shield',color:'from-amber-400 to-amber-600'},
+    {label:'งบประมาณรวมทั้งสิ้น',val:fmt(b.grandTotal),icon:'banknote',color:'from-green-400 to-green-600'}
+  ];
+  let ch='';
+  cards.forEach(c=>{
+    ch+=`<div class="card-stat bg-gradient-to-br ${c.color} rounded-xl p-5 text-white shadow-lg">
+      <div class="flex items-center gap-3 mb-2"><i data-lucide="${c.icon}" class="w-6 h-6 opacity-80"></i><span class="text-sm opacity-90">${c.label}</span></div>
+      <div class="text-2xl font-extrabold">${c.val}</div></div>`;
+  });
+  $('#dashCards').html(ch);
+
+  // Budget detail
+  let detail=`<div class="space-y-3 text-sm">
+    <div class="flex justify-between border-b pb-2"><span>นักเรียน ม.ต้น</span><span class="font-semibold">${fmtInt(b.stu.lower)} คน</span></div>
+    <div class="flex justify-between border-b pb-2"><span>นักเรียน ม.ปลาย</span><span class="font-semibold">${fmtInt(b.stu.upper)} คน</span></div>
+    <div class="flex justify-between border-b pb-2"><span>อุดหนุน ม.ต้น (${fmtInt(b.stu.lower)}×${fmt(b.sub.lower)})</span><span class="font-semibold">${fmt(b.subsidyLower)}</span></div>
+    <div class="flex justify-between border-b pb-2"><span>อุดหนุน ม.ปลาย (${fmtInt(b.stu.upper)}×${fmt(b.sub.upper)})</span><span class="font-semibold">${fmt(b.subsidyUpper)}</span></div>
+    <div class="flex justify-between border-b pb-2"><span>พัฒนา ม.ต้น (${fmtInt(b.stu.lower)}×${fmt(b.dev.lower)})</span><span class="font-semibold">${fmt(b.devLower)}</span></div>
+    <div class="flex justify-between border-b pb-2"><span>พัฒนา ม.ปลาย (${fmtInt(b.stu.upper)}×${fmt(b.dev.upper)})</span><span class="font-semibold">${fmt(b.devUpper)}</span></div>
+    <div class="flex justify-between border-b pb-2 text-amber-600"><span>เงินสำรองจ่าย 10%</span><span class="font-semibold">${fmt(b.reserve)}</span></div>
+    <div class="flex justify-between font-bold text-p-700 pt-1"><span>อุดหนุนหลังหักสำรอง</span><span>${fmt(b.subsidyAfterReserve)}</span></div>
+  </div>`;
+  $('#budgetDetail').html(detail);
+
+  // Ratio summary
+  const groups=[
+    {name:'กลุ่มบริหารงานวิชาการ',pct:b.rat.academic,amt:b.ratAcademic,dev:b.devTotal,total:b.academicWithDev,color:'bg-p-200'},
+    {name:'กลุ่มบริหารงานบุคคล',pct:b.rat.personnel,amt:b.ratPersonnel,dev:0,total:b.ratPersonnel,color:'bg-pink-200'},
+    {name:'กลุ่มบริหารงานงบประมาณ',pct:b.rat.budget_g,amt:b.ratBudget,dev:0,total:b.ratBudget,color:'bg-amber-200'},
+    {name:'กลุ่มบริหารงานทั่วไป',pct:b.rat.general,amt:b.ratGeneral,dev:0,total:b.ratGeneral,color:'bg-green-200'},
+    {name:'ค่าสาธารณูปโภค',pct:b.rat.utility,amt:b.ratUtility,dev:0,total:b.ratUtility,color:'bg-blue-200'}
+  ];
+  let rs=`<div class="space-y-3">`;
+  groups.forEach(g=>{
+    rs+=`<div class="p-3 rounded-lg ${g.color}">
+      <div class="flex justify-between text-sm font-semibold"><span>${g.name} (${g.pct}%)</span><span>${fmt(g.total)} บาท</span></div>
+      <div class="w-full bg-white/50 rounded-full h-2 mt-1"><div class="h-2 rounded-full bg-p-500" style="width:${Math.min(g.pct,100)}%"></div></div>
+      ${g.dev>0?`<div class="text-xs mt-1 text-p-700">อุดหนุน: ${fmt(g.amt)} + พัฒนาผู้เรียน: ${fmt(g.dev)}</div>`:`<div class="text-xs mt-1 text-gray-500">จากเงินอุดหนุน: ${fmt(g.amt)}</div>`}
+    </div>`;
+  });
+  rs+=`</div>`;
+  $('#ratioSummary').html(rs);
+  lucide.createIcons();
+}
+
+function renderReport(){
+  const b=calcBudget();
+  const groups=[
+    {name:'กลุ่มบริหารงานวิชาการ',pct:b.rat.academic,subsidy:b.ratAcademic,dev:b.devTotal,total:b.academicWithDev},
+    {name:'กลุ่มบริหารงานบุคคล',pct:b.rat.personnel,subsidy:b.ratPersonnel,dev:0,total:b.ratPersonnel},
+    {name:'กลุ่มบริหารงานงบประมาณ',pct:b.rat.budget_g,subsidy:b.ratBudget,dev:0,total:b.ratBudget},
+    {name:'กลุ่มบริหารงานทั่วไป',pct:b.rat.general,subsidy:b.ratGeneral,dev:0,total:b.ratGeneral},
+    {name:'ค่าสาธารณูปโภค',pct:b.rat.utility,subsidy:b.ratUtility,dev:0,total:b.ratUtility}
+  ];
+  const totalAll=groups.reduce((s,g)=>s+g.total,0)+b.reserve;
+
+  let h=`<div class="text-center mb-6">
+    <h2 class="text-xl font-bold text-p-800">รายงานสรุปประมาณการงบประมาณ</h2>
+    <p class="text-sm text-gray-500">โรงเรียนวังใหญ่วิทยาคม ปีงบประมาณ 2568</p>
+  </div>
+  <table class="w-full text-sm border-collapse print-table mb-4">
+    <thead><tr class="bg-p-100">
+      <th class="border border-p-200 p-2 text-left">รายการ</th>
+      <th class="border border-p-200 p-2 text-center">สัดส่วน</th>
+      <th class="border border-p-200 p-2 text-right">เงินอุดหนุน</th>
+      <th class="border border-p-200 p-2 text-right">เงินพัฒนาผู้เรียน</th>
+      <th class="border border-p-200 p-2 text-right">รวม</th>
+    </tr></thead><tbody>`;
+  groups.forEach(g=>{
+    h+=`<tr class="hover:bg-p-50"><td class="border border-gray-200 p-2">${g.name}</td><td class="border border-gray-200 p-2 text-center">${g.pct}%</td><td class="border border-gray-200 p-2 text-right">${fmt(g.subsidy)}</td><td class="border border-gray-200 p-2 text-right">${fmt(g.dev)}</td><td class="border border-gray-200 p-2 text-right font-semibold">${fmt(g.total)}</td></tr>`;
+  });
+  h+=`<tr class="bg-amber-50"><td class="border border-gray-200 p-2 font-semibold" colspan="4">เงินสำรองจ่าย (10% ของเงินอุดหนุนรายหัว)</td><td class="border border-gray-200 p-2 text-right font-semibold">${fmt(b.reserve)}</td></tr>`;
+  h+=`<tr class="bg-p-100 font-bold"><td class="border border-p-200 p-2" colspan="4">รวมงบประมาณทั้งสิ้น</td><td class="border border-p-200 p-2 text-right">${fmt(totalAll)}</td></tr>`;
+  h+=`</tbody></table>`;
+
+  h+=`<div class="mt-4 text-xs text-gray-500 space-y-1">
+    <p>* เงินพัฒนาผู้เรียน ใช้ได้เฉพาะกลุ่มบริหารงานวิชาการเท่านั้น</p>
+    <p>* เงินสำรองจ่าย คิด 10% จากเงินอุดหนุนรายหัวรวม</p>
+    <p>* จำนวนนักเรียน ม.ต้น ${fmtInt(b.stu.lower)} คน, ม.ปลาย ${fmtInt(b.stu.upper)} คน</p>
+  </div>`;
+  $('#reportContent').html(h);
+}
+
+// ========== MODAL ==========
+function openModal(type, id){
+  currentModal=type; editingId=id||null;
+  const isEdit=!!id;
+  const titles={subsidy:'เงินอุดหนุนรายหัว',development:'เงินพัฒนาผู้เรียน',students:'จำนวนนักเรียน',ratio:'สัดส่วนงบประมาณ'};
+  $('#modalTitle').text((isEdit?'แก้ไข':'เพิ่ม')+titles[type]);
+
+  let existing=null;
+  if(isEdit){ existing=getData(type).find(x=>x.id===id); }
+
+  let fields='';
+  if(type==='subsidy'||type==='development'){
+    const lbl=type==='subsidy'?'ค่าอุดหนุน':'ค่าพัฒนา';
+    fields=`
+      <div><label class="block text-sm font-medium text-gray-700 mb-1">${lbl} ม.ต้น (บาท)</label>
+      <input type="number" name="lower" step="0.01" min="0" required class="w-full border border-gray-300 rounded-lg px-3 py-2" value="${existing?existing.lower:''}"></div>
+      <div><label class="block text-sm font-medium text-gray-700 mb-1">${lbl} ม.ปลาย (บาท)</label>
+      <input type="number" name="upper" step="0.01" min="0" required class="w-full border border-gray-300 rounded-lg px-3 py-2" value="${existing?existing.upper:''}"></div>`;
+  } else if(type==='students'){
+    fields=`
+      <div><label class="block text-sm font-medium text-gray-700 mb-1">จำนวนนักเรียน ม.ต้น</label>
+      <input type="number" name="lower" min="0" required class="w-full border border-gray-300 rounded-lg px-3 py-2" value="${existing?existing.lower:''}"></div>
+      <div><label class="block text-sm font-medium text-gray-700 mb-1">จำนวนนักเรียน ม.ปลาย</label>
+      <input type="number" name="upper" min="0" required class="w-full border border-gray-300 rounded-lg px-3 py-2" value="${existing?existing.upper:''}"></div>`;
+  } else if(type==='ratio'){
+    const fs=['academic','personnel','budget_g','general','utility'];
+    const ls=['กลุ่มบริหารงานวิชาการ','กลุ่มบริหารงานบุคคล','กลุ่มบริหารงานงบประมาณ','กลุ่มบริหารงานทั่วไป','ค่าสาธารณูปโภค'];
+    fs.forEach((f,i)=>{
+      fields+=`<div><label class="block text-sm font-medium text-gray-700 mb-1">${ls[i]} (%)</label>
+      <input type="number" name="${f}" min="0" max="100" step="0.01" required class="w-full border border-gray-300 rounded-lg px-3 py-2 ratio-input" value="${existing?existing[f]:''}"></div>`;
+    });
+    fields+=`<div class="bg-p-50 rounded-lg p-3 text-center text-sm font-semibold">รวม: <span id="ratioTotal">0</span>%</div>`;
+  }
+  $('#modalForm').html(fields);
+  $('#modalOverlay').removeClass('hidden');
+
+  if(type==='ratio'){
+    updateRatioTotal();
+    $(document).off('input','.ratio-input').on('input','.ratio-input',updateRatioTotal);
+  }
+  lucide.createIcons();
+}
+
+function updateRatioTotal(){
+  let t=0;
+  $('.ratio-input').each(function(){ t+=parseFloat($(this).val())||0; });
+  $('#ratioTotal').text(t.toFixed(2)).css('color',t===100?'#16a34a':'#dc2626');
+}
+
+function closeModal(){ $('#modalOverlay').addClass('hidden'); currentModal=null; editingId=null; }
+
+function saveForm(){
+  const form=$('#modalForm');
+  let valid=true;
+  form.find('input[required]').each(function(){
+    if(!$(this).val()){ $(this).addClass('border-red-400'); valid=false; } else { $(this).removeClass('border-red-400'); }
+  });
+  if(!valid){ Swal.fire({icon:'warning',title:'กรุณากรอกข้อมูลให้ครบ',timer:1500,showConfirmButton:false}); return; }
+
+  if(currentModal==='ratio'){
+    let t=0; $('.ratio-input').each(function(){ t+=parseFloat($(this).val())||0; });
+    if(t!==100){ Swal.fire({icon:'error',title:'สัดส่วนต้องรวมเป็น 100%',text:`ตอนนี้รวม ${t.toFixed(2)}%`}); return; }
+  }
+
+  const data=getData(currentModal);
+  if(currentModal==='subsidy'||currentModal==='development'||currentModal==='students'){
+    const lower=parseFloat(form.find('[name=lower]').val());
+    const upper=parseFloat(form.find('[name=upper]').val());
+    if(editingId){
+      const idx=data.findIndex(x=>x.id===editingId);
+      if(idx>=0){ data[idx].lower=lower; data[idx].upper=upper; }
+    } else {
+      data.push({id:nextId(data),lower,upper});
+    }
+  } else if(currentModal==='ratio'){
+    const obj={};
+    ['academic','personnel','budget_g','general','utility'].forEach(f=>{ obj[f]=parseFloat(form.find(`[name=${f}]`).val()); });
+    if(editingId){
+      const idx=data.findIndex(x=>x.id===editingId);
+      if(idx>=0) Object.assign(data[idx],obj);
+    } else {
+      obj.id=nextId(data); data.push(obj);
+    }
+  }
+
+  setData(currentModal,data);
+  closeModal();
+  Swal.fire({icon:'success',title:'บันทึกสำเร็จ',timer:1200,showConfirmButton:false});
+  renderPage(currentPage);
+}
+
+function editItem(key,id){ openModal(key,id); }
+
+function deleteItem(key,id){
+  // Inline confirmation via SweetAlert2
+  Swal.fire({
+    title:'ยืนยันการลบ?',icon:'warning',showCancelButton:true,confirmButtonColor:'#7c3aed',cancelButtonColor:'#6b7280',confirmButtonText:'ลบ',cancelButtonText:'ยกเลิก'
+  }).then(r=>{
+    if(r.isConfirmed){
+      let d=getData(key); d=d.filter(x=>x.id!==id); setData(key,d);
+      Swal.fire({icon:'success',title:'ลบแล้ว',timer:1000,showConfirmButton:false});
+      renderPage(currentPage);
+    }
+  });
+}
+
+// ========== INIT ==========
+$(function(){
+  renderPage('dashboard');
+  lucide.createIcons();
+});
+
+// Element SDK
+const defaultConfig = {
+  school_name: 'โรงเรียนวังใหญ่วิทยาคม',
+  background_color: '#faf5ff',
+  surface_color: '#ffffff',
+  text_color: '#581c87',
+  primary_action_color: '#7c3aed',
+  secondary_action_color: '#a855f7'
+};
+
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => {
+    const name = config.school_name || defaultConfig.school_name;
+    document.getElementById('schoolNameDisplay').textContent = name;
+    document.body.parentElement.style.background = config.background_color || defaultConfig.background_color;
+  },
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get:()=>config.background_color||defaultConfig.background_color, set:(v)=>{config.background_color=v;window.elementSdk.setConfig({background_color:v})} },
+      { get:()=>config.surface_color||defaultConfig.surface_color, set:(v)=>{config.surface_color=v;window.elementSdk.setConfig({surface_color:v})} },
+      { get:()=>config.text_color||defaultConfig.text_color, set:(v)=>{config.text_color=v;window.elementSdk.setConfig({text_color:v})} },
+      { get:()=>config.primary_action_color||defaultConfig.primary_action_color, set:(v)=>{config.primary_action_color=v;window.elementSdk.setConfig({primary_action_color:v})} },
+      { get:()=>config.secondary_action_color||defaultConfig.secondary_action_color, set:(v)=>{config.secondary_action_color=v;window.elementSdk.setConfig({secondary_action_color:v})} }
+    ],
+    borderables: [],
+    fontEditable: undefined,
+    fontSizeable: undefined
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ['school_name', config.school_name || defaultConfig.school_name]
+  ])
+});
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e4e1f85c06a4f5d',t:'MTc3NDk0NzIwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
