@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="th" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบวิเคราะห์โครงการ - โรงเรียนวังใหญ่วิทยาคม</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+* { font-family: 'Sarabun', sans-serif; }
+@media print {
+  .no-print { display: none !important; }
+  .print-area { padding: 0 !important; margin: 0 !important; }
+  body { background: white !important; }
+  .print-table { page-break-inside: auto; }
+  .print-table tr { page-break-inside: avoid; }
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: #c4b5fd; border-radius: 3px; }
+.sidebar-item { transition: all 0.2s; }
+.sidebar-item:hover, .sidebar-item.active { background: rgba(139,92,246,0.15); color: #7c3aed; }
+.modal-overlay { transition: opacity 0.2s; }
+.card-hover { transition: transform 0.2s, box-shadow 0.2s; }
+.card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139,92,246,0.15); }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; }
+</style>
+  <script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        pri: { 50:'#faf5ff',100:'#f3e8ff',200:'#e9d5ff',300:'#d8b4fe',400:'#c084fc',500:'#a855f7',600:'#9333ea',700:'#7c3aed',800:'#6b21a8',900:'#581c87' },
+        pas: { pink:'#fce7f3',blue:'#dbeafe',green:'#d1fae5',yellow:'#fef9c3',purple:'#ede9fe',orange:'#ffedd5' }
+      }
+    }
+  }
+}
+</script>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-pri-50 text-gray-800">
+  <div id="app" class="h-full flex overflow-hidden"><!-- Sidebar -->
+   <aside class="no-print w-64 bg-white border-r border-pri-100 flex flex-col h-full shrink-0 shadow-sm">
+    <div class="p-4 border-b border-pri-100 flex items-center gap-3"><img src="https://img1.pic.in.th/images/wys_logo.jpg" alt="โลโก้โรงเรียน" style="width:60px;height:60px" class="rounded-full border-2 border-pri-300 shadow" loading="lazy" onerror="this.style.background='#ede9fe';this.alt='โลโก้';">
+     <div>
+      <div class="text-sm font-bold text-pri-700 leading-tight" id="schoolNameDisplay">
+       โรงเรียนวังใหญ่วิทยาคม
+      </div>
+      <div class="text-xs text-gray-400">
+       ระบบวิเคราะห์โครงการ
+      </div>
+     </div>
+    </div>
+    <nav class="flex-1 overflow-y-auto p-2 space-y-1" id="sideNav"><button onclick="navigate('dashboard')" data-page="dashboard" class="sidebar-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left"> <i data-lucide="layout-dashboard" class="w-4 h-4"></i>แดชบอร์ด </button> <button onclick="navigate('strategy')" data-page="strategy" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left"> <i data-lucide="target" class="w-4 h-4"></i>แผนกลยุทธ์ </button> <button onclick="navigate('kpi')" data-page="kpi" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left"> <i data-lucide="bar-chart-3" class="w-4 h-4"></i>KPI </button> <button onclick="navigate('area_policy')" data-page="area_policy" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left"> <i data-lucide="map-pin" class="w-4 h-4"></i>นโยบายเขตพื้นที่ </button> <button onclick="navigate('moe_policy')" data-page="moe_policy" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left"> <i data-lucide="landmark" class="w-4 h-4"></i>นโยบายกระทรวง </button> <button onclick="navigate('project')" data-page="project" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left"> <i data-lucide="folder-open" class="w-4 h-4"></i>โครงการ </button>
+    </nav>
+    <div class="p-3 border-t border-pri-100 text-xs text-gray-400 text-center">
+     © 2025 WYS System
+    </div>
+   </aside><!-- Main -->
+   <main class="flex-1 h-full overflow-y-auto" id="mainContent"><!-- Dashboard -->
+    <div id="page-dashboard" class="page p-6">
+     <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-pri-800">📊 แดชบอร์ดวิเคราะห์โครงการ</h1><button onclick="printDashboard()" class="no-print bg-pri-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-pri-700 flex items-center gap-2"><i data-lucide="printer" class="w-4 h-4"></i>พิมพ์รายงาน</button>
+     </div><!-- Summary Cards -->
+     <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6" id="summaryCards"></div><!-- Analysis Table -->
+     <div class="bg-white rounded-xl shadow-sm border border-pri-100 overflow-hidden print-area">
+      <div class="p-4 bg-pri-700 text-white font-bold text-center text-lg">
+       ตารางวิเคราะห์ความสอดคล้องโครงการ
+      </div>
+      <div class="overflow-x-auto">
+       <table class="w-full text-sm print-table" id="analysisTable">
+        <thead class="bg-pri-100 text-pri-900">
+         <tr>
+          <th class="p-3 text-center border border-pri-200 w-10">#</th>
+          <th class="p-3 text-left border border-pri-200">ชื่อโครงการ</th>
+          <th class="p-3 text-center border border-pri-200">กลุ่มงาน</th>
+          <th class="p-3 text-left border border-pri-200">กลยุทธ์</th>
+          <th class="p-3 text-left border border-pri-200">KPI</th>
+          <th class="p-3 text-left border border-pri-200">นโยบายเขตพื้นที่</th>
+          <th class="p-3 text-left border border-pri-200">นโยบายกระทรวง</th>
+         </tr>
+        </thead>
+        <tbody id="analysisBody" class="divide-y divide-pri-50"></tbody>
+       </table>
+      </div>
+      <div id="noProjectMsg" class="p-8 text-center text-gray-400 hidden">
+       ยังไม่มีข้อมูลโครงการ
+      </div>
+     </div>
+    </div><!-- Strategy Page -->
+    <div id="page-strategy" class="page p-6 hidden">
+     <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-pri-800">🎯 แผนกลยุทธ์</h1><button onclick="openModal('strategy')" class="bg-pri-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-pri-700 flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i>เพิ่มกลยุทธ์</button>
+     </div>
+     <div class="bg-white rounded-xl shadow-sm border border-pri-100 overflow-hidden">
+      <table class="w-full text-sm">
+       <thead class="bg-pri-100 text-pri-900">
+        <tr>
+         <th class="p-3 text-center border-b w-16">ID</th>
+         <th class="p-3 text-left border-b">กลยุทธ์</th>
+         <th class="p-3 text-center border-b w-24">จัดการ</th>
+        </tr>
+       </thead>
+       <tbody id="strategyList"></tbody>
+      </table>
+      <div id="strategyEmpty" class="p-8 text-center text-gray-400 hidden">
+       ยังไม่มีข้อมูล
+      </div>
+     </div>
+    </div><!-- KPI Page -->
+    <div id="page-kpi" class="page p-6 hidden">
+     <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-pri-800">📈 KPI</h1><button onclick="openModal('kpi')" class="bg-pri-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-pri-700 flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i>เพิ่ม KPI</button>
+     </div>
+     <div class="bg-white rounded-xl shadow-sm border border-pri-100 overflow-hidden">
+      <table class="w-full text-sm">
+       <thead class="bg-pri-100 text-pri-900">
+        <tr>
+         <th class="p-3 text-center border-b w-16">ID</th>
+         <th class="p-3 text-left border-b">KPI</th>
+         <th class="p-3 text-center border-b w-24">จัดการ</th>
+        </tr>
+       </thead>
+       <tbody id="kpiList"></tbody>
+      </table>
+      <div id="kpiEmpty" class="p-8 text-center text-gray-400 hidden">
+       ยังไม่มีข้อมูล
+      </div>
+     </div>
+    </div><!-- Area Policy Page -->
+    <div id="page-area_policy" class="page p-6 hidden">
+     <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-pri-800">📍 นโยบายสำนักงานเขตพื้นที่</h1><button onclick="openModal('area_policy')" class="bg-pri-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-pri-700 flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i>เพิ่มนโยบาย</button>
+     </div>
+     <div class="bg-white rounded-xl shadow-sm border border-pri-100 overflow-hidden">
+      <table class="w-full text-sm">
+       <thead class="bg-pri-100 text-pri-900">
+        <tr>
+         <th class="p-3 text-center border-b w-16">ID</th>
+         <th class="p-3 text-left border-b">นโยบายเขตพื้นที่</th>
+         <th class="p-3 text-center border-b w-24">จัดการ</th>
+        </tr>
+       </thead>
+       <tbody id="areaPolicyList"></tbody>
+      </table>
+      <div id="area_policyEmpty" class="p-8 text-center text-gray-400 hidden">
+       ยังไม่มีข้อมูล
+      </div>
+     </div>
+    </div><!-- MOE Policy Page -->
+    <div id="page-moe_policy" class="page p-6 hidden">
+     <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-pri-800">🏛️ นโยบายกระทรวงศึกษาธิการ</h1><button onclick="openModal('moe_policy')" class="bg-pri-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-pri-700 flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i>เพิ่มนโยบาย</button>
+     </div>
+     <div class="bg-white rounded-xl shadow-sm border border-pri-100 overflow-hidden">
+      <table class="w-full text-sm">
+       <thead class="bg-pri-100 text-pri-900">
+        <tr>
+         <th class="p-3 text-center border-b w-16">ID</th>
+         <th class="p-3 text-left border-b">นโยบายกระทรวงศึกษาธิการ</th>
+         <th class="p-3 text-center border-b w-24">จัดการ</th>
+        </tr>
+       </thead>
+       <tbody id="moePolicyList"></tbody>
+      </table>
+      <div id="moe_policyEmpty" class="p-8 text-center text-gray-400 hidden">
+       ยังไม่มีข้อมูล
+      </div>
+     </div>
+    </div><!-- Project Page -->
+    <div id="page-project" class="page p-6 hidden">
+     <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-pri-800">📁 โครงการ</h1><button onclick="openModal('project')" class="bg-pri-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-pri-700 flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i>เพิ่มโครงการ</button>
+     </div>
+     <div class="bg-white rounded-xl shadow-sm border border-pri-100 overflow-hidden">
+      <table class="w-full text-sm">
+       <thead class="bg-pri-100 text-pri-900">
+        <tr>
+         <th class="p-3 text-center border-b w-12">ID</th>
+         <th class="p-3 text-left border-b">ชื่อโครงการ</th>
+         <th class="p-3 text-center border-b w-28">กลุ่มงาน</th>
+         <th class="p-3 text-center border-b w-24">จัดการ</th>
+        </tr>
+       </thead>
+       <tbody id="projectList"></tbody>
+      </table>
+      <div id="projectEmpty" class="p-8 text-center text-gray-400 hidden">
+       ยังไม่มีข้อมูล
+      </div>
+     </div>
+    </div>
+   </main>
+  </div><!-- Modal -->
+  <div id="modalOverlay" class="modal-overlay fixed inset-0 bg-black/40 z-50 flex items-center justify-center hidden no-print" onclick="if(event.target===this)closeModal()">
+   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 max-h-[90%] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="flex items-center justify-between p-5 border-b border-pri-100">
+     <h2 id="modalTitle" class="text-lg font-bold text-pri-800"></h2><button onclick="closeModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <div class="p-5" id="modalBody"></div>
+   </div>
+  </div>
+  <script>
+// ============ DATA STORE (localStorage) ============
+const STORE_KEYS = { strategy:'wys_strategies', kpi:'wys_kpis', area_policy:'wys_area_policies', moe_policy:'wys_moe_policies', project:'wys_projects' };
+
+function getData(key) {
+  try { return JSON.parse(localStorage.getItem(STORE_KEYS[key])) || []; } catch { return []; }
+}
+function setData(key, data) {
+  localStorage.setItem(STORE_KEYS[key], JSON.stringify(data));
+}
+function getNextId(key) {
+  const d = getData(key);
+  return d.length ? Math.max(...d.map(i=>i.id)) + 1 : 1;
+}
+
+// ============ SAMPLE DATA (separated as JSON variables) ============
+const sampleStrategies = [
+  { id:1, name:"ยกระดับคุณภาพผู้เรียนให้มีสมรรถนะตามมาตรฐานสากล" },
+  { id:2, name:"พัฒนาครูและบุคลากรทางการศึกษาให้เป็นมืออาชีพ" },
+  { id:3, name:"พัฒนาระบบบริหารจัดการที่มีประสิทธิภาพ" }
+];
+const sampleKPIs = [
+  { id:1, name:"ผลสัมฤทธิ์ทางการเรียนเฉลี่ยไม่ต่ำกว่า 3.00" },
+  { id:2, name:"นักเรียนมีคุณลักษณะอันพึงประสงค์ ≥ 80%" }
+];
+const sampleAreaPolicies = [
+  { id:1, name:"ส่งเสริมการจัดการศึกษาเพื่อพัฒนาคุณภาพชีวิต" },
+  { id:2, name:"ยกระดับคุณภาพการศึกษาตามมาตรฐานชาติ" }
+];
+const sampleMoePolicies = [
+  { id:1, name:"เรียนดี มีความสุข" },
+  { id:2, name:"ลดภาระครูและนักเรียน" }
+];
+
+// Initialize sample data if empty
+function initSampleData() {
+  if(!getData('strategy').length) setData('strategy', sampleStrategies);
+  if(!getData('kpi').length) setData('kpi', sampleKPIs);
+  if(!getData('area_policy').length) setData('area_policy', sampleAreaPolicies);
+  if(!getData('moe_policy').length) setData('moe_policy', sampleMoePolicies);
+}
+initSampleData();
+
+const groupLabels = { 'วิชาการ':'bg-blue-100 text-blue-700', 'บุคคล':'bg-green-100 text-green-700', 'งบประมาณ':'bg-yellow-100 text-yellow-700', 'บริหารทั่วไป':'bg-purple-100 text-purple-700', 'กิจการนักเรียน':'bg-pink-100 text-pink-700' };
+
+// ============ NAVIGATION ============
+let currentPage = 'dashboard';
+function navigate(page) {
+  currentPage = page;
+  $('.page').addClass('hidden');
+  $(`#page-${page}`).removeClass('hidden');
+  $('.sidebar-item').removeClass('active');
+  $(`.sidebar-item[data-page="${page}"]`).addClass('active');
+  renderPage(page);
+  lucide.createIcons();
+}
+
+function renderPage(page) {
+  if(page==='dashboard') renderDashboard();
+  else if(page==='project') renderSimpleList('project');
+  else renderSimpleList(page);
+}
+
+// ============ RENDER SIMPLE LISTS ============
+function renderSimpleList(key) {
+  const data = getData(key);
+  const listId = key==='area_policy'?'areaPolicyList': key==='moe_policy'?'moePolicyList': key==='project'?'projectList': key+'List';
+  const emptyId = key+'Empty';
+  const $list = $(`#${listId}`);
+  $list.empty();
+
+  if(!data.length) {
+    $(`#${emptyId}`).removeClass('hidden');
+    return;
+  }
+  $(`#${emptyId}`).addClass('hidden');
+
+  if(key==='project') {
+    data.forEach((item,i) => {
+      const gc = groupLabels[item.group]||'bg-gray-100 text-gray-600';
+      $list.append(`<tr class="hover:bg-pri-50"><td class="p-3 text-center border-b">${item.id}</td><td class="p-3 border-b font-medium">${esc(item.name)}</td><td class="p-3 text-center border-b"><span class="badge ${gc}">${esc(item.group)}</span></td><td class="p-3 text-center border-b"><button onclick="viewProject(${item.id})" class="text-pri-600 hover:text-pri-800 mr-1" title="ดู"><i data-lucide="eye" class="w-4 h-4 inline"></i></button><button onclick="editItem('project',${item.id})" class="text-amber-500 hover:text-amber-700 mr-1" title="แก้ไข"><i data-lucide="edit" class="w-4 h-4 inline"></i></button><button onclick="deleteItem('project',${item.id})" class="text-red-400 hover:text-red-600" title="ลบ"><i data-lucide="trash-2" class="w-4 h-4 inline"></i></button></td></tr>`);
+    });
+  } else {
+    const label = key==='strategy'?'กลยุทธ์': key==='kpi'?'KPI': key==='area_policy'?'นโยบายเขตพื้นที่':'นโยบายกระทรวง';
+    data.forEach(item => {
+      $list.append(`<tr class="hover:bg-pri-50"><td class="p-3 text-center border-b">${item.id}</td><td class="p-3 border-b">${esc(item.name)}</td><td class="p-3 text-center border-b"><button onclick="editItem('${key}',${item.id})" class="text-amber-500 hover:text-amber-700 mr-1" title="แก้ไข"><i data-lucide="edit" class="w-4 h-4 inline"></i></button><button onclick="deleteItem('${key}',${item.id})" class="text-red-400 hover:text-red-600" title="ลบ"><i data-lucide="trash-2" class="w-4 h-4 inline"></i></button></td></tr>`);
+    });
+  }
+  lucide.createIcons();
+}
+
+// ============ DASHBOARD ============
+function renderDashboard() {
+  const strategies = getData('strategy'), kpis = getData('kpi'), areas = getData('area_policy'), moes = getData('moe_policy'), projects = getData('project');
+
+  // Summary cards
+  const cards = [
+    { label:'กลยุทธ์', count:strategies.length, icon:'target', bg:'bg-pas-purple' },
+    { label:'KPI', count:kpis.length, icon:'bar-chart-3', bg:'bg-pas-blue' },
+    { label:'นโยบายเขต', count:areas.length, icon:'map-pin', bg:'bg-pas-green' },
+    { label:'นโยบายกระทรวง', count:moes.length, icon:'landmark', bg:'bg-pas-orange' },
+    { label:'โครงการ', count:projects.length, icon:'folder-open', bg:'bg-pas-pink' }
+  ];
+  let cardHtml = '';
+  cards.forEach(c => {
+    cardHtml += `<div class="card-hover ${c.bg} rounded-xl p-4 border border-pri-100"><div class="flex items-center gap-3"><i data-lucide="${c.icon}" class="w-8 h-8 text-pri-600"></i><div><div class="text-2xl font-bold text-pri-800">${c.count}</div><div class="text-xs text-gray-500 font-medium">${c.label}</div></div></div></div>`;
+  });
+  $('#summaryCards').html(cardHtml);
+
+  // Analysis table
+  const $body = $('#analysisBody');
+  $body.empty();
+  if(!projects.length) {
+    $('#noProjectMsg').removeClass('hidden');
+    $('#analysisTable').addClass('hidden');
+  } else {
+    $('#noProjectMsg').addClass('hidden');
+    $('#analysisTable').removeClass('hidden');
+    projects.forEach((p,i) => {
+      const stratNames = resolveNames(p.strategies, strategies, 'ไม่สอดคล้อง');
+      const kpiNames = resolveNames(p.kpis, kpis, 'ไม่สอดคล้อง');
+      const areaNames = resolveNames(p.area_policies, areas, 'ไม่สอดคล้อง');
+      const moeNames = resolveNames(p.moe_policies, moes, 'ไม่สอดคล้อง');
+      const gc = groupLabels[p.group]||'bg-gray-100 text-gray-600';
+      $body.append(`<tr class="hover:bg-pri-50"><td class="p-3 text-center border border-pri-100">${i+1}</td><td class="p-3 border border-pri-100 font-medium">${esc(p.name)}</td><td class="p-3 text-center border border-pri-100"><span class="badge ${gc}">${esc(p.group)}</span></td><td class="p-3 border border-pri-100 text-xs">${stratNames}</td><td class="p-3 border border-pri-100 text-xs">${kpiNames}</td><td class="p-3 border border-pri-100 text-xs">${areaNames}</td><td class="p-3 border border-pri-100 text-xs">${moeNames}</td></tr>`);
+    });
+  }
+  lucide.createIcons();
+}
+
+function resolveNames(ids, source, noneLabel) {
+  if(!ids || !ids.length || (ids.length===1 && ids[0]==='none')) return `<span class="text-gray-400">${noneLabel}</span>`;
+  const filtered = ids.filter(id=>id!=='none');
+  if(!filtered.length) return `<span class="text-gray-400">${noneLabel}</span>`;
+  return filtered.map(id => {
+    const item = source.find(s=>s.id==id);
+    return item ? `<div class="mb-1">• ${esc(item.name)}</div>` : '';
+  }).join('');
+}
+
+// ============ MODAL ============
+let editingId = null;
+let editingKey = null;
+
+function openModal(key, id) {
+  editingKey = key;
+  editingId = id || null;
+  const isEdit = !!id;
+  const data = isEdit ? getData(key).find(i=>i.id===id) : null;
+
+  const titles = { strategy:'กลยุทธ์', kpi:'KPI', area_policy:'นโยบายเขตพื้นที่', moe_policy:'นโยบายกระทรวง', project:'โครงการ' };
+  $('#modalTitle').text((isEdit?'แก้ไข':'เพิ่ม') + titles[key]);
+
+  let html = '<form id="modalForm" novalidate>';
+
+  if(key==='project') {
+    const strategies = getData('strategy'), kpis = getData('kpi'), areas = getData('area_policy'), moes = getData('moe_policy');
+    html += `
+      <div class="mb-4"><label class="block text-sm font-semibold text-gray-700 mb-1">ชื่อโครงการ <span class="text-red-500">*</span></label><input name="name" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-pri-400 focus:border-pri-400" value="${isEdit?esc(data.name):''}" placeholder="ระบุชื่อโครงการ"></div>
+      <div class="mb-4"><label class="block text-sm font-semibold text-gray-700 mb-1">กลุ่มงาน <span class="text-red-500">*</span></label><select name="group" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-pri-400"><option value="">-- เลือกกลุ่มงาน --</option>${['วิชาการ','บุคคล','งบประมาณ','บริหารทั่วไป','กิจการนักเรียน'].map(g=>`<option ${isEdit&&data.group===g?'selected':''}>${g}</option>`).join('')}</select></div>
+      <div class="mb-4"><label class="block text-sm font-semibold text-gray-700 mb-1">วัตถุประสงค์</label><textarea name="objective" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-pri-400" placeholder="ระบุวัตถุประสงค์ของโครงการ">${isEdit?esc(data.objective||''):''}</textarea></div>
+      <div class="mb-4"><label class="block text-sm font-semibold text-gray-700 mb-2">ความสอดคล้องกับแผนกลยุทธ์</label><div class="space-y-1 max-h-32 overflow-y-auto border rounded-lg p-2 bg-gray-50">${strategies.map(s=>`<label class="flex items-center gap-2 text-sm"><input type="checkbox" name="strategies" value="${s.id}" ${isEdit&&data.strategies&&data.strategies.includes(String(s.id))?'checked':''}class="rounded text-pri-600">${esc(s.name)}</label>`).join('')}<label class="flex items-center gap-2 text-sm text-gray-400"><input type="checkbox" name="strategies" value="none" ${isEdit&&data.strategies&&data.strategies.includes('none')?'checked':''}class="rounded">ไม่สอดคล้อง</label></div></div>
+      <div class="mb-4"><label class="block text-sm font-semibold text-gray-700 mb-2">ความสอดคล้องกับ KPI</label><div class="space-y-1 max-h-32 overflow-y-auto border rounded-lg p-2 bg-gray-50">${kpis.map(s=>`<label class="flex items-center gap-2 text-sm"><input type="checkbox" name="kpis" value="${s.id}" ${isEdit&&data.kpis&&data.kpis.includes(String(s.id))?'checked':''}class="rounded text-pri-600">${esc(s.name)}</label>`).join('')}<label class="flex items-center gap-2 text-sm text-gray-400"><input type="checkbox" name="kpis" value="none" ${isEdit&&data.kpis&&data.kpis.includes('none')?'checked':''}class="rounded">ไม่สอดคล้อง</label></div></div>
+      <div class="mb-4"><label class="block text-sm font-semibold text-gray-700 mb-2">ความสอดคล้องกับนโยบายเขตพื้นที่</label><div class="space-y-1 max-h-32 overflow-y-auto border rounded-lg p-2 bg-gray-50">${areas.map(s=>`<label class="flex items-center gap-2 text-sm"><input type="checkbox" name="area_policies" value="${s.id}" ${isEdit&&data.area_policies&&data.area_policies.includes(String(s.id))?'checked':''}class="rounded text-pri-600">${esc(s.name)}</label>`).join('')}<label class="flex items-center gap-2 text-sm text-gray-400"><input type="checkbox" name="area_policies" value="none" ${isEdit&&data.area_policies&&data.area_policies.includes('none')?'checked':''}class="rounded">ไม่สอดคล้อง</label></div></div>
+      <div class="mb-4"><label class="block text-sm font-semibold text-gray-700 mb-2">ความสอดคล้องกับนโยบายกระทรวง</label><div class="space-y-1 max-h-32 overflow-y-auto border rounded-lg p-2 bg-gray-50">${moes.map(s=>`<label class="flex items-center gap-2 text-sm"><input type="checkbox" name="moe_policies" value="${s.id}" ${isEdit&&data.moe_policies&&data.moe_policies.includes(String(s.id))?'checked':''}class="rounded text-pri-600">${esc(s.name)}</label>`).join('')}<label class="flex items-center gap-2 text-sm text-gray-400"><input type="checkbox" name="moe_policies" value="none" ${isEdit&&data.moe_policies&&data.moe_policies.includes('none')?'checked':''}class="rounded">ไม่สอดคล้อง</label></div></div>
+    `;
+  } else {
+    const labels = { strategy:'กลยุทธ์', kpi:'KPI', area_policy:'นโยบายเขตพื้นที่', moe_policy:'นโยบายกระทรวง' };
+    html += `<div class="mb-4"><label class="block text-sm font-semibold text-gray-700 mb-1">ระบุ${labels[key]} <span class="text-red-500">*</span></label><input name="name" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-pri-400" value="${isEdit?esc(data.name):''}" placeholder="กรอกข้อมูล"></div>`;
+  }
+
+  html += `<div class="flex justify-end gap-2 mt-6"><button type="button" onclick="closeModal()" class="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-50">ยกเลิก</button><button type="submit" class="px-4 py-2 rounded-lg bg-pri-600 text-white text-sm font-medium hover:bg-pri-700">${isEdit?'บันทึก':'เพิ่ม'}</button></div></form>`;
+
+  $('#modalBody').html(html);
+  $('#modalOverlay').removeClass('hidden');
+  lucide.createIcons();
+
+  // Validate & submit
+  $('#modalForm').validate({
+    errorClass: 'text-red-500 text-xs mt-1',
+    submitHandler: function(form) {
+      saveItem();
+      return false;
+    }
+  });
+}
+
+function closeModal() {
+  $('#modalOverlay').addClass('hidden');
+  editingId = null;
+  editingKey = null;
+}
+
+function saveItem() {
+  const key = editingKey;
+  const data = getData(key);
+
+  if(key==='project') {
+    const obj = {
+      id: editingId || getNextId(key),
+      name: $('input[name="name"]').val().trim(),
+      group: $('select[name="group"]').val(),
+      objective: $('textarea[name="objective"]').val().trim(),
+      strategies: $('input[name="strategies"]:checked').map(function(){return $(this).val()}).get(),
+      kpis: $('input[name="kpis"]:checked').map(function(){return $(this).val()}).get(),
+      area_policies: $('input[name="area_policies"]:checked').map(function(){return $(this).val()}).get(),
+      moe_policies: $('input[name="moe_policies"]:checked').map(function(){return $(this).val()}).get()
+    };
+    if(editingId) { const idx = data.findIndex(i=>i.id===editingId); if(idx>-1) data[idx]=obj; }
+    else data.push(obj);
+  } else {
+    const obj = { id: editingId || getNextId(key), name: $('input[name="name"]').val().trim() };
+    if(editingId) { const idx = data.findIndex(i=>i.id===editingId); if(idx>-1) data[idx]=obj; }
+    else data.push(obj);
+  }
+
+  setData(key, data);
+  closeModal();
+  Swal.fire({ icon:'success', title:'บันทึกสำเร็จ', timer:1200, showConfirmButton:false, background:'#faf5ff' });
+  renderPage(currentPage);
+}
+
+function editItem(key, id) { openModal(key, id); }
+
+function deleteItem(key, id) {
+  Swal.fire({
+    title:'ยืนยันการลบ?', text:'ข้อมูลจะถูกลบถาวร', icon:'warning',
+    showCancelButton:true, confirmButtonColor:'#9333ea', cancelButtonText:'ยกเลิก', confirmButtonText:'ลบเลย',
+    background:'#faf5ff'
+  }).then(r => {
+    if(r.isConfirmed) {
+      let data = getData(key);
+      data = data.filter(i=>i.id!==id);
+      setData(key, data);
+      renderPage(currentPage);
+      Swal.fire({ icon:'success', title:'ลบแล้ว', timer:1000, showConfirmButton:false, background:'#faf5ff' });
+    }
+  });
+}
+
+function viewProject(id) {
+  const p = getData('project').find(i=>i.id===id);
+  if(!p) return;
+  const strategies = getData('strategy'), kpis = getData('kpi'), areas = getData('area_policy'), moes = getData('moe_policy');
+  const gc = groupLabels[p.group]||'bg-gray-100 text-gray-600';
+
+  Swal.fire({
+    title: `<span class="text-pri-800 text-lg">${esc(p.name)}</span>`,
+    html: `
+      <div class="text-left text-sm space-y-3">
+        <div><span class="font-semibold">กลุ่มงาน:</span> <span class="badge ${gc}">${esc(p.group)}</span></div>
+        <div><span class="font-semibold">วัตถุประสงค์:</span><div class="mt-1 text-gray-600 bg-gray-50 rounded p-2">${esc(p.objective||'-')}</div></div>
+        <div><span class="font-semibold">กลยุทธ์:</span><div class="mt-1">${resolveNames(p.strategies, strategies, 'ไม่สอดคล้อง')}</div></div>
+        <div><span class="font-semibold">KPI:</span><div class="mt-1">${resolveNames(p.kpis, kpis, 'ไม่สอดคล้อง')}</div></div>
+        <div><span class="font-semibold">นโยบายเขตพื้นที่:</span><div class="mt-1">${resolveNames(p.area_policies, areas, 'ไม่สอดคล้อง')}</div></div>
+        <div><span class="font-semibold">นโยบายกระทรวง:</span><div class="mt-1">${resolveNames(p.moe_policies, moes, 'ไม่สอดคล้อง')}</div></div>
+      </div>
+    `,
+    width: 500, background:'#faf5ff', confirmButtonColor:'#9333ea', confirmButtonText:'ปิด'
+  });
+}
+
+function printDashboard() { window.print(); }
+
+function esc(s) { if(!s) return ''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+// ============ ELEMENT SDK ============
+const defaultConfig = {
+  school_name: 'โรงเรียนวังใหญ่วิทยาคม',
+  background_color: '#faf5ff',
+  surface_color: '#ffffff',
+  text_color: '#1f2937',
+  primary_color: '#9333ea',
+  secondary_color: '#7c3aed'
+};
+
+if (window.elementSdk) {
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => {
+      const name = config.school_name || defaultConfig.school_name;
+      const el = document.getElementById('schoolNameDisplay');
+      if (el) el.textContent = name;
+      document.body.style.backgroundColor = config.background_color || defaultConfig.background_color;
+      document.body.style.color = config.text_color || defaultConfig.text_color;
+    },
+    mapToCapabilities: (config) => ({
+      recolorables: [
+        { get:()=>config.background_color||defaultConfig.background_color, set:(v)=>{config.background_color=v;window.elementSdk.setConfig({background_color:v})} },
+        { get:()=>config.surface_color||defaultConfig.surface_color, set:(v)=>{config.surface_color=v;window.elementSdk.setConfig({surface_color:v})} },
+        { get:()=>config.text_color||defaultConfig.text_color, set:(v)=>{config.text_color=v;window.elementSdk.setConfig({text_color:v})} },
+        { get:()=>config.primary_color||defaultConfig.primary_color, set:(v)=>{config.primary_color=v;window.elementSdk.setConfig({primary_color:v})} },
+        { get:()=>config.secondary_color||defaultConfig.secondary_color, set:(v)=>{config.secondary_color=v;window.elementSdk.setConfig({secondary_color:v})} }
+      ],
+      borderables: [],
+      fontEditable: {
+        get:()=>config.font_family||'Sarabun',
+        set:(v)=>{config.font_family=v;window.elementSdk.setConfig({font_family:v})}
+      },
+      fontSizeable: {
+        get:()=>config.font_size||14,
+        set:(v)=>{config.font_size=v;window.elementSdk.setConfig({font_size:v})}
+      }
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['school_name', config.school_name || defaultConfig.school_name]
+    ])
+  });
+}
+
+// Init
+$(function() {
+  navigate('dashboard');
+  lucide.createIcons();
+});
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e4d8310e4dd4f52',t:'MTc3NDk0MDc5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
