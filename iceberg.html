@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="th" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iceberg Model Analysis</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+* { font-family: 'Sarabun', sans-serif; }
+@media print {
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  body { background: white !important; }
+  .sidebar { display: none !important; }
+  .main-content { margin-left: 0 !important; width: 100% !important; }
+}
+.print-only { display: none; }
+.sidebar-item { transition: all 0.2s; }
+.sidebar-item:hover, .sidebar-item.active { background: rgba(16,185,129,0.15); border-right: 3px solid #10b981; }
+.card-problem { background: #fecaca; border-left: 4px solid #ef4444; }
+.card-solution { background: #bbf7d0; border-left: 4px solid #22c55e; }
+.card-focus { background: #fef08a; border-left: 4px solid #eab308; }
+.iceberg-layer { border-bottom: 2px dashed #a7f3d0; position: relative; }
+.iceberg-layer:last-child { border-bottom: none; }
+.water-line { position: relative; }
+.water-line::after { content: '〰️ ระดับน้ำ 〰️'; position: absolute; left: 50%; transform: translateX(-50%); top: -14px; background: #bfdbfe; color: #1e40af; font-size: 11px; padding: 2px 16px; border-radius: 999px; z-index: 5; white-space: nowrap; }
+.modal-overlay { background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); }
+.fade-in { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.iceberg-bg { background: linear-gradient(180deg, #e0f7fa 0%, #e0f2fe 25%, #bfdbfe 26%, #dbeafe 50%, #c7d2fe 75%, #e0e7ff 100%); }
+</style>
+  <script>
+tailwind.config = {
+  theme: { extend: { colors: {
+    brand: { 50:'#ecfdf5',100:'#d1fae5',200:'#a7f3d0',300:'#6ee7b7',400:'#34d399',500:'#10b981',600:'#059669',700:'#047857',800:'#065f46',900:'#064e3b' }
+  }}}
+}
+</script>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-brand-50 text-gray-800 overflow-auto">
+  <div id="app" class="h-full w-full flex"><!-- Sidebar -->
+   <aside class="sidebar no-print w-60 bg-white border-r border-brand-200 flex flex-col shrink-0 h-full" style="min-height:100%">
+    <div class="p-4 border-b border-brand-100 flex items-center gap-3"><img src="https://img1.pic.in.th/images/wys_logo.jpg" alt="โลโก้โรงเรียนวังใหญ่วิทยาคม" style="width:60px;height:60px;object-fit:contain;border-radius:8px" loading="lazy" onerror="this.style.background='#d1fae5';this.alt='Logo';">
+     <div>
+      <div class="font-bold text-brand-700 text-sm leading-tight">
+       โรงเรียนวังใหญ่
+      </div>
+      <div class="text-xs text-brand-500">
+       วิทยาคม
+      </div>
+     </div>
+    </div>
+    <nav class="flex-1 py-3">
+     <div class="px-3 mb-2 text-[10px] font-bold text-brand-400 uppercase tracking-wider">
+      เมนูหลัก
+     </div><a href="#" class="sidebar-item active flex items-center gap-3 px-4 py-2.5 text-sm text-brand-700 cursor-pointer" data-page="diagram"> <i data-lucide="git-branch" class="w-4 h-4"></i>แผนภาพ Iceberg </a> <a href="#" class="sidebar-item flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 cursor-pointer" data-page="data"> <i data-lucide="database" class="w-4 h-4"></i>จัดการข้อมูล </a> <a href="#" class="sidebar-item flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 cursor-pointer" data-page="report"> <i data-lucide="file-text" class="w-4 h-4"></i>รายงาน </a>
+    </nav>
+    <div class="p-3 border-t border-brand-100 text-[10px] text-gray-400 text-center">
+     Iceberg Model v1.0
+    </div>
+   </aside><!-- Main Content -->
+   <div class="main-content flex-1 flex flex-col h-full overflow-auto"><!-- Top Bar -->
+    <header class="no-print bg-white border-b border-brand-200 px-5 py-3 flex items-center justify-between shrink-0">
+     <h1 id="appTitle" class="text-lg font-bold text-brand-700">วิเคราะห์ความซับซ้อน Iceberg Model</h1>
+     <div class="flex gap-2"><button onclick="openModal()" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition"><i data-lucide="plus" class="w-4 h-4"></i>เพิ่มข้อมูล</button> <button onclick="window.print()" class="bg-white border border-brand-300 text-brand-600 hover:bg-brand-50 px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition"><i data-lucide="printer" class="w-4 h-4"></i>พิมพ์</button>
+     </div>
+    </header><!-- Page: Diagram -->
+    <div id="page-diagram" class="page flex-1 p-4 overflow-auto">
+     <div class="print-only text-center mb-4"><img src="https://img1.pic.in.th/images/wys_logo.jpg" alt="Logo" style="width:80px;margin:0 auto" loading="lazy" onerror="this.style.display='none'">
+      <h2 class="text-xl font-bold text-brand-700 mt-2">แผนภาพวิเคราะห์ความซับซ้อน Iceberg Model</h2>
+      <p class="text-sm text-gray-500">โรงเรียนวังใหญ่วิทยาคม</p>
+     </div><!-- Legend -->
+     <div class="flex gap-4 mb-3 flex-wrap text-xs no-print"><span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-red-300 border border-red-400"></span>ปัญหา</span> <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-green-300 border border-green-400"></span>ทางออก</span> <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-yellow-200 border border-yellow-400"></span>จุดเน้น</span>
+     </div>
+     <div id="icebergChart" class="iceberg-bg rounded-xl border border-brand-200 shadow-sm overflow-hidden"></div>
+    </div><!-- Page: Data -->
+    <div id="page-data" class="page flex-1 p-4 overflow-auto hidden">
+     <div class="bg-white rounded-xl border border-brand-200 shadow-sm overflow-auto">
+      <table class="w-full text-sm">
+       <thead class="bg-brand-100 text-brand-800">
+        <tr>
+         <th class="p-3 text-left w-12">#</th>
+         <th class="p-3 text-left">สิ่งที่เป็นอยู่</th>
+         <th class="p-3 text-left">สิ่งที่อยากให้เกิด</th>
+         <th class="p-3 text-left w-32">ระดับ</th>
+         <th class="p-3 text-left w-24">ประเภท</th>
+         <th class="p-3 text-center w-20 no-print">จัดการ</th>
+        </tr>
+       </thead>
+       <tbody id="dataTableBody"></tbody>
+      </table>
+      <div id="emptyData" class="p-10 text-center text-gray-400 hidden">
+       <i data-lucide="inbox" class="w-10 h-10 mx-auto mb-2 opacity-40"></i>
+       <p>ยังไม่มีข้อมูล กดปุ่ม "เพิ่มข้อมูล" เพื่อเริ่มต้น</p>
+      </div>
+     </div>
+    </div><!-- Page: Report -->
+    <div id="page-report" class="page flex-1 p-4 overflow-auto hidden">
+     <div class="print-only text-center mb-4"><img src="https://img1.pic.in.th/images/wys_logo.jpg" alt="Logo" style="width:80px;margin:0 auto" loading="lazy" onerror="this.style.display='none'">
+      <h2 class="text-xl font-bold mt-2">รายงานวิเคราะห์ความซับซ้อน Iceberg Model</h2>
+      <p class="text-sm text-gray-500">โรงเรียนวังใหญ่วิทยาคม</p>
+     </div>
+     <div id="reportContent"></div>
+    </div>
+   </div><!-- end main-content -->
+  </div><!-- end app --> <!-- Modal -->
+  <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center modal-overlay no-print">
+   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 fade-in">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-brand-100">
+     <h3 id="modalTitle" class="font-bold text-brand-700 text-lg">เพิ่มข้อมูล</h3><button onclick="closeModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <form id="dataForm" class="p-6 space-y-4"><input type="hidden" id="editId">
+     <div><label class="block text-sm font-semibold text-gray-700 mb-1">สิ่งที่เป็นอยู่ <span class="text-red-400">*</span></label> <textarea id="currentState" name="currentState" rows="2" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-300 focus:border-brand-400 outline-none transition" placeholder="อธิบายสถานการณ์ปัจจุบัน..."></textarea>
+     </div>
+     <div><label class="block text-sm font-semibold text-gray-700 mb-1">สิ่งที่อยากให้เกิด <span class="text-red-400">*</span></label> <textarea id="desiredState" name="desiredState" rows="2" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-300 focus:border-brand-400 outline-none transition" placeholder="อธิบายเป้าหมายที่ต้องการ..."></textarea>
+     </div>
+     <div class="grid grid-cols-2 gap-4">
+      <div><label class="block text-sm font-semibold text-gray-700 mb-1">ระดับความซับซ้อน <span class="text-red-400">*</span></label> <select id="complexity" name="complexity" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-300 focus:border-brand-400 outline-none transition"> <option value="">-- เลือก --</option> <option value="ปรากฏการณ์">ปรากฏการณ์</option> <option value="แบบแผนพฤติกรรม">แบบแผนพฤติกรรม</option> <option value="โครงสร้าง">โครงสร้าง</option> <option value="ค่านิยม">ค่านิยม</option> </select>
+      </div>
+      <div><label class="block text-sm font-semibold text-gray-700 mb-1">ประเภท <span class="text-red-400">*</span></label> <select id="category" name="category" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-300 focus:border-brand-400 outline-none transition"> <option value="">-- เลือก --</option> <option value="ปัญหา">ปัญหา</option> <option value="ทางออก">ทางออก</option> <option value="จุดเน้น">จุดเน้น</option> </select>
+      </div>
+     </div>
+     <div class="flex gap-3 pt-2"><button type="submit" class="flex-1 bg-brand-500 hover:bg-brand-600 text-white py-2.5 rounded-lg font-semibold text-sm transition">บันทึก</button> <button type="button" onclick="closeModal()" class="px-6 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition">ยกเลิก</button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <script>
+// ===== CONFIG =====
+const defaultConfig = {
+  app_title: 'วิเคราะห์ความซับซ้อน Iceberg Model',
+  background_color: '#ecfdf5',
+  surface_color: '#ffffff',
+  text_color: '#1f2937',
+  primary_action: '#10b981',
+  secondary_action: '#059669'
+};
+
+const LAYERS = ['ปรากฏการณ์','แบบแผนพฤติกรรม','โครงสร้าง','ค่านิยม'];
+const LAYER_EN = ['Events','Patterns','Structures','Mental Models'];
+const LAYER_ICONS = ['eye','repeat','building','heart'];
+const CATEGORIES = ['ปัญหา','ทางออก','จุดเน้น'];
+
+// ===== LOCAL STORAGE =====
+function getData() {
+  try { return JSON.parse(localStorage.getItem('iceberg_data') || '[]'); } catch { return []; }
+}
+function saveData(d) { localStorage.setItem('iceberg_data', JSON.stringify(d)); }
+function nextId() {
+  const d = getData();
+  return d.length ? Math.max(...d.map(x=>x.id)) + 1 : 1;
+}
+
+// ===== NAVIGATION =====
+$('.sidebar-item').on('click', function(e) {
+  e.preventDefault();
+  const pg = $(this).data('page');
+  $('.sidebar-item').removeClass('active text-brand-700').addClass('text-gray-600');
+  $(this).addClass('active text-brand-700').removeClass('text-gray-600');
+  $('.page').addClass('hidden');
+  $('#page-'+pg).removeClass('hidden');
+  if(pg==='diagram') renderIceberg();
+  if(pg==='data') renderTable();
+  if(pg==='report') renderReport();
+});
+
+// ===== MODAL =====
+function openModal(id) {
+  $('#editId').val('');
+  $('#dataForm')[0].reset();
+  if(id) {
+    const item = getData().find(x=>x.id===id);
+    if(item) {
+      $('#editId').val(id);
+      $('#currentState').val(item.currentState);
+      $('#desiredState').val(item.desiredState);
+      $('#complexity').val(item.complexity);
+      $('#category').val(item.category);
+      $('#modalTitle').text('แก้ไขข้อมูล');
+    }
+  } else {
+    $('#modalTitle').text('เพิ่มข้อมูล');
+  }
+  $('#modal').removeClass('hidden').addClass('flex');
+}
+function closeModal() { $('#modal').removeClass('flex').addClass('hidden'); }
+
+// ===== FORM =====
+$('#dataForm').validate({
+  rules: { currentState:'required', desiredState:'required', complexity:'required', category:'required' },
+  messages: { currentState:'กรุณากรอก', desiredState:'กรุณากรอก', complexity:'กรุณาเลือก', category:'กรุณาเลือก' },
+  errorClass: 'text-red-500 text-xs mt-1',
+  submitHandler: function(form, e) {
+    e.preventDefault();
+    const d = getData();
+    const editId = parseInt($('#editId').val());
+    const obj = {
+      id: editId || nextId(),
+      currentState: $('#currentState').val().trim(),
+      desiredState: $('#desiredState').val().trim(),
+      complexity: $('#complexity').val(),
+      category: $('#category').val()
+    };
+    if(editId) {
+      const idx = d.findIndex(x=>x.id===editId);
+      if(idx>=0) d[idx] = obj;
+    } else {
+      d.push(obj);
+    }
+    saveData(d);
+    closeModal();
+    Swal.fire({icon:'success',title:'บันทึกสำเร็จ',timer:1200,showConfirmButton:false,background:'#ecfdf5'});
+    renderAll();
+  }
+});
+
+// ===== DELETE =====
+function deleteItem(id) {
+  Swal.fire({
+    title:'ยืนยันการลบ?',icon:'warning',showCancelButton:true,
+    confirmButtonColor:'#ef4444',cancelButtonText:'ยกเลิก',confirmButtonText:'ลบ',background:'#ecfdf5'
+  }).then(r=>{
+    if(r.isConfirmed) {
+      const d = getData().filter(x=>x.id!==id);
+      saveData(d);
+      Swal.fire({icon:'success',title:'ลบแล้ว',timer:1000,showConfirmButton:false,background:'#ecfdf5'});
+      renderAll();
+    }
+  });
+}
+
+// ===== TABLE =====
+function renderTable() {
+  const d = getData();
+  const tbody = $('#dataTableBody');
+  tbody.empty();
+  if(!d.length) { $('#emptyData').removeClass('hidden'); return; }
+  $('#emptyData').addClass('hidden');
+  d.forEach((item,i) => {
+    const catClass = item.category==='ปัญหา'?'bg-red-100 text-red-700':item.category==='ทางออก'?'bg-green-100 text-green-700':'bg-yellow-100 text-yellow-700';
+    tbody.append(`<tr class="border-b border-gray-100 hover:bg-brand-50 transition">
+      <td class="p-3 text-gray-400">${i+1}</td>
+      <td class="p-3">${esc(item.currentState)}</td>
+      <td class="p-3">${esc(item.desiredState)}</td>
+      <td class="p-3"><span class="text-xs font-medium">${esc(item.complexity)}</span></td>
+      <td class="p-3"><span class="px-2 py-0.5 rounded-full text-xs font-semibold ${catClass}">${esc(item.category)}</span></td>
+      <td class="p-3 text-center no-print">
+        <button onclick="openModal(${item.id})" class="text-brand-500 hover:text-brand-700 mr-1"><i data-lucide="edit-2" class="w-4 h-4 inline"></i></button>
+        <button onclick="deleteItem(${item.id})" class="text-red-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4 inline"></i></button>
+      </td>
+    </tr>`);
+  });
+  lucide.createIcons();
+}
+
+// ===== ICEBERG DIAGRAM =====
+function renderIceberg() {
+  const d = getData();
+  const chart = $('#icebergChart');
+  chart.empty();
+
+  let html = '<div class="grid grid-cols-2 relative">';
+  // Headers
+  html += '<div class="text-center py-3 font-bold text-red-700 bg-red-50/60 border-b border-brand-200 text-sm">🔴 สิ่งที่เป็นอยู่ (ปัญหา)</div>';
+  html += '<div class="text-center py-3 font-bold text-green-700 bg-green-50/60 border-b border-brand-200 border-l border-brand-200 text-sm">🟢 สิ่งที่อยากให้เกิด (เป้าหมาย)</div>';
+
+  LAYERS.forEach((layer, li) => {
+    const isWater = li === 1;
+    const waterClass = isWater ? 'water-line' : '';
+    const bgOpacity = li === 0 ? 'bg-cyan-50/40' : li === 1 ? 'bg-blue-50/50' : li === 2 ? 'bg-indigo-50/40' : 'bg-purple-50/40';
+
+    const leftItems = d.filter(x => x.complexity === layer);
+    const rightItems = leftItems; // same items, show current on left, desired on right
+
+    // Left col
+    html += `<div class="iceberg-layer ${waterClass} ${bgOpacity} p-3 min-h-[120px]">`;
+    html += `<div class="flex items-center gap-1 mb-2 text-xs font-bold text-gray-500 uppercase"><i data-lucide="${LAYER_ICONS[li]}" class="w-3 h-3"></i>${layer} <span class="text-[10px] font-normal">(${LAYER_EN[li]})</span></div>`;
+    if(!leftItems.length) html += '<p class="text-xs text-gray-300 italic">ยังไม่มีข้อมูล</p>';
+    leftItems.forEach(item => {
+      const cls = item.category==='ปัญหา'?'card-problem':item.category==='ทางออก'?'card-solution':'card-focus';
+      html += `<div class="${cls} rounded-lg px-3 py-2 mb-2 text-xs shadow-sm fade-in"><div class="font-semibold">${esc(item.currentState)}</div><span class="text-[10px] opacity-60">${esc(item.category)}</span></div>`;
+    });
+    html += '</div>';
+
+    // Right col
+    html += `<div class="iceberg-layer ${bgOpacity} p-3 min-h-[120px] border-l border-brand-200">`;
+    html += `<div class="flex items-center gap-1 mb-2 text-xs font-bold text-gray-500 uppercase"><i data-lucide="${LAYER_ICONS[li]}" class="w-3 h-3"></i>${layer}</div>`;
+    if(!rightItems.length) html += '<p class="text-xs text-gray-300 italic">ยังไม่มีข้อมูล</p>';
+    rightItems.forEach(item => {
+      const cls = item.category==='ปัญหา'?'card-problem':item.category==='ทางออก'?'card-solution':'card-focus';
+      html += `<div class="${cls} rounded-lg px-3 py-2 mb-2 text-xs shadow-sm fade-in"><div class="font-semibold">${esc(item.desiredState)}</div><span class="text-[10px] opacity-60">${esc(item.category)}</span></div>`;
+    });
+    html += '</div>';
+  });
+
+  html += '</div>';
+  chart.html(html);
+  lucide.createIcons();
+}
+
+// ===== REPORT =====
+function renderReport() {
+  const d = getData();
+  let html = '';
+  if(!d.length) { $('#reportContent').html('<div class="text-center text-gray-400 py-20"><p>ยังไม่มีข้อมูลสำหรับรายงาน</p></div>'); return; }
+
+  // Summary
+  html += '<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">';
+  LAYERS.forEach((l,i) => {
+    const count = d.filter(x=>x.complexity===l).length;
+    const colors = ['bg-cyan-100 text-cyan-700','bg-blue-100 text-blue-700','bg-indigo-100 text-indigo-700','bg-purple-100 text-purple-700'];
+    html += `<div class="${colors[i]} rounded-xl p-4 text-center"><div class="text-2xl font-bold">${count}</div><div class="text-xs font-semibold">${l}</div></div>`;
+  });
+  html += '</div>';
+
+  // Detail tables per layer
+  LAYERS.forEach((layer, li) => {
+    const items = d.filter(x => x.complexity === layer);
+    if(!items.length) return;
+    html += `<div class="bg-white rounded-xl border border-brand-200 shadow-sm mb-4 overflow-hidden">`;
+    html += `<div class="px-4 py-3 bg-brand-100 font-bold text-brand-800 text-sm flex items-center gap-2"><i data-lucide="${LAYER_ICONS[li]}" class="w-4 h-4"></i>ชั้น: ${layer} (${LAYER_EN[li]})</div>`;
+    html += '<table class="w-full text-sm"><thead class="bg-gray-50"><tr><th class="p-2 text-left w-8">#</th><th class="p-2 text-left">สิ่งที่เป็นอยู่</th><th class="p-2 text-left">สิ่งที่อยากให้เกิด</th><th class="p-2 text-left w-20">ประเภท</th></tr></thead><tbody>';
+    items.forEach((item, i) => {
+      const catClass = item.category==='ปัญหา'?'text-red-600':item.category==='ทางออก'?'text-green-600':'text-yellow-600';
+      html += `<tr class="border-t border-gray-100"><td class="p-2 text-gray-400">${i+1}</td><td class="p-2">${esc(item.currentState)}</td><td class="p-2">${esc(item.desiredState)}</td><td class="p-2 font-semibold ${catClass}">${esc(item.category)}</td></tr>`;
+    });
+    html += '</tbody></table></div>';
+  });
+
+  // Category summary
+  html += '<div class="bg-white rounded-xl border border-brand-200 shadow-sm overflow-hidden mb-4">';
+  html += '<div class="px-4 py-3 bg-brand-100 font-bold text-brand-800 text-sm">สรุปตามประเภท</div>';
+  html += '<div class="grid grid-cols-3 divide-x divide-brand-100">';
+  CATEGORIES.forEach(cat => {
+    const count = d.filter(x=>x.category===cat).length;
+    const c = cat==='ปัญหา'?'text-red-600':cat==='ทางออก'?'text-green-600':'text-yellow-600';
+    html += `<div class="p-4 text-center"><div class="text-3xl font-bold ${c}">${count}</div><div class="text-xs font-semibold text-gray-500">${cat}</div></div>`;
+  });
+  html += '</div></div>';
+
+  $('#reportContent').html(html);
+  lucide.createIcons();
+}
+
+function esc(s) { const d=document.createElement('div');d.textContent=s;return d.innerHTML; }
+
+function renderAll() {
+  const pg = $('.sidebar-item.active').data('page');
+  if(pg==='diagram') renderIceberg();
+  if(pg==='data') renderTable();
+  if(pg==='report') renderReport();
+}
+
+// ===== ELEMENT SDK =====
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => {
+    const title = config.app_title || defaultConfig.app_title;
+    document.getElementById('appTitle').textContent = title;
+    document.body.style.backgroundColor = config.background_color || defaultConfig.background_color;
+  },
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get:()=>config.background_color||defaultConfig.background_color, set:(v)=>{config.background_color=v;window.elementSdk.setConfig({background_color:v})} },
+      { get:()=>config.surface_color||defaultConfig.surface_color, set:(v)=>{config.surface_color=v;window.elementSdk.setConfig({surface_color:v})} },
+      { get:()=>config.text_color||defaultConfig.text_color, set:(v)=>{config.text_color=v;window.elementSdk.setConfig({text_color:v})} },
+      { get:()=>config.primary_action||defaultConfig.primary_action, set:(v)=>{config.primary_action=v;window.elementSdk.setConfig({primary_action:v})} },
+      { get:()=>config.secondary_action||defaultConfig.secondary_action, set:(v)=>{config.secondary_action=v;window.elementSdk.setConfig({secondary_action:v})} }
+    ],
+    borderables: [],
+    fontEditable: undefined,
+    fontSizeable: undefined
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ['app_title', config.app_title || defaultConfig.app_title]
+  ])
+});
+
+// Init
+$(function(){
+  renderIceberg();
+  lucide.createIcons();
+});
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e4c876280f37325',t:'MTc3NDkzMDQ4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
