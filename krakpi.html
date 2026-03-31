@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="th" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบวิเคราะห์ KRA &amp; KPI - โรงเรียนวังใหญ่วิทยาคม</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+  * { font-family: 'Sarabun', sans-serif; }
+  html, body { height: 100%; margin: 0; }
+  .sidebar { width: 260px; min-height: 100%; }
+  .main-content { flex: 1; min-height: 100%; }
+  .nav-item { transition: all 0.2s; }
+  .nav-item:hover, .nav-item.active { background: #fef3c7; border-left: 4px solid #f59e0b; }
+  .nav-item.active { font-weight: 600; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 50; justify-content: center; align-items: center; }
+  .modal-overlay.show { display: flex; }
+  .kra-col { min-width: 200px; flex: 1; }
+  .strategy-header { background: linear-gradient(135deg, #1e3a5f, #2563eb); }
+  .kra-header { background: #dbeafe; border: 2px solid #1e3a5f; }
+  .kra-body { border: 2px solid #1e3a5f; }
+  @media print {
+    .sidebar, .no-print { display: none !important; }
+    .main-content { margin: 0 !important; padding: 10px !important; }
+    .print-area { break-inside: avoid; }
+  }
+  .table-container { overflow-x: auto; }
+  table th { background: #fef3c7; }
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-amber-50">
+  <div class="flex h-full"><!-- Sidebar -->
+   <div class="sidebar bg-white shadow-lg flex flex-col no-print">
+    <div class="p-4 flex flex-col items-center border-b border-amber-200 bg-gradient-to-b from-amber-50 to-white"><img src="https://img1.pic.in.th/images/wys_logo.jpg" alt="โลโก้โรงเรียนวังใหญ่วิทยาคม" style="width:150px;height:150px;object-fit:contain;border-radius:50%;border:3px solid #f59e0b;background:#fff;" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#fbbf24,#f59e0b)';this.alt='โลโก้';">
+     <h2 class="mt-3 text-base font-bold text-amber-800 text-center leading-tight" id="sidebar-school-name">โรงเรียนวังใหญ่วิทยาคม</h2>
+     <p class="text-xs text-amber-600 mt-1">ระบบวิเคราะห์ KRA &amp; KPI</p>
+    </div>
+    <nav class="flex-1 py-3">
+     <div class="nav-item active px-5 py-3 cursor-pointer flex items-center gap-3 text-sm text-gray-700" data-page="dashboard"><span class="text-lg">📊</span> แดชบอร์ด
+     </div>
+     <div class="nav-item px-5 py-3 cursor-pointer flex items-center gap-3 text-sm text-gray-700" data-page="kpi"><span class="text-lg">🎯</span> บันทึก KPI
+     </div>
+     <div class="nav-item px-5 py-3 cursor-pointer flex items-center gap-3 text-sm text-gray-700" data-page="act"><span class="text-lg">⚡</span> บันทึกกิจกรรม ACT
+     </div>
+     <div class="nav-item px-5 py-3 cursor-pointer flex items-center gap-3 text-sm text-gray-700" data-page="report"><span class="text-lg">📋</span> รายงาน
+     </div>
+     <div class="nav-item px-5 py-3 cursor-pointer flex items-center gap-3 text-sm text-gray-700" data-page="strategy"><span class="text-lg">🗺️</span> แผนภาพยุทธศาสตร์
+     </div>
+    </nav>
+    <div class="p-3 border-t border-amber-100 text-center text-xs text-gray-400">
+     v1.0 © 2025
+    </div>
+   </div><!-- Main Content -->
+   <div class="main-content overflow-auto p-6" id="main-area"><!-- Dashboard Page -->
+    <div id="page-dashboard" class="page-section">
+     <h1 class="text-2xl font-bold text-amber-800 mb-6">📊 แดชบอร์ดภาพรวม</h1>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="dashboard-cards"></div>
+     <div class="bg-white rounded-xl shadow p-5" id="dashboard-chart-area">
+      <h3 class="text-lg font-semibold text-gray-700 mb-4">สรุปจำนวน KPI และ กิจกรรม แยกตาม KRA</h3>
+      <div id="bar-chart-container"></div>
+     </div>
+    </div><!-- KPI Page -->
+    <div id="page-kpi" class="page-section hidden">
+     <div class="flex justify-between items-center mb-5">
+      <h1 class="text-2xl font-bold text-amber-800">🎯 บันทึกข้อมูล KPI</h1><button onclick="openKpiModal()" class="bg-amber-500 hover:bg-amber-600 text-white px-5 py-2 rounded-lg font-semibold shadow transition no-print">+ เพิ่ม KPI</button>
+     </div>
+     <div class="bg-white rounded-xl shadow table-container">
+      <table class="w-full text-sm" id="kpi-table">
+       <thead>
+        <tr>
+         <th class="p-3 text-left border-b">#</th>
+         <th class="p-3 text-left border-b">KRA</th>
+         <th class="p-3 text-left border-b">KPI</th>
+         <th class="p-3 text-center border-b no-print">จัดการ</th>
+        </tr>
+       </thead>
+       <tbody></tbody>
+      </table>
+     </div>
+    </div><!-- ACT Page -->
+    <div id="page-act" class="page-section hidden">
+     <div class="flex justify-between items-center mb-5">
+      <h1 class="text-2xl font-bold text-amber-800">⚡ บันทึกกิจกรรม ACT</h1><button onclick="openActModal()" class="bg-amber-500 hover:bg-amber-600 text-white px-5 py-2 rounded-lg font-semibold shadow transition no-print">+ เพิ่มกิจกรรม</button>
+     </div>
+     <div class="bg-white rounded-xl shadow table-container">
+      <table class="w-full text-sm" id="act-table">
+       <thead>
+        <tr>
+         <th class="p-3 text-left border-b">#</th>
+         <th class="p-3 text-left border-b">KPI</th>
+         <th class="p-3 text-left border-b">กิจกรรม ACT</th>
+         <th class="p-3 text-center border-b no-print">จัดการ</th>
+        </tr>
+       </thead>
+       <tbody></tbody>
+      </table>
+     </div>
+    </div><!-- Report Page -->
+    <div id="page-report" class="page-section hidden">
+     <div class="flex justify-between items-center mb-5">
+      <h1 class="text-2xl font-bold text-amber-800">📋 รายงานสรุป</h1><button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold shadow transition no-print">🖨️ พิมพ์รายงาน</button>
+     </div>
+     <div class="bg-white rounded-xl shadow p-5 print-area" id="report-content"></div>
+    </div><!-- Strategy Map Page -->
+    <div id="page-strategy" class="page-section hidden">
+     <div class="flex justify-between items-center mb-5">
+      <h1 class="text-2xl font-bold text-amber-800">🗺️ แผนภาพยุทธศาสตร์</h1><button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold shadow transition no-print">🖨️ พิมพ์แผนภาพ</button>
+     </div>
+     <div class="bg-white rounded-2xl shadow-lg p-6 print-area" id="strategy-map"></div>
+    </div>
+   </div>
+  </div><!-- KPI Modal -->
+  <div class="modal-overlay" id="kpi-modal">
+   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+    <div class="bg-gradient-to-r from-amber-400 to-amber-500 px-6 py-4 flex justify-between items-center">
+     <h3 class="text-white font-bold text-lg" id="kpi-modal-title">เพิ่ม KPI</h3><button onclick="closeModal('kpi-modal')" class="text-white text-2xl leading-none">×</button>
+    </div>
+    <form id="kpi-form" class="p-6 space-y-4"><input type="hidden" id="kpi-edit-id">
+     <div><label class="block text-sm font-semibold text-gray-700 mb-1">KRA <span class="text-red-500">*</span></label> <select id="kpi-kra" name="kpi_kra" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-amber-400 focus:border-amber-400" required> <option value="">-- เลือก KRA --</option> </select>
+     </div>
+     <div><label class="block text-sm font-semibold text-gray-700 mb-1">ระบุ KPI <span class="text-red-500">*</span></label> <input type="text" id="kpi-text" name="kpi_text" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-amber-400 focus:border-amber-400" placeholder="ระบุ KPI..." required>
+     </div>
+     <div class="flex gap-3 pt-2"><button type="submit" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white py-2 rounded-lg font-semibold transition">บันทึก</button> <button type="button" onclick="closeModal('kpi-modal')" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-lg font-semibold transition">ยกเลิก</button>
+     </div>
+    </form>
+   </div>
+  </div><!-- ACT Modal -->
+  <div class="modal-overlay" id="act-modal">
+   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+    <div class="bg-gradient-to-r from-amber-400 to-amber-500 px-6 py-4 flex justify-between items-center">
+     <h3 class="text-white font-bold text-lg" id="act-modal-title">เพิ่มกิจกรรม ACT</h3><button onclick="closeModal('act-modal')" class="text-white text-2xl leading-none">×</button>
+    </div>
+    <form id="act-form" class="p-6 space-y-4"><input type="hidden" id="act-edit-id">
+     <div><label class="block text-sm font-semibold text-gray-700 mb-1">เลือก KPI <span class="text-red-500">*</span></label> <select id="act-kpi" name="act_kpi" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-amber-400 focus:border-amber-400" required> <option value="">-- เลือก KPI --</option> </select>
+     </div>
+     <div><label class="block text-sm font-semibold text-gray-700 mb-1">ระบุกิจกรรม ACT <span class="text-red-500">*</span></label> <input type="text" id="act-text" name="act_text" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-amber-400 focus:border-amber-400" placeholder="ระบุกิจกรรม..." required>
+     </div>
+     <div class="flex gap-3 pt-2"><button type="submit" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white py-2 rounded-lg font-semibold transition">บันทึก</button> <button type="button" onclick="closeModal('act-modal')" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-lg font-semibold transition">ยกเลิก</button>
+     </div>
+    </form>
+   </div>
+  </div>
+  <script>
+// ===== CONFIG =====
+const KRA_LIST = [
+  { id: "kra1", name: "ผู้อำนวยการ" },
+  { id: "kra2", name: "ผู้เรียน" },
+  { id: "kra3", name: "ครู" },
+  { id: "kra4", name: "ชุมชน" },
+  { id: "kra5", name: "โรงเรียนเครือข่าย" }
+];
+
+const defaultConfig = {
+  school_name: "โรงเรียนวังใหญ่วิทยาคม",
+  vision_text: "มุ่งพัฒนาผู้เรียนให้มีคุณภาพตามมาตรฐานการศึกษา เป็นคนดี มีความสุข ภายใต้หลักปรัชญาของเศรษฐกิจพอเพียง",
+  background_color: "#fffbeb",
+  surface_color: "#ffffff",
+  text_color: "#92400e",
+  primary_action_color: "#f59e0b",
+  secondary_action_color: "#2563eb"
+};
+
+// ===== DATA LAYER =====
+function loadData(key) {
+  try { return JSON.parse(localStorage.getItem(key)) || []; } catch { return []; }
+}
+function saveData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+function getKpis() { return loadData('wys_kpis'); }
+function setKpis(d) { saveData('wys_kpis', d); }
+function getActs() { return loadData('wys_acts'); }
+function setActs(d) { saveData('wys_acts', d); }
+function nextId(arr) { return arr.length ? Math.max(...arr.map(i => i.id)) + 1 : 1; }
+
+// ===== NAVIGATION =====
+$('.nav-item').on('click', function() {
+  const page = $(this).data('page');
+  $('.nav-item').removeClass('active');
+  $(this).addClass('active');
+  $('.page-section').addClass('hidden');
+  $('#page-' + page).removeClass('hidden');
+  refreshPage(page);
+});
+
+function refreshPage(page) {
+  if (page === 'dashboard') renderDashboard();
+  else if (page === 'kpi') renderKpiTable();
+  else if (page === 'act') renderActTable();
+  else if (page === 'report') renderReport();
+  else if (page === 'strategy') renderStrategyMap();
+}
+
+// ===== MODAL =====
+function openKpiModal(editId) {
+  $('#kpi-edit-id').val('');
+  $('#kpi-form')[0].reset();
+  const sel = $('#kpi-kra');
+  sel.html('<option value="">-- เลือก KRA --</option>');
+  KRA_LIST.forEach(k => sel.append(`<option value="${k.id}">${k.name}</option>`));
+  if (editId) {
+    const item = getKpis().find(i => i.id === editId);
+    if (item) { $('#kpi-edit-id').val(editId); $('#kpi-kra').val(item.kraId); $('#kpi-text').val(item.text); }
+    $('#kpi-modal-title').text('แก้ไข KPI');
+  } else { $('#kpi-modal-title').text('เพิ่ม KPI'); }
+  $('#kpi-modal').addClass('show');
+}
+function openActModal(editId) {
+  $('#act-edit-id').val('');
+  $('#act-form')[0].reset();
+  const sel = $('#act-kpi');
+  sel.html('<option value="">-- เลือก KPI --</option>');
+  const kpis = getKpis();
+  kpis.forEach(k => {
+    const kraName = KRA_LIST.find(kr => kr.id === k.kraId)?.name || '';
+    sel.append(`<option value="${k.id}">[${kraName}] ${k.text}</option>`);
+  });
+  if (editId) {
+    const item = getActs().find(i => i.id === editId);
+    if (item) { $('#act-edit-id').val(editId); $('#act-kpi').val(item.kpiId); $('#act-text').val(item.text); }
+    $('#act-modal-title').text('แก้ไขกิจกรรม');
+  } else { $('#act-modal-title').text('เพิ่มกิจกรรม ACT'); }
+  $('#act-modal').addClass('show');
+}
+function closeModal(id) { $('#' + id).removeClass('show'); }
+
+// ===== FORM SUBMIT =====
+$('#kpi-form').validate({
+  submitHandler: function(form) {
+    const editId = parseInt($('#kpi-edit-id').val());
+    const kraId = $('#kpi-kra').val();
+    const text = $('#kpi-text').val().trim();
+    let kpis = getKpis();
+    if (editId) {
+      kpis = kpis.map(k => k.id === editId ? { ...k, kraId, text } : k);
+      Swal.fire({ icon:'success', title:'แก้ไขสำเร็จ', timer:1200, showConfirmButton:false });
+    } else {
+      kpis.push({ id: nextId(kpis), kraId, text });
+      Swal.fire({ icon:'success', title:'บันทึกสำเร็จ', timer:1200, showConfirmButton:false });
+    }
+    setKpis(kpis);
+    closeModal('kpi-modal');
+    renderKpiTable();
+  }
+});
+$('#act-form').validate({
+  submitHandler: function(form) {
+    const editId = parseInt($('#act-edit-id').val());
+    const kpiId = parseInt($('#act-kpi').val());
+    const text = $('#act-text').val().trim();
+    let acts = getActs();
+    if (editId) {
+      acts = acts.map(a => a.id === editId ? { ...a, kpiId, text } : a);
+      Swal.fire({ icon:'success', title:'แก้ไขสำเร็จ', timer:1200, showConfirmButton:false });
+    } else {
+      acts.push({ id: nextId(acts), kpiId, text });
+      Swal.fire({ icon:'success', title:'บันทึกสำเร็จ', timer:1200, showConfirmButton:false });
+    }
+    setActs(acts);
+    closeModal('act-modal');
+    renderActTable();
+  }
+});
+
+// ===== DELETE =====
+function deleteKpi(id) {
+  Swal.fire({ title:'ลบ KPI นี้?', text:'กิจกรรมที่เชื่อมกับ KPI นี้จะถูกลบด้วย', icon:'warning', showCancelButton:true, confirmButtonColor:'#ef4444', confirmButtonText:'ลบ', cancelButtonText:'ยกเลิก' }).then(r => {
+    if (r.isConfirmed) {
+      setKpis(getKpis().filter(k => k.id !== id));
+      setActs(getActs().filter(a => a.kpiId !== id));
+      renderKpiTable();
+      Swal.fire({ icon:'success', title:'ลบแล้ว', timer:1000, showConfirmButton:false });
+    }
+  });
+}
+function deleteAct(id) {
+  Swal.fire({ title:'ลบกิจกรรมนี้?', icon:'warning', showCancelButton:true, confirmButtonColor:'#ef4444', confirmButtonText:'ลบ', cancelButtonText:'ยกเลิก' }).then(r => {
+    if (r.isConfirmed) {
+      setActs(getActs().filter(a => a.id !== id));
+      renderActTable();
+      Swal.fire({ icon:'success', title:'ลบแล้ว', timer:1000, showConfirmButton:false });
+    }
+  });
+}
+
+// ===== RENDER TABLES =====
+function renderKpiTable() {
+  const kpis = getKpis();
+  const tbody = $('#kpi-table tbody');
+  tbody.empty();
+  if (!kpis.length) { tbody.append('<tr><td colspan="4" class="p-6 text-center text-gray-400">ยังไม่มีข้อมูล KPI</td></tr>'); return; }
+  kpis.forEach((k, i) => {
+    const kraName = KRA_LIST.find(kr => kr.id === k.kraId)?.name || '-';
+    tbody.append(`<tr class="border-b hover:bg-amber-50 transition">
+      <td class="p-3">${i + 1}</td>
+      <td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded-full text-xs font-semibold">${kraName}</span></td>
+      <td class="p-3">${k.text}</td>
+      <td class="p-3 text-center no-print">
+        <button onclick="openKpiModal(${k.id})" class="text-blue-500 hover:text-blue-700 mr-2">✏️</button>
+        <button onclick="deleteKpi(${k.id})" class="text-red-500 hover:text-red-700">🗑️</button>
+      </td>
+    </tr>`);
+  });
+}
+function renderActTable() {
+  const acts = getActs();
+  const kpis = getKpis();
+  const tbody = $('#act-table tbody');
+  tbody.empty();
+  if (!acts.length) { tbody.append('<tr><td colspan="4" class="p-6 text-center text-gray-400">ยังไม่มีข้อมูลกิจกรรม</td></tr>'); return; }
+  acts.forEach((a, i) => {
+    const kpi = kpis.find(k => k.id === a.kpiId);
+    const kraName = kpi ? (KRA_LIST.find(kr => kr.id === kpi.kraId)?.name || '') : '';
+    const kpiLabel = kpi ? `[${kraName}] ${kpi.text}` : '-';
+    tbody.append(`<tr class="border-b hover:bg-amber-50 transition">
+      <td class="p-3">${i + 1}</td>
+      <td class="p-3 text-xs">${kpiLabel}</td>
+      <td class="p-3">${a.text}</td>
+      <td class="p-3 text-center no-print">
+        <button onclick="openActModal(${a.id})" class="text-blue-500 hover:text-blue-700 mr-2">✏️</button>
+        <button onclick="deleteAct(${a.id})" class="text-red-500 hover:text-red-700">🗑️</button>
+      </td>
+    </tr>`);
+  });
+}
+
+// ===== DASHBOARD =====
+function renderDashboard() {
+  const kpis = getKpis(), acts = getActs();
+  const cards = $('#dashboard-cards');
+  cards.html(`
+    <div class="bg-white rounded-xl shadow p-5 border-l-4 border-amber-400">
+      <p class="text-sm text-gray-500">KRA ทั้งหมด</p>
+      <p class="text-3xl font-bold text-amber-700">${KRA_LIST.length}</p>
+    </div>
+    <div class="bg-white rounded-xl shadow p-5 border-l-4 border-blue-400">
+      <p class="text-sm text-gray-500">KPI ทั้งหมด</p>
+      <p class="text-3xl font-bold text-blue-700">${kpis.length}</p>
+    </div>
+    <div class="bg-white rounded-xl shadow p-5 border-l-4 border-green-400">
+      <p class="text-sm text-gray-500">กิจกรรม ACT ทั้งหมด</p>
+      <p class="text-3xl font-bold text-green-700">${acts.length}</p>
+    </div>
+  `);
+  // Bar chart
+  const container = $('#bar-chart-container');
+  container.empty();
+  const maxVal = Math.max(1, ...KRA_LIST.map(kra => {
+    const kpiCount = kpis.filter(k => k.kraId === kra.id).length;
+    const kpiIds = kpis.filter(k => k.kraId === kra.id).map(k => k.id);
+    const actCount = acts.filter(a => kpiIds.includes(a.kpiId)).length;
+    return Math.max(kpiCount, actCount);
+  }));
+  let html = '<div class="flex items-end gap-4 justify-around" style="height:220px;">';
+  KRA_LIST.forEach(kra => {
+    const kpiCount = kpis.filter(k => k.kraId === kra.id).length;
+    const kpiIds = kpis.filter(k => k.kraId === kra.id).map(k => k.id);
+    const actCount = acts.filter(a => kpiIds.includes(a.kpiId)).length;
+    const kpiH = Math.max(8, (kpiCount / maxVal) * 180);
+    const actH = Math.max(8, (actCount / maxVal) * 180);
+    html += `<div class="flex flex-col items-center gap-1 flex-1">
+      <div class="flex items-end gap-1" style="height:190px;">
+        <div class="bg-blue-400 rounded-t w-6 transition-all" style="height:${kpiH}px;" title="KPI: ${kpiCount}"></div>
+        <div class="bg-green-400 rounded-t w-6 transition-all" style="height:${actH}px;" title="ACT: ${actCount}"></div>
+      </div>
+      <span class="text-xs text-gray-600 text-center leading-tight">${kra.name}</span>
+      <span class="text-xs text-gray-400">${kpiCount}/${actCount}</span>
+    </div>`;
+  });
+  html += '</div>';
+  html += '<div class="flex gap-4 justify-center mt-3 text-xs"><span class="flex items-center gap-1"><span class="w-3 h-3 bg-blue-400 rounded inline-block"></span> KPI</span><span class="flex items-center gap-1"><span class="w-3 h-3 bg-green-400 rounded inline-block"></span> ACT</span></div>';
+  container.html(html);
+}
+
+// ===== REPORT =====
+function renderReport() {
+  const kpis = getKpis(), acts = getActs();
+  const config = window.elementSdk?.config || defaultConfig;
+  let html = `<div class="text-center mb-6">
+    <h2 class="text-xl font-bold text-gray-800">${config.school_name || defaultConfig.school_name}</h2>
+    <p class="text-sm text-gray-500">รายงานสรุป KRA, KPI และกิจกรรม</p>
+  </div>`;
+  KRA_LIST.forEach(kra => {
+    const kraKpis = kpis.filter(k => k.kraId === kra.id);
+    html += `<div class="mb-5">
+      <h3 class="font-bold text-blue-800 bg-blue-50 px-3 py-2 rounded">${kra.name} (${kraKpis.length} KPI)</h3>
+      <table class="w-full text-sm mt-2 border"><thead><tr><th class="p-2 border text-left bg-amber-50">KPI</th><th class="p-2 border text-left bg-amber-50">กิจกรรม ACT</th></tr></thead><tbody>`;
+    if (!kraKpis.length) {
+      html += '<tr><td colspan="2" class="p-2 border text-center text-gray-400">-</td></tr>';
+    }
+    kraKpis.forEach(kpi => {
+      const kpiActs = acts.filter(a => a.kpiId === kpi.id);
+      const actText = kpiActs.length ? kpiActs.map(a => '• ' + a.text).join('<br>') : '<span class="text-gray-400">-</span>';
+      html += `<tr><td class="p-2 border align-top">${kpi.text}</td><td class="p-2 border align-top">${actText}</td></tr>`;
+    });
+    html += '</tbody></table></div>';
+  });
+  $('#report-content').html(html);
+}
+
+// ===== STRATEGY MAP =====
+function renderStrategyMap() {
+  const kpis = getKpis(), acts = getActs();
+  const config = window.elementSdk?.config || defaultConfig;
+  const schoolName = config.school_name || defaultConfig.school_name;
+  const vision = config.vision_text || defaultConfig.vision_text;
+
+  let html = `<div style="background:#fff;padding:20px;">
+    <!-- Header -->
+    <div class="flex gap-4 mb-6">
+      <div class="border-2 border-blue-800 rounded-xl px-6 py-4 flex items-center min-w-[200px]">
+        <span class="text-lg font-bold text-blue-900">${schoolName}</span>
+      </div>
+      <div class="strategy-header flex-1 rounded-xl px-6 py-4 text-white">
+        <p class="font-semibold text-sm mb-1">วิสัยทัศน์</p>
+        <p class="text-sm leading-relaxed">${vision}</p>
+      </div>
+    </div>
+    <!-- KRA Columns -->
+    <div class="flex gap-3 overflow-x-auto pb-4">`;
+  KRA_LIST.forEach((kra, idx) => {
+    const kraKpis = kpis.filter(k => k.kraId === kra.id);
+    html += `<div class="kra-col">
+      <div class="kra-header rounded-t-xl px-3 py-3 text-center">
+        <span class="font-bold text-sm text-blue-900">KRA${idx + 1}: ${kra.name}</span>
+      </div>
+      <div class="kra-body rounded-b-xl px-3 py-3 bg-white min-h-[120px]">`;
+    if (!kraKpis.length) {
+      html += '<p class="text-xs text-gray-400 text-center py-4">ยังไม่มี KPI</p>';
+    }
+    kraKpis.forEach((kpi, ki) => {
+      html += `<div class="mb-2"><p class="text-xs font-semibold text-blue-800">-KPI${idx + 1}.${ki + 1} : ${kpi.text}</p>`;
+      const kpiActs = acts.filter(a => a.kpiId === kpi.id);
+      kpiActs.forEach(a => {
+        html += `<p class="text-xs text-gray-600 ml-3">• ${a.text}</p>`;
+      });
+      html += '</div>';
+    });
+    html += '</div></div>';
+  });
+  html += '</div></div>';
+  $('#strategy-map').html(html);
+}
+
+// ===== ELEMENT SDK INIT =====
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => {
+    const name = config.school_name || defaultConfig.school_name;
+    document.getElementById('sidebar-school-name').textContent = name;
+    // Re-render active page
+    const activePage = $('.nav-item.active').data('page');
+    if (activePage) refreshPage(activePage);
+  },
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get: () => config.background_color || defaultConfig.background_color, set: v => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); }},
+      { get: () => config.surface_color || defaultConfig.surface_color, set: v => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); }},
+      { get: () => config.text_color || defaultConfig.text_color, set: v => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); }},
+      { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: v => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); }},
+      { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: v => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); }}
+    ],
+    borderables: [],
+    fontEditable: {
+      get: () => config.font_family || 'Sarabun',
+      set: v => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+    },
+    fontSizeable: {
+      get: () => config.font_size || 14,
+      set: v => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+    }
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ["school_name", config.school_name || defaultConfig.school_name],
+    ["vision_text", config.vision_text || defaultConfig.vision_text]
+  ])
+});
+
+// Initial render
+renderDashboard();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e4d3655822a731c',t:'MTc3NDkzNzY0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
