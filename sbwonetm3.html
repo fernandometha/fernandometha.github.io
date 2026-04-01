@@ -40,8 +40,8 @@ tailwind.config = {
     from { width: 0%; }
   }
   @keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.3); }
-    50% { box-shadow: 0 0 20px 5px rgba(59,130,246,0.15); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(217,70,166,0.3); }
+    50% { box-shadow: 0 0 20px 5px rgba(217,70,166,0.15); }
   }
   .fade-up { animation: fadeUp 0.7s ease-out both; }
   .scale-in { animation: scaleIn 0.5s ease-out both; }
@@ -60,35 +60,35 @@ tailwind.config = {
 
   .section-card {
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(217,70,166,0.12);
   }
 
   .stat-ring {
-    background: conic-gradient(var(--ring-color) var(--ring-pct), rgba(255,255,255,0.08) var(--ring-pct));
+    background: conic-gradient(var(--ring-color) var(--ring-pct), rgba(217,70,166,0.08) var(--ring-pct));
     border-radius: 50%;
   }
 
   .grid-pattern {
     background-image:
-      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      linear-gradient(rgba(217,70,166,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(217,70,166,0.03) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 </style>
   <style>
   body { box-sizing: border-box; }
   :root {
-    --bg-primary: #fdf2f8;
-    --bg-secondary: #fff0f7;
-    --bg-tertiary: #fce7f3;
-    --text-primary: #831843;
-    --text-secondary: #be185d;
-    --text-light: #9f1239;
-    --accent-pink: #ec4899;
-    --accent-light-pink: #f472b6;
+    --bg-primary: #f5f1fa;
+    --bg-secondary: #faf8fc;
+    --bg-tertiary: #f0ecf8;
+    --text-primary: #5a3a6b;
+    --text-secondary: #7c5a96;
+    --text-light: #6b4880;
+    --accent-pink: #d946a6;
+    --accent-light-pink: #e879c8;
     --surface: #ffffff;
-    --border-light: rgba(236, 72, 153, 0.1);
-    --border-lighter: rgba(236, 72, 153, 0.05);
+    --border-light: rgba(217, 70, 166, 0.15);
+    --border-lighter: rgba(217, 70, 166, 0.08);
   }
   .text-primary { color: var(--text-primary); }
   .bg-surface { background: var(--surface); }
@@ -96,55 +96,49 @@ tailwind.config = {
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full">
-  <div id="app-wrapper" class="w-full h-full overflow-auto grid-pattern" style="background: linear-gradient(145deg, #0a0e1a 0%, #0f172a 40%, #111827 100%);">
-   <!-- Decorative blobs -->
-   <div style="position:fixed;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(59,130,246,0.08),transparent 70%);pointer-events:none;"></div>
-   <div style="position:fixed;bottom:-100px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,0.06),transparent 70%);pointer-events:none;"></div>
-   <div class="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8 relative">
-    <!-- HEADER -->
+  <div id="app-wrapper" class="w-full h-full overflow-auto grid-pattern" style="background: linear-gradient(145deg, #f5f1fa 0%, #faf8fc 40%, #ffffff 100%);"><!-- Decorative blobs -->
+   <div style="position:fixed;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(217,70,166,0.08),transparent 70%);pointer-events:none;"></div>
+   <div style="position:fixed;bottom:-100px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,0.06),transparent 70%);pointer-events:none;"></div>
+   <div class="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8 relative"><!-- HEADER -->
     <header class="text-center mb-10 fade-up">
-     <div class="mb-4"><img src="https://img2.pic.in.th/sbw_logo.png" alt="School Logo" class="w-16 h-16 mx-auto rounded-full shadow-lg" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.background='#1e293b'; this.alt='Logo unavailable';">
+     <div class="mb-4">
+      <img src="https://img2.pic.in.th/sbw_logo.png" alt="School Logo" class="w-16 h-16 mx-auto rounded-full shadow-lg" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.background='#e8d5f2'; this.alt='Logo unavailable';">
      </div>
-     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100 border border-pink-200 mb-4">
-      <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span> <span class="text-pink-700 text-xs font-medium font-thai tracking-wide">O-NET ม.3 | ปีการศึกษา 2566-2568</span>
+     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100 border border-pink-300 mb-4"><span class="w-2 h-2 rounded-full bg-pink-600 animate-pulse"></span> <span class="text-pink-800 text-xs font-medium font-thai tracking-wide">O-NET ม.3 | ปีการศึกษา 2566-2568</span>
      </div>
-     <h1 id="el-main-title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-pink-900 font-thai mb-3 leading-tight" style="letter-spacing:-0.02em;">บทวิเคราะห์ผล O-NET ม.3</h1>
-     <p class="text-pink-700 font-thai text-sm sm:text-base flex items-center justify-center gap-2 flex-wrap"><span id="el-school-name" class="text-pink-600 font-semibold">โรงเรียนซับสมบูรณ์วิทยาคม</span> <span class="text-pink-400">|</span> <span id="el-subtitle">กลยุทธ์เพื่อการยกระดับผลสัมฤทธิ์</span></p>
+     <h1 id="el-main-title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-pink-900 font-thai mb-3 leading-tight" style="letter-spacing:-0.02em;color:#5a3a6b;">บทวิเคราะห์ผล O-NET ม.3</h1>
+     <p class="text-pink-800 font-thai text-sm sm:text-base flex items-center justify-center gap-2 flex-wrap"><span id="el-school-name" class="text-pink-900 font-semibold">โรงเรียนซับสมบูรณ์วิทยาคม</span> <span class="text-pink-700">|</span> <span id="el-subtitle" class="text-pink-800">กลยุทธ์เพื่อการยกระดับผลสัมฤทธิ์</span></p>
     </header><!-- SECTION 1: CONTEXT -->
     <section class="mb-6 fade-up delay-2">
-     <div class="section-card rounded-2xl bg-white/60 p-5 sm:p-7 border border-pink-100">
+     <div class="section-card rounded-2xl bg-white/70 p-5 sm:p-7 border border-pink-200">
       <div class="flex items-center gap-3 mb-5">
-       <div class="w-10 h-10 rounded-xl bg-pink-100 flex items-center justify-center">
-        <i data-lucide="school" class="w-5 h-5 text-pink-600"></i>
+       <div class="w-10 h-10 rounded-xl bg-pink-100 flex items-center justify-center"><i data-lucide="school" class="w-5 h-5" style="color:#8b5e9f;"></i>
        </div>
        <div>
-        <h2 class="text-lg font-bold text-pink-900 font-thai">บริบทสถานศึกษา</h2>
-        <p class="text-xs text-pink-600 font-thai">Context</p>
+        <h2 class="text-lg font-bold font-thai" style="color:#5a3a6b;">บริบทสถานศึกษา</h2>
+        <p class="text-xs font-thai" style="color:#8b5e9f;">Context</p>
        </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-       <!-- School info card -->
-       <div class="bg-pink-50/50 rounded-xl p-4 border border-pink-200 slide-right delay-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><!-- School info card -->
+       <div class="bg-pink-50/70 rounded-xl p-4 border border-pink-200 slide-right delay-3">
         <div class="flex items-start gap-3">
-         <div class="w-8 h-8 rounded-lg bg-pink-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-          <i data-lucide="map-pin" class="w-4 h-4 text-pink-600"></i>
+         <div class="w-8 h-8 rounded-lg bg-pink-200 flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="map-pin" class="w-4 h-4" style="color:#8b5e9f;"></i>
          </div>
          <div>
-          <p class="text-pink-700 text-xs font-thai mb-1">ประเภท</p>
-          <p class="text-pink-900 text-sm font-semibold font-thai">โรงเรียนขนาดเล็ก</p>
-          <p class="text-pink-600 text-xs font-thai mt-0.5">นอกเมือง จ.เพชรบูรณ์</p>
+          <p class="text-pink-800 text-xs font-thai mb-1" style="color:#8b5e9f;">ประเภท</p>
+          <p class="text-pink-900 text-sm font-semibold font-thai" style="color:#5a3a6b;">โรงเรียนขนาดเล็ก</p>
+          <p class="text-pink-700 text-xs font-thai mt-0.5" style="color:#8b5e9f;">นอกเมือง จ.เพชรบูรณ์</p>
          </div>
         </div>
        </div><!-- Growth card -->
-       <div class="bg-purple-50/50 rounded-xl p-4 border border-purple-200 slide-right delay-4">
+       <div class="bg-purple-50/70 rounded-xl p-4 border border-purple-200 slide-right delay-4">
         <div class="flex items-start gap-3">
-         <div class="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-          <i data-lucide="trending-up" class="w-4 h-4 text-purple-600"></i>
+         <div class="w-8 h-8 rounded-lg bg-purple-200 flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="trending-up" class="w-4 h-4" style="color:#7c5a96;"></i>
          </div>
          <div>
-          <p class="text-pink-700 text-xs font-thai mb-1">ปี 2568 ผู้เข้าสอบเพิ่มขึ้น</p>
-          <p class="text-purple-600 text-2xl font-extrabold font-display">+63.6%</p>
-          <p class="text-pink-600 text-xs font-thai mt-0.5">18 คน → ส่งผลต่อความหลากหลายของฐานความรู้</p>
+          <p class="text-pink-800 text-xs font-thai mb-1" style="color:#8b5e9f;">ปี 2568 ผู้เข้าสอบเพิ่มขึ้น</p>
+          <p class="text-2xl font-extrabold font-display" style="color:#7c5a96;">+63.6%</p>
+          <p class="text-pink-700 text-xs font-thai mt-0.5" style="color:#8b5e9f;">18 คน → ส่งผลต่อความหลากหลายของฐานความรู้</p>
          </div>
         </div>
        </div>
@@ -152,37 +146,32 @@ tailwind.config = {
      </div>
     </section><!-- SECTION 2: STRENGTHS -->
     <section class="mb-6 fade-up delay-4">
-     <div class="section-card rounded-2xl bg-white/60 p-5 sm:p-7 border border-pink-100">
+     <div class="section-card rounded-2xl bg-white/70 p-5 sm:p-7 border border-pink-200">
       <div class="flex items-center gap-3 mb-5">
-       <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
-        <i data-lucide="trophy" class="w-5 h-5 text-purple-600"></i>
+       <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center"><i data-lucide="trophy" class="w-5 h-5" style="color:#7c5a96;"></i>
        </div>
        <div>
-        <h2 class="text-lg font-bold text-pink-900 font-thai">จุดแข็งทางวิชาการ</h2>
-        <p class="text-xs text-pink-600 font-thai">Strengths</p>
+        <h2 class="text-lg font-bold font-thai" style="color:#5a3a6b;">จุดแข็งทางวิชาการ</h2>
+        <p class="text-xs font-thai" style="color:#8b5e9f;">Strengths</p>
        </div>
       </div>
-      <div class="bg-gradient-to-r from-purple-100/30 to-transparent rounded-xl p-5 border border-purple-200">
-       <div class="flex flex-col sm:flex-row sm:items-center gap-5">
-        <!-- Score ring -->
+      <div class="bg-gradient-to-r from-purple-100/40 to-transparent rounded-xl p-5 border border-purple-200">
+       <div class="flex flex-col sm:flex-row sm:items-center gap-5"><!-- Score ring -->
         <div class="flex-shrink-0 mx-auto sm:mx-0">
-         <div class="stat-ring w-24 h-24 flex items-center justify-center relative" style="--ring-color:#a855f7;--ring-pct:43.1%;">
-          <div class="w-20 h-20 rounded-full bg-white flex flex-col items-center justify-center border border-purple-100">
-           <span class="text-purple-600 text-xl font-extrabold font-display leading-none">43.10</span> <span class="text-pink-600 text-[10px] font-thai mt-0.5">คะแนน</span>
+         <div class="stat-ring w-24 h-24 flex items-center justify-center relative" style="--ring-color:#8b5e9f;--ring-pct:43.1%;">
+          <div class="w-20 h-20 rounded-full bg-white flex flex-col items-center justify-center border-2" style="border-color:#c4a5d6;"><span class="text-2xl font-extrabold font-display" style="color:#7c5a96;">43.10</span> <span class="text-[10px] font-thai mt-0.5" style="color:#8b5e9f;">คะแนน</span>
           </div>
          </div>
         </div>
         <div class="flex-1">
-         <div class="flex items-center gap-2 mb-2">
-          <i data-lucide="book-open" class="w-4 h-4 text-purple-600"></i>
-          <h3 class="text-pink-900 font-bold font-thai">ภาษาไทย</h3><span class="px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 text-[10px] font-semibold">สูงกว่าค่าเฉลี่ย</span>
+         <div class="flex items-center gap-2 mb-2"><i data-lucide="book-open" class="w-4 h-4" style="color:#7c5a96;"></i>
+          <h3 class="font-bold font-thai" style="color:#5a3a6b;">ภาษาไทย</h3><span class="px-2 py-0.5 rounded-full text-[10px] font-semibold" style="background-color:#f0e8f6;color:#7c5a96;">สูงกว่าค่าเฉลี่ย</span>
          </div>
-         <p class="text-pink-700 text-sm font-thai mb-3">คะแนนสูงกว่าค่าเฉลี่ยกลุ่มโรงเรียนขนาดเล็ก</p><!-- Warning badge -->
-         <div class="flex items-start gap-2 bg-orange-100/40 rounded-lg p-3 border border-orange-200">
-          <i data-lucide="alert-triangle" class="w-4 h-4 text-orange-600 flex-shrink-0 mt-0.5"></i>
+         <p class="text-sm font-thai mb-3" style="color:#8b5e9f;">คะแนนสูงกว่าค่าเฉลี่ยกลุ่มโรงเรียนขนาดเล็ก</p><!-- Warning badge -->
+         <div class="flex items-start gap-2 rounded-lg p-3 border" style="background-color:#fef3c7;border-color:#fbbf24;"><i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0 mt-0.5" style="color:#b45309;"></i>
           <div>
-           <p class="text-orange-800 text-xs font-semibold font-thai">ข้อสังเกต</p>
-           <p class="text-orange-700 text-xs font-thai">ความเหลื่อมล้ำในชั้นเรียนสูง (S.D. = 11.59) ต้องดึงกลุ่มอ่อนขึ้นมา</p>
+           <p class="text-xs font-semibold font-thai" style="color:#92400e;">ข้อสังเกต</p>
+           <p class="text-xs font-thai" style="color:#a16207;">ความเหลื่อมล้ำในชั้นเรียนสูง (S.D. = 11.59) ต้องดึงกลุ่มอ่อนขึ้นมา</p>
           </div>
          </div>
         </div>
@@ -191,131 +180,113 @@ tailwind.config = {
      </div>
     </section><!-- SECTION 3: CRITICAL AREAS -->
     <section class="mb-6 fade-up delay-6">
-     <div class="section-card rounded-2xl bg-white/60 p-5 sm:p-7 border border-pink-100">
+     <div class="section-card rounded-2xl bg-white/70 p-5 sm:p-7 border border-pink-200">
       <div class="flex items-center gap-3 mb-5">
-       <div class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center">
-        <i data-lucide="alert-circle" class="w-5 h-5 text-red-600"></i>
+       <div class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center"><i data-lucide="alert-circle" class="w-5 h-5" style="color:#b91c1c;"></i>
        </div>
        <div>
-        <h2 class="text-lg font-bold text-pink-900 font-thai">วิกฤตที่ต้องแก้ไขด่วน</h2>
-        <p class="text-xs text-pink-600 font-thai">Critical Areas</p>
+        <h2 class="text-lg font-bold font-thai" style="color:#5a3a6b;">วิกฤตที่ต้องแก้ไขด่วน</h2>
+        <p class="text-xs font-thai" style="color:#8b5e9f;">Critical Areas</p>
        </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-       <!-- Math -->
-       <div class="bg-red-50/60 rounded-xl p-5 border border-red-200 scale-in delay-7">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><!-- Math -->
+       <div class="rounded-xl p-5 border-2 scale-in delay-7" style="background-color:#fee2e2;border-color:#fca5a5;">
         <div class="flex items-center gap-2 mb-3">
-         <div class="w-7 h-7 rounded-lg bg-red-100 flex items-center justify-center">
-          <span class="text-red-600 text-sm font-bold">∑</span>
+         <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background-color:#fecaca;"><span class="text-sm font-bold" style="color:#b91c1c;">∑</span>
          </div>
-         <h3 class="text-pink-900 font-bold font-thai text-sm">คณิตศาสตร์</h3>
+         <h3 class="font-bold font-thai text-sm" style="color:#5a3a6b;">คณิตศาสตร์</h3>
         </div>
-        <div class="text-red-600 text-3xl font-extrabold font-display mb-2">
+        <div class="text-3xl font-extrabold font-display mb-2" style="color:#b91c1c;">
          15.31
         </div><!-- Bar comparison -->
         <div class="space-y-2 mb-3">
          <div>
-          <div class="flex justify-between text-[10px] mb-1">
-           <span class="text-pink-700 font-thai">เฉลี่ยโรงเรียน</span> <span class="text-red-600 font-semibold">15.31</span>
+          <div class="flex justify-between text-[10px] mb-1"><span class="font-thai" style="color:#7c5a96;">เฉลี่ยโรงเรียน</span> <span class="font-semibold" style="color:#b91c1c;">15.31</span>
           </div>
-          <div class="h-2 rounded-full bg-red-100 overflow-hidden">
-           <div class="h-full rounded-full bg-gradient-to-r from-red-500 to-red-400 bar-grow delay-8" style="width:15.31%"></div>
+          <div class="h-2 rounded-full overflow-hidden" style="background-color:#fecaca;">
+           <div class="h-full rounded-full bar-grow delay-8" style="width:15.31%;background:linear-gradient(to right, #ef4444, #fca5a5);"></div>
           </div>
          </div>
         </div>
-        <div class="flex items-center gap-1.5 bg-red-100/60 rounded-lg px-3 py-2">
-         <i data-lucide="info" class="w-3.5 h-3.5 text-red-600"></i>
-         <p class="text-pink-700 text-[11px] font-thai">ฐานนิยม 9.50 → เกาะกลุ่มคะแนนต่ำ</p>
+        <div class="flex items-center gap-1.5 rounded-lg px-3 py-2" style="background-color:#fca5a5;"><i data-lucide="info" class="w-3.5 h-3.5" style="color:#b91c1c;"></i>
+         <p class="text-[11px] font-thai" style="color:#7f1d1d;">ฐานนิยม 9.50 → เกาะกลุ่มคะแนนต่ำ</p>
         </div>
        </div><!-- English -->
-       <div class="bg-red-50/60 rounded-xl p-5 border border-red-200 scale-in delay-8">
+       <div class="rounded-xl p-5 border-2 scale-in delay-8" style="background-color:#fee2e2;border-color:#fca5a5;">
         <div class="flex items-center gap-2 mb-3">
-         <div class="w-7 h-7 rounded-lg bg-red-100 flex items-center justify-center">
-          <span class="text-red-600 text-sm font-bold">EN</span>
+         <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background-color:#fecaca;"><span class="text-sm font-bold" style="color:#b91c1c;">EN</span>
          </div>
-         <h3 class="text-pink-900 font-bold font-thai text-sm">ภาษาอังกฤษ</h3>
+         <h3 class="font-bold font-thai text-sm" style="color:#5a3a6b;">ภาษาอังกฤษ</h3>
         </div>
-        <div class="text-red-600 text-3xl font-extrabold font-display mb-2">
+        <div class="text-3xl font-extrabold font-display mb-2" style="color:#b91c1c;">
          20.14
         </div><!-- Bar comparison -->
         <div class="space-y-2 mb-3">
          <div>
-          <div class="flex justify-between text-[10px] mb-1">
-           <span class="text-pink-700 font-thai">เฉลี่ยโรงเรียน</span> <span class="text-red-600 font-semibold">20.14</span>
+          <div class="flex justify-between text-[10px] mb-1"><span class="font-thai" style="color:#7c5a96;">เฉลี่ยโรงเรียน</span> <span class="font-semibold" style="color:#b91c1c;">20.14</span>
           </div>
-          <div class="h-2 rounded-full bg-red-100 overflow-hidden">
-           <div class="h-full rounded-full bg-gradient-to-r from-red-500 to-red-400 bar-grow delay-9" style="width:20.14%"></div>
+          <div class="h-2 rounded-full overflow-hidden" style="background-color:#fecaca;">
+           <div class="h-full rounded-full bar-grow delay-9" style="width:20.14%;background:linear-gradient(to right, #ef4444, #fca5a5);"></div>
           </div>
          </div>
          <div>
-          <div class="flex justify-between text-[10px] mb-1">
-           <span class="text-pink-700 font-thai">เฉลี่ยประเทศ</span> <span class="text-pink-600 font-semibold">32.46</span>
+          <div class="flex justify-between text-[10px] mb-1"><span class="font-thai" style="color:#7c5a96;">เฉลี่ยประเทศ</span> <span class="font-semibold" style="color:#8b5e9f;">32.46</span>
           </div>
-          <div class="h-2 rounded-full bg-pink-200 overflow-hidden">
-           <div class="h-full rounded-full bg-pink-300 bar-grow delay-9" style="width:32.46%"></div>
+          <div class="h-2 rounded-full overflow-hidden" style="background-color:#e8d5f2;">
+           <div class="h-full rounded-full bar-grow delay-9" style="width:32.46%;background-color:#d4b5e8;"></div>
           </div>
          </div>
         </div>
-        <div class="flex items-center gap-1.5 bg-red-100/60 rounded-lg px-3 py-2">
-         <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-red-600"></i>
-         <p class="text-pink-700 text-[11px] font-thai">ตามหลังระดับประเทศ <span class="text-red-600 font-bold">-12.32</span> คะแนน</p>
+        <div class="flex items-center gap-1.5 rounded-lg px-3 py-2" style="background-color:#fca5a5;"><i data-lucide="arrow-down" class="w-3.5 h-3.5" style="color:#b91c1c;"></i>
+         <p class="text-[11px] font-thai" style="color:#7f1d1d;">ตามหลังระดับประเทศ <span class="font-bold">-12.32</span> คะแนน</p>
         </div>
        </div>
       </div>
      </div>
     </section><!-- SECTION 4: STRATEGIES -->
     <section class="mb-8 fade-up delay-8">
-     <div class="section-card rounded-2xl bg-white/60 p-5 sm:p-7 border border-pink-100">
+     <div class="section-card rounded-2xl bg-white/70 p-5 sm:p-7 border border-pink-200">
       <div class="flex items-center gap-3 mb-5">
-       <div class="w-10 h-10 rounded-xl bg-pink-100 flex items-center justify-center pulse-glow">
-        <i data-lucide="target" class="w-5 h-5 text-pink-600"></i>
+       <div class="w-10 h-10 rounded-xl bg-pink-100 flex items-center justify-center pulse-glow"><i data-lucide="target" class="w-5 h-5" style="color:#d946a6;"></i>
        </div>
        <div>
-        <h2 class="text-lg font-bold text-pink-900 font-thai">ข้อเสนอแนะเชิงกลยุทธ์</h2>
-        <p class="text-xs text-pink-600 font-thai">Strategies</p>
+        <h2 class="text-lg font-bold font-thai" style="color:#5a3a6b;">ข้อเสนอแนะเชิงกลยุทธ์</h2>
+        <p class="text-xs font-thai" style="color:#8b5e9f;">Strategies</p>
        </div>
       </div>
-      <div class="space-y-3">
-       <!-- Strategy 1 -->
-       <div class="flex items-start gap-4 bg-gradient-to-r from-blue-100/40 to-transparent rounded-xl p-4 border border-blue-200 slide-right delay-8">
-        <div class="w-9 h-9 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-         <i data-lucide="lightbulb" class="w-4 h-4 text-blue-600"></i>
+      <div class="space-y-3"><!-- Strategy 1 -->
+       <div class="flex items-start gap-4 rounded-xl p-4 border-2 slide-right delay-8" style="background:linear-gradient(to right, rgba(191,219,254,0.4), transparent);border-color:#93c5fd;">
+        <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background-color:#dbeafe;"><i data-lucide="lightbulb" class="w-4 h-4" style="color:#1e40af;"></i>
         </div>
         <div>
-         <div class="flex items-center gap-2 mb-1">
-          <span class="text-blue-700 text-xs font-bold font-display uppercase tracking-wider">Best Practice</span>
+         <div class="flex items-center gap-2 mb-1"><span class="text-xs font-bold font-display uppercase tracking-wider" style="color:#1e40af;">Best Practice</span>
          </div>
-         <p class="text-pink-800 text-sm font-thai">ใช้โมเดลความสำเร็จจากวิชาภาษาไทยกับวิชาอื่น</p>
+         <p class="text-sm font-thai" style="color:#5a3a6b;">ใช้โมเดลความสำเร็จจากวิชาภาษาไทยกับวิชาอื่น</p>
         </div>
        </div><!-- Strategy 2 -->
-       <div class="flex items-start gap-4 bg-gradient-to-r from-amber-100/40 to-transparent rounded-xl p-4 border border-amber-200 slide-right delay-9">
-        <div class="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-         <i data-lucide="refresh-cw" class="w-4 h-4 text-amber-700"></i>
+       <div class="flex items-start gap-4 rounded-xl p-4 border-2 slide-right delay-9" style="background:linear-gradient(to right, rgba(253,224,71,0.3), transparent);border-color:#fde047;">
+        <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background-color:#fef08a;"><i data-lucide="refresh-cw" class="w-4 h-4" style="color:#92400e;"></i>
         </div>
         <div>
-         <div class="flex items-center gap-2 mb-1">
-          <span class="text-amber-800 text-xs font-bold font-display uppercase tracking-wider">Recalibration</span>
+         <div class="flex items-center gap-2 mb-1"><span class="text-xs font-bold font-display uppercase tracking-wider" style="color:#92400e;">Recalibration</span>
          </div>
-         <p class="text-pink-800 text-sm font-thai">ปูพื้นฐานคณิตศาสตร์ใหม่ เลี่ยงการเร่งสอนเนื้อหายาก</p>
+         <p class="text-sm font-thai" style="color:#5a3a6b;">ปูพื้นฐานคณิตศาสตร์ใหม่ เลี่ยงการเร่งสอนเนื้อหายาก</p>
         </div>
        </div><!-- Strategy 3 -->
-       <div class="flex items-start gap-4 bg-gradient-to-r from-purple-100/40 to-transparent rounded-xl p-4 border border-purple-200 slide-right delay-9">
-        <div class="w-9 h-9 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-         <i data-lucide="users" class="w-4 h-4 text-purple-600"></i>
+       <div class="flex items-start gap-4 rounded-xl p-4 border-2 slide-right delay-9" style="background:linear-gradient(to right, rgba(243,232,255,0.4), transparent);border-color:#e9d5ff;">
+        <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background-color:#f3e8ff;"><i data-lucide="users" class="w-4 h-4" style="color:#7c3aed;"></i>
         </div>
         <div>
-         <div class="flex items-center gap-2 mb-1">
-          <span class="text-purple-700 text-xs font-bold font-display uppercase tracking-wider">Peer-to-Peer</span>
+         <div class="flex items-center gap-2 mb-1"><span class="text-xs font-bold font-display uppercase tracking-wider" style="color:#7c3aed;">Peer-to-Peer</span>
          </div>
-         <p class="text-pink-800 text-sm font-thai">จับคู่เด็กเก่งช่วยเด็กอ่อน ลดช่องว่างคะแนนในห้องเรียน</p>
+         <p class="text-sm font-thai" style="color:#5a3a6b;">จับคู่เด็กเก่งช่วยเด็กอ่อน ลดช่องว่างคะแนนในห้องเรียน</p>
         </div>
        </div>
       </div>
      </div>
     </section><!-- Footer -->
     <footer class="text-center pb-6 fade-up delay-9">
-     <div class="inline-flex items-center gap-2 text-pink-600 text-xs font-thai">
-      <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i> <span>ข้อมูลจากผลสอบ O-NET ม.3 ปีการศึกษา 2566-2568 | สทศ.</span>
+     <div class="inline-flex items-center gap-2 text-xs font-thai" style="color:#8b5e9f;"><i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i> <span>ข้อมูลจากผลสอบ O-NET ม.3 ปีการศึกษา 2566-2568 | สทศ.</span>
      </div>
     </footer>
    </div>
@@ -326,11 +297,11 @@ tailwind.config = {
     main_title: 'บทวิเคราะห์ผล O-NET ม.3',
     school_name: 'โรงเรียนซับสมบูรณ์วิทยาคม',
     subtitle: 'กลยุทธ์เพื่อการยกระดับผลสัมฤทธิ์',
-    background_color: '#fdf2f8',
+    background_color: '#f5f1fa',
     surface_color: '#ffffff',
-    text_color: '#831843',
-    primary_action_color: '#ec4899',
-    secondary_action_color: '#a855f7',
+    text_color: '#5a3a6b',
+    primary_action_color: '#d946a6',
+    secondary_action_color: '#7c5a96',
     font_family: 'Noto Sans Thai',
     font_size: 16
   };
@@ -344,7 +315,7 @@ tailwind.config = {
 
     const wrapper = document.getElementById('app-wrapper');
     const bg = t('background_color');
-    wrapper.style.background = `linear-gradient(145deg, ${bg} 0%, ${adjustColor(bg, 10)} 40%, ${adjustColor(bg, 20)} 100%)`;
+    wrapper.style.background = `linear-gradient(145deg, ${bg} 0%, ${adjustColor(bg, 15)} 40%, #ffffff 100%)`;
 
     // Font
     const font = t('font_family');
@@ -395,5 +366,5 @@ tailwind.config = {
 
   lucide.createIcons();
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e55266083eb894c',t:'MTc3NTAyMDg4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e552e22261e894c',t:'MTc3NTAyMTIwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
