@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="th" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;500;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans Thai', sans-serif; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes pulse-ring { 0%{transform:scale(.8);opacity:1} 100%{transform:scale(1.6);opacity:0} }
+    .float { animation: float 3s ease-in-out infinite; }
+    .pulse-ring { animation: pulse-ring 2s ease-out infinite; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full flex items-center justify-center relative overflow-hidden" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);"><!-- Decorative circles -->
+   <div class="absolute top-1/4 left-1/4 w-64 h-64 rounded-full opacity-10" style="background: radial-gradient(circle, #f59e0b, transparent);"></div>
+   <div class="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full opacity-10" style="background: radial-gradient(circle, #3b82f6, transparent);"></div>
+   <div class="text-center px-6 relative z-10"><!-- Icon -->
+    <div class="relative inline-block mb-8 float">
+     <div class="w-24 h-24 rounded-2xl bg-amber-500/20 flex items-center justify-center border border-amber-500/30"><i data-lucide="hard-hat" style="width:48px;height:48px;color:#f59e0b;"></i>
+     </div>
+     <div class="absolute inset-0 rounded-2xl border border-amber-500/40 pulse-ring"></div>
+    </div><!-- Main message -->
+    <h1 id="main-text" class="text-2xl md:text-4xl font-bold text-white mb-4">กำลังรอข้อมูลนักเรียนใหม่</h1>
+    <p class="text-slate-400 text-sm md:text-base">ระบบอยู่ระหว่างการเตรียมข้อมูล กรุณากลับมาใหม่ภายหลัง</p><!-- Progress dots -->
+    <div class="flex justify-center gap-2 mt-8"><span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse" style="animation-delay:.3s"></span> <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse" style="animation-delay:.6s"></span>
+    </div>
+   </div>
+  </div>
+  <script>
+  lucide.createIcons();
+
+  const defaultConfig = {
+    main_message: 'กำลังรอข้อมูลนักเรียนใหม่',
+    background_color: '#0f172a',
+    accent_color: '#f59e0b',
+    text_color: '#ffffff',
+    font_family: 'Noto Sans Thai',
+    font_size: 16
+  };
+
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => {
+      const msg = config.main_message || defaultConfig.main_message;
+      document.getElementById('main-text').textContent = msg;
+
+      const app = document.getElementById('app');
+      app.style.background = `linear-gradient(135deg, ${config.background_color || defaultConfig.background_color} 0%, #1e293b 50%, ${config.background_color || defaultConfig.background_color} 100%)`;
+
+      const el = document.getElementById('main-text');
+      el.style.color = config.text_color || defaultConfig.text_color;
+      const font = config.font_family || defaultConfig.font_family;
+      el.style.fontFamily = `${font}, sans-serif`;
+      const base = config.font_size || defaultConfig.font_size;
+      el.style.fontSize = `${base * 2}px`;
+    },
+    mapToCapabilities: (config) => ({
+      recolorables: [
+        { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+        { get: () => config.accent_color || defaultConfig.accent_color, set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+        { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } }
+      ],
+      borderables: [],
+      fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+      fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['main_message', config.main_message || defaultConfig.main_message]
+    ])
+  });
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f8ea55eb5004f52',t:'MTc3ODMwODEyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
