@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การใช้ภาษาอังกฤษเพื่อสนทนาโต้ตอบ - ม.1</title>
+    
+    <!-- Google Fonts: Sarabun สำหรับภาษาไทย -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           CSS RESET & BASE STYLES
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #fef3c7 100%);
+            color: #1e3a8a;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==========================================
+           ANIMATIONS
+           ========================================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================
+           HERO SECTION
+           ========================================== */
+        .hero {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 3rem 1rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .hero::before {
+            content: "🎓";
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 3rem;
+            animation: float 3s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        .hero::after {
+            content: "🌍";
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 3rem;
+            animation: float 3s ease-in-out infinite reverse;
+            opacity: 0.3;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-description {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.15);
+            padding: 1.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        /* ==========================================
+           IMPORTANCE SECTION
+           ========================================== */
+        .importance {
+            padding: 3rem 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #1e40af;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #fbbf24;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .importance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .importance-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #3b82f6;
+        }
+
+        .importance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+        }
+
+        .importance-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .importance-card h3 {
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .importance-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* ==========================================
+           SELF INTRODUCTION SECTION
+           ========================================== */
+        .self-intro {
+            background: white;
+            padding: 3rem 1rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border: 3px dashed #f59e0b;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .example-box:hover {
+            transform: scale(1.02);
+        }
+
+        .example-label {
+            background: #3b82f6;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .english-text {
+            font-size: 1.3rem;
+            color: #1e3a8a;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .thai-text {
+            color: #64748b;
+            font-size: 1.1rem;
+            padding-left: 2rem;
+        }
+
+        /* ==========================================
+           VOCABULARY SECTION
+           ========================================== */
+        .vocabulary {
+            padding: 3rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .vocab-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vocab-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #3b82f6, #fbbf24);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .vocab-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .vocab-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .vocab-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .vocab-word {
+            font-size: 1.3rem;
+            color: #1e40af;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .vocab-meaning {
+            color: #f59e0b;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* ==========================================
+           CONVERSATION SECTION
+           ========================================== */
+        .conversation {
+            background: linear-gradient(135deg, #dbeafe 0%, #fef3c7 100%);
+            padding: 3rem 1rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            border-radius: 30px;
+        }
+
+        .chat-container {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .chat-bubble {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: relative;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .chat-bubble.person-a {
+            border-left: 5px solid #3b82f6;
+            margin-right: 20%;
+        }
+
+        .chat-bubble.person-b {
+            border-right: 5px solid #fbbf24;
+            margin-left: 20%;
+            background: #fffbeb;
+        }
+
+        .speaker-name {
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .chat-text {
+            font-size: 1.1rem;
+            color: #1e3a8a;
+            line-height: 1.8;
+        }
+
+        .chat-thai {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* ==========================================
+           ACTIVITY SECTION
+           ========================================== */
+        .activity {
+            padding: 3rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .challenge-box {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .challenge-box::before {
+            content: "🎯";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+
+        .challenge-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        .checklist {
+            list-style: none;
+            text-align: left;
+            max-width: 400px;
+            margin: 2rem auto;
+        }
+
+        .checklist-item {
+            background: rgba(255,255,255,0.2);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .checklist-item:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(10px);
+        }
+
+        .checkbox {
+            width: 30px;
+            height: 30px;
+            border: 3px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-item.checked .checkbox {
+            background: #fbbf24;
+            border-color: #fbbf24;
+        }
+
+        .checklist-item.checked .checkbox::after {
+            content: "✓";
+            color: white;
+            font-weight: bold;
+        }
+
+        .checklist-text {
+            font-size: 1.1rem;
+        }
+
+        /* ==========================================
+           FOOTER
+           ========================================== */
+        .footer {
+            background: #1e3a8a;
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 3rem;
+            border-radius: 50px 50px 0 0;
+        }
+
+        .footer-text {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .footer-emoji {
+            font-size: 3rem;
+            margin: 1rem 0;
+        }
+
+        .footer-note {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================
+           RESPONSIVE DESIGN
+           ========================================== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .importance-grid,
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-bubble.person-a,
+            .chat-bubble.person-b {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .example-box {
+                padding: 1.5rem;
+            }
+
+            .english-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                border-radius: 0 0 30px 30px;
+            }
+
+            .self-intro,
+            .conversation {
+                border-radius: 20px;
+                margin: 1rem;
+            }
+
+            .challenge-box {
+                padding: 2rem 1rem;
+            }
+
+            .footer-text {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ==========================================
+           UTILITY CLASSES
+           ========================================== */
+        .highlight {
+            background: linear-gradient(120deg, #fbbf24 0%, #fbbf24 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 4px;
+            font-weight: 600;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) { top: 10%; left: 10%; font-size: 4rem; animation-delay: 0s; }
+        .shape:nth-child(2) { top: 20%; right: 10%; font-size: 3rem; animation-delay: 1s; }
+        .shape:nth-child(3) { bottom: 20%; left: 5%; font-size: 5rem; animation-delay: 2s; }
+        .shape:nth-child(4) { bottom: 10%; right: 5%; font-size: 3.5rem; animation-delay: 3s; }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape">📚</div>
+        <div class="shape">✏️</div>
+        <div class="shape">🎒</div>
+        <div class="shape">🌟</div>
+    </div>
+
+    <!-- ==========================================
+         HERO SECTION
+         ========================================== -->
+    <section class="hero">
+        <h1>🗣️ การใช้ภาษาอังกฤษเพื่อสนทนาโต้ตอบ</h1>
+        <p class="hero-subtitle">นำเสนอข้อมูลที่เกี่ยวข้องกับตนเอง ชุมชน และท้องถิ่น</p>
+        <div class="hero-description">
+            <p>เรียนรู้ทักษะการสื่อสารภาษาอังกฤษในชีวิตประจำวัน 
+            เพื่อสร้างความมั่นใจในการพูดคุย แนะนำตนเอง และบอกเล่าเรื่องราวเกี่ยวกับชุมชนของเรา 
+            ให้เพื่อนๆ ทั้งชาวไทยและต่างชาติได้รู้จัก!</p>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         IMPORTANCE SECTION
+         ========================================== -->
+    <section class="importance animate-on-scroll">
+        <h2 class="section-title">💡 ทำไมต้องเรียนเรื่องนี้?</h2>
+        <div class="importance-grid">
+            <div class="importance-card">
+                <span class="importance-icon">🌏</span>
+                <h3>สื่อสารกับคนทั่วโลก</h3>
+                <p>ภาษาอังกฤษเป็นภาษาสากลที่ใช้สื่อสารกับผู้คนจากต่างประเทศ</p>
+            </div>
+            <div class="importance-card">
+                <span class="importance-icon">🎓</span>
+                <h3>แนะนำตนเองได้อย่างมั่นใจ</h3>
+                <p>สามารถบอกชื่อ อายุ โรงเรียน และข้อมูลส่วนตัวเป็นภาษาอังกฤษ</p>
+            </div>
+            <div class="importance-card">
+                <span class="importance-icon">🏘️</span>
+                <h3>ภูมิใจในชุมชน</h3>
+                <p>บอกเล่าเรื่องราวเกี่ยวกับชุมชนและท้องถิ่นของเราให้ผู้อื่นฟัง</p>
+            </div>
+            <div class="importance-card">
+                <span class="importance-icon">🚀</span>
+                <h3>เปิดโอกาสในอนาคต</h3>
+                <p>ทักษะภาษาอังกฤษช่วยเปิดประตูสู่โอกาสทางการศึกษาและการทำงาน</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SELF INTRODUCTION SECTION
+         ========================================== -->
+    <section class="self-intro animate-on-scroll">
+        <h2 class="section-title">👋 การแนะนำตนเอง (Self Introduction)</h2>
+        
+        <div class="example-box">
+            <span class="example-label">ตัวอย่างที่ 1</span>
+            <div class="english-text"> Hello, my name is Tina.</div>
+            <div class="thai-text">สวัสดีค่ะ ฉันชื่อติน่า</div>
+        </div>
+
+        <div class="example-box">
+            <span class="example-label">ตัวอย่างที่ 2</span>
+            <div class="english-text">🎂 I am 13 years old.</div>
+            <div class="thai-text">ฉันอายุ 13 ปี</div>
+        </div>
+
+        <div class="example-box">
+            <span class="example-label">ตัวอย่างที่ 3</span>
+            <div class="english-text">🏫 I study at Wangyaiwittayakhom School.</div>
+            <div class="thai-text">ฉันเรียนที่โรงเรียนวังยายวิทยาคม</div>
+        </div>
+
+        <div class="example-box">
+            <span class="example-label">ตัวอย่างที่ 4</span>
+            <div class="english-text">😊 I like playing football and reading books.</div>
+            <div class="thai-text">ฉันชอบเล่นฟุตบอลและอ่านหนังสือ</div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SCHOOL & COMMUNITY SECTION
+         ========================================== -->
+    <section class="self-intro animate-on-scroll" style="background: linear-gradient(135deg, #fef3c7 0%, #fff 100%);">
+        <h2 class="section-title">🏘️ การแนะนำโรงเรียนและชุมชน</h2>
+        
+        <div class="example-box" style="background: white; border-color: #3b82f6;">
+            <span class="example-label" style="background: #f59e0b;">ประโยคที่ 1</span>
+            <div class="english-text">📍 My school is in Tak province.</div>
+            <div class="thai-text">โรงเรียนของฉันอยู่ในจังหวัดตาก</div>
+        </div>
+
+        <div class="example-box" style="background: white; border-color: #3b82f6;">
+            <span class="example-label" style="background: #f59e0b;">ประโยคที่ 2</span>
+            <div class="english-text">🤝 Our community is friendly and peaceful.</div>
+            <div class="thai-text">ชุมชนของเรามีมิตรภาพและสงบสุข</div>
+        </div>
+
+        <div class="example-box" style="background: white; border-color: #3b82f6;">
+            <span class="example-label" style="background: #f59e0b;">ประโยคที่ 3</span>
+            <div class="english-text">🏞️ There are many beautiful natural places in my hometown.</div>
+            <div class="thai-text">มีสถานที่ธรรมชาติที่สวยงามมากมายในบ้านเกิดของฉัน</div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         VOCABULARY SECTION
+         ========================================== -->
+    <section class="vocabulary animate-on-scroll">
+        <h2 class="section-title">📖 คำศัพท์สำคัญ (Vocabulary)</h2>
+        <p style="text-align: center; color: #64748b; margin-bottom: 1rem;">คลิกที่การ์ดเพื่อดูรายละเอียด</p>
+        
+        <div class="vocab-grid">
+            <div class="vocab-card" onclick="flipCard(this)">
+                <span class="vocab-emoji">🏘️</span>
+                <div class="vocab-word">community</div>
+                <div class="vocab-meaning">ชุมชน</div>
+            </div>
+
+            <div class="vocab-card" onclick="flipCard(this)">
+                <span class="vocab-emoji">🏡</span>
+                <div class="vocab-word">hometown</div>
+                <div class="vocab-meaning">บ้านเกิด</div>
+            </div>
+
+            <div class="vocab-card" onclick="flipCard(this)">
+                <span class="vocab-emoji">👨‍🎓</span>
+                <div class="vocab-word">student</div>
+                <div class="vocab-meaning">นักเรียน</div>
+            </div>
+
+            <div class="vocab-card" onclick="flipCard(this)">
+                <span class="vocab-emoji">🏫</span>
+                <div class="vocab-word">school</div>
+                <div class="vocab-meaning">โรงเรียน</div>
+            </div>
+
+            <div class="vocab-card" onclick="flipCard(this)">
+                <span class="vocab-emoji">🗺️</span>
+                <div class="vocab-word">province</div>
+                <div class="vocab-meaning">จังหวัด</div>
+            </div>
+
+            <div class="vocab-card" onclick="flipCard(this)">
+                <span class="vocab-emoji">🌳</span>
+                <div class="vocab-word">natural</div>
+                <div class="vocab-meaning">ธรรมชาติ</div>
+            </div>
+
+            <div class="vocab-card" onclick="flipCard(this)">
+                <span class="vocab-emoji">😊</span>
+                <div class="vocab-word">friendly</div>
+                <div class="vocab-meaning">เป็นมิตร</div>
+            </div>
+
+            <div class="vocab-card" onclick="flipCard(this)">
+                <span class="vocab-emoji">☮️</span>
+                <div class="vocab-word">peaceful</div>
+                <div class="vocab-meaning">สงบสุข</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         CONVERSATION SECTION
+         ========================================== -->
+    <section class="conversation animate-on-scroll">
+        <h2 class="section-title">💬 บทสนทนาสั้นๆ (Mini Conversation)</h2>
+        <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">ตัวอย่างการสนทนาแนะนำตนเอง</p>
+        
+        <div class="chat-container">
+            <div class="chat-bubble person-a">
+                <div class="speaker-name">👧 Tina</div>
+                <div class="chat-text">
+                    Hello! My name is Tina. What's your name?
+                    <div class="chat-thai">สวัสดี! ฉันชื่อติน่า คุณชื่ออะไรคะ?</div>
+                </div>
+            </div>
+
+            <div class="chat-bubble person-b">
+                <div class="speaker-name" style="color: #d97706;">👦 Mike</div>
+                <div class="chat-text">
+                    Hi Tina! I'm Mike. Nice to meet you. Where are you from?
+                    <div class="chat-thai">สวัสดีติน่า! ฉันชื่อไมค์ ยินดีที่ได้รู้จัก คุณมาจากไหน?</div>
+                </div>
+            </div>
+
+            <div class="chat-bubble person-a">
+                <div class="speaker-name">👧 Tina</div>
+                <div class="chat-text">
+                    I'm from Tak province. I study at Wangyaiwittayakhom School. How about you?
+                    <div class="chat-thai">ฉันมาจากจังหวัดตาก เรียนที่โรงเรียนวังยายวิทยาคม แล้วคุณล่ะ?</div>
+                </div>
+            </div>
+
+            <div class="chat-bubble person-b">
+                <div class="speaker-name" style="color: #d97706;">👦 Mike</div>
+                <div class="chat-text">
+                    I'm from Chiang Mai. Our community is very beautiful with mountains and rivers.
+                    <div class="chat-thai">ฉันมาจากเชียงใหม่ ชุมชนของเรารายล้อมไปด้วยภูเขาและแม่น้ำที่สวยงามมาก</div>
+                </div>
+            </div>
+
+            <div class="chat-bubble person-a">
+                <div class="speaker-name">👧 Tina</div>
+                <div class="chat-text">
+                    That's wonderful! I hope we can be friends.
+                    <div class="chat-thai">เยี่ยมไปเลย! ฉันหวังว่าเราจะเป็นเพื่อนกันนะ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         ACTIVITY SECTION
+         ========================================== -->
+    <section class="activity animate-on-scroll">
+        <div class="challenge-box">
+            <h2 class="challenge-title">🎯 กิจกรรมท้ายบท: ฝึกพูดแนะนำตนเอง</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
+                ลองฝึกพูดแนะนำตนเองเป็นภาษาอังกฤษตามหัวข้อด้านล่างนี้ แล้วทำเครื่องหมายเมื่อทำได้แล้วนะ!
+            </p>
+
+            <ul class="checklist" id="checklist">
+                <li class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="checkbox"></div>
+                    <span class="checklist-text">บอกชื่อและนามสกุลเป็นภาษาอังกฤษ</span>
+                </li>
+                <li class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="checkbox"></div>
+                    <span class="checklist-text">บอกอายุและวันเดือนปีเกิด</span>
+                </li>
+                <li class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="checkbox"></div>
+                    <span class="checklist-text">บอกชื่อโรงเรียนและจังหวัด</span>
+                </li>
+                <li class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="checkbox"></div>
+                    <span class="checklist-text">บอกงานอดิเรกที่ชอบ</span>
+                </li>
+                <li class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="checkbox"></div>
+                    <span class="checklist-text">อธิบายเกี่ยวกับชุมชนของตนเอง</span>
+                </li>
+                <li class="checklist-item" onclick="toggleCheck(this)">
+                    <div class="checkbox"></div>
+                    <span class="checklist-text">พูดแนะนำตนเองหน้าชั้นเรียน</span>
+                </li>
+            </ul>
+
+            <div style="margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.2); border-radius: 15px;">
+                <p style="font-size: 1.2rem; font-weight: 600;">💪 ความท้าทายพิเศษ!</p>
+                <p style="font-size: 1rem; margin-top: 0.5rem;">อัดวิดีโอแนะนำตนเองเป็นภาษาอังกฤษ ความยาว 1 นาที แล้วส่งครู</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+    <footer class="footer">
+        <div class="footer-emoji">🌟</div>
+        <div class="footer-text">Let's Speak English with Confidence!</div>
+        <p class="footer-note">มาพูดภาษาอังกฤษอย่างมั่นใจกันเถอะ!</p>
+        <p style="margin-top: 2rem; opacity: 0.6; font-size: 0.85rem;">
+            © 2026 สื่อการเรียนรู้ภาษาอังกฤษ ระดับชั้นมัธยมศึกษาปีที่ 1
+        </p>
+    </footer>
+
+    <!-- ==========================================
+         JAVASCRIPT
+         ========================================== -->
+    <script>
+        // ==========================================
+        // SCROLL ANIMATION OBSERVER
+        // ==========================================
+        // ใช้ Intersection Observer เพื่อตรวจจับเมื่อ element เข้าสู่ viewport
+        // แล้วเพิ่ม class 'visible' เพื่อ trigger animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // เลือกทุก element ที่มี class animate-on-scroll
+        document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+
+        // ==========================================
+        // CHECKLIST FUNCTIONALITY
+        // ==========================================
+        // ฟังก์ชันสำหรับ toggle การ check/uncheck รายการใน checklist
+        function toggleCheck(element) {
+            element.classList.toggle('checked');
+            
+            // เพิ่ม animation เล็กน้อยเมื่อ click
+            element.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                element.style.transform = '';
+            }, 150);
+
+            // ตรวจสอบว่า check ครบทุกข้อหรือไม่
+            const allItems = document.querySelectorAll('.checklist-item');
+            const checkedItems = document.querySelectorAll('.checklist-item.checked');
+            
+            if (allItems.length === checkedItems.length) {
+                // แสดงข้อความแสดงความยินดีเมื่อทำครบทุกข้อ
+                setTimeout(() => {
+                    alert('🎉 ยินดีด้วย! คุณทำกิจกรรมครบทุกข้อแล้ว! เก่งมาก!');
+                }, 300);
+            }
+        }
+
+        // ==========================================
+        // VOCABULARY CARD FLIP EFFECT
+        // ==========================================
+        // ฟังก์ชันสำหรับ flip การ์ดคำศัพท์ (สามารถปรับแต่งเพิ่มเติมได้)
+        function flipCard(card) {
+            // เพิ่ม animation pulse เมื่อ click
+            card.style.animation = 'pulse 0.3s ease';
+            setTimeout(() => {
+                card.style.animation = '';
+            }, 300);
+
+            // เปลี่ยนสีพื้นหลังชั่วคราว
+            const originalBg = card.style.background;
+            card.style.background = '#dbeafe';
+            setTimeout(() => {
+                card.style.background = originalBg;
+            }, 300);
+        }
+
+        // ==========================================
+        // SMOOTH SCROLL FOR BETTER UX
+        // ==========================================
+        // ทำให้การ scroll เรียบรื่นขึ้น
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ==========================================
+        // PROGRESS TRACKING (Optional Feature)
+        // ==========================================
+        // บันทึก progress ของนักเรียนใน localStorage
+        window.addEventListener('beforeunload', () => {
+            const checkedItems = document.querySelectorAll('.checklist-item.checked').length;
+            localStorage.setItem('englishLessonProgress', checkedItems);
+        });
+
+        // โหลด progress เมื่อเปิดหน้าเว็บ
+        window.addEventListener('load', () => {
+            const savedProgress = localStorage.getItem('englishLessonProgress');
+            if (savedProgress) {
+                console.log(`Progress loaded: ${savedProgress} items checked`);
+            }
+        });
+
+        // ==========================================
+        // CONFETTI EFFECT ON COMPLETION
+        // ==========================================
+        // ฟังก์ชันสำหรับสร้าง confetti เมื่อทำกิจกรรมครบ
+        function createConfetti() {
+            const colors = ['#3b82f6', '#fbbf24', '#10b981', '#ef4444', '#8b5cf6'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = '50%';
+                confetti.style.zIndex = '9999';
+                confetti.style.pointerEvents = 'none';
+                document.body.appendChild(confetti);
+
+                const animationDuration = Math.random() * 3 + 2;
+                confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: animationDuration * 1000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }).onfinish = () => confetti.remove();
+            }
+        }
+
+        // ตรวจสอบเมื่อ checklist ครบทุกข้อ
+        const checklistObserver = new MutationObserver((mutations) => {
+            const allItems = document.querySelectorAll('.checklist-item');
+            const checkedItems = document.querySelectorAll('.checklist-item.checked');
+            
+            if (allItems.length === checkedItems.length && checkedItems.length > 0) {
+                createConfetti();
+            }
+        });
+
+        const checklistContainer = document.getElementById('checklist');
+        if (checklistContainer) {
+            checklistObserver.observe(checklistContainer, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        }
+
+        // ==========================================
+        // INTERACTIVE HOVER EFFECTS
+        // ==========================================
+        // เพิ่ม interactive effects สำหรับ cards
+        document.querySelectorAll('.importance-card, .vocab-card, .example-box').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s ease';
+            });
+        });
+
+        // ==========================================
+        // CONSOLE WELCOME MESSAGE
+        // ==========================================
+        console.log('%c📚 Welcome to English Learning!', 'color: #3b82f6; font-size: 20px; font-weight: bold;');
+        console.log('%cLet\'s learn English together!', 'color: #fbbf24; font-size: 14px;');
+    </script>
+</body>
+</html>
