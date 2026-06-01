@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accepting & Refusing in Cultural Tourism | ม.4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4A843;
+            --gold-light: #F5E6B8;
+            --gold-dark: #B8860B;
+            --navy: #1B3A5C;
+            --navy-light: #2C5F8A;
+            --navy-dark: #0D2137;
+            --emerald: #2D8B57;
+            --emerald-light: #4CAF7D;
+            --emerald-dark: #1A6B42;
+            --cream: #FDF8F0;
+            --cream-dark: #F0E6D3;
+            --white: #FFFFFF;
+            --text-dark: #2C2C2C;
+            --text-light: #F5F5F5;
+            --shadow: 0 8px 32px rgba(27, 58, 92, 0.12);
+            --shadow-hover: 0 12px 40px rgba(27, 58, 92, 0.2);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 4px;
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            color: var(--navy-dark);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: var(--navy);
+            color: var(--gold-light);
+            transform: translateY(-3px);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(253, 248, 240, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 10px 0;
+            border-bottom: 2px solid var(--gold-light);
+            transition: var(--transition);
+        }
+        .navbar.scrolled {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--navy);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-logo span {
+            color: var(--gold-dark);
+        }
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--navy);
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--gold-light);
+            color: var(--navy-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 60px;
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 40%, var(--navy-light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(212, 168, 67, 0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 30%, rgba(45, 139, 87, 0.1) 0%, transparent 50%);
+            animation: heroGlow 8s ease-in-out infinite alternate;
+        }
+        @keyframes heroGlow {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-2%, 2%) rotate(3deg); }
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(212, 168, 67, 0.2);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.3;
+            margin-bottom: 16px;
+        }
+        .hero h1 .highlight {
+            color: var(--gold);
+            position: relative;
+        }
+        .hero h2 {
+            font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+            font-weight: 400;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        .hero-emojis {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .hero-emojis span {
+            animation: float 3s ease-in-out infinite;
+        }
+        .hero-emojis span:nth-child(2) { animation-delay: 0.3s; }
+        .hero-emojis span:nth-child(3) { animation-delay: 0.6s; }
+        .hero-emojis span:nth-child(4) { animation-delay: 0.9s; }
+        .hero-emojis span:nth-child(5) { animation-delay: 1.2s; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold);
+            color: var(--navy-dark);
+            padding: 14px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(212, 168, 67, 0.4);
+        }
+        .hero-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(212, 168, 67, 0.5);
+        }
+        .hero-wave {
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            z-index: 3;
+        }
+        .hero-wave svg {
+            display: block;
+            width: 100%;
+            height: 80px;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 80px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .section-header h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+        .section-header h2 .gold {
+            color: var(--gold-dark);
+        }
+        .section-header p {
+            font-size: 1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .section-divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--emerald));
+            border-radius: 2px;
+            margin: 16px auto 0;
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Importance Section */
+        .importance-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+        }
+        .importance-card::after {
+            content: '🌍';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            opacity: 0.15;
+        }
+        .importance-card p {
+            font-size: 1.05rem;
+            line-height: 2;
+            color: #444;
+        }
+        .importance-card p + p {
+            margin-top: 16px;
+        }
+        .importance-card .highlight-text {
+            background: linear-gradient(120deg, var(--gold-light) 0%, var(--gold-light) 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--navy-dark);
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        /* Phrase Card */
+        .phrase-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid var(--gold);
+        }
+        .phrase-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        .phrase-card .phrase-en {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+        .phrase-card .phrase-th {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 400;
+        }
+        .phrase-card .phrase-icon {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 1.5rem;
+            opacity: 0.3;
+        }
+
+        /* Accepting Section */
+        .accept-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            padding: 80px 20px;
+        }
+        .accept-section .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Refusing Section */
+        .refuse-section {
+            background: linear-gradient(135deg, #fef3c7 0%, #fefce8 100%);
+            padding: 80px 20px;
+        }
+        .refuse-section .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Dialogue Card */
+        .dialogue-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            border-left: 4px solid var(--navy-light);
+            transition: var(--transition);
+        }
+        .dialogue-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+        .dialogue-card .speaker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 0.9rem;
+        }
+        .dialogue-card .speaker .emoji {
+            font-size: 1.3rem;
+        }
+        .dialogue-card .dialogue-text {
+            font-size: 1rem;
+            color: #555;
+            padding-left: 36px;
+            margin-bottom: 12px;
+        }
+        .dialogue-card .dialogue-text strong {
+            color: var(--emerald);
+        }
+
+        /* Structure Section */
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .structure-box {
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .structure-box:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        .structure-box.accept-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid var(--emerald-light);
+        }
+        .structure-box.refuse-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid var(--gold);
+        }
+        .structure-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .structure-box.accept-box h3 {
+            color: var(--emerald-dark);
+        }
+        .structure-box.refuse-box h3 {
+            color: var(--gold-dark);
+        }
+        .structure-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        .structure-item .check {
+            font-size: 1.1rem;
+        }
+
+        /* Etiquette Section */
+        .etiquette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .etiquette-card {
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .etiquette-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        .etiquette-card.do-card {
+            background: var(--white);
+            border-top: 4px solid var(--emerald);
+        }
+        .etiquette-card.dont-card {
+            background: var(--white);
+            border-top: 4px solid #e53e3e;
+        }
+        .etiquette-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .etiquette-card.do-card h3 {
+            color: var(--emerald-dark);
+        }
+        .etiquette-card.dont-card h3 {
+            color: #c53030;
+        }
+        .etiquette-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        /* Vocabulary Section */
+        .vocab-section {
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+            padding: 80px 20px;
+        }
+        .vocab-section .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .vocab-section .section-header h2 {
+            color: var(--white);
+        }
+        .vocab-section .section-header p {
+            color: rgba(255,255,255,0.7);
+        }
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .vocab-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        .vocab-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-3px);
+        }
+        .vocab-card .vocab-en {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gold-light);
+            margin-bottom: 4px;
+        }
+        .vocab-card .vocab-th {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.8);
+        }
+        .vocab-card .vocab-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        /* Summary Section */
+        .summary-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            border-radius: var(--radius);
+            padding: 40px;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        .summary-card::before {
+            content: '📝';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            font-size: 6rem;
+            opacity: 0.08;
+        }
+        .summary-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            color: var(--gold-light);
+        }
+        .summary-card p {
+            font-size: 1rem;
+            line-height: 2;
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            padding: 80px 20px;
+        }
+        .quiz-section .section-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .quiz-container {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+        .quiz-progress {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        .quiz-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: var(--transition);
+        }
+        .quiz-dot.active {
+            background: var(--navy);
+            transform: scale(1.2);
+        }
+        .quiz-dot.correct {
+            background: var(--emerald);
+        }
+        .quiz-dot.wrong {
+            background: #e53e3e;
+        }
+        .quiz-question {
+            display: none;
+        }
+        .quiz-question.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .quiz-question h3 {
+            font-size: 1.15rem;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+        .quiz-question .q-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--navy-dark);
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--cream);
+            border-radius: 10px;
+            border-left: 4px solid var(--gold);
+        }
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            font-weight: 500;
+            background: var(--white);
+        }
+        .quiz-option:hover {
+            border-color: var(--navy-light);
+            background: #f8f9ff;
+        }
+        .quiz-option.selected {
+            border-color: var(--navy);
+            background: var(--navy);
+            color: var(--white);
+        }
+        .quiz-option.correct {
+            border-color: var(--emerald);
+            background: #ecfdf5;
+            color: var(--emerald-dark);
+        }
+        .quiz-option.wrong {
+            border-color: #e53e3e;
+            background: #fef2f2;
+            color: #c53030;
+        }
+        .quiz-option .opt-letter {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--cream-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+        .quiz-option.selected .opt-letter {
+            background: var(--gold);
+            color: var(--navy-dark);
+        }
+        .quiz-option.correct .opt-letter {
+            background: var(--emerald);
+            color: white;
+        }
+        .quiz-option.wrong .opt-letter {
+            background: #e53e3e;
+            color: white;
+        }
+        .quiz-feedback {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-weight: 500;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .quiz-feedback.correct {
+            background: #ecfdf5;
+            color: var(--emerald-dark);
+            border: 1px solid var(--emerald-light);
+            display: block;
+        }
+        .quiz-feedback.wrong {
+            background: #fef2f2;
+            color: #c53030;
+            border: 1px solid #fca5a5;
+            display: block;
+        }
+        .quiz-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 24px;
+            gap: 12px;
+        }
+        .quiz-btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Prompt', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .quiz-btn.next {
+            background: var(--navy);
+            color: var(--white);
+        }
+        .quiz-btn.next:hover {
+            background: var(--navy-light);
+            transform: translateY(-2px);
+        }
+        .quiz-btn.next:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .quiz-btn.restart {
+            background: var(--gold);
+            color: var(--navy-dark);
+        }
+        .quiz-btn.restart:hover {
+            background: var(--gold-dark);
+            color: var(--white);
+        }
+        .quiz-result {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        .quiz-result.show {
+            display: block;
+        }
+        .quiz-result .result-emoji {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        .quiz-result .result-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--navy);
+        }
+        .quiz-result .result-text {
+            font-size: 1.1rem;
+            color: #666;
+            margin: 8px 0 24px;
+        }
+        .score-bar {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 1s ease;
+            background: linear-gradient(90deg, var(--emerald), var(--emerald-light));
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--navy-dark);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .footer h3 {
+            color: var(--gold-light);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .footer p {
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        .footer .footer-deco {
+            margin-top: 16px;
+            font-size: 1.5rem;
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .nav-container {
+                justify-content: center;
+            }
+            .hero {
+                padding: 100px 20px 50px;
+            }
+            .hero-emojis {
+                font-size: 2rem;
+                gap: 12px;
+            }
+            .section {
+                padding: 60px 16px;
+            }
+            .importance-card,
+            .phrase-card,
+            .dialogue-card,
+            .etiquette-card,
+            .summary-card,
+            .quiz-container {
+                padding: 24px;
+            }
+            .cards-grid,
+            .structure-grid,
+            .etiquette-grid {
+                grid-template-columns: 1fr;
+            }
+            .vocab-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Pattern overlay for Thai feel */
+        .thai-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23D4A843' stroke-width='0.5' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Pulse animation for key elements */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Stagger children animation */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .stagger-children.visible > *:nth-child(1) { transition-delay: 0.05s; }
+        .stagger-children.visible > *:nth-child(2) { transition-delay: 0.1s; }
+        .stagger-children.visible > *:nth-child(3) { transition-delay: 0.15s; }
+        .stagger-children.visible > *:nth-child(4) { transition-delay: 0.2s; }
+        .stagger-children.visible > *:nth-child(5) { transition-delay: 0.25s; }
+        .stagger-children.visible > *:nth-child(6) { transition-delay: 0.3s; }
+        .stagger-children.visible > *:nth-child(7) { transition-delay: 0.35s; }
+        .stagger-children.visible > *:nth-child(8) { transition-delay: 0.4s; }
+        .stagger-children.visible > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" title="กลับด้านบน">⬆</button>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">🏛️ <span>Cultural</span>Tourism English</div>
+            <div class="nav-links">
+                <a href="#hero">🏠 หน้าแรก</a>
+                <a href="#importance">🌍 ความสำคัญ</a>
+                <a href="#accepting">✅ การตอบรับ</a>
+                <a href="#refusing">❌ การปฏิเสธ</a>
+                <a href="#structure">🗣️ โครงสร้าง</a>
+                <a href="#etiquette">⚠️ มารยาท</a>
+                <a href="#vocab">💡 คำศัพท์</a>
+                <a href="#quiz">🎮 Quiz</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="thai-pattern"></div>
+        <div class="hero-content">
+            <div class="hero-badge">📚 English for M.4 Students</div>
+            <div class="hero-emojis">
+                <span>🏯</span>
+                <span>🎭</span>
+                <span>🛕</span>
+                <span>🎪</span>
+                <span>🌺</span>
+            </div>
+            <h1>
+                การตอบรับและการปฏิเสธ<br>
+                ในบริบทของ<br>
+                <span class="highlight">การท่องเที่ยวเชิงวัฒนธรรม</span>
+            </h1>
+            <h2>
+                Accepting and Refusing in Cultural Tourism Contexts<br>
+                ทักษะการสื่อสารภาษาอังกฤษสำหรับนักท่องเที่ยว
+            </h2>
+            <a href="#importance" class="hero-btn">🚀 เริ่มเรียนรู้</a>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+                <path fill="#FDF8F0" d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Importance Section -->
+    <section class="section" id="importance">
+        <div class="section-header reveal">
+            <span class="section-icon">🌍</span>
+            <h2>ความสำคัญ</h2>
+            <p>ทำไมการตอบรับและปฏิเสธอย่างสุภาพจึงสำคัญในการท่องเที่ยวเชิงวัฒนธรรม</p>
+            <div class="section-divider"></div>
+        </div>
+        <div class="importance-card reveal">
+            <p>
+                เมื่อนักท่องเที่ยวเดินทางไปยังสถานที่ทางวัฒนธรรม เช่น <span class="highlight-text">วัด</span> <span class="highlight-text">พิพิธภัณฑ์</span> <span class="highlight-text">งานประเพณี</span> หรือ <span class="highlight-text">ชุมชนท้องถิ่น</span> จำเป็นต้องสื่อสารอย่างสุภาพเมื่อต้องตอบรับหรือปฏิเสธคำเชิญ คำแนะนำ หรือข้อเสนอจากผู้อื่น
+            </p>
+            <p>
+                การใช้ภาษาอย่างเหมาะสมช่วยให้เกิด <span class="highlight-text">ความเข้าใจอันดี</span> และแสดง <span class="highlight-text">ความเคารพต่อวัฒนธรรม</span> ของเจ้าบ้าน สร้างความประทับใจและความสัมพันธ์ที่ดีระหว่างวัฒนธรรมที่แตกต่างกัน 🤝
+            </p>
+        </div>
+    </section>
+
+    <!-- Accepting Section -->
+    <section class="accept-section" id="accepting">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <span class="section-icon">✅</span>
+                <h2>การตอบรับ <span class="gold">(Accepting)</span></h2>
+                <p>รูปแบบและตัวอย่างประโยคสำหรับการตอบรับคำเชิญอย่างสุภาพ</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <h3 class="reveal" style="text-align:center; color: var(--navy); margin-bottom: 24px; font-size: 1.2rem;">📋 รูปแบบพื้นฐาน</h3>
+            <div class="cards-grid stagger-children">
+                <div class="phrase-card">
+                    <span class="phrase-icon">💬</span>
+                    <div class="phrase-en">Yes, please.</div>
+                    <div class="phrase-th">ครับ/ค่ะ ด้วยความยินดี</div>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-icon">👍</span>
+                    <div class="phrase-en">Certainly.</div>
+                    <div class="phrase-th">แน่นอน</div>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-icon">😊</span>
+                    <div class="phrase-en">I'd love to.</div>
+                    <div class="phrase-th">ฉันยินดีมาก</div>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-icon">🌟</span>
+                    <div class="phrase-en">That sounds great.</div>
+                    <div class="phrase-th">ฟังดูดีมาก</div>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-icon">🎉</span>
+                    <div class="phrase-en">Thank you, I'd be happy to join.</div>
+                    <div class="phrase-th">ขอบคุณ ฉันยินดีเข้าร่วม</div>
+                </div>
+            </div>
+
+            <h3 class="reveal" style="text-align:center; color: var(--navy); margin: 50px 0 24px; font-size: 1.2rem;">🎬 ตัวอย่างสถานการณ์</h3>
+
+            <div class="dialogue-card reveal">
+                <div class="speaker"><span class="emoji">👨‍🏫</span> Guide</div>
+                <div class="dialogue-text">"Would you like to visit the local museum?"</div>
+                <div class="speaker"><span class="emoji">🧑</span> Tourist</div>
+                <div class="dialogue-text"><strong>"Yes, I'd love to."</strong></div>
+            </div>
+
+            <div class="dialogue-card reveal">
+                <div class="speaker"><span class="emoji">👩</span> Local Resident</div>
+                <div class="dialogue-text">"Would you like to try our traditional food?"</div>
+                <div class="speaker"><span class="emoji">🧑</span> Tourist</div>
+                <div class="dialogue-text"><strong>"Certainly. Thank you."</strong></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Refusing Section -->
+    <section class="refuse-section" id="refusing">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <span class="section-icon">❌</span>
+                <h2>การปฏิเสธ <span class="gold">(Refusing)</span></h2>
+                <p>รูปแบบและตัวอย่างประโยคสำหรับการปฏิเสธอย่างสุภาพ</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <h3 class="reveal" style="text-align:center; color: var(--navy); margin-bottom: 24px; font-size: 1.2rem;">📋 รูปแบบพื้นฐาน</h3>
+            <div class="cards-grid stagger-children">
+                <div class="phrase-card" style="border-top-color: var(--gold);">
+                    <span class="phrase-icon">🙏</span>
+                    <div class="phrase-en">No, thank you.</div>
+                    <div class="phrase-th">ไม่เป็นไร ขอบคุณ</div>
+                </div>
+                <div class="phrase-card" style="border-top-color: var(--gold);">
+                    <span class="phrase-icon">😅</span>
+                    <div class="phrase-en">I'm afraid I can't.</div>
+                    <div class="phrase-th">เกรงว่าฉันไม่สามารถ</div>
+                </div>
+                <div class="phrase-card" style="border-top-color: var(--gold);">
+                    <span class="phrase-icon">🤞</span>
+                    <div class="phrase-en">Sorry, maybe another time.</div>
+                    <div class="phrase-th">ขอโทษ ไว้โอกาสหน้า</div>
+                </div>
+                <div class="phrase-card" style="border-top-color: var(--gold);">
+                    <span class="phrase-icon">👋</span>
+                    <div class="phrase-en">Thank you, but I'll pass.</div>
+                    <div class="phrase-th">ขอบคุณ แต่ฉันขอผ่าน</div>
+                </div>
+                <div class="phrase-card" style="border-top-color: var(--gold);">
+                    <span class="phrase-icon">💝</span>
+                    <div class="phrase-en">I appreciate the invitation, but I can't join.</div>
+                    <div class="phrase-th">ขอบคุณสำหรับคำเชิญ แต่ฉันไม่สามารถเข้าร่วมได้</div>
+                </div>
+            </div>
+
+            <h3 class="reveal" style="text-align:center; color: var(--navy); margin: 50px 0 24px; font-size: 1.2rem;">🎬 ตัวอย่างสถานการณ์</h3>
+
+            <div class="dialogue-card reveal">
+                <div class="speaker"><span class="emoji">👨</span> Guide</div>
+                <div class="dialogue-text">"Would you like to join the cultural parade?"</div>
+                <div class="speaker"><span class="emoji">🧑</span> Tourist</div>
+                <div class="dialogue-text"><strong>"Thank you, but I'll pass."</strong></div>
+            </div>
+
+            <div class="dialogue-card reveal">
+                <div class="speaker"><span class="emoji">👩</span> Resident</div>
+                <div class="dialogue-text">"Would you like some more food?"</div>
+                <div class="speaker"><span class="emoji">🧑</span> Tourist</div>
+                <div class="dialogue-text"><strong>"No, thank you."</strong></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Structure Section -->
+    <section class="section" id="structure">
+        <div class="section-header reveal">
+            <span class="section-icon">🗣️</span>
+            <h2>โครงสร้างประโยคที่ใช้บ่อย</h2>
+            <p>รวมประโยคสำคัญที่ใช้ในการตอบรับและปฏิเสธ</p>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="structure-grid">
+            <div class="structure-box accept-box reveal-left">
+                <h3>✅ การตอบรับ (Accepting)</h3>
+                <div class="structure-item"><span class="check">✔️</span> Yes, I'd like to.</div>
+                <div class="structure-item"><span class="check">✔️</span> Sure, thank you.</div>
+                <div class="structure-item"><span class="check">✔️</span> I'd be happy to.</div>
+                <div class="structure-item"><span class="check">✔️</span> That would be wonderful.</div>
+            </div>
+            <div class="structure-box refuse-box reveal-right">
+                <h3>❌ การปฏิเสธ (Refusing)</h3>
+                <div class="structure-item"><span class="check">✖️</span> No, thank you.</div>
+                <div class="structure-item"><span class="check">✖️</span> Sorry, I can't.</div>
+                <div class="structure-item"><span class="check">✖️</span> Maybe next time.</div>
+                <div class="structure-item"><span class="check">✖️</span> I'm afraid I have other plans.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Etiquette Section -->
+    <section class="section" id="etiquette" style="background: var(--cream-dark); max-width: 100%; padding: 80px 20px;">
+        <div style="max-width: 1100px; margin: 0 auto;">
+            <div class="section-header reveal">
+                <span class="section-icon">⚠️</span>
+                <h2>มารยาทในการสื่อสาร</h2>
+                <p>สิ่งที่ควรทำและไม่ควรทำเมื่อสื่อสารกับคนท้องถิ่น</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="etiquette-grid">
+                <div class="etiquette-card do-card reveal-left">
+                    <h3>😊 ควรทำ (Do's)</h3>
+                    <div class="etiquette-item">😊 ใช้น้ำเสียงสุภาพ</div>
+                    <div class="etiquette-item">😊 กล่าวขอบคุณเสมอ</div>
+                    <div class="etiquette-item">😊 ยิ้มและแสดงความเป็นมิตร</div>
+                    <div class="etiquette-item">😊 เคารพวัฒนธรรมท้องถิ่น</div>
+                </div>
+                <div class="etiquette-card dont-card reveal-right">
+                    <h3>😤 ไม่ควรทำ (Don'ts)</h3>
+                    <div class="etiquette-item">❌ ปฏิเสธอย่างห้วน ๆ</div>
+                    <div class="etiquette-item">❌ แสดงสีหน้ารำคาญ</div>
+                    <div class="etiquette-item">❌ พูดเสียงดังหรือก้าวร้าว</div>
+                    <div class="etiquette-item">❌ วิจารณ์วัฒนธรรมของผู้อื่น</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vocabulary Section -->
+    <section class="vocab-section" id="vocab">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <span class="section-icon">💡</span>
+                <h2>คำศัพท์สำคัญ</h2>
+                <p>Vocabulary for Cultural Tourism</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="vocab-grid stagger-children">
+                <div class="vocab-card">
+                    <div class="vocab-icon">💌</div>
+                    <div class="vocab-en">Invitation</div>
+                    <div class="vocab-th">คำเชิญ</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">✅</div>
+                    <div class="vocab-en">Accept</div>
+                    <div class="vocab-th">ตอบรับ</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">❌</div>
+                    <div class="vocab-en">Refuse</div>
+                    <div class="vocab-th">ปฏิเสธ</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">🧳</div>
+                    <div class="vocab-en">Tourist</div>
+                    <div class="vocab-th">นักท่องเที่ยว</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">👥</div>
+                    <div class="vocab-en">Local Resident</div>
+                    <div class="vocab-th">คนท้องถิ่น</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">🎊</div>
+                    <div class="vocab-en">Tradition</div>
+                    <div class="vocab-th">ประเพณี</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">🏛️</div>
+                    <div class="vocab-en">Culture</div>
+                    <div class="vocab-th">วัฒนธรรม</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">🙏</div>
+                    <div class="vocab-en">Respect</div>
+                    <div class="vocab-th">ความเคารพ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary Section -->
+    <section class="section" id="summary">
+        <div class="section-header reveal">
+            <span class="section-icon">📝</span>
+            <h2>สรุป</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="summary-card reveal">
+            <h3>📌 สิ่งสำคัญที่ควรจำ</h3>
+            <p>
+                การตอบรับและการปฏิเสธอย่างสุภาพเป็นทักษะสำคัญในการสื่อสารภาษาอังกฤษ โดยเฉพาะในบริบทของการท่องเที่ยวเชิงวัฒนธรรม การเลือกใช้คำพูดที่เหมาะสมช่วยสร้างความประทับใจ แสดงความเคารพ และส่งเสริมความเข้าใจระหว่างวัฒนธรรม 🌏✨
+            </p>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section class="quiz-section" id="quiz">
+        <div class="section-inner">
+            <div class="section-header reveal">
+                <span class="section-icon">🎮</span>
+                <h2>แบบทดสอบ Quiz</h2>
+                <p>ทดสอบความเข้าใจ 5 ข้อ เลือกคำตอบที่ถูกต้อง</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="quiz-container reveal">
+                <div class="quiz-progress" id="quizProgress">
+                    <div class="quiz-dot active"></div>
+                    <div class="quiz-dot"></div>
+                    <div class="quiz-dot"></div>
+                    <div class="quiz-dot"></div>
+                    <div class="quiz-dot"></div>
+                </div>
+
+                <!-- Question 1 -->
+                <div class="quiz-question active" data-q="0">
+                    <h3>ข้อที่ 1 จาก 5</h3>
+                    <div class="q-text">🧑 Guide: "Would you like to join the festival?"<br>🧑 Tourist: "______"</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="0">
+                            <span class="opt-letter">A</span>
+                            <span>No!</span>
+                        </div>
+                        <div class="quiz-option" data-answer="1">
+                            <span class="opt-letter">B</span>
+                            <span>Yes, I'd love to.</span>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback-0"></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="quiz-question" data-q="1">
+                    <h3>ข้อที่ 2 จาก 5</h3>
+                    <div class="q-text">Which sentence is a polite refusal? (ประโยคใดเป็นการปฏิเสธอย่างสุภาพ)</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="0">
+                            <span class="opt-letter">A</span>
+                            <span>Go away.</span>
+                        </div>
+                        <div class="quiz-option" data-answer="1">
+                            <span class="opt-letter">B</span>
+                            <span>Thank you, but I can't join.</span>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback-1"></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="quiz-question" data-q="2">
+                    <h3>ข้อที่ 3 จาก 5</h3>
+                    <div class="q-text">👩 Local Resident: "Would you like to try our traditional food?"<br>🧑 Tourist: "______"</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="0">
+                            <span class="opt-letter">A</span>
+                            <span>Certainly. Thank you.</span>
+                        </div>
+                        <div class="quiz-option" data-answer="1">
+                            <span class="opt-letter">B</span>
+                            <span>I don't want it.</span>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback-2"></div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="quiz-question" data-q="3">
+                    <h3>ข้อที่ 4 จาก 5</h3>
+                    <div class="q-text">"I'm afraid I can't." แปลว่าอะไร?</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="0">
+                            <span class="opt-letter">A</span>
+                            <span>ฉันกลัวมาก</span>
+                        </div>
+                        <div class="quiz-option" data-answer="1">
+                            <span class="opt-letter">B</span>
+                            <span>เกรงว่าฉันไม่สามารถ</span>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback-3"></div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="quiz-question" data-q="4">
+                    <h3>ข้อที่ 5 จาก 5</h3>
+                    <div class="q-text">ข้อใดเป็นมารยาทที่ควรทำในการสื่อสารกับคนท้องถิ่น?</div>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="0">
+                            <span class="opt-letter">A</span>
+                            <span>ปฏิเสธอย่างห้วน ๆ</span>
+                        </div>
+                        <div class="quiz-option" data-answer="1">
+                            <span class="opt-letter">B</span>
+                            <span>กล่าวขอบคุณและใช้น้ำเสียงสุภาพ</span>
+                        </div>
+                    </div>
+                    <div class="quiz-feedback" id="feedback-4"></div>
+                </div>
+
+                <div class="quiz-nav" id="quizNav">
+                    <button class="quiz-btn next" id="nextBtn" disabled onclick="nextQuestion()">ถัดไป →</button>
+                </div>
+
+                <!-- Result -->
+                <div class="quiz-result" id="quizResult">
+                    <div class="result-emoji" id="resultEmoji"></div>
+                    <div class="result-score" id="resultScore"></div>
+                    <div class="result-text" id="resultText"></div>
+                    <div class="score-bar">
+                        <div class="score-bar-fill" id="scoreBarFill"></div>
+                    </div>
+                    <button class="quiz-btn restart" onclick="restartQuiz()">🔄 ทำอีกครั้ง</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h3>🏛️ English for Cultural Tourism</h3>
+        <p>Grade 10 (M.4) | การตอบรับและการปฏิเสธในบริบทของการท่องเที่ยวเชิงวัฒนธรรม</p>
+        <p>📚 สื่อการเรียนการสอนภาษาอังกฤษ</p>
+        <p>© 2026 — Academic Year 2026</p>
+        <div class="footer-deco">🇹🇭 🏯 🎭 🌺 🛕</div>
+    </footer>
+
+    <script>
+        // ========== Scroll Animations ==========
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .stagger-children');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => observer.observe(el));
+
+        // ========== Back to Top ==========
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+
+            // Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ========== Active Nav Link ==========
+        const sections = document.querySelectorAll('section[id], .accept-section, .refuse-section, .quiz-section, .vocab-section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const scrollPos = window.scrollY + 200;
+
+            document.querySelectorAll('section, .accept-section, .refuse-section, .quiz-section, .vocab-section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id') || '';
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // ========== Quiz Logic ==========
+        const correctAnswers = [1, 1, 0, 1, 1]; // Index of correct answer for each question
+        const feedbackMessages = [
+            { correct: "✅ ถูกต้อง! 'Yes, I'd love to.' เป็นการตอบรับอย่างสุภาพ", wrong: "❌ ไม่ถูกต้อง 'No!' ห้วนเกินไป ควรพูดอย่างสุภาพ" },
+            { correct: "✅ ถูกต้อง! 'Thank you, but I can't join.' เป็นการปฏิเสธอย่างสุภาพ", wrong: "❌ ไม่ถูกต้อง 'Go away.' ไม่สุภาพและไม่เหมาะสม" },
+            { correct: "✅ ถูกต้อง! 'Certainly. Thank you.' เป็นการตอบรับอย่างสุภาพ", wrong: "❌ ไม่ถูกต้อง 'I don't want it.' ไม่สุภาพ" },
+            { correct: "✅ ถูกต้อง! 'I'm afraid I can't.' แปลว่า 'เกรงว่าฉันไม่สามารถ'", wrong: "❌ ไม่ถูกต้อง ประโยคนี้ไม่ได้แปลว่า 'ฉันกลัว'" },
+            { correct: "✅ ถูกต้อง! การกล่าวขอบคุณและใช้น้ำเสียงสุภาพคือมารยาทที่ดี", wrong: "❌ ไม่ถูกต้อง การปฏิเสธอย่างห้วน ๆ เป็นสิ่งที่ไม่ควรทำ" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = [false, false, false, false, false];
+
+        function selectOption(questionIndex, optionIndex) {
+            if (answered[questionIndex]) return;
+            answered[questionIndex] = true;
+
+            const question = document.querySelectorAll('.quiz-question')[questionIndex];
+            const options = question.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('feedback-' + questionIndex);
+            const nextBtn = document.getElementById('nextBtn');
+            const dots = document.querySelectorAll('.quiz-dot');
+
+            options.forEach(opt => {
+                const idx = parseInt(opt.getAttribute('data-answer'));
+                opt.style.pointerEvents = 'none';
+
+                if (idx === correctAnswers[questionIndex]) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            const selectedOption = options[optionIndex];
+            if (optionIndex === correctAnswers[questionIndex]) {
+                score++;
+                selectedOption.classList.add('correct');
+                feedback.className = 'quiz-feedback correct';
+                feedback.textContent = feedbackMessages[questionIndex].correct;
+                dots[questionIndex].classList.add('correct');
+            } else {
+                selectedOption.classList.add('wrong');
+                feedback.className = 'quiz-feedback wrong';
+                feedback.textContent = feedbackMessages[questionIndex].wrong;
+                dots[questionIndex].classList.add('wrong');
+            }
+
+            if (currentQuestion < 4) {
+                nextBtn.disabled = false;
+            } else {
+                // Last question - show result after delay
+                setTimeout(showResult, 1200);
+            }
+        }
+
+        function nextQuestion() {
+            const questions = document.querySelectorAll('.quiz-question');
+            questions[currentQuestion].classList.remove('active');
+
+            currentQuestion++;
+
+            if (currentQuestion < 5) {
+                questions[currentQuestion].classList.add('active');
+                document.querySelectorAll('.quiz-dot')[currentQuestion].classList.add('active');
+                document.getElementById('nextBtn').disabled = true;
+            }
+        }
+
+        function showResult() {
+            const questions = document.querySelectorAll('.quiz-question');
+            questions[currentQuestion].classList.remove('active');
+
+            document.getElementById('quizNav').style.display = 'none';
+
+            const result = document.getElementById('quizResult');
+            result.classList.add('show');
+
+            const percentage = (score / 5) * 100;
+
+            let emoji, text;
+            if (percentage === 100) {
+                emoji = '🏆🎉';
+                text = 'ยอดเยี่ยม! คุณทำคะแนนได้เต็ม!';
+            } else if (percentage >= 80) {
+                emoji = '🌟😊';
+                text = 'ดีมาก! เก่งมากเลย!';
+            } else if (percentage >= 60) {
+                emoji = '👍🙂';
+                text = 'ดี! แต่ยังมีที่ปรับปรุงนะ';
+            } else if (percentage >= 40) {
+                emoji = '📖🤔';
+                text = 'พอใช้ ลองทบทวนอีกครั้งนะ';
+            } else {
+                emoji = '💪📚';
+                text = 'ลองอ่านเนื้อหาอีกครั้งแล้วมาทำใหม่นะ!';
+            }
+
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('resultScore').textContent = score + ' / 5';
+            document.getElementById('resultText').textContent = text;
+
+            setTimeout(() => {
+                document.getElementById('scoreBarFill').style.width = percentage + '%';
+            }, 300);
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = [false, false, false, false, false];
+
+            // Reset questions
+            document.querySelectorAll('.quiz-question').forEach((q, i) => {
+                q.classList.remove('active');
+                if (i === 0) q.classList.add('active');
+
+                q.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('correct', 'wrong', 'selected');
+                    opt.style.pointerEvents = 'auto';
+                });
+
+                const feedback = document.getElementById('feedback-' + i);
+                feedback.className = 'quiz-feedback';
+                feedback.textContent = '';
+            });
+
+            // Reset progress dots
+            document.querySelectorAll('.quiz-dot').forEach((dot, i) => {
+                dot.classList.remove('active', 'correct', 'wrong');
+                if (i === 0) dot.classList.add('active');
+            });
+
+            // Reset nav
+            document.getElementById('quizNav').style.display = 'flex';
+            document.getElementById('nextBtn').disabled = true;
+
+            // Hide result
+            document.getElementById('quizResult').classList.remove('show');
+            document.getElementById('scoreBarFill').style.width = '0%';
+        }
+
+        // Add click handlers to quiz options
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const question = this.closest('.quiz-question');
+                const questionIndex = parseInt(question.getAttribute('data-q'));
+                const optionIndex = parseInt(this.getAttribute('data-answer'));
+                selectOption(questionIndex, optionIndex);
+            });
+        });
+
+        // ========== Smooth scroll for nav links ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 70;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
