@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การตอบรับและการปฏิเสธในบริบทของการท่องเที่ยวเชิงวัฒนธรรม</title>
+    
+    <!-- Google Fonts: Sarabun for Thai text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==================== CSS VARIABLES ==================== */
+        :root {
+            --color-blue: #1e3a8a;
+            --color-blue-light: #3b82f6;
+            --color-gold: #f59e0b;
+            --color-orange: #f97316;
+            --color-white: #ffffff;
+            --color-gray: #f3f4f6;
+            --color-text: #1f2937;
+            --color-text-light: #6b7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.3s ease;
+        }
+
+        /* ==================== RESET & BASE ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #fffbeb 100%);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==================== PROGRESS BAR ==================== */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(30, 58, 138, 0.1);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-blue) 0%, var(--color-gold) 100%);
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* ==================== SCROLL TO TOP ==================== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-blue-light) 100%);
+            color: var(--color-white);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+            z-index: 999;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-orange) 100%);
+        }
+
+        /* ==================== HEADER/HERO ==================== */
+        .hero {
+            background: linear-gradient(135deg, var(--color-blue) 0%, #1e40af 100%);
+            color: var(--color-white);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z' fill='%23f59e0b' fill-opacity='0.1'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--color-gold);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .hero .target {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 25px;
+            margin-top: 15px;
+        }
+
+        /* ==================== SECTIONS GENERAL ==================== */
+        section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--color-blue);
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-gold), var(--color-orange));
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* ==================== ANIMATION CLASSES ==================== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ==================== SECTION 1: MEANING ==================== */
+        .meaning-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .meaning-card {
+            background: var(--color-white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            transition: var(--transition);
+            border-top: 5px solid;
+        }
+
+        .meaning-card.accepting {
+            border-top-color: var(--color-blue);
+        }
+
+        .meaning-card.refusing {
+            border-top-color: var(--color-orange);
+        }
+
+        .meaning-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .meaning-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-blue-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .meaning-card.refusing .meaning-icon {
+            background: linear-gradient(135deg, var(--color-orange) 0%, var(--color-gold) 100%);
+        }
+
+        .meaning-card h3 {
+            font-size: 1.5rem;
+            color: var(--color-blue);
+            margin-bottom: 15px;
+        }
+
+        .meaning-card.refusing h3 {
+            color: var(--color-orange);
+        }
+
+        .meaning-card p {
+            color: var(--color-text-light);
+            font-size: 1.1rem;
+        }
+
+        /* ==================== SECTION 2 & 3: CARDS ==================== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .expression-card {
+            background: var(--color-white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 5px solid var(--color-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .expression-card.refuse {
+            border-left-color: var(--color-orange);
+        }
+
+        .expression-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-orange) 100%);
+            opacity: 0.1;
+            border-radius: 0 0 0 100%;
+        }
+
+        .expression-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .expression-card .icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .expression-card .english {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-blue);
+            margin-bottom: 10px;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        .expression-card.refuse .english {
+            color: var(--color-orange);
+        }
+
+        .expression-card .thai {
+            color: var(--color-text-light);
+            font-size: 1.1rem;
+        }
+
+        /* ==================== SECTION 4: CONVERSATIONS ==================== */
+        .conversations-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .conversation-box {
+            background: var(--color-white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .conversation-box:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .situation-title {
+            background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-blue-light) 100%);
+            color: var(--color-white);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .chat-bubble {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-bubble.guide {
+            align-items: flex-start;
+        }
+
+        .chat-bubble.tourist {
+            align-items: flex-end;
+        }
+
+        .bubble {
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            position: relative;
+            animation: bubblePop 0.5s ease;
+        }
+
+        @keyframes bubblePop {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .chat-bubble.guide .bubble {
+            background: var(--color-gray);
+            border-bottom-left-radius: 5px;
+            color: var(--color-text);
+        }
+
+        .chat-bubble.tourist .bubble {
+            background: linear-gradient(135deg, var(--color-blue) 0%, var(--color-blue-light) 100%);
+            border-bottom-right-radius: 5px;
+            color: var(--color-white);
+        }
+
+        .speaker-label {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .bubble .english {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .bubble .thai {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* ==================== SECTION 5: TIPS ==================== */
+        .tips-container {
+            background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            border: 2px solid var(--color-gold);
+        }
+
+        .tips-list {
+            display: grid;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--color-white);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .tip-item:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tip-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-orange) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.5rem;
+        }
+
+        .tip-text {
+            font-size: 1.1rem;
+            color: var(--color-text);
+            font-weight: 500;
+        }
+
+        /* ==================== SECTION 6: VOCABULARY ==================== */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .vocab-card {
+            background: var(--color-white);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .vocab-card:hover {
+            border-color: var(--color-gold);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .vocab-card .english-word {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-blue);
+            margin-bottom: 8px;
+        }
+
+        .vocab-card .thai-word {
+            color: var(--color-text-light);
+            font-size: 1.1rem;
+        }
+
+        .vocab-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* ==================== SECTION 7: SUMMARY ==================== */
+        .summary-box {
+            background: linear-gradient(135deg, var(--color-blue) 0%, #1e40af 100%);
+            color: var(--color-white);
+            border-radius: 25px;
+            padding: 50px;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .summary-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .summary-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .summary-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--color-gold);
+        }
+
+        .summary-box p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .summary-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        /* ==================== FOOTER ==================== */
+        footer {
+            background: var(--color-blue);
+            color: var(--color-white);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+
+        footer p {
+            opacity: 0.9;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .meaning-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .vocab-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .summary-box {
+                padding: 30px 20px;
+            }
+
+            .summary-box h3 {
+                font-size: 1.3rem;
+            }
+
+            .summary-box p {
+                font-size: 1rem;
+            }
+
+            .conversation-box {
+                padding: 20px;
+            }
+
+            .bubble {
+                max-width: 90%;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tips-container {
+                padding: 25px;
+            }
+
+            .tip-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* ==================== PRINT STYLES ==================== */
+        @media print {
+            .progress-container, .scroll-top {
+                display: none;
+            }
+            
+            section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" aria-label="Scroll to top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </button>
+
+    <!-- Header/Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>การตอบรับและการปฏิเสธในบริบทของการท่องเที่ยวเชิงวัฒนธรรม</h1>
+            <p class="subtitle">Accepting and Refusing in Cultural Tourism</p>
+            <span class="target">สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 4</span>
+        </div>
+    </header>
+
+    <!-- Section 1: ความหมาย -->
+    <section id="meaning" class="fade-in">
+        <h2 class="section-title">การตอบรับและการปฏิเสธคืออะไร?</h2>
+        <div class="meaning-container">
+            <div class="meaning-card accepting">
+                <div class="meaning-icon">
+                    <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <h3>การตอบรับ (Accepting)</h3>
+                <p>คือ การตอบตกลง ยอมรับคำเชิญ คำเสนอ หรือคำแนะนำอย่างสุภาพ</p>
+            </div>
+            <div class="meaning-card refusing">
+                <div class="meaning-icon">
+                    <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+                <h3>การปฏิเสธ (Refusing)</h3>
+                <p>คือ การไม่ยอมรับหรือไม่สามารถทำตามคำเชิญ คำเสนอ หรือคำแนะนำ โดยใช้ภาษาที่สุภาพ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: ประโยคตอบรับ -->
+    <section id="accepting" class="fade-in">
+        <h2 class="section-title">Useful Expressions for Accepting</h2>
+        <div class="cards-grid">
+            <div class="expression-card">
+                <div class="icon">✓</div>
+                <div class="english">Yes, I'd love to.</div>
+                <div class="thai">ใช่ ฉันยินดีมาก</div>
+            </div>
+            <div class="expression-card">
+                <div class="icon">✓</div>
+                <div class="english">That sounds great.</div>
+                <div class="thai">ฟังดูดีมาก</div>
+            </div>
+            <div class="expression-card">
+                <div class="icon">✓</div>
+                <div class="english">I'd be happy to.</div>
+                <div class="thai">ฉันยินดีที่จะทำ</div>
+            </div>
+            <div class="expression-card">
+                <div class="icon">✓</div>
+                <div class="english">Certainly.</div>
+                <div class="thai">แน่นอน</div>
+            </div>
+            <div class="expression-card">
+                <div class="icon">✓</div>
+                <div class="english">Thank you. I'd love to join.</div>
+                <div class="thai">ขอบคุณ ฉันยินดีเข้าร่วม</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: ประโยคปฏิเสธ -->
+    <section id="refusing" class="fade-in">
+        <h2 class="section-title">Useful Expressions for Refusing</h2>
+        <div class="cards-grid">
+            <div class="expression-card refuse">
+                <div class="icon">✕</div>
+                <div class="english">I'm sorry, but I can't.</div>
+                <div class="thai">ขอโทษ แต่ฉันไม่สามารถ</div>
+            </div>
+            <div class="expression-card refuse">
+                <div class="icon">✕</div>
+                <div class="english">I'd love to, but I have another plan.</div>
+                <div class="thai">ฉันอยากไป แต่มีแผนอื่นแล้ว</div>
+            </div>
+            <div class="expression-card refuse">
+                <div class="icon">✕</div>
+                <div class="english">Thank you for inviting me, but I must decline.</div>
+                <div class="thai">ขอบคุณที่เชิญ แต่ฉันขอปฏิเสธ</div>
+            </div>
+            <div class="expression-card refuse">
+                <div class="icon">✕</div>
+                <div class="english">Unfortunately, I won't be able to join.</div>
+                <div class="thai">น่าเสียดายที่ฉันไม่สามารถเข้าร่วมได้</div>
+            </div>
+            <div class="expression-card refuse">
+                <div class="icon">✕</div>
+                <div class="english">Maybe another time.</div>
+                <div class="thai">ไว้โอกาสหน้า</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: บทสนทนา -->
+    <section id="conversations" class="fade-in">
+        <h2 class="section-title">Cultural Tourism Conversations</h2>
+        <div class="conversations-container">
+            <!-- สถานการณ์ที่ 1 -->
+            <div class="conversation-box slide-in-left">
+                <div class="situation-title">สถานการณ์ที่ 1: การเชิญไปวัด</div>
+                <div class="chat-bubble guide">
+                    <span class="speaker-label">Tour Guide</span>
+                    <div class="bubble">
+                        <div class="english">Would you like to visit the local temple this afternoon?</div>
+                        <div class="thai">คุณอยากไปเที่ยววัดท้องถิ่นในช่วงบ่ายนี้ไหมคะ?</div>
+                    </div>
+                </div>
+                <div class="chat-bubble tourist">
+                    <span class="speaker-label">Tourist</span>
+                    <div class="bubble">
+                        <div class="english">Yes, I'd love to.</div>
+                        <div class="thai">ครับ/ค่ะ ฉันยินดีมาก</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- สถานการณ์ที่ 2 -->
+            <div class="conversation-box slide-in-right">
+                <div class="situation-title">สถานการณ์ที่ 2: การเชิญร่วมกิจกรรม</div>
+                <div class="chat-bubble guide">
+                    <span class="speaker-label">Tour Guide</span>
+                    <div class="bubble">
+                        <div class="english">Would you like to join the traditional dance workshop?</div>
+                        <div class="thai">คุณอยากเข้าร่วมกิจกรรมฝึกเต้นรำแบบดั้งเดิมไหมคะ?</div>
+                    </div>
+                </div>
+                <div class="chat-bubble tourist">
+                    <span class="speaker-label">Tourist</span>
+                    <div class="bubble">
+                        <div class="english">I'm sorry, but I can't. I have another appointment.</div>
+                        <div class="thai">ขอโทษครับ/ค่ะ ฉันไม่สามารถไปได้ ฉันมีนัดหมายอื่น</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- สถานการณ์ที่ 3 -->
+            <div class="conversation-box slide-in-left">
+                <div class="situation-title">สถานการณ์ที่ 3: การเชิญชิมอาหาร</div>
+                <div class="chat-bubble guide">
+                    <span class="speaker-label">Local Host</span>
+                    <div class="bubble">
+                        <div class="english">Would you like to try some local food?</div>
+                        <div class="thai">คุณอยากลองชิมอาหารท้องถิ่นไหมคะ?</div>
+                    </div>
+                </div>
+                <div class="chat-bubble tourist">
+                    <span class="speaker-label">Tourist</span>
+                    <div class="bubble">
+                        <div class="english">Certainly! Thank you.</div>
+                        <div class="thai">แน่นอนครับ/ค่ะ ขอบคุณ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: เคล็ดลับ -->
+    <section id="tips" class="fade-in">
+        <h2 class="section-title">Polite Communication Tips</h2>
+        <div class="tips-container">
+            <div class="tips-list">
+                <div class="tip-item">
+                    <div class="tip-icon">🙏</div>
+                    <div class="tip-text">ใช้ Thank you ก่อนปฏิเสธ</div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-icon">😔</div>
+                    <div class="tip-text">ใช้ I'm sorry เมื่อต้องปฏิเสธ</div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-icon">😊</div>
+                    <div class="tip-text">ยิ้มและแสดงภาษากายที่เหมาะสม</div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-icon">🏯</div>
+                    <div class="tip-text">เคารพวัฒนธรรมและประเพณีของท้องถิ่น</div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-icon">🗣️</div>
+                    <div class="tip-text">ใช้น้ำเสียงสุภาพเสมอ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: คำศัพท์ -->
+    <section id="vocabulary" class="fade-in">
+        <h2 class="section-title">Vocabulary</h2>
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <div class="vocab-icon">📨</div>
+                <div class="english-word">Invitation</div>
+                <div class="thai-word">คำเชิญ</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">✓</div>
+                <div class="english-word">Accept</div>
+                <div class="thai-word">ตอบรับ</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">✕</div>
+                <div class="english-word">Refuse</div>
+                <div class="thai-word">ปฏิเสธ</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">🧳</div>
+                <div class="english-word">Tourist</div>
+                <div class="thai-word">นักท่องเที่ยว</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon"></div>
+                <div class="english-word">Tour Guide</div>
+                <div class="thai-word">มัคคุเทศก์</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">⛩️</div>
+                <div class="english-word">Temple</div>
+                <div class="thai-word">วัด</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">🎭</div>
+                <div class="english-word">Tradition</div>
+                <div class="thai-word">ประเพณี</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">🎨</div>
+                <div class="english-word">Culture</div>
+                <div class="thai-word">วัฒนธรรม</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">🍜</div>
+                <div class="english-word">Local Food</div>
+                <div class="thai-word">อาหารท้องถิ่น</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">🛠️</div>
+                <div class="english-word">Workshop</div>
+                <div class="thai-word">กิจกรรมฝึกปฏิบัติ</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: สรุป -->
+    <section id="summary" class="fade-in">
+        <h2 class="section-title">Summary</h2>
+        <div class="summary-box">
+            <div class="summary-content">
+                <div class="summary-icon">🌏✈️</div>
+                <h3>สรุปท้ายบทเรียน</h3>
+                <p>"การตอบรับและการปฏิเสธอย่างสุภาพเป็นทักษะสำคัญในการสื่อสารภาษาอังกฤษ โดยเฉพาะในบริบทการท่องเที่ยวเชิงวัฒนธรรม ซึ่งช่วยสร้างความประทับใจและส่งเสริมความเข้าใจระหว่างผู้คนต่างวัฒนธรรม"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 สื่อการเรียนรู้ภาษาอังกฤษ - การท่องเที่ยวเชิงวัฒนธรรม</p>
+        <p>สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 4</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // ==================== SCROLL PROGRESS BAR ====================
+        window.onscroll = function() {
+            updateProgressBar();
+            updateScrollTopButton();
+        };
+
+        function updateProgressBar() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        }
+
+        // ==================== SCROLL TO TOP ====================
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function updateScrollTopButton() {
+            const scrollTopBtn = document.getElementById("scrollTop");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.classList.add("visible");
+            } else {
+                scrollTopBtn.classList.remove("visible");
+            }
+        }
+
+        // ==================== SCROLL ANIMATION (INTERSECTION OBSERVER) ====================
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Optional: Stop observing once visible
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all elements with animation classes
+            const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
+            animatedElements.forEach(el => observer.observe(el));
+
+            // Add stagger effect to cards
+            const cards = document.querySelectorAll('.expression-card, .vocab-card, .tip-item');
+            cards.forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.1}s`;
+            });
+        });
+
+        // ==================== SMOOTH SCROLL FOR ANCHOR LINKS ====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ==================== ADD INTERACTIVE HOVER EFFECTS ====================
+        // Add subtle parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // ==================== CONSOLE WELCOME MESSAGE ====================
+        console.log('%c🎓 สื่อการเรียนรู้ภาษาอังกฤษ', 'color: #1e3a8a; font-size: 20px; font-weight: bold;');
+        console.log('%cการตอบรับและการปฏิเสธในบริบทของการท่องเที่ยวเชิงวัฒนธรรม', 'color: #f59e0b; font-size: 14px;');
+        console.log('%cสำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 4', 'color: #f97316; font-size: 12px;');
+    </script>
+</body>
+</html>
