@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expressing Needs & Offering Help | English M.4</title>
+
+    <!-- Google Fonts: Kanit & Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           CSS VARIABLES & RESET
+           ============================================ */
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --primary-light: #3B82F6;
+            --secondary: #60A5FA;
+            --accent: #93C5FD;
+            --white: #FFFFFF;
+            --bg-light: #EFF6FF;
+            --bg-gray: #F8FAFC;
+            --text-dark: #1E293B;
+            --text-medium: #475569;
+            --text-light: #94A3B8;
+            --success: #10B981;
+            --success-light: #D1FAE5;
+            --error: #EF4444;
+            --error-light: #FEE2E2;
+            --warning: #F59E0B;
+            --warning-light: #FEF3C7;
+            --purple: #8B5CF6;
+            --pink: #EC4899;
+            --orange: #F97316;
+            --teal: #14B8A6;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --font-th: 'Prompt', 'Kanit', sans-serif;
+            --font-en: 'Kanit', sans-serif;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: var(--font-th);
+            color: var(--text-dark);
+            background: var(--white);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ============================================
+           PROGRESS BAR
+           ============================================ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            z-index: 10000;
+            transition: width 0.15s ease-out;
+            border-radius: 0 2px 2px 0;
+        }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+            padding: 0 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        .navbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-brand {
+            font-family: var(--font-en);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-medium);
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+            background: var(--bg-light);
+        }
+
+        /* ============================================
+           BACK TO TOP BUTTON
+           ============================================ */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 9998;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* ============================================
+           SCROLL ANIMATION CLASSES
+           ============================================ */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-on-scroll.from-left {
+            transform: translateX(-40px);
+        }
+
+        .animate-on-scroll.from-left.visible {
+            transform: translateX(0);
+        }
+
+        .animate-on-scroll.from-right {
+            transform: translateX(40px);
+        }
+
+        .animate-on-scroll.from-right.visible {
+            transform: translateX(0);
+        }
+
+        .animate-on-scroll.scale-in {
+            transform: scale(0.9);
+        }
+
+        .animate-on-scroll.scale-in.visible {
+            transform: scale(1);
+        }
+
+        /* ============================================
+           SECTION COMMON STYLES
+           ============================================ */
+        .section {
+            padding: 5rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-light);
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+        }
+
+        .section-title {
+            font-family: var(--font-th);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .section-title .highlight {
+            color: var(--primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-medium);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 30%, #BFDBFE 60%, #93C5FD 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 1.5rem 4rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-emoji {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .hero-title {
+            font-family: var(--font-en);
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-title-th {
+            font-family: var(--font-th);
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.9;
+            background: rgba(255,255,255,0.7);
+            padding: 1.2rem 1.8rem;
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--white);
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(37, 99, 235, 0.12);
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            font-family: var(--font-th);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(37, 99, 235, 0.45);
+        }
+
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            font-size: 0.75rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* ============================================
+           CARD COMPONENTS
+           ============================================ */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1.8rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(37, 99, 235, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(37, 99, 235, 0.15);
+        }
+
+        /* ============================================
+           SECTION 2: EXPRESSING NEEDS (3 Cards)
+           ============================================ */
+        .needs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .need-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(37, 99, 235, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .need-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .need-card:nth-child(1)::before { background: var(--primary); }
+        .need-card:nth-child(2)::before { background: var(--teal); }
+        .need-card:nth-child(3)::before { background: var(--purple); }
+
+        .need-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .need-card .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .need-card .card-en {
+            font-family: var(--font-en);
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .need-card .card-th {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+        }
+
+        .need-card .check-icon {
+            color: var(--success);
+            margin-right: 4px;
+        }
+
+        /* ============================================
+           SECTION 3: FLOW DIAGRAM
+           ============================================ */
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .flow-item {
+            display: flex;
+            align-items: stretch;
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .flow-line {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 50px;
+            flex-shrink: 0;
+        }
+
+        .flow-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .flow-dot.blue { background: var(--primary); }
+        .flow-dot.teal { background: var(--teal); }
+        .flow-dot.purple { background: var(--purple); }
+
+        .flow-connector {
+            width: 3px;
+            flex: 1;
+            background: linear-gradient(180deg, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .flow-content {
+            flex: 1;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem 1.8rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(37, 99, 235, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .flow-content:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(37, 99, 235, 0.15);
+        }
+
+        .flow-content .pattern {
+            font-family: var(--font-en);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            padding: 6px 14px;
+            background: var(--bg-light);
+            border-radius: var(--radius-sm);
+            display: inline-block;
+        }
+
+        .flow-content .description {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-bottom: 0.8rem;
+        }
+
+        .flow-content .examples {
+            list-style: none;
+        }
+
+        .flow-content .examples li {
+            font-family: var(--font-en);
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            padding: 4px 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .flow-content .examples li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .flow-content .examples li .thai {
+            font-family: var(--font-th);
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-left: 4px;
+        }
+
+        /* ============================================
+           SECTION 4: OFFERING HELP GRID
+           ============================================ */
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .help-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1.8rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(37, 99, 235, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .help-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .help-card .card-emoji {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .help-card .card-en {
+            font-family: var(--font-en);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.4rem;
+        }
+
+        .help-card .card-th {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+        }
+
+        .help-card .politeness {
+            display: inline-block;
+            margin-top: 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 50px;
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+
+        /* ============================================
+           SECTION 5: ACCEPT & REFUSE (2 Columns)
+           ============================================ */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .compare-card {
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .compare-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .compare-card.accept {
+            background: linear-gradient(135deg, #D1FAE5, #ECFDF5);
+            border: 2px solid #A7F3D0;
+        }
+
+        .compare-card.refuse {
+            background: linear-gradient(135deg, #FEE2E2, #FEF2F2);
+            border: 2px solid #FECACA;
+        }
+
+        .compare-card .compare-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.2rem;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .compare-card.accept .compare-header { color: #059669; }
+        .compare-card.refuse .compare-header { color: #DC2626; }
+
+        .compare-card .compare-icon {
+            font-size: 1.5rem;
+        }
+
+        .compare-list {
+            list-style: none;
+        }
+
+        .compare-list li {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .compare-list li:last-child {
+            border-bottom: none;
+        }
+
+        .compare-list li .en {
+            font-family: var(--font-en);
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-dark);
+        }
+
+        .compare-list li .th {
+            font-size: 0.85rem;
+            color: var(--text-medium);
+        }
+
+        /* ============================================
+           SECTION 6: CHAT BUBBLE CONVERSATION
+           ============================================ */
+        .chat-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--bg-gray);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(37, 99, 235, 0.08);
+        }
+
+        .chat-situation {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .chat-situation strong {
+            color: var(--primary);
+        }
+
+        .chat-bubble {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+        }
+
+        .chat-bubble.right {
+            flex-direction: row-reverse;
+        }
+
+        .chat-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            color: var(--white);
+            font-weight: 700;
+            font-family: var(--font-en);
+        }
+
+        .chat-bubble.left .chat-avatar { background: var(--primary); }
+        .chat-bubble.right .chat-avatar { background: var(--teal); }
+
+        .chat-bubble-content {
+            max-width: 75%;
+            padding: 12px 18px;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .chat-bubble.left .chat-bubble-content {
+            background: var(--white);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            border-bottom-left-radius: 4px;
+            color: var(--text-dark);
+        }
+
+        .chat-bubble.right .chat-bubble-content {
+            background: var(--primary);
+            color: var(--white);
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-bubble-content .speaker {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            opacity: 0.7;
+        }
+
+        .chat-bubble-content .translation {
+            font-size: 0.8rem;
+            margin-top: 4px;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        /* ============================================
+           SECTION 7: EASY TIPS
+           ============================================ */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .tip-card {
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            color: var(--white);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tip-card:hover::before {
+            opacity: 1;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tip-card:nth-child(1) { background: linear-gradient(135deg, #2563EB, #3B82F6); }
+        .tip-card:nth-child(2) { background: linear-gradient(135deg, #F97316, #FB923C); }
+        .tip-card:nth-child(3) { background: linear-gradient(135deg, #8B5CF6, #A78BFA); }
+        .tip-card:nth-child(4) { background: linear-gradient(135deg, #14B8A6, #2DD4BF); }
+        .tip-card:nth-child(5) { background: linear-gradient(135deg, #EC4899, #F472B6); }
+
+        .tip-card .tip-emoji {
+            font-size: 1.8rem;
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+
+        .tip-card .tip-text {
+            font-family: var(--font-en);
+            font-weight: 600;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .tip-card .tip-note {
+            font-size: 0.82rem;
+            margin-top: 0.4rem;
+            opacity: 0.9;
+        }
+
+        /* ============================================
+           SECTION 8: QUIZ
+           ============================================ */
+        .quiz-container {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .quiz-question {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1.8rem;
+            margin-bottom: 1.2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(37, 99, 235, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-question.correct {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+
+        .quiz-question.incorrect {
+            border-color: var(--error);
+            background: var(--error-light);
+        }
+
+        .quiz-question .q-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .quiz-question .q-text {
+            font-family: var(--font-en);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            border: 2px solid #E2E8F0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: var(--font-en);
+            font-size: 0.95rem;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--secondary);
+            background: var(--bg-light);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary);
+            background: var(--bg-light);
+        }
+
+        .quiz-option.correct-answer {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+
+        .quiz-option.wrong-answer {
+            border-color: var(--error);
+            background: var(--error-light);
+        }
+
+        .quiz-option input[type="radio"] {
+            display: none;
+        }
+
+        .quiz-option .radio-custom {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #CBD5E1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-option.selected .radio-custom {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .quiz-option.selected .radio-custom::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--white);
+        }
+
+        .quiz-option.correct-answer .radio-custom {
+            border-color: var(--success);
+            background: var(--success);
+        }
+
+        .quiz-option.wrong-answer .radio-custom {
+            border-color: var(--error);
+            background: var(--error);
+        }
+
+        .quiz-feedback {
+            margin-top: 0.8rem;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: var(--success-light);
+            color: #059669;
+        }
+
+        .quiz-feedback.incorrect {
+            background: var(--error-light);
+            color: #DC2626;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-family: var(--font-th);
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+        }
+
+        .quiz-result {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            display: none;
+        }
+
+        .quiz-result.show {
+            display: block;
+        }
+
+        .quiz-result .score {
+            font-family: var(--font-en);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .quiz-result .score-text {
+            font-size: 1rem;
+            color: var(--text-medium);
+            margin-top: 0.3rem;
+        }
+
+        .quiz-result .score-emoji {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ============================================
+           SECTION 9: SUMMARY
+           ============================================ */
+        .summary-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            border: 2px solid rgba(37, 99, 235, 0.15);
+        }
+
+        .summary-list {
+            list-style: none;
+        }
+
+        .summary-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .summary-list li:last-child {
+            border-bottom: none;
+        }
+
+        .summary-list li .summary-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .summary-list li strong {
+            color: var(--primary-dark);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: var(--text-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer .footer-brand {
+            font-family: var(--font-en);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer .footer-desc {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 1rem;
+        }
+
+        .footer .footer-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .footer .footer-copy {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* ============================================
+           DIVIDER
+           ============================================ */
+        .section-divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            margin: 0 auto 1rem;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .section {
+                padding: 3.5rem 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .hero {
+                padding: 5rem 1rem 3rem;
+            }
+
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-bubble-content {
+                max-width: 85%;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .flow-item {
+                gap: 1rem;
+            }
+
+            .flow-line {
+                width: 36px;
+            }
+
+            .flow-dot {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .needs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .help-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================
+           CONFETTI ANIMATION
+           ============================================ */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99999;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================
+           LOADING ANIMATION
+           ============================================ */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-spinner {
+            display: flex;
+            gap: 8px;
+        }
+
+        .loader-spinner span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: loader-bounce 1.2s ease-in-out infinite;
+        }
+
+        .loader-spinner span:nth-child(2) { animation-delay: 0.15s; }
+        .loader-spinner span:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes loader-bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         PAGE LOADER
+         ============================================ -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <!-- ============================================
+         PROGRESS BAR
+         ============================================ -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- ============================================
+         NAVIGATION BAR
+         ============================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <div class="nav-brand">📚 English M.4</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#needs">ความต้องการ</a></li>
+                <li><a href="#structure">โครงสร้าง</a></li>
+                <li><a href="#help">เสนอความช่วยเหลือ</a></li>
+                <li><a href="#accept-refuse">ตอบรับ/ปฏิเสธ</a></li>
+                <li><a href="#conversation">บทสนทนา</a></li>
+                <li><a href="#tips">เทคนิค</a></li>
+                <li><a href="#quiz">แบบฝึกหัด</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         BACK TO TOP BUTTON
+         ============================================ -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to Top">↑</button>
+
+    <!-- ============================================
+         HERO SECTION
+         ============================================ -->
+    <header class="hero" id="hero">
+        <div class="hero-content">
+            <span class="hero-emoji">💬</span>
+            <h1 class="hero-title">Expressing Needs & Offering Help</h1>
+            <p class="hero-title-th">การใช้ประโยคและสำนวนภาษาเพื่อแสดงความต้องการ<br>และการเสนอความช่วยเหลือ</p>
+            <p class="hero-description">
+                เรียนรู้การสื่อสารภาษาอังกฤษเพื่อบอกความต้องการและช่วยเหลือผู้อื่นอย่างมั่นใจ 🎯
+            </p>
+            <div class="hero-tags">
+                <span class="hero-tag">🎓 ระดับ ม.4</span>
+                <span class="hero-tag">📖 บทเรียนภาษาอังกฤษ</span>
+                <span class="hero-tag">💡 ใช้งานได้จริง</span>
+            </div>
+            <a href="#needs" class="hero-cta">เริ่มเรียนรู้ →</a>
+        </div>
+        <div class="hero-scroll-indicator">
+            <span>เลื่อนลงเพื่อเรียนรู้</span>
+            <span>↓</span>
+        </div>
+    </header>
+
+    <!-- ============================================
+         SECTION 2: EXPRESSING NEEDS (3 Cards)
+         ============================================ -->
+    <section class="section" id="needs">
+        <div class="section-header animate-on-scroll">
+            <span class="section-badge">📌 ส่วนที่ 2</span>
+            <h2 class="section-title">การแสดงความต้องการ <span class="highlight">(Expressing Needs)</span></h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">ใช้เพื่อบอกสิ่งที่ต้องการ ความจำเป็น หรือสิ่งที่อยากได้</p>
+        </div>
+
+        <div class="needs-grid">
+            <!-- Card 1 -->
+            <div class="need-card animate-on-scroll">
+                <span class="card-icon">🆘</span>
+                <p class="card-en"><span class="check-icon">✅</span> I need some help.</p>
+                <p class="card-th">ฉันต้องการความช่วยเหลือ</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="need-card animate-on-scroll" style="transition-delay: 0.1s;">
+                <span class="card-icon">💧</span>
+                <p class="card-en"><span class="check-icon">✅</span> I would like a glass of water.</p>
+                <p class="card-th">ฉันต้องการน้ำ 1 แก้ว</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="need-card animate-on-scroll" style="transition-delay: 0.2s;">
+                <span class="card-icon">📖</span>
+                <p class="card-en"><span class="check-icon">✅</span> I want to learn English.</p>
+                <p class="card-th">ฉันต้องการเรียนภาษาอังกฤษ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 3: SENTENCE STRUCTURE FLOW DIAGRAM
+         ============================================ -->
+    <section class="section" id="structure">
+        <div class="section-header animate-on-scroll">
+            <span class="section-badge">🔧 ส่วนที่ 3</span>
+            <h2 class="section-title">โครงสร้างประโยค <span class="highlight">แสดงความต้องการ</span></h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">เรียนรู้รูปแบบประโยค 3 แบบที่ใช้บอกความต้องการ</p>
+        </div>
+
+        <div class="flow-container">
+            <!-- Flow Item 1 -->
+            <div class="flow-item animate-on-scroll from-left">
+                <div class="flow-line">
+                    <div class="flow-dot blue">1</div>
+                    <div class="flow-connector"></div>
+                </div>
+                <div class="flow-content">
+                    <div class="pattern">I need + คำนาม</div>
+                    <p class="description">ใช้บอกสิ่งที่จำเป็นต้องมีหรือต้องการอย่างตรงไปตรงมา</p>
+                    <ul class="examples">
+                        <li>I need a pen. <span class="thai">(ฉันต้องการปากกา)</span></li>
+                        <li>I need some information. <span class="thai">(ฉันต้องการข้อมูล)</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Flow Item 2 -->
+            <div class="flow-item animate-on-scroll from-left" style="transition-delay: 0.15s;">
+                <div class="flow-line">
+                    <div class="flow-dot teal">2</div>
+                    <div class="flow-connector"></div>
+                </div>
+                <div class="flow-content">
+                    <div class="pattern">I would like + คำนาม / to + Verb</div>
+                    <p class="description">ใช้บอกความต้องการอย่างสุภาพ เป็นทางการกว่า want</p>
+                    <ul class="examples">
+                        <li>I would like some coffee. <span class="thai">(ฉันขอกาแฟหน่อย)</span></li>
+                        <li>I would like to ask a question. <span class="thai">(ฉันอยากถามคำถาม)</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Flow Item 3 -->
+            <div class="flow-item animate-on-scroll from-left" style="transition-delay: 0.3s;">
+                <div class="flow-line">
+                    <div class="flow-dot purple">3</div>
+                </div>
+                <div class="flow-content">
+                    <div class="pattern">I want to + Verb</div>
+                    <p class="description">ใช้บอกความต้องการหรือสิ่งที่อยากทำ</p>
+                    <ul class="examples">
+                        <li>I want to study. <span class="thai">(ฉันต้องการเรียน)</span></li>
+                        <li>I want to improve my English. <span class="thai">(ฉันต้องการพัฒนาภาษาอังกฤษ)</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 4: OFFERING HELP GRID
+         ============================================ -->
+    <section class="section" id="help">
+        <div class="section-header animate-on-scroll">
+            <span class="section-badge">🤝 ส่วนที่ 4</span>
+            <h2 class="section-title">การเสนอความช่วยเหลือ <span class="highlight">(Offering Help)</span></h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">ใช้เมื่อเราต้องการช่วยเหลือผู้อื่นอย่างสุภาพ</p>
+        </div>
+
+        <div class="help-grid">
+            <div class="help-card animate-on-scroll scale-in">
+                <span class="card-emoji">🙋</span>
+                <p class="card-en">Can I help you?</p>
+                <p class="card-th">ฉันช่วยคุณได้ไหม</p>
+                <span class="politeness">ทั่วไป</span>
+            </div>
+            <div class="help-card animate-on-scroll scale-in" style="transition-delay: 0.1s;">
+                <span class="card-emoji">🙏</span>
+                <p class="card-en">May I help you?</p>
+                <p class="card-th">ขออนุญาตช่วยคุณได้ไหม</p>
+                <span class="politeness">สุภาพมาก</span>
+            </div>
+            <div class="help-card animate-on-scroll scale-in" style="transition-delay: 0.2s;">
+                <span class="card-emoji">💁</span>
+                <p class="card-en">Would you like some help?</p>
+                <p class="card-th">คุณต้องการความช่วยเหลือไหม</p>
+                <span class="politeness">สุภาพ</span>
+            </div>
+            <div class="help-card animate-on-scroll scale-in" style="transition-delay: 0.3s;">
+                <span class="card-emoji">🤲</span>
+                <p class="card-en">Let me help you.</p>
+                <p class="card-th">ให้ฉันช่วยนะ</p>
+                <span class="politeness">เป็นกันเอง</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 5: ACCEPTING AND REFUSING HELP
+         ============================================ -->
+    <section class="section" id="accept-refuse">
+        <div class="section-header animate-on-scroll">
+            <span class="section-badge">✅❌ ส่วนที่ 5</span>
+            <h2 class="section-title">การตอบรับและปฏิเสธ <span class="highlight">ความช่วยเหลือ</span></h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">(Accepting and Refusing Help)</p>
+        </div>
+
+        <div class="compare-grid">
+            <!-- Accepting -->
+            <div class="compare-card accept animate-on-scroll from-left">
+                <div class="compare-header">
+                    <span class="compare-icon">✅</span>
+                    ตอบรับ (Accepting)
+                </div>
+                <ul class="compare-list">
+                    <li>
+                        <span class="en">Yes, please.</span>
+                        <span class="th">ค่ะ/ครับ ยินดี</span>
+                    </li>
+                    <li>
+                        <span class="en">That would be great.</span>
+                        <span class="th">เยี่ยมเลย ขอบคุณมาก</span>
+                    </li>
+                    <li>
+                        <span class="en">Thank you for your help.</span>
+                        <span class="th">ขอบคุณที่ช่วยเหลือ</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Refusing -->
+            <div class="compare-card refuse animate-on-scroll from-right">
+                <div class="compare-header">
+                    <span class="compare-icon">❌</span>
+                    ปฏิเสธ (Refusing)
+                </div>
+                <ul class="compare-list">
+                    <li>
+                        <span class="en">No, thank you.</span>
+                        <span class="th">ไม่เป็นไร ขอบคุณค่ะ/ครับ</span>
+                    </li>
+                    <li>
+                        <span class="en">I can manage.</span>
+                        <span class="th">ฉันทำได้เอง</span>
+                    </li>
+                    <li>
+                        <span class="en">It's okay, thanks.</span>
+                        <span class="th">ไม่เป็นไร ขอบคุณ</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 6: EXAMPLE CONVERSATION
+         ============================================ -->
+    <section class="section" id="conversation">
+        <div class="section-header animate-on-scroll">
+            <span class="section-badge">💬 ส่วนที่ 6</span>
+            <h2 class="section-title">บทสนทนา <span class="highlight">ตัวอย่าง</span></h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="chat-container animate-on-scroll scale-in">
+            <p class="chat-situation">📍 สถานการณ์: <strong>At School (ที่โรงเรียน)</strong></p>
+
+            <div class="chat-bubble left">
+                <div class="chat-avatar">A</div>
+                <div class="chat-bubble-content">
+                    <div class="speaker">Person A</div>
+                    You look busy. Can I help you?
+                    <div class="translation">คุณดูยุ่งจัง ให้ฉันช่วยไหม?</div>
+                </div>
+            </div>
+
+            <div class="chat-bubble right">
+                <div class="chat-avatar">B</div>
+                <div class="chat-bubble-content">
+                    <div class="speaker">Person B</div>
+                    Yes, please. I need some help with this project.
+                    <div class="translation">ค่ะ ขอบคุณ ฉันต้องการความช่วยเหลือเรื่องโปรเจกต์นี้</div>
+                </div>
+            </div>
+
+            <div class="chat-bubble left">
+                <div class="chat-avatar">A</div>
+                <div class="chat-bubble-content">
+                    <div class="speaker">Person A</div>
+                    Sure. Let me help you.
+                    <div class="translation">ได้เลย ให้ฉันช่วยนะ</div>
+                </div>
+            </div>
+
+            <div class="chat-bubble right">
+                <div class="chat-avatar">B</div>
+                <div class="chat-bubble-content">
+                    <div class="speaker">Person B</div>
+                    Thank you very much.
+                    <div class="translation">ขอบคุณมากค่ะ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 7: EASY TIPS
+         ============================================ -->
+    <section class="section" id="tips">
+        <div class="section-header animate-on-scroll">
+            <span class="section-badge">💡 ส่วนที่ 7</span>
+            <h2 class="section-title">เทคนิคจำง่าย <span class="highlight">(Easy Tips)</span></h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="tips-grid">
+            <div class="tip-card animate-on-scroll" style="transition-delay: 0s;">
+                <span class="tip-emoji">💡</span>
+                <p class="tip-text">Need</p>
+                <p class="tip-note">= จำเป็นต้องมี</p>
+            </div>
+            <div class="tip-card animate-on-scroll" style="transition-delay: 0.1s;">
+                <span class="tip-emoji">🎯</span>
+                <p class="tip-text">Want</p>
+                <p class="tip-note">= อยากได้</p>
+            </div>
+            <div class="tip-card animate-on-scroll" style="transition-delay: 0.2s;">
+                <span class="tip-emoji">🌟</span>
+                <p class="tip-text">Would like</p>
+                <p class="tip-note">= สุภาพกว่า want</p>
+            </div>
+            <div class="tip-card animate-on-scroll" style="transition-delay: 0.3s;">
+                <span class="tip-emoji">🙋</span>
+                <p class="tip-text">Can I help you?</p>
+                <p class="tip-note">= ใช้เสนอความช่วยเหลือทั่วไป</p>
+            </div>
+            <div class="tip-card animate-on-scroll" style="transition-delay: 0.4s;">
+                <span class="tip-emoji">🙏</span>
+                <p class="tip-text">May I help you?</p>
+                <p class="tip-note">= สุภาพมากกว่า</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 8: MINI QUIZ
+         ============================================ -->
+    <section class="section" id="quiz">
+        <div class="section-header animate-on-scroll">
+            <span class="section-badge">📝 ส่วนที่ 8</span>
+            <h2 class="section-title">แบบฝึกหัด <span class="highlight">Mini Quiz</span></h2>
+            <div class="section-divider"></div>
+            <p class="section-subtitle">ทดสอบความรู้ 5 ข้อ เลือกคำตอบที่ถูกต้อง</p>
+        </div>
+
+        <div class="quiz-container" id="quizContainer">
+            <!-- Questions will be rendered by JavaScript -->
+        </div>
+
+        <div class="quiz-result" id="quizResult">
+            <span class="score-emoji" id="scoreEmoji"></span>
+            <div class="score" id="scoreText"></div>
+            <p class="score-text" id="scoreMessage"></p>
+        </div>
+
+        <div class="quiz-actions">
+            <button class="btn btn-primary" id="checkAnswersBtn" onclick="checkAnswers()">📋 ตรวจคำตอบ</button>
+            <button class="btn btn-secondary" id="resetQuizBtn" onclick="resetQuiz()" style="display:none;">🔄 ทำใหม่</button>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 9: SUMMARY
+         ============================================ -->
+    <section class="section" id="summary">
+        <div class="section-header animate-on-scroll">
+            <span class="section-badge">📋 ส่วนที่ 9</span>
+            <h2 class="section-title">สรุป <span class="highlight">บทเรียน</span></h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="summary-container animate-on-scroll scale-in">
+            <ul class="summary-list">
+                <li>
+                    <span class="summary-icon">🔵</span>
+                    <span><strong>I need</strong> ใช้บอกความจำเป็น สิ่งที่ต้องมี</span>
+                </li>
+                <li>
+                    <span class="summary-icon">🟢</span>
+                    <span><strong>I want to</strong> ใช้บอกความต้องการ สิ่งที่อยากทำ</span>
+                </li>
+                <li>
+                    <span class="summary-icon">🟣</span>
+                    <span><strong>I would like</strong> ใช้บอกความต้องการอย่างสุภาพ เป็นทางการ</span>
+                </li>
+                <li>
+                    <span class="summary-icon">🟠</span>
+                    <span><strong>Can I help you?</strong> และ <strong>May I help you?</strong> ใช้เสนอความช่วยเหลือ</span>
+                </li>
+                <li>
+                    <span class="summary-icon">⭐</span>
+                    <span>ควรเลือกใช้ประโยคให้เหมาะสมกับสถานการณ์และระดับความสุภาพ</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-brand">English Communication Skills</p>
+            <p class="footer-desc">Grade 10 (M.4) • Expressing Needs & Offering Help</p>
+            <div class="footer-divider"></div>
+            <p class="footer-copy">© 2026 English Learning Infographic • สร้างเพื่อการศึกษา</p>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // ============================================
+        // PAGE LOADER
+        // ============================================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('pageLoader').classList.add('hidden');
+            }, 800);
+        });
+
+        // ============================================
+        // QUIZ DATA
+        // ============================================
+        const quizData = [
+            {
+                question: "Which sentence expresses a need?",
+                options: [
+                    "Can I help you?",
+                    "I need a notebook.",
+                    "Thank you.",
+                    "No, thanks."
+                ],
+                correct: 1
+            },
+            {
+                question: "Which is the most polite way to express a desire?",
+                options: [
+                    "I want a coffee.",
+                    "I need a coffee.",
+                    "I would like a coffee.",
+                    "Give me a coffee."
+                ],
+                correct: 2
+            },
+            {
+                question: "What is the correct response to accept help?",
+                options: [
+                    "No, thank you.",
+                    "I can manage.",
+                    "Yes, please.",
+                    "Go away."
+                ],
+                correct: 2
+            },
+            {
+                question: "\"May I help you?\" is more _______ than \"Can I help you?\"",
+                options: [
+                    "casual",
+                    "polite",
+                    "rude",
+                    "funny"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which sentence uses \"I want to\" correctly?",
+                options: [
+                    "I want to a book.",
+                    "I want to study English.",
+                    "I want to some water.",
+                    "I want to help you?."
+                ],
+                correct: 1
+            }
+        ];
+
+        let userAnswers = new Array(quizData.length).fill(null);
+        let quizChecked = false;
+
+        // ============================================
+        // RENDER QUIZ
+        // ============================================
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+
+            quizData.forEach((q, index) => {
+                const questionHTML = `
+                    <div class="quiz-question animate-on-scroll" id="question-${index}" style="transition-delay: ${index * 0.05}s;">
+                        <div class="q-text">
+                            <span class="q-number">${index + 1}</span>
+                            ${q.question}
+                        </div>
+                        <div class="quiz-options" id="options-${index}">
+                            ${q.options.map((opt, optIndex) => `
+                                <label class="quiz-option" id="option-${index}-${optIndex}" onclick="selectOption(${index}, ${optIndex})">
+                                    <input type="radio" name="q${index}" value="${optIndex}">
+                                    <span class="radio-custom"></span>
+                                    <span>${opt}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                        <div class="quiz-feedback" id="feedback-${index}"></div>
+                    </div>
+                `;
+                container.innerHTML += questionHTML;
+            });
+
+            // Re-observe new elements for scroll animation
+            observeAnimations();
+        }
+
+        // ============================================
+        // SELECT OPTION
+        // ============================================
+        function selectOption(questionIndex, optionIndex) {
+            if (quizChecked) return; // Prevent changes after checking
+
+            userAnswers[questionIndex] = optionIndex;
+
+            // Update visual state
+            const options = document.querySelectorAll(`#options-${questionIndex} .quiz-option`);
+            options.forEach((opt, idx) => {
+                opt.classList.remove('selected');
+                if (idx === optionIndex) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        // ============================================
+        // CHECK ANSWERS
+        // ============================================
+        function checkAnswers() {
+            if (quizChecked) return;
+            quizChecked = true;
+
+            let score = 0;
+
+            quizData.forEach((q, index) => {
+                const questionEl = document.getElementById(`question-${index}`);
+                const feedbackEl = document.getElementById(`feedback-${index}`);
+                const options = document.querySelectorAll(`#options-${index} .quiz-option`);
+
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === q.correct;
+
+                if (isCorrect) {
+                    score++;
+                    questionEl.classList.add('correct');
+                    feedbackEl.classList.add('show', 'correct');
+                    feedbackEl.textContent = '✅ ถูกต้อง! เก่งมาก!';
+
+                    if (userAnswer !== null) {
+                        options[userAnswer].classList.add('correct-answer');
+                    }
+                } else {
+                    questionEl.classList.add('incorrect');
+                    feedbackEl.classList.add('show', 'incorrect');
+
+                    if (userAnswer === null) {
+                        feedbackEl.textContent = '⚠️ ไม่ได้ตอบ — คำตอบที่ถูกคือ: ' + q.options[q.correct];
+                    } else {
+                        feedbackEl.textContent = '❌ ไม่ถูกต้อง — คำตอบที่ถูกคือ: ' + q.options[q.correct];
+                        options[userAnswer].classList.add('wrong-answer');
+                    }
+
+                    // Highlight correct answer
+                    options[q.correct].classList.add('correct-answer');
+                }
+            });
+
+            // Show result
+            const resultEl = document.getElementById('quizResult');
+            const scoreEmoji = document.getElementById('scoreEmoji');
+            const scoreText = document.getElementById('scoreText');
+            const scoreMessage = document.getElementById('scoreMessage');
+
+            resultEl.classList.add('show');
+            scoreText.textContent = `${score} / ${quizData.length}`;
+
+            if (score === 5) {
+                scoreEmoji.textContent = '🎉';
+                scoreMessage.textContent = 'ยอดเยี่ยม! คุณทำ满分!';
+                launchConfetti();
+            } else if (score >= 3) {
+                scoreEmoji.textContent = '😊';
+                scoreMessage.textContent = 'ดีมาก! ลองทบทวนอีกนิดนะ';
+            } else {
+                scoreEmoji.textContent = '📚';
+                scoreMessage.textContent = 'ลองอ่านทบทวนแล้วทำอีกครั้งนะ!';
+            }
+
+            // Show reset button
+            document.getElementById('resetQuizBtn').style.display = 'inline-flex';
+            document.getElementById('checkAnswersBtn').style.display = 'none';
+        }
+
+        // ============================================
+        // RESET QUIZ
+        // ============================================
+        function resetQuiz() {
+            quizChecked = false;
+            userAnswers = new Array(quizData.length).fill(null);
+
+            document.getElementById('quizResult').classList.remove('show');
+            document.getElementById('resetQuizBtn').style.display = 'none';
+            document.getElementById('checkAnswersBtn').style.display = 'inline-flex';
+
+            renderQuiz();
+        }
+
+        // ============================================
+        // CONFETTI EFFECT
+        // ============================================
+        function launchConfetti() {
+            const container = document.createElement('div');
+            container.className = 'confetti-container';
+            document.body.appendChild(container);
+
+            const colors = ['#2563EB', '#60A5FA', '#10B981', '#F59E0B', '#EC4899', '#8B5CF6', '#F97316'];
+
+            for (let i = 0; i < 80; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.animationDelay = Math.random() * 1 + 's';
+                confetti.style.width = (Math.random() * 8 + 6) + 'px';
+                confetti.style.height = (Math.random() * 8 + 6) + 'px';
+                container.appendChild(confetti);
+            }
+
+            setTimeout(() => {
+                container.remove();
+            }, 5000);
+        }
+
+        // ============================================
+        // SCROLL ANIMATION (Intersection Observer)
+        // ============================================
+        function observeAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // ============================================
+        // PROGRESS BAR
+        // ============================================
+        function updateProgressBar() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // ============================================
+        // BACK TO TOP BUTTON
+        // ============================================
+        function updateBackToTop() {
+            const btn = document.getElementById('backToTop');
+            if (window.scrollY > 400) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        }
+
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ============================================
+        // NAVBAR SCROLL EFFECT
+        // ============================================
+        function updateNavbar() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
+
+        // ============================================
+        // SCROLL EVENT LISTENER
+        // ============================================
+        window.addEventListener('scroll', () => {
+            updateProgressBar();
+            updateBackToTop();
+            updateNavbar();
+        });
+
+        // ============================================
+        // ACTIVE NAV LINK
+        // ============================================
+        function updateActiveNav() {
+            const sections = document.querySelectorAll('section[id], header[id]');
+            const navLinks = document.querySelectorAll('.nav-links a');
+
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuiz();
+            observeAnimations();
+        });
+    </script>
+</body>
+</html>
