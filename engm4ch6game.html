@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Game - อ30201</title>
+    <style>
+        /* กำหนดขอบเขตของสไตล์เกมเพื่อไม่กระทบกับธีมอื่น */
+        .quiz-container {
+            all: initial; /* ล้างค่าเริ่มต้น */
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff, #f9f9ff);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            color: #000;
+            box-sizing: border-box;
+        }
+
+        .quiz-container * {
+            font-family: inherit;
+            color: #000;
+        }
+
+        .intro, .game, .result {
+            text-align: center;
+        }
+
+        button {
+            background-color: #6aaf6f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #5a9c5f;
+        }
+
+        .question {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            width: 80%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #f0f8ff;
+            border: 1px solid #b0d4b0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .option-btn:hover {
+            background-color: #e0f0ff;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: #6aaf6f;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .timer {
+            font-size: 18px;
+            font-weight: bold;
+            color: #c62828;
+            margin: 10px 0;
+        }
+
+        .score-display {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="intro">
+        <h1>🎮 ยินดีต้อนรับสู่เกมควิซ 🎮</h1>
+        <h2>รายวิชา: ภาษาอังกฤษเพื่อการท่องเที่ยงเชิงวัฒนธรรมและชุมชน 1 (อ30201)<br>ชั้นมัธยมศึกษาปีที่ 4</h2>
+        <p><strong>วิธีเล่น:</strong></p>
+        <ul style="text-align: left;">
+            <li>แต่ละคำถามมีเวลา <strong>1 นาที</strong> ในการตอบ</li>
+            <li>หากหมดเวลาก่อนตอบ จะถือว่าเกมจบลง</li>
+            <li>ตอบถูกได้ <strong>+1 คะแนน</strong>, ตอบผิด <strong>-1 คะแนน</strong></li>
+            <li>ต้องทำคะแนนรวมไม่ต่ำกว่า <strong>12 คะแนน</strong> จึงจะถือว่าผ่าน</li>
+        </ul>
+        <button id="start-btn">เริ่มเกมเลย! 🚀</button>
+    </div>
+
+    <div class="game" style="display:none;">
+        <h2>คำถามที่ <span id="current-q">1</span>/20</h2>
+        <div class="timer">เวลาคงเหลือ: <span id="timer">60</span>s ⏳</div>
+        <div class="score-display">คะแนน: <span id="score">0</span></div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="question" id="question-text"></div>
+        <div class="options" id="options-container"></div>
+    </div>
+
+    <div class="result" style="display:none;">
+        <h2>🎉 สรุปผลเกม 🎉</h2>
+        <p id="result-message"></p>
+        <p>คะแนนรวมของคุณคือ: <strong id="final-score">0</strong>/20 ✨</p>
+        <button id="restart-btn">เล่นอีกครั้ง? 🔁</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            question: "What should you say when asking for directions?",
+            options: ["How are you?", "Excuse me, where is...?", "Thank you.", "Goodbye."],
+            answer: 1
+        },
+        {
+            question: "Which sentence is correct for describing a place?",
+            options: ["It’s very beautiful.", "He is tall.", "She likes apples.", "They are students."],
+            answer: 0
+        },
+        {
+            question: "What does 'tourist attraction' mean?",
+            options: ["A hotel", "A famous place to visit", "A restaurant", "A bus"],
+            answer: 1
+        },
+        {
+            question: "Which word means 'the place where you stay during travel'?",
+            options: ["Restaurant", "Museum", "Accommodation", "Park"],
+            answer: 2
+        },
+        {
+            question: "How do you politely ask for help?",
+            options: ["Help me now!", "Can you help me, please?", "Where are you?", "I don’t know."],
+            answer: 1
+        },
+        {
+            question: "What is the best way to start a conversation with a tourist?",
+            options: ["Hello, welcome to Thailand!", "What’s your name?", "Are you lost?", "Why are you here?"],
+            answer: 0
+        },
+        {
+            question: "Which of these is NOT a cultural site?",
+            options: ["Temple", "Beach", "Historical park", "Museum"],
+            answer: 1
+        },
+        {
+            question: "What do you call a person who visits places for pleasure?",
+            options: ["Citizen", "Tourist", "Guide", "Resident"],
+            answer: 1
+        },
+        {
+            question: "How do you say 'Thank you for your kindness' in English?",
+            options: ["You’re welcome.", "Thanks for being kind.", "See you later.", "Have a good day."],
+            answer: 1
+        },
+        {
+            question: "What is an appropriate response to 'Do you speak English?'",
+            options: ["Yes, I do.", "No, I don't.", "A little.", "All of the above"],
+            answer: 3
+        },
+        {
+            question: "Which is a polite way to ask for information?",
+            options: ["Give me directions!", "Could you tell me...?", "Where is it?", "Tell me now."],
+            answer: 1
+        },
+        {
+            question: "What is a common greeting used by tour guides?",
+            options: ["Welcome to Thailand!", "Goodbye.", "How old are you?", "What time is it?"],
+            answer: 0
+        },
+        {
+            question: "Which word describes a local person showing tourists around?",
+            options: ["Visitor", "Driver", "Guide", "Chef"],
+            answer: 2
+        },
+        {
+            question: "What should you avoid doing when visiting a temple?",
+            options: ["Wearing shorts or revealing clothes", "Speaking softly", "Taking photos if allowed", "Removing shoes when required"],
+            answer: 0
+        },
+        {
+            question: "How would you describe a crowded market?",
+            options: ["It’s peaceful.", "It’s busy and full of people.", "It’s empty.", "It’s quiet."],
+            answer: 1
+        },
+        {
+            question: "What is the meaning of 'local cuisine'?",
+            options: ["Food from another country", "Traditional food of a place", "Fast food", "Expensive food"],
+            answer: 1
+        },
+        {
+            question: "What do you call a group of tourists?",
+            options: ["Team", "Class", "Group", "Crowd"],
+            answer: 2
+        },
+        {
+            question: "Which is NOT an example of a community-based tourism activity?",
+            options: ["Staying with a local family", "Visiting a local village", "Shopping at a mall", "Learning traditional crafts"],
+            answer: 2
+        },
+        {
+            question: "What is the purpose of a tourist information center?",
+            options: ["To sell souvenirs", "To provide maps and guides", "To offer transportation", "To serve food"],
+            answer: 1
+        },
+        {
+            question: "What should you do before traveling to a new place?",
+            options: ["Learn about local customs", "Pack your bags", "Book accommodation", "All of the above"],
+            answer: 3
+        }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 60;
+
+    function startTimer() {
+        clearInterval(timer);
+        timeLeft = 60;
+        document.getElementById("timer").textContent = timeLeft;
+        timer = setInterval(() => {
+            timeLeft--;
+            document.getElementById("timer").textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                endGame();
+            }
+        }, 1000);
+    }
+
+    function loadQuestion() {
+        const q = quizData[currentQuestion];
+        document.getElementById("question-text").textContent = q.question;
+        const optionsContainer = document.getElementById("options-container");
+        optionsContainer.innerHTML = "";
+        q.options.forEach((opt, i) => {
+            const btn = document.createElement("button");
+            btn.classList.add("option-btn");
+            btn.textContent = opt;
+            btn.onclick = () => selectAnswer(i);
+            optionsContainer.appendChild(btn);
+        });
+        document.getElementById("current-q").textContent = currentQuestion + 1;
+        updateProgress();
+    }
+
+    function updateProgress() {
+        const progress = ((currentQuestion) / quizData.length) * 100;
+        document.getElementById("progress-bar").style.width = `${progress}%`;
+    }
+
+    function selectAnswer(index) {
+        const q = quizData[currentQuestion];
+        if (index === q.answer) {
+            score++;
+        } else {
+            score = Math.max(0, score - 1); // ป้องกันคะแนนติดลบ
+        }
+        document.getElementById("score").textContent = score;
+        clearInterval(timer);
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+            loadQuestion();
+            startTimer();
+        } else {
+            endGame();
+        }
+    }
+
+    function endGame() {
+        clearInterval(timer);
+        document.querySelector(".game").style.display = "none";
+        document.querySelector(".result").style.display = "block";
+        const finalScoreEl = document.getElementById("final-score");
+        finalScoreEl.textContent = score;
+        const resultMessage = document.getElementById("result-message");
+        if (score >= 12) {
+            resultMessage.innerHTML = `🎉 <strong>ยินดีด้วย! คุณผ่านเกณฑ์แล้ว!</strong>`;
+        } else {
+            resultMessage.innerHTML = `😔 <strong>เสียใจด้วย คุณยังไม่ผ่านเกณฑ์ 12 คะแนน</strong>`;
+        }
+    }
+
+    document.getElementById("start-btn").addEventListener("click", () => {
+        document.querySelector(".intro").style.display = "none";
+        document.querySelector(".game").style.display = "block";
+        loadQuestion();
+        startTimer();
+    });
+
+    document.getElementById("restart-btn").addEventListener("click", () => {
+        currentQuestion = 0;
+        score = 0;
+        document.getElementById("score").textContent = score;
+        document.querySelector(".result").style.display = "none";
+        document.querySelector(".game").style.display = "block";
+        loadQuestion();
+        startTimer();
+    });
+</script>
+
+</body>
+</html>
