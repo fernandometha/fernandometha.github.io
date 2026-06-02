@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Job Advertisements & Self-Introduction</title>
+    <!-- นำเข้าฟอนต์ Prompt จาก Google Fonts เพื่อความทันสมัยและอ่านง่าย -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --primary-navy: #1E3A8A;
+            --primary-blue: #2563EB;
+            --accent-blue: #3B82F6;
+            --light-blue: #DBEAFE;
+            --bg-color: #F0F4F8;
+            --white: #FFFFFF;
+            --text-dark: #1F2937;
+            --text-gray: #4B5563;
+            --success: #10B981;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Utility Classes --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--primary-navy);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-blue);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: var(--light-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+        }
+
+        .icon-box svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        /* --- Scroll Animation --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Header --- */
+        header {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, var(--primary-blue) 100%);
+            color: var(--white);
+            padding: 4rem 20px;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* --- Section 1: Meaning --- */
+        .highlight-box {
+            background: var(--white);
+            border-left: 6px solid var(--primary-blue);
+            padding: 2rem;
+            border-radius: 0 16px 16px 0;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .highlight-box h3 {
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .highlight-box ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .highlight-box li {
+            background: var(--light-blue);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--primary-navy);
+        }
+
+        /* --- Section 2: Components --- */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .card .thai-title {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .card ul {
+            list-style: none;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .card ul li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .card ul li::before {
+            content: '•';
+            color: var(--accent-blue);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* --- Section 3: Vocabulary Table --- */
+        .table-container {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--primary-navy);
+            color: var(--white);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        tr:nth-child(even) {
+            background-color: #F9FAFB;
+        }
+
+        tr:hover {
+            background-color: var(--light-blue);
+        }
+
+        /* --- Section 4: Timeline --- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--light-blue);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .timeline-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: -46px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: var(--primary-blue);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: 4px solid var(--bg-color);
+        }
+
+        .timeline-item h4 {
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Section 5 & 6: Self Introduction --- */
+        .intro-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .step-card {
+            background: var(--white);
+            border: 2px solid var(--light-blue);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 180px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .step-card:hover {
+            background: var(--primary-blue);
+            color: var(--white);
+            border-color: var(--primary-blue);
+        }
+
+        .step-card:hover h4, .step-card:hover p {
+            color: var(--white);
+        }
+
+        .step-card h4 {
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-card p {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .expressions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .expression-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .expression-card h3 {
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .expression-card ul {
+            list-style: none;
+        }
+
+        .expression-card li {
+            margin-bottom: 0.8rem;
+            padding: 0.8rem;
+            background: #F3F4F6;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.05rem;
+            color: var(--primary-blue);
+        }
+
+        /* --- Section 7: Dialogue --- */
+        .dialogue-box {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .chat {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat.interviewer {
+            align-items: flex-start;
+        }
+
+        .chat.student {
+            align-items: flex-end;
+        }
+
+        .bubble {
+            max-width: 80%;
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .chat.interviewer .bubble {
+            background: #F3F4F6;
+            color: var(--text-dark);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat.student .bubble {
+            background: var(--primary-blue);
+            color: var(--white);
+            border-bottom-right-radius: 4px;
+        }
+
+        .speaker-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--text-gray);
+        }
+
+        .chat.student .speaker-name {
+            text-align: right;
+        }
+
+        /* --- Section 8: Summary --- */
+        .summary-box {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+            border: 2px solid var(--success);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .summary-box h3 {
+            color: #065F46;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            color: #064E3B;
+        }
+
+        .check-icon {
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* --- Section 9: Quiz --- */
+        .quiz-container {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .question {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #E5E7EB;
+            padding-bottom: 1.5rem;
+        }
+
+        .question:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .question h4 {
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .option {
+            padding: 0.8rem;
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            background: var(--light-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .answer-btn {
+            background: var(--primary-navy);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .answer-btn:hover {
+            background: var(--primary-blue);
+        }
+
+        .answer-text {
+            display: none;
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            background: #D1FAE5;
+            color: #065F46;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .answer-text.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--primary-navy);
+            color: var(--white);
+            text-align: center;
+            padding: 3rem 20px;
+            margin-top: 4rem;
+        }
+
+        footer h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        footer p {
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .footer-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .footer-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--white);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.5rem; }
+            .timeline { padding-left: 20px; }
+            .timeline-item::before { left: -36px; width: 28px; height: 28px; font-size: 0.8rem; }
+            .grid-4 { grid-template-columns: 1fr; }
+            .expressions-grid { grid-template-columns: 1fr; }
+            .chat.interviewer .bubble, .chat.student .bubble { max-width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="animate-on-scroll">
+        <div class="container">
+            <h1>Reading Job Advertisements<br>& Self-Introduction</h1>
+            <p>การอ่านประกาศรับสมัครงาน และสำนวนการแนะนำตัวเองเบื้องต้น</p>
+            <p style="font-size: 1rem; margin-top: 10px; opacity: 0.7;">สำหรับนักเรียนระดับชั้นมัธยมศึกษาปีที่ 4</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Section 1: Meaning -->
+        <section class="animate-on-scroll">
+            <h2 class="section-title">ความหมายของประกาศรับสมัครงาน</h2>
+            <div class="highlight-box">
+                <h3>What is a Job Advertisement?</h3>
+                <p style="margin-bottom: 1.5rem; font-size: 1.1rem;">ประกาศรับสมัครงาน คือ ข้อความที่องค์กรหรือบริษัทเผยแพร่เพื่อประกาศรับพนักงานเข้าทำงาน</p>
+                <h4 style="margin-bottom: 1rem; color: var(--primary-blue);">จุดประสงค์ (Objectives)</h4>
+                <ul>
+                    <li>แจ้งตำแหน่งงานว่าง</li>
+                    <li>ระบุคุณสมบัติผู้สมัคร</li>
+                    <li>แจ้งหน้าที่รับผิดชอบ</li>
+                    <li>ระบุช่องทางการสมัคร</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 2: Components -->
+        <section class="animate-on-scroll">
+            <h2 class="section-title">ส่วนประกอบของประกาศรับสมัครงาน</h2>
+            <div class="grid-4">
+                <div class="card">
+                    <div class="icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    </div>
+                    <h4>1. Position</h4>
+                    <div class="thai-title">ตำแหน่งงาน</div>
+                    <ul>
+                        <li>Sales Assistant</li>
+                        <li>Receptionist</li>
+                        <li>Graphic Designer</li>
+                        <li>English Teacher</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </div>
+                    <h4>2. Qualifications</h4>
+                    <div class="thai-title">คุณสมบัติผู้สมัคร</div>
+                    <ul>
+                        <li>อายุ 18 ปีขึ้นไป</li>
+                        <li>สามารถใช้คอมพิวเตอร์ได้</li>
+                        <li>มีทักษะการสื่อสารที่ดี</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                    <h4>3. Responsibilities</h4>
+                    <div class="thai-title">หน้าที่รับผิดชอบ</div>
+                    <ul>
+                        <li>ต้อนรับลูกค้า</li>
+                        <li>จัดทำเอกสาร</li>
+                        <li>ติดต่อประสานงาน</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="icon-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    </div>
+                    <h4>4. Contact Info</h4>
+                    <div class="thai-title">ข้อมูลติดต่อ</div>
+                    <ul>
+                        <li>Email</li>
+                        <li>Phone Number</li>
+                        <li>Website</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Vocabulary -->
+        <section class="animate-on-scroll">
+            <h2 class="section-title">คำศัพท์สำคัญในประกาศรับสมัครงาน</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vocabulary</th>
+                            <th>Meaning (ความหมาย)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Position</td><td>ตำแหน่งงาน</td></tr>
+                        <tr><td>Applicant</td><td>ผู้สมัคร</td></tr>
+                        <tr><td>Experience</td><td>ประสบการณ์</td></tr>
+                        <tr><td>Qualification</td><td>คุณสมบัติ</td></tr>
+                        <tr><td>Salary</td><td>เงินเดือน</td></tr>
+                        <tr><td>Full-time</td><td>งานประจำ</td></tr>
+                        <tr><td>Part-time</td><td>งานพาร์ทไทม์</td></tr>
+                        <tr><td>Resume</td><td>ประวัติย่อ</td></tr>
+                        <tr><td>Interview</td><td>สัมภาษณ์</td></tr>
+                        <tr><td>Contact</td><td>ติดต่อ</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 4: Reading Techniques -->
+        <section class="animate-on-scroll">
+            <h2 class="section-title">เทคนิคการอ่านประกาศรับสมัครงาน</h2>
+            <div class="timeline">
+                <div class="timeline-item" data-step="1">
+                    <h4>อ่านชื่อตำแหน่งงานก่อน</h4>
+                    <p>ตรวจสอบว่า Position ตรงกับความสนใจและความสามารถของเราหรือไม่</p>
+                </div>
+                <div class="timeline-item" data-step="2">
+                    <h4>ตรวจสอบคุณสมบัติผู้สมัคร</h4>
+                    <p>ดู Qualifications ว่าเราผ่านเกณฑ์ อายุ การศึกษา หรือทักษะที่ระบุไว้หรือไม่</p>
+                </div>
+                <div class="timeline-item" data-step="3">
+                    <h4>อ่านหน้าที่รับผิดชอบ</h4>
+                    <p>ศึกษา Responsibilities เพื่อทำความเข้าใจเนื้องานที่ต้องทำประจำวัน</p>
+                </div>
+                <div class="timeline-item" data-step="4">
+                    <h4>ตรวจสอบเงินเดือนและสวัสดิการ</h4>
+                    <p>ดูรายละเอียด Salary และ Benefits ว่าคุ้มค่ากับเวลาและความสามารถหรือไม่</p>
+                </div>
+                <div class="timeline-item" data-step="5">
+                    <h4>ดูข้อมูลการติดต่อ</h4>
+                    <p>จดจำ Contact Information เช่น Email หรือ Website เพื่อเตรียมส่งใบสมัคร</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Basic Self-Introduction -->
+        <section class="animate-on-scroll">
+            <h2 class="section-title">การแนะนำตัวเองเบื้องต้น</h2>
+            <p style="text-align: center; margin-bottom: 2rem; color: var(--text-gray);">Basic Self-Introduction Flow</p>
+            <div class="intro-steps">
+                <div class="step-card">
+                    <h4>1. Greeting</h4>
+                    <p>Hello.<br>Good morning.<br>Nice to meet you.</p>
+                </div>
+                <div class="step-card">
+                    <h4>2. Name</h4>
+                    <p>My name is Somchai.<br>You can call me Chai.</p>
+                </div>
+                <div class="step-card">
+                    <h4>3. Education</h4>
+                    <p>I am a high school student.<br>I study at Mae Sot School.</p>
+                </div>
+                <div class="step-card">
+                    <h4>4. Skills</h4>
+                    <p>I can use Microsoft Office.<br>I can communicate in English.</p>
+                </div>
+                <div class="step-card">
+                    <h4>5. Closing</h4>
+                    <p>Thank you.<br>Nice to meet you.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Key Expressions -->
+        <section class="animate-on-scroll">
+            <h2 class="section-title">สำนวนสำคัญสำหรับการแนะนำตัว</h2>
+            <div class="expressions-grid">
+                <div class="expression-card">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Talking about yourself
+                    </h3>
+                    <ul>
+                        <li>My name is ...</li>
+                        <li>I am ... years old.</li>
+                        <li>I study at ...</li>
+                        <li>I am interested in ...</li>
+                        <li>My hobby is ...</li>
+                        <li>I can ...</li>
+                    </ul>
+                </div>
+                <div class="expression-card">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        Talking about skills
+                    </h3>
+                    <ul>
+                        <li>I am good at ...</li>
+                        <li>I can work well in a team.</li>
+                        <li>I am responsible.</li>
+                        <li>I am hardworking.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Example Dialogue -->
+        <section class="animate-on-scroll">
+            <h2 class="section-title">ตัวอย่างบทสนทนา</h2>
+            <div class="dialogue-box">
+                <div class="chat interviewer">
+                    <div class="speaker-name">Interviewer</div>
+                    <div class="bubble">
+                        Tell me about yourself.
+                    </div>
+                </div>
+                <div class="chat student">
+                    <div class="speaker-name">Student</div>
+                    <div class="bubble">
+                        Hello. My name is Narin.<br>
+                        I am 16 years old.<br>
+                        I study at Mae Sot School.<br>
+                        I am interested in technology.<br>
+                        I can use computers and speak basic English.<br>
+                        Thank you.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: Summary -->
+        <section class="animate-on-scroll">
+            <h2 class="section-title">สรุปความรู้</h2>
+            <div class="summary-box">
+                <h3>Remember!</h3>
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <span class="check-icon">✓</span> อ่านตำแหน่งงานให้เข้าใจ
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✓</span> ตรวจสอบคุณสมบัติผู้สมัคร
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✓</span> เรียนรู้คำศัพท์เกี่ยวกับการสมัครงาน
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✓</span> ฝึกแนะนำตัวเองเป็นภาษาอังกฤษ
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✓</span> ใช้ประโยคสั้น ๆ ชัดเจน และสุภาพ
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 9: Quiz -->
+        <section class="animate-on-scroll">
+            <h2 class="section-title">แบบฝึกคิดท้ายบท</h2>
+            <div class="quiz-container">
+                <div class="question">
+                    <h4>Question 1: What does "Position" mean?</h4>
+                    <div class="options">
+                        <div class="option">A. เงินเดือน</div>
+                        <div class="option">B. ตำแหน่งงาน</div>
+                        <div class="option">C. ผู้สมัคร</div>
+                        <div class="option">D. ประสบการณ์</div>
+                    </div>
+                    <button class="answer-btn" onclick="toggleAnswer('ans1')">ดูเฉลย</button>
+                    <div id="ans1" class="answer-text">เฉลย: B. ตำแหน่งงาน</div>
+                </div>
+
+                <div class="question">
+                    <h4>Question 2: Which sentence is used for self-introduction?</h4>
+                    <div class="options">
+                        <div class="option">A. Open the door.</div>
+                        <div class="option">B. I like pizza.</div>
+                        <div class="option">C. My name is Jane.</div>
+                        <div class="option">D. Close the window.</div>
+                    </div>
+                    <button class="answer-btn" onclick="toggleAnswer('ans2')">ดูเฉลย</button>
+                    <div id="ans2" class="answer-text">เฉลย: C. My name is Jane.</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3>English for Careers and Communication</h3>
+            <p>Reading Job Advertisements & Self-Introduction</p>
+            <div class="footer-icons">
+                <div class="footer-icon">
+                    <svg viewBox="0 0 24 24"><path d="M20 7h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zM10 4h4v3h-4V4z"/></svg>
+                    <span>Career</span>
+                </div>
+                <div class="footer-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    <span>Application</span>
+                </div>
+                <div class="footer-icon">
+                    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+                    <span>Communication</span>
+                </div>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.6;">© 2026 Educational Infographic Project</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Scroll Animation using Intersection Observer
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        observer.unobserve(entry.target); // Animate only once
+                    }
+                });
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+
+        // Quiz Toggle Function
+        function toggleAnswer(id) {
+            const answerDiv = document.getElementById(id);
+            if (answerDiv.classList.contains('show')) {
+                answerDiv.classList.remove('show');
+            } else {
+                answerDiv.classList.add('show');
+            }
+        }
+    </script>
+</body>
+</html>
