@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>การอ่านประกาศรับสมัครงาน และการแนะนำตัวเองเบื้องต้น</title>
+
+<!-- Google Fonts: Prompt -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+/* ===============================
+   CSS Variables - Color Palette
+=============================== */
+:root{
+  --primary:#1e3a8a;      /* Deep Blue */
+  --primary-light:#3b82f6;/* Blue */
+  --secondary:#60a5fa;    /* Light Blue */
+  --accent:#0ea5e9;       /* Sky Blue */
+  --soft:#dbeafe;         /* Soft Blue */
+  --bg:#f0f9ff;           /* Background */
+  --white:#ffffff;
+  --text:#0f172a;
+  --muted:#475569;
+  --success:#10b981;
+  --danger:#ef4444;
+  --warning:#f59e0b;
+  --gradient:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 50%,#0ea5e9 100%);
+  --gradient-soft:linear-gradient(135deg,#dbeafe 0%,#e0f2fe 100%);
+  --shadow:0 10px 30px rgba(30,58,138,.15);
+  --shadow-lg:0 20px 50px rgba(30,58,138,.25);
+}
+
+/* ===============================
+   Reset & Base
+=============================== */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Prompt',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+
+/* ===============================
+   Sticky Navigation
+=============================== */
+.navbar{
+  position:sticky;top:0;left:0;width:100%;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);
+  box-shadow:0 2px 20px rgba(30,58,138,.1);
+  z-index:1000;
+  padding:12px 0;
+}
+.nav-container{
+  max-width:1200px;margin:0 auto;padding:0 20px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.nav-logo{
+  font-weight:700;font-size:1.1rem;color:var(--primary);
+  display:flex;align-items:center;gap:8px;
+}
+.nav-logo i{color:var(--accent);}
+.nav-links{
+  display:flex;gap:8px;list-style:none;flex-wrap:wrap;
+}
+.nav-links a{
+  padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:500;
+  color:var(--muted);transition:.3s;
+}
+.nav-links a:hover{background:var(--soft);color:var(--primary);}
+.menu-toggle{display:none;background:none;border:none;font-size:1.4rem;color:var(--primary);cursor:pointer;}
+
+@media(max-width:900px){
+  .nav-links{
+    display:none;position:absolute;top:100%;left:0;width:100%;
+    background:#fff;flex-direction:column;padding:12px;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+  }
+  .nav-links.active{display:flex;}
+  .menu-toggle{display:block;}
+}
+
+/* ===============================
+   Hero Section
+=============================== */
+.hero{
+  background:var(--gradient);
+  color:#fff;
+  padding:80px 20px 100px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 20% 30%,rgba(255,255,255,.15) 0,transparent 40%),
+    radial-gradient(circle at 80% 70%,rgba(255,255,255,.1) 0,transparent 40%);
+}
+.hero-container{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+  position:relative;z-index:2;
+}
+.hero-text h1{
+  font-size:2.5rem;font-weight:800;line-height:1.3;margin-bottom:20px;
+  animation:slideUp .8s ease;
+}
+.hero-text p{
+  font-size:1.1rem;opacity:.95;margin-bottom:28px;
+  animation:slideUp 1s ease;
+}
+.hero-btn{
+  display:inline-block;padding:14px 32px;
+  background:#fff;color:var(--primary);
+  border-radius:50px;font-weight:600;
+  box-shadow:var(--shadow);
+  transition:.3s;animation:slideUp 1.2s ease;
+}
+.hero-btn:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.hero-illustration{
+  display:flex;justify-content:center;align-items:center;
+  animation:float 4s ease-in-out infinite;
+}
+.hero-card{
+  background:#fff;color:var(--text);
+  border-radius:20px;padding:28px;
+  box-shadow:var(--shadow-lg);
+  width:100%;max-width:380px;
+  transform:rotate(-3deg);
+}
+.hero-card .tag{
+  display:inline-block;background:var(--soft);color:var(--primary);
+  padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:600;margin-bottom:14px;
+}
+.hero-card h3{color:var(--primary);margin-bottom:10px;}
+.hero-card .line{height:8px;background:var(--soft);border-radius:4px;margin:8px 0;}
+.hero-card .line.short{width:60%;}
+.hero-card .line.medium{width:80%;}
+.hero-card .apply-btn{
+  margin-top:14px;background:var(--gradient);color:#fff;
+  padding:10px;border-radius:10px;text-align:center;font-weight:600;
+}
+
+@media(max-width:768px){
+  .hero-container{grid-template-columns:1fr;text-align:center;}
+  .hero-text h1{font-size:1.8rem;}
+  .hero-card{transform:rotate(0);margin:0 auto;}
+}
+
+/* ===============================
+   Section Common
+=============================== */
+section{padding:70px 20px;}
+.container{max-width:1200px;margin:0 auto;}
+.section-title{
+  text-align:center;margin-bottom:50px;
+}
+.section-title .num{
+  display:inline-block;background:var(--gradient);color:#fff;
+  width:40px;height:40px;line-height:40px;border-radius:50%;
+  font-weight:700;margin-bottom:12px;
+}
+.section-title h2{
+  font-size:2rem;font-weight:700;color:var(--primary);margin-bottom:10px;
+}
+.section-title p{color:var(--muted);max-width:700px;margin:0 auto;}
+
+/* ===============================
+   Scroll Animation
+=============================== */
+.fade-in{
+  opacity:0;transform:translateY(40px);
+  transition:opacity .8s ease,transform .8s ease;
+}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+
+/* ===============================
+   Section 1 - Meaning Cards
+=============================== */
+.meaning-intro{
+  background:var(--gradient-soft);
+  border-left:5px solid var(--primary);
+  padding:20px 24px;border-radius:12px;margin-bottom:40px;
+  font-size:1.05rem;color:var(--text);
+}
+.meaning-intro strong{color:var(--primary);}
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.info-card{
+  background:#fff;padding:28px 20px;border-radius:16px;
+  text-align:center;box-shadow:var(--shadow);
+  transition:.4s;border-top:4px solid var(--primary-light);
+}
+.info-card:hover{
+  transform:translateY(-8px);
+  box-shadow:var(--shadow-lg);
+  border-top-color:var(--accent);
+}
+.info-card .icon{
+  width:64px;height:64px;margin:0 auto 16px;
+  background:var(--gradient);color:#fff;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;
+}
+.info-card h4{color:var(--primary);margin-bottom:6px;font-weight:600;}
+.info-card p{color:var(--muted);font-size:.9rem;}
+
+/* ===============================
+   Section 2 - Vocabulary
+=============================== */
+.vocab-section{background:linear-gradient(180deg,#fff 0%,var(--bg) 100%);}
+.vocab-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+.vocab-card{
+  background:#fff;padding:18px;border-radius:14px;
+  display:flex;align-items:center;gap:14px;
+  box-shadow:var(--shadow);
+  transition:.3s;cursor:pointer;
+  border:2px solid transparent;
+}
+.vocab-card:hover{
+  border-color:var(--accent);
+  transform:scale(1.03);
+  background:var(--gradient-soft);
+}
+.vocab-card .v-icon{
+  flex-shrink:0;width:46px;height:46px;
+  background:var(--soft);color:var(--primary);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+}
+.vocab-card .v-text h5{color:var(--primary);font-size:1rem;font-weight:600;}
+.vocab-card .v-text span{color:var(--muted);font-size:.85rem;}
+
+/* ===============================
+   Section 3 - Job Ad Example
+=============================== */
+.job-ad{
+  max-width:640px;margin:0 auto;
+  background:#fff;border-radius:20px;
+  box-shadow:var(--shadow-lg);
+  overflow:hidden;
+  border:2px dashed var(--primary-light);
+}
+.job-ad-header{
+  background:var(--gradient);color:#fff;
+  padding:24px;text-align:center;
+}
+.job-ad-header .badge{
+  display:inline-block;background:rgba(255,255,255,.25);
+  padding:4px 14px;border-radius:20px;font-size:.8rem;margin-bottom:8px;
+}
+.job-ad-header h3{font-size:1.6rem;font-weight:700;}
+.job-ad-body{padding:28px;}
+.job-ad-item{
+  display:flex;gap:14px;margin-bottom:18px;
+  padding-bottom:18px;border-bottom:1px dashed #e2e8f0;
+}
+.job-ad-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.job-ad-item .ji-icon{
+  flex-shrink:0;width:44px;height:44px;
+  background:var(--soft);color:var(--primary);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+}
+.job-ad-item h5{color:var(--primary);font-weight:600;margin-bottom:4px;}
+.job-ad-item p,.job-ad-item ul{color:var(--muted);font-size:.95rem;}
+.job-ad-item ul{padding-left:18px;}
+.job-ad-item a{color:var(--accent);font-weight:500;}
+
+/* ===============================
+   Section 4 - Flowchart
+=============================== */
+.flow-section{background:var(--gradient-soft);}
+.flowchart{
+  max-width:520px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+}
+.flow-step{
+  background:#fff;padding:18px 24px;border-radius:14px;
+  box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:16px;
+  width:100%;transition:.3s;
+  border-left:5px solid var(--primary-light);
+}
+.flow-step:hover{transform:translateX(8px);border-left-color:var(--accent);}
+.flow-step .step-num{
+  flex-shrink:0;width:42px;height:42px;
+  background:var(--gradient);color:#fff;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:700;
+}
+.flow-step .step-icon{
+  flex-shrink:0;width:42px;height:42px;
+  background:var(--soft);color:var(--primary);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+}
+.flow-step p{font-weight:500;color:var(--text);}
+.flow-arrow{
+  color:var(--primary-light);font-size:1.6rem;margin:6px 0;
+}
+
+/* ===============================
+   Section 5 - Self Introduction
+=============================== */
+.intro-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+.speech-card{
+  background:#fff;border-radius:16px;padding:24px;
+  box-shadow:var(--shadow);position:relative;
+  transition:.3s;
+}
+.speech-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);}
+.speech-card h4{
+  color:var(--primary);margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;font-weight:600;
+}
+.speech-card h4 i{
+  background:var(--gradient);color:#fff;
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;
+}
+.speech-bubble{
+  background:var(--gradient-soft);
+  padding:12px 16px;border-radius:12px;margin-bottom:10px;
+  position:relative;font-size:.95rem;color:var(--text);
+  border-left:3px solid var(--accent);
+}
+.speech-bubble::before{
+  content:'';position:absolute;left:-8px;top:12px;
+  border:4px solid transparent;border-right-color:var(--accent);
+}
+
+/* ===============================
+   Section 6 - Example Introduction
+=============================== */
+.example-section{background:var(--gradient-soft);}
+.example-card{
+  max-width:600px;margin:0 auto;
+  background:#fff;border-radius:20px;padding:36px;
+  box-shadow:var(--shadow-lg);
+  position:relative;
+}
+.example-header{
+  display:flex;align-items:center;gap:16px;margin-bottom:24px;
+  padding-bottom:20px;border-bottom:2px dashed var(--soft);
+}
+.avatar{
+  width:70px;height:70px;border-radius:50%;
+  background:var(--gradient);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;font-weight:700;
+  box-shadow:var(--shadow);
+}
+.example-header h4{color:var(--primary);font-weight:600;}
+.example-header span{color:var(--muted);font-size:.9rem;}
+.example-lines p{
+  padding:10px 14px;margin-bottom:8px;
+  background:var(--gradient-soft);border-radius:10px;
+  border-left:3px solid var(--accent);
+  font-size:1rem;
+}
+.example-lines p:last-child{
+  background:var(--gradient);color:#fff;border-left:none;text-align:center;font-weight:600;
+}
+
+/* ===============================
+   Section 7 - Interview Tips
+=============================== */
+.tips-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+.tip-card{
+  background:#fff;border-radius:16px;padding:28px 20px;
+  text-align:center;box-shadow:var(--shadow);
+  transition:.4s;position:relative;overflow:hidden;
+}
+.tip-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:var(--gradient);
+}
+.tip-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:var(--shadow-lg);}
+.tip-card .tip-num{
+  width:44px;height:44px;margin:0 auto 14px;
+  background:var(--gradient);color:#fff;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:700;
+}
+.tip-card i.tip-icon{
+  font-size:2.4rem;color:var(--accent);margin-bottom:14px;
+}
+.tip-card h4{color:var(--primary);margin-bottom:6px;font-weight:600;}
+.tip-card p{color:var(--muted);font-size:.9rem;}
+
+/* ===============================
+   Section 8 - Summary
+=============================== */
+.summary-section{background:var(--gradient);color:#fff;}
+.summary-section .section-title h2{color:#fff;}
+.summary-section .section-title p{color:rgba(255,255,255,.9);}
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;max-width:1000px;margin:0 auto;
+}
+.summary-item{
+  background:rgba(255,255,255,.15);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.25);
+  padding:18px;border-radius:14px;
+  display:flex;align-items:center;gap:14px;
+  transition:.3s;
+}
+.summary-item:hover{background:rgba(255,255,255,.25);transform:translateX(5px);}
+.summary-item i{
+  width:42px;height:42px;background:#fff;color:var(--primary);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.summary-item strong{display:block;font-weight:600;}
+.summary-item span{font-size:.9rem;opacity:.9;}
+
+/* ===============================
+   Quiz Section
+=============================== */
+.quiz-section{background:#fff;}
+.quiz-box{
+  max-width:720px;margin:0 auto;
+  background:var(--gradient-soft);
+  border-radius:20px;padding:36px;
+  box-shadow:var(--shadow);
+}
+.quiz-progress{
+  background:#fff;border-radius:50px;height:10px;overflow:hidden;margin-bottom:20px;
+}
+.quiz-progress-bar{
+  height:100%;background:var(--gradient);
+  width:0%;transition:width .4s;
+}
+.quiz-info{
+  display:flex;justify-content:space-between;margin-bottom:18px;
+  font-size:.9rem;color:var(--muted);font-weight:500;
+}
+.quiz-question{
+  background:#fff;padding:22px;border-radius:14px;margin-bottom:20px;
+  font-size:1.1rem;font-weight:600;color:var(--primary);
+  box-shadow:0 4px 12px rgba(30,58,138,.08);
+}
+.quiz-options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.quiz-option{
+  background:#fff;padding:14px 18px;border-radius:12px;
+  border:2px solid #e2e8f0;cursor:pointer;
+  transition:.2s;font-size:.95rem;
+  display:flex;align-items:center;gap:12px;
+}
+.quiz-option:hover{border-color:var(--accent);background:var(--soft);}
+.quiz-option.selected{border-color:var(--primary);background:var(--soft);}
+.quiz-option.correct{border-color:var(--success);background:#d1fae5;color:#065f46;}
+.quiz-option.wrong{border-color:var(--danger);background:#fee2e2;color:#991b1b;}
+.quiz-option .opt-letter{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--soft);color:var(--primary);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;flex-shrink:0;
+}
+.quiz-btn{
+  background:var(--gradient);color:#fff;
+  padding:14px 28px;border:none;border-radius:50px;
+  font-family:inherit;font-weight:600;font-size:1rem;
+  cursor:pointer;transition:.3s;width:100%;
+}
+.quiz-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+.quiz-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.quiz-result{
+  text-align:center;padding:20px;
+  background:#fff;border-radius:14px;
+}
+.quiz-result h3{color:var(--primary);font-size:1.5rem;margin-bottom:10px;}
+.quiz-result .score{
+  font-size:3rem;font-weight:800;color:var(--accent);margin:10px 0;
+}
+.quiz-result p{color:var(--muted);margin-bottom:16px;}
+
+/* ===============================
+   Footer
+=============================== */
+footer{
+  background:var(--primary);color:#fff;
+  padding:40px 20px 20px;text-align:center;
+}
+footer h4{margin-bottom:10px;font-weight:600;}
+footer p{opacity:.85;font-size:.9rem;margin-bottom:6px;}
+footer .social{margin:16px 0;display:flex;justify-content:center;gap:14px;}
+footer .social a{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  transition:.3s;
+}
+footer .social a:hover{background:var(--accent);transform:translateY(-3px);}
+footer .copyright{
+  margin-top:20px;padding-top:20px;
+  border-top:1px solid rgba(255,255,255,.15);
+  font-size:.85rem;opacity:.7;
+}
+
+/* ===============================
+   Animations
+=============================== */
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-15px);}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAVIGATION ============ -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo"><i class="fa-solid fa-briefcase"></i> Job Reading M.3</div>
+    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#hero">หน้าแรก</a></li>
+      <li><a href="#s1">ความหมาย</a></li>
+      <li><a href="#s2">คำศัพท์</a></li>
+      <li><a href="#s3">ตัวอย่าง</a></li>
+      <li><a href="#s4">ขั้นตอน</a></li>
+      <li><a href="#s5">แนะนำตัว</a></li>
+      <li><a href="#s7">เคล็ดลับ</a></li>
+      <li><a href="#quiz">Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="hero">
+  <div class="hero-container">
+    <div class="hero-text">
+      <h1>การอ่านประกาศรับสมัครงาน<br>และการแนะนำตัวเองเบื้องต้น</h1>
+      <p>เรียนรู้การอ่านข้อมูลสำคัญในประกาศรับสมัครงาน พร้อมฝึกใช้สำนวนภาษาอังกฤษในการแนะนำตัวเองอย่างถูกต้อง</p>
+      <a href="#s1" class="hero-btn"><i class="fa-solid fa-play"></i> เริ่มเรียนรู้</a>
+    </div>
+    <div class="hero-illustration">
+      <div class="hero-card">
+        <span class="tag"><i class="fa-solid fa-briefcase"></i> WE ARE HIRING</span>
+        <h3>Shop Assistant</h3>
+        <div class="line medium"></div>
+        <div class="line short"></div>
+        <div class="line medium"></div>
+        <div class="apply-btn"><i class="fa-solid fa-paper-plane"></i> Apply Now</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ SECTION 1 : ความหมาย ============ -->
+<section id="s1">
+  <div class="container">
+    <div class="section-title fade-in">
+      <span class="num">1</span>
+      <h2>ความหมายของประกาศรับสมัครงาน</h2>
+      <p>Job Advertisement คือ ข้อความที่องค์กรหรือบริษัทใช้เพื่อประกาศหาพนักงาน</p>
+    </div>
+    <div class="meaning-intro fade-in">
+      <strong>ประกาศรับสมัครงาน</strong> จะประกอบด้วยรายละเอียดสำคัญ 5 ส่วน ได้แก่
+      ตำแหน่งงาน, คุณสมบัติผู้สมัคร, หน้าที่รับผิดชอบ, เงินเดือน และวิธีการสมัคร
+    </div>
+    <div class="cards-grid">
+      <div class="info-card fade-in"><div class="icon"><i class="fa-solid fa-id-badge"></i></div><h4>Position</h4><p>ตำแหน่งงาน</p></div>
+      <div class="info-card fade-in"><div class="icon"><i class="fa-solid fa-user-check"></i></div><h4>Qualifications</h4><p>คุณสมบัติผู้สมัคร</p></div>
+      <div class="info-card fade-in"><div class="icon"><i class="fa-solid fa-clipboard-list"></i></div><h4>Responsibilities</h4><p>หน้าที่รับผิดชอบ</p></div>
+      <div class="info-card fade-in"><div class="icon"><i class="fa-solid fa-coins"></i></div><h4>Salary</h4><p>เงินเดือน</p></div>
+      <div class="info-card fade-in"><div class="icon"><i class="fa-solid fa-paper-plane"></i></div><h4>How to Apply</h4><p>วิธีการสมัคร</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 2 : คำศัพท์ ============ -->
+<section id="s2" class="vocab-section">
+  <div class="container">
+    <div class="section-title fade-in">
+      <span class="num">2</span>
+      <h2>คำศัพท์สำคัญในประกาศรับสมัครงาน</h2>
+      <p>คำศัพท์ภาษาอังกฤษที่พบบ่อยในประกาศรับสมัครงาน</p>
+    </div>
+    <div class="vocab-grid">
+      <div class="vocab-card fade-in"><div class="v-icon"><i class="fa-solid fa-briefcase"></i></div><div class="v-text"><h5>Position</h5><span>ตำแหน่งงาน</span></div></div>
+      <div class="vocab-card fade-in"><div class="v-icon"><i class="fa-solid fa-clock"></i></div><div class="v-text"><h5>Full-time</h5><span>งานประจำ</span></div></div>
+      <div class="vocab-card fade-in"><div class="v-icon"><i class="fa-solid fa-hourglass-half"></i></div><div class="v-text"><h5>Part-time</h5><span>งานพาร์ทไทม์</span></div></div>
+      <div class="vocab-card fade-in"><div class="v-icon"><i class="fa-solid fa-medal"></i></div><div class="v-text"><h5>Experience</h5><span>ประสบการณ์</span></div></div>
+      <div class="vocab-card fade-in"><div class="v-icon"><i class="fa-solid fa-star"></i></div><div class="v-text"><h5>Qualification</h5><span>คุณสมบัติ</span></div></div>
+      <div class="vocab-card fade-in"><div class="v-icon"><i class="fa-solid fa-pen-to-square"></i></div><div class="v-text"><h5>Apply</h5><span>สมัคร</span></div></div>
+      <div class="vocab-card fade-in"><div class="v-icon"><i class="fa-solid fa-money-bill-wave"></i></div><div class="v-text"><h5>Salary</h5><span>เงินเดือน</span></div></div>
+      <div class="vocab-card fade-in"><div class="v-icon"><i class="fa-solid fa-comments"></i></div><div class="v-text"><h5>Interview</h5><span>สัมภาษณ์</span></div></div>
+      <div class="vocab-card fade-in"><div class="v-icon"><i class="fa-solid fa-file-lines"></i></div><div class="v-text"><h5>Resume</h5><span>ประวัติย่อ</span></div></div>
+      <div class="vocab-card fade-in"><div class="v-icon"><i class="fa-solid fa-user"></i></div><div class="v-text"><h5>Applicant</h5><span>ผู้สมัคร</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 3 : ตัวอย่างประกาศ ============ -->
+<section id="s3">
+  <div class="container">
+    <div class="section-title fade-in">
+      <span class="num">3</span>
+      <h2>ตัวอย่างประกาศรับสมัครงาน</h2>
+      <p>ตัวอย่าง Job Advertisement ที่พบเห็นได้ทั่วไป</p>
+    </div>
+    <div class="job-ad fade-in">
+      <div class="job-ad-header">
+        <span class="badge"><i class="fa-solid fa-bullhorn"></i> JOB ADVERTISEMENT</span>
+        <h3>Shop Assistant</h3>
+      </div>
+      <div class="job-ad-body">
+        <div class="job-ad-item">
+          <div class="ji-icon"><i class="fa-solid fa-id-badge"></i></div>
+          <div><h5>Position</h5><p>Shop Assistant (พนักงานขาย)</p></div>
+        </div>
+        <div class="job-ad-item">
+          <div class="ji-icon"><i class="fa-solid fa-user-check"></i></div>
+          <div>
+            <h5>Qualifications</h5>
+            <ul>
+              <li>Age 18-25</li>
+              <li>Friendly and responsible</li>
+              <li>Basic English communication</li>
+            </ul>
+          </div>
+        </div>
+        <div class="job-ad-item">
+          <div class="ji-icon"><i class="fa-solid fa-coins"></i></div>
+          <div><h5>Salary</h5><p>12,000 Baht/month</p></div>
+        </div>
+        <div class="job-ad-item">
+          <div class="ji-icon"><i class="fa-solid fa-paper-plane"></i></div>
+          <div><h5>How to Apply</h5><p>Send your resume to <a href="mailto:hr@example.com">hr@example.com</a></p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 4 : Flowchart ============ -->
+<section id="s4" class="flow-section">
+  <div class="container">
+    <div class="section-title fade-in">
+      <span class="num">4</span>
+      <h2>การอ่านข้อมูลสำคัญจากประกาศ</h2>
+      <p>ขั้นตอนการอ่านประกาศรับสมัครงานอย่างมีประสิทธิภาพ</p>
+    </div>
+    <div class="flowchart">
+      <div class="flow-step fade-in"><div class="step-num">1</div><div class="step-icon"><i class="fa-solid fa-id-badge"></i></div><p>อ่านชื่อตำแหน่งงาน (Position)</p></div>
+      <div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+      <div class="flow-step fade-in"><div class="step-num">2</div><div class="step-icon"><i class="fa-solid fa-user-check"></i></div><p>อ่านคุณสมบัติ (Qualifications)</p></div>
+      <div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+      <div class="flow-step fade-in"><div class="step-num">3</div><div class="step-icon"><i class="fa-solid fa-clipboard-list"></i></div><p>อ่านหน้าที่รับผิดชอบ (Responsibilities)</p></div>
+      <div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+      <div class="flow-step fade-in"><div class="step-num">4</div><div class="step-icon"><i class="fa-solid fa-coins"></i></div><p>อ่านเงินเดือน (Salary)</p></div>
+      <div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+      <div class="flow-step fade-in"><div class="step-num">5</div><div class="step-icon"><i class="fa-solid fa-paper-plane"></i></div><p>อ่านวิธีสมัคร (How to Apply)</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 5 : สำนวนแนะนำตัว ============ -->
+<section id="s5">
+  <div class="container">
+    <div class="section-title fade-in">
+      <span class="num">5</span>
+      <h2>สำนวนการแนะนำตัวเองเบื้องต้น</h2>
+      <p>ประโยคภาษาอังกฤษที่ใช้ในการแนะนำตัวเอง</p>
+    </div>
+    <div class="intro-grid">
+      <div class="speech-card fade-in">
+        <h4><i class="fa-solid fa-user"></i> การบอกชื่อ</h4>
+        <div class="speech-bubble">My name is Somchai.</div>
+        <div class="speech-bubble">I am Somchai.</div>
+      </div>
+      <div class="speech-card fade-in">
+        <h4><i class="fa-solid fa-cake-candles"></i> การบอกอายุ</h4>
+        <div class="speech-bubble">I am 15 years old.</div>
+      </div>
+      <div class="speech-card fade-in">
+        <h4><i class="fa-solid fa-graduation-cap"></i> การบอกระดับชั้น</h4>
+        <div class="speech-bubble">I am in Grade 9.</div>
+        <div class="speech-bubble">I study in Grade 9.</div>
+      </div>
+      <div class="speech-card fade-in">
+        <h4><i class="fa-solid fa-heart"></i> การบอกความสนใจ</h4>
+        <div class="speech-bubble">I like reading books.</div>
+        <div class="speech-bubble">I enjoy playing football.</div>
+        <div class="speech-bubble">I am interested in computers.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 6 : ตัวอย่างการแนะนำตัว ============ -->
+<section id="s6" class="example-section">
+  <div class="container">
+    <div class="section-title fade-in">
+      <span class="num">6</span>
+      <h2>ตัวอย่างการแนะนำตัวเอง</h2>
+      <p>ตัวอย่างบทแนะนำตัวเองแบบสมบูรณ์</p>
+    </div>
+    <div class="example-card fade-in">
+      <div class="example-header">
+        <div class="avatar">S</div>
+        <div>
+          <h4>Somchai</h4>
+          <span><i class="fa-solid fa-graduation-cap"></i> Grade 9 Student</span>
+        </div>
+      </div>
+      <div class="example-lines">
+        <p>Hello.</p>
+        <p>My name is Somchai.</p>
+        <p>I am 15 years old.</p>
+        <p>I study in Grade 9.</p>
+        <p>I like reading books and playing football.</p>
+        <p>Nice to meet you. 😊</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 7 : เคล็ดลับ ============ -->
+<section id="s7">
+  <div class="container">
+    <div class="section-title fade-in">
+      <span class="num">7</span>
+      <h2>เคล็ดลับการสัมภาษณ์เบื้องต้น</h2>
+      <p>4 เคล็ดลับสำคัญที่จะช่วยให้การสัมภาษณ์ผ่านไปได้ด้วยดี</p>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card fade-in">
+        <div class="tip-num">1</div>
+        <i class="fa-solid fa-shirt tip-icon"></i>
+        <h4>Dress neatly</h4>
+        <p>แต่งกายสุภาพ</p>
+      </div>
+      <div class="tip-card fade-in">
+        <div class="tip-num">2</div>
+        <i class="fa-solid fa-volume-high tip-icon"></i>
+        <h4>Speak clearly</h4>
+        <p>พูดชัดเจน</p>
+      </div>
+      <div class="tip-card fade-in">
+        <div class="tip-num">3</div>
+        <i class="fa-solid fa-face-smile-beam tip-icon"></i>
+        <h4>Be confident</h4>
+        <p>มีความมั่นใจ</p>
+      </div>
+      <div class="tip-card fade-in">
+        <div class="tip-num">4</div>
+        <i class="fa-solid fa-hand-holding-heart tip-icon"></i>
+        <h4>Be polite</h4>
+        <p>สุภาพและมีมารยาท</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 8 : สรุป ============ -->
+<section id="s8" class="summary-section">
+  <div class="container">
+    <div class="section-title fade-in">
+      <span class="num" style="background:#fff;color:var(--primary);">8</span>
+      <h2>สรุปความรู้</h2>
+      <p>สรุปคำศัพท์และแนวคิดสำคัญที่ต้องจดจำ</p>
+    </div>
+    <div class="summary-grid">
+      <div class="summary-item fade-in"><i class="fa-solid fa-bullhorn"></i><div><strong>Job Advertisement</strong><span>ประกาศรับสมัครงาน</span></div></div>
+      <div class="summary-item fade-in"><i class="fa-solid fa-id-badge"></i><div><strong>Position</strong><span>ตำแหน่งงาน</span></div></div>
+      <div class="summary-item fade-in"><i class="fa-solid fa-star"></i><div><strong>Qualification</strong><span>คุณสมบัติ</span></div></div>
+      <div class="summary-item fade-in"><i class="fa-solid fa-coins"></i><div><strong>Salary</strong><span>เงินเดือน</span></div></div>
+      <div class="summary-item fade-in"><i class="fa-solid fa-user"></i><div><strong>Self-Introduction</strong><span>การแนะนำตัวเอง</span></div></div>
+      <div class="summary-item fade-in"><i class="fa-solid fa-lightbulb"></i><div><strong>Tip</strong><span>ใช้ประโยคง่าย ๆ และสุภาพ</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz" class="quiz-section">
+  <div class="container">
+    <div class="section-title fade-in">
+      <span class="num">Q</span>
+      <h2>แบบทดสอบ Quiz</h2>
+      <p>ทดสอบความเข้าใจ 5 ข้อ พร้อมตรวจคะแนนทันที</p>
+    </div>
+    <div class="quiz-box fade-in" id="quizBox">
+      <!-- Quiz จะถูก render ด้วย JavaScript -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <h4><i class="fa-solid fa-briefcase"></i> Job Reading M.3</h4>
+  <p>สื่อการเรียนรู้วิชาภาษาอังกฤษ ระดับชั้นมัธยมศึกษาปีที่ 3</p>
+  <p>เรื่อง การอ่านประกาศรับสมัครงาน และการแนะนำตัวเองเบื้องต้น</p>
+  <div class="social">
+    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="#"><i class="fa-brands fa-line"></i></a>
+    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+    <a href="#"><i class="fa-solid fa-envelope"></i></a>
+  </div>
+  <div class="copyright">© 2026 Educational Media. Designed for M.3 Students.</div>
+</footer>
+
+<script>
+/* ===============================
+   Scroll Animation (AOS-like)
+=============================== */
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+},{threshold:0.15});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+/* ===============================
+   Quiz Data
+=============================== */
+const quizData = [
+  {
+    q:"1. Position หมายถึงอะไร?",
+    options:["เงินเดือน","ตำแหน่งงาน","สัมภาษณ์","ผู้สมัคร"],
+    answer:1
+  },
+  {
+    q:"2. Salary หมายถึงอะไร?",
+    options:["สมัครงาน","ประวัติย่อ","เงินเดือน","ประสบการณ์"],
+    answer:2
+  },
+  {
+    q:"3. Resume คืออะไร?",
+    options:["ประวัติย่อ","สัมภาษณ์","คุณสมบัติ","งานพาร์ทไทม์"],
+    answer:0
+  },
+  {
+    q:"4. ใช้ประโยคใดแนะนำชื่อของตนเอง?",
+    options:["I am 15 years old.","I study in Grade 9.","My name is Somchai.","Nice to meet you."],
+    answer:2
+  },
+  {
+    q:"5. ข้อใดเป็นมารยาทที่ดีในการสัมภาษณ์?",
+    options:["Speak clearly (พูดชัดเจน)","Dress messily","Be rude","Sleep during interview"],
+    answer:0
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['ก','ข','ค','ง'];
+
+/* ===============================
+   Render Quiz
+=============================== */
+function renderQuiz(){
+  const box = document.getElementById('quizBox');
+  if(currentQ >= quizData.length){
+    showResult();
+    return;
+  }
+  const item = quizData[currentQ];
+  answered = false;
+  box.innerHTML = `
+    <div class="quiz-progress"><div class="quiz-progress-bar" style="width:${(currentQ/quizData.length)*100}%"></div></div>
+    <div class="quiz-info">
+      <span>ข้อที่ ${currentQ+1} / ${quizData.length}</span>
+      <span>คะแนน: ${score}</span>
+    </div>
+    <div class="quiz-question">${item.q}</div>
+    <div class="quiz-options">
+      ${item.options.map((opt,i)=>`
+        <div class="quiz-option" onclick="selectAnswer(${i})">
+          <span class="opt-letter">${letters[i]}</span>
+          <span>${opt}</span>
+        </div>
+      `).join('')}
+    </div>
+    <button class="quiz-btn" id="nextBtn" onclick="nextQuestion()" disabled>
+      ${currentQ === quizData.length-1 ? 'ดูผลคะแนน <i class="fa-solid fa-trophy"></i>' : 'ข้อถัดไป <i class="fa-solid fa-arrow-right"></i>'}
+    </button>
+  `;
+}
+
+function selectAnswer(i){
+  if(answered) return;
+  answered = true;
+  const correct = quizData[currentQ].answer;
+  const options = document.querySelectorAll('.quiz-option');
+  options.forEach((opt,idx)=>{
+    if(idx === correct) opt.classList.add('correct');
+    else if(idx === i) opt.classList.add('wrong');
+  });
+  if(i === correct) score++;
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQuestion(){
+  currentQ++;
+  renderQuiz();
+}
+
+function showResult(){
+  const box = document.getElementById('quizBox');
+  const percent = Math.round((score/quizData.length)*100);
+  let msg = '', icon = '';
+  if(percent === 100){ msg = 'ยอดเยี่ยม! คุณทำคะแนนได้เต็ม!'; icon = '🏆'; }
+  else if(percent >= 60){ msg = 'ดีมาก! พยายามต่อไปนะ'; icon = '🎉'; }
+  else { msg = 'ลองทบทวนใหม่อีกครั้งนะ'; icon = '💪'; }
+  box.innerHTML = `
+    <div class="quiz-result">
+      <h3>${icon} ผลคะแนนของคุณ</h3>
+      <div class="score">${score} / ${quizData.length}</div>
+      <p>คิดเป็น ${percent}%</p>
+      <p><strong>${msg}</strong></p>
+      <button class="quiz-btn" onclick="restartQuiz()">
+        <i class="fa-solid fa-rotate-right"></i> เริ่มใหม่
+      </button>
+    </div>
+  `;
+}
+
+function restartQuiz(){
+  currentQ = 0;
+  score = 0;
+  renderQuiz();
+}
+
+// เริ่ม Quiz
+renderQuiz();
+</script>
+
+</body>
+</html>
