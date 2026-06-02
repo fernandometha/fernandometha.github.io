@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>การใช้คำศัพท์บรรยายความรู้สึก | Describing Personal Feelings</title>
+
+  <!-- Google Fonts: Kanit -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================
+       CSS VARIABLES & RESET
+       ============================================ */
+    :root {
+      --primary: #6C63FF;
+      --primary-light: #8B85FF;
+      --secondary: #FF6B6B;
+      --accent: #FFC75F;
+      --accent2: #45B7D1;
+      --success: #2ED573;
+      --warning: #FFA502;
+      --danger: #FF4757;
+      --dark: #2F3542;
+      --dark2: #57606F;
+      --light: #F1F2F6;
+      --white: #FFFFFF;
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      color: var(--dark);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       PROGRESS BAR
+       ============================================ */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent), var(--secondary), var(--primary));
+      z-index: 10000;
+      transition: width 0.1s linear;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    .nav-top {
+      position: fixed;
+      top: 5px;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      transform: translateY(-100%);
+      transition: var(--transition);
+    }
+
+    .nav-top.visible {
+      transform: translateY(0);
+    }
+
+    .nav-top a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .nav-top a:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================
+       BACK TO TOP BUTTON
+       ============================================ */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: var(--transition);
+      box-shadow: 0 8px 25px rgba(108, 99, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 12px 35px rgba(108, 99, 255, 0.6);
+    }
+
+    /* ============================================
+       GLASSMORPHISM CARD BASE
+       ============================================ */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    /* ============================================
+       SCROLL REVEAL ANIMATION
+       ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-60px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(60px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal-scale.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ============================================
+       CONTAINER
+       ============================================ */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(255, 199, 95, 0.3) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 80%, rgba(108, 99, 255, 0.3) 0%, transparent 50%),
+                  radial-gradient(circle at 50% 20%, rgba(255, 107, 107, 0.2) 0%, transparent 50%);
+      animation: floatBg 20s ease-in-out infinite;
+    }
+
+    @keyframes floatBg {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(30px, -30px) rotate(5deg); }
+      66% { transform: translate(-20px, 20px) rotate(-3deg); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero-emoji {
+      font-size: 5rem;
+      margin-bottom: 20px;
+      animation: bounce 2s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: var(--white);
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 300;
+      margin-bottom: 10px;
+    }
+
+    .hero .target {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 10px 25px;
+      border-radius: 30px;
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 500;
+      margin-top: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      animation: scrollBounce 2s ease-in-out infinite;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 2rem;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+      50% { transform: translateX(-50%) translateY(15px); opacity: 0.5; }
+    }
+
+    /* ============================================
+       SECTION STYLES
+       ============================================ */
+    section {
+      padding: 80px 0;
+      position: relative;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title .section-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--white);
+      text-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 300;
+    }
+
+    .section-title .underline {
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--secondary));
+      border-radius: 2px;
+      margin: 15px auto 0;
+    }
+
+    /* ============================================
+       SECTION 1: MEANING
+       ============================================ */
+    .meaning-box {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius);
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      max-width: 850px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .meaning-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--accent2), var(--accent));
+    }
+
+    .meaning-box .icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .meaning-box h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 15px;
+    }
+
+    .meaning-box p {
+      font-size: 1.05rem;
+      color: var(--dark2);
+      line-height: 2;
+      margin-bottom: 25px;
+    }
+
+    .example-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .example-list li {
+      background: linear-gradient(135deg, #f8f9ff, #f0f0ff);
+      padding: 14px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--dark);
+      border-left: 4px solid var(--primary);
+      transition: var(--transition);
+      font-style: italic;
+    }
+
+    .example-list li:hover {
+      transform: translateX(8px);
+      box-shadow: 0 5px 20px rgba(108, 99, 255, 0.15);
+    }
+
+    /* ============================================
+       SECTION 2: VOCABULARY GRID
+       ============================================ */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .vocab-card {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vocab-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent2));
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .vocab-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .vocab-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .vocab-card .emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .vocab-card:hover .emoji {
+      transform: scale(1.2) rotate(10deg);
+    }
+
+    .vocab-card .word {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .vocab-card .meaning {
+      font-size: 0.95rem;
+      color: var(--dark2);
+      font-weight: 400;
+    }
+
+    /* ============================================
+       SECTION 3: SENTENCE STRUCTURES
+       ============================================ */
+    .structure-card {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius);
+      padding: 35px;
+      margin-bottom: 30px;
+      max-width: 850px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .structure-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .structure-card .pattern-num {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: var(--white);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 5px 15px;
+      border-radius: 20px;
+      margin-bottom: 15px;
+    }
+
+    .structure-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 15px;
+    }
+
+    .formula-box {
+      background: linear-gradient(135deg, #2d2b55, #3d3b75);
+      color: var(--white);
+      padding: 20px 30px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin: 20px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .formula-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .formula-box .highlight {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .formula-box .highlight2 {
+      color: var(--accent2);
+      font-weight: 700;
+    }
+
+    .formula-box .highlight3 {
+      color: var(--secondary);
+      font-weight: 700;
+    }
+
+    .structure-examples {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .structure-examples li {
+      padding: 12px 18px;
+      background: #f8f9ff;
+      border-radius: var(--radius-sm);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--dark);
+      border-left: 3px solid var(--accent2);
+      transition: var(--transition);
+    }
+
+    .structure-examples li:hover {
+      background: #eef0ff;
+      transform: translateX(5px);
+    }
+
+    /* ============================================
+       SECTION 4: EXPRESSIONS
+       ============================================ */
+    .expressions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .expression-card {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .expression-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .expression-card .star {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+    }
+
+    .expression-card .eng {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+
+    .expression-card .thai {
+      font-size: 1rem;
+      color: var(--dark2);
+      font-weight: 400;
+    }
+
+    .expression-card .bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--secondary));
+    }
+
+    /* ============================================
+       SECTION 5: FLOW DIAGRAM
+       ============================================ */
+    .flow-container {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .flow-container::before {
+      content: '';
+      position: absolute;
+      left: 40px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, var(--primary), var(--accent2), var(--accent), var(--secondary), var(--success));
+      border-radius: 2px;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 25px;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .flow-step .step-num {
+      width: 80px;
+      height: 80px;
+      min-width: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--white);
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .flow-step:nth-child(1) .step-num { background: linear-gradient(135deg, var(--primary), var(--primary-light)); }
+    .flow-step:nth-child(2) .step-num { background: linear-gradient(135deg, var(--accent2), #6dc5db); }
+    .flow-step:nth-child(3) .step-num { background: linear-gradient(135deg, var(--accent), #ffd180); color: var(--dark); }
+    .flow-step:nth-child(4) .step-num { background: linear-gradient(135deg, var(--secondary), #ff8a8a); }
+    .flow-step:nth-child(5) .step-num { background: linear-gradient(135deg, var(--success), #7bed9f); }
+
+    .flow-step .step-content {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius);
+      padding: 22px 28px;
+      box-shadow: var(--shadow);
+      flex: 1;
+      transition: var(--transition);
+    }
+
+    .flow-step .step-content:hover {
+      transform: translateX(8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .flow-step .step-content h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 3px;
+    }
+
+    .flow-step .step-content p {
+      font-size: 0.95rem;
+      color: var(--dark2);
+      font-weight: 400;
+    }
+
+    .flow-arrow {
+      text-align: center;
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: -10px 0 5px;
+    }
+
+    /* ============================================
+       SECTION 6: CHAT DIALOGUE
+       ============================================ */
+    .chat-container {
+      max-width: 650px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .chat-bubble {
+      max-width: 80%;
+      padding: 18px 24px;
+      border-radius: 20px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      position: relative;
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .chat-bubble.a {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--dark);
+      border-bottom-left-radius: 5px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .chat-bubble.b {
+      align-self: flex-end;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: var(--white);
+      border-bottom-right-radius: 5px;
+      box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+    }
+
+    .chat-bubble .speaker {
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      opacity: 0.7;
+    }
+
+    .chat-label {
+      text-align: center;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 5px 0;
+      font-weight: 500;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================
+       SECTION 7: TIPS
+       ============================================ */
+    .tips-container {
+      max-width: 750px;
+      margin: 0 auto;
+      display: grid;
+      gap: 15px;
+    }
+
+    .tip-item {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius-sm);
+      padding: 18px 25px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .tip-item:hover {
+      transform: translateX(10px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .tip-item .check {
+      width: 45px;
+      height: 45px;
+      min-width: 45px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--success), #7bed9f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3);
+    }
+
+    .tip-item .text {
+      font-size: 1.05rem;
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    /* ============================================
+       SECTION 8: QUIZ
+       ============================================ */
+    .quiz-container {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .quiz-card {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius);
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .quiz-card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .quiz-card .q-number {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: var(--white);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 15px;
+      margin-bottom: 12px;
+    }
+
+    .quiz-card .question {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 18px;
+      line-height: 1.8;
+    }
+
+    .quiz-card .question .blank {
+      display: inline-block;
+      border-bottom: 3px solid var(--primary);
+      min-width: 100px;
+      text-align: center;
+      padding: 0 5px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border: 2px solid #e8e8e8;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--dark);
+      background: var(--white);
+    }
+
+    .quiz-option:hover {
+      border-color: var(--primary);
+      background: #f8f7ff;
+      transform: translateX(5px);
+    }
+
+    .quiz-option.selected {
+      border-color: var(--primary);
+      background: #f0eeff;
+    }
+
+    .quiz-option.correct {
+      border-color: var(--success);
+      background: #e8fff0;
+      color: var(--success);
+    }
+
+    .quiz-option.wrong {
+      border-color: var(--danger);
+      background: #ffe8ea;
+      color: var(--danger);
+    }
+
+    .quiz-option .option-letter {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .quiz-option.selected .option-letter {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .quiz-option.correct .option-letter {
+      background: var(--success);
+      color: var(--white);
+    }
+
+    .quiz-option.wrong .option-letter {
+      background: var(--danger);
+      color: var(--white);
+    }
+
+    .quiz-option.disabled {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .quiz-feedback {
+      margin-top: 12px;
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    .quiz-feedback.show {
+      display: block;
+      animation: fadeInUp 0.4s ease;
+    }
+
+    .quiz-feedback.correct {
+      background: #e8fff0;
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+
+    .quiz-feedback.wrong {
+      background: #ffe8ea;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+    }
+
+    .quiz-submit-btn {
+      display: block;
+      margin: 30px auto 0;
+      padding: 16px 50px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      border: none;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      font-family: 'Kanit', sans-serif;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 8px 25px rgba(108, 99, 255, 0.3);
+    }
+
+    .quiz-submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(108, 99, 255, 0.5);
+    }
+
+    .quiz-submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .quiz-result {
+      text-align: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      margin-top: 25px;
+      display: none;
+    }
+
+    .quiz-result.show {
+      display: block;
+      animation: fadeInUp 0.6s ease;
+    }
+
+    .quiz-result .score-emoji {
+      font-size: 4rem;
+      margin-bottom: 10px;
+    }
+
+    .quiz-result .score-text {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .quiz-result .score-detail {
+      font-size: 1.1rem;
+      color: var(--dark2);
+      margin-top: 8px;
+    }
+
+    .quiz-result .score-bar {
+      width: 100%;
+      height: 12px;
+      background: #e8e8e8;
+      border-radius: 6px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    .quiz-result .score-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(90deg, var(--danger), var(--warning), var(--success));
+    }
+
+    /* ============================================
+       SECTION 9: SUMMARY
+       ============================================ */
+    .summary-box {
+      max-width: 750px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .summary-formula {
+      background: linear-gradient(135deg, #2d2b55, #3d3b75);
+      color: var(--white);
+      padding: 35px 40px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-formula::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      animation: shimmer 4s infinite;
+    }
+
+    .summary-formula .formula-line {
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .summary-formula .formula-line .plus {
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .summary-formula .equals {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 10px 0;
+    }
+
+    .summary-formula .result {
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      font-weight: 700;
+      color: var(--success);
+    }
+
+    .summary-example {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius);
+      padding: 25px 30px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+
+    .summary-example .example-text {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary);
+      font-style: italic;
+    }
+
+    .summary-example .example-thai {
+      font-size: 1rem;
+      color: var(--dark2);
+      margin-top: 8px;
+    }
+
+    .summary-closing {
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      color: var(--white);
+      padding: 30px 40px;
+      border-radius: var(--radius);
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      font-weight: 700;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-closing::before {
+      content: '🎉';
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 2rem;
+      opacity: 0.3;
+    }
+
+    .summary-closing::after {
+      content: '🌟';
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      font-size: 2rem;
+      opacity: 0.3;
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+
+    footer .divider {
+      width: 60px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      margin: 0 auto 15px;
+    }
+
+    /* ============================================
+       RESPONSIVE DESIGN
+       ============================================ */
+    @media (max-width: 768px) {
+      section {
+        padding: 60px 0;
+      }
+
+      .meaning-box,
+      .structure-card {
+        padding: 25px;
+      }
+
+      .vocab-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .expressions-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-container::before {
+        left: 30px;
+      }
+
+      .flow-step .step-num {
+        width: 60px;
+        height: 60px;
+        min-width: 60px;
+        font-size: 1.4rem;
+      }
+
+      .flow-step .step-content {
+        padding: 15px 18px;
+      }
+
+      .chat-bubble {
+        max-width: 90%;
+        padding: 14px 18px;
+        font-size: 0.95rem;
+      }
+
+      .nav-top {
+        gap: 8px;
+        padding: 8px 10px;
+      }
+
+      .nav-top a {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+      }
+
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .vocab-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .vocab-card {
+        padding: 18px 12px;
+      }
+
+      .vocab-card .emoji {
+        font-size: 2.2rem;
+      }
+
+      .vocab-card .word {
+        font-size: 1rem;
+      }
+
+      .vocab-card .meaning {
+        font-size: 0.85rem;
+      }
+
+      .formula-box {
+        padding: 15px 18px;
+        font-size: 0.9rem;
+      }
+
+      .quiz-card {
+        padding: 20px;
+      }
+
+      .quiz-option {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+      }
+    }
+
+    /* ============================================
+       FLOATING DECORATIONS
+       ============================================ */
+    .floating-emoji {
+      position: fixed;
+      font-size: 2rem;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatEmoji 15s ease-in-out infinite;
+    }
+
+    @keyframes floatEmoji {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(15deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Navigation -->
+  <nav class="nav-top" id="navTop">
+    <a href="#section1">📖 ความหมาย</a>
+    <a href="#section2">📝 คำศัพท์</a>
+    <a href="#section3">🏗️ โครงสร้าง</a>
+    <a href="#section4">⭐ สำนวน</a>
+    <a href="#section5">🔄 ขั้นตอน</a>
+    <a href="#section6">💬 บทสนทนา</a>
+    <a href="#section7">💡 เคล็ดลับ</a>
+    <a href="#section8">🎯 Quiz</a>
+  </nav>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <!-- Floating Decorative Emojis -->
+  <div class="floating-emoji" style="top:10%;left:5%;animation-delay:0s;">😊</div>
+  <div class="floating-emoji" style="top:30%;right:8%;animation-delay:3s;">😄</div>
+  <div class="floating-emoji" style="top:60%;left:3%;animation-delay:6s;">😍</div>
+  <div class="floating-emoji" style="top:80%;right:5%;animation-delay:9s;">🌟</div>
+  <div class="floating-emoji" style="top:50%;left:90%;animation-delay:12s;">💬</div>
+
+  <!-- ============================================
+       HERO SECTION
+       ============================================ -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-emoji">💬</div>
+      <h1>การใช้คำศัพท์และโครงสร้างภาษา<br><span>เพื่อบรรยายความรู้สึกส่วนตัว</span></h1>
+      <p class="subtitle">Describing Personal Feelings</p>
+      <div class="target">📚 ระดับชั้นมัธยมศึกษาปีที่ 4</div>
+    </div>
+    <div class="scroll-indicator">↓</div>
+  </header>
+
+  <!-- ============================================
+       SECTION 1: MEANING
+       ============================================ -->
+  <section id="section1">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="section-emoji">📖</span>
+        <h2>ความหมายของการบรรยายความรู้สึก</h2>
+        <p>Understanding Personal Feelings Description</p>
+        <div class="underline"></div>
+      </div>
+
+      <div class="meaning-box reveal">
+        <div class="icon">💡</div>
+        <h3>การบรรยายความรู้สึก คืออะไร?</h3>
+        <p>
+          การใช้คำศัพท์และประโยคเพื่อบอก <strong>อารมณ์</strong> <strong>ความรู้สึก</strong> หรือ <strong>ความคิดเห็น</strong> ของตนเองต่อเหตุการณ์ บุคคล หรือสิ่งต่าง ๆ
+        </p>
+
+        <h3 style="font-size: 1.15rem; margin-bottom: 12px;">📌 ตัวอย่างประโยค</h3>
+        <ul class="example-list">
+          <li>😊 I am <strong>happy</strong>.</li>
+          <li>😄 I feel <strong>excited</strong>.</li>
+          <li>😟 I am <strong>worried</strong> about the test.</li>
+          <li>😍 I feel <strong>proud</strong> of my achievement.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 2: VOCABULARY
+       ============================================ -->
+  <section id="section2">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="section-emoji">📝</span>
+        <h2>คำศัพท์บอกความรู้สึกพื้นฐาน</h2>
+        <p>Basic Feeling Vocabulary</p>
+        <div class="underline"></div>
+      </div>
+
+      <div class="vocab-grid">
+        <div class="vocab-card reveal">
+          <span class="emoji">😊</span>
+          <div class="word">Happy</div>
+          <div class="meaning">มีความสุข</div>
+        </div>
+        <div class="vocab-card reveal">
+          <span class="emoji">😄</span>
+          <div class="word">Excited</div>
+          <div class="meaning">ตื่นเต้น</div>
+        </div>
+        <div class="vocab-card reveal">
+          <span class="emoji">😍</span>
+          <div class="word">Proud</div>
+          <div class="meaning">ภูมิใจ</div>
+        </div>
+        <div class="vocab-card reveal">
+          <span class="emoji">😌</span>
+          <div class="word">Relaxed</div>
+          <div class="meaning">ผ่อนคลาย</div>
+        </div>
+        <div class="vocab-card reveal">
+          <span class="emoji">😢</span>
+          <div class="word">Sad</div>
+          <div class="meaning">เศร้า</div>
+        </div>
+        <div class="vocab-card reveal">
+          <span class="emoji">😟</span>
+          <div class="word">Worried</div>
+          <div class="meaning">กังวล</div>
+        </div>
+        <div class="vocab-card reveal">
+          <span class="emoji">😠</span>
+          <div class="word">Angry</div>
+          <div class="meaning">โกรธ</div>
+        </div>
+        <div class="vocab-card reveal">
+          <span class="emoji">😨</span>
+          <div class="word">Nervous</div>
+          <div class="meaning">ประหม่า</div>
+        </div>
+        <div class="vocab-card reveal">
+          <span class="emoji">😴</span>
+          <div class="word">Tired</div>
+          <div class="meaning">เหนื่อย</div>
+        </div>
+        <div class="vocab-card reveal">
+          <span class="emoji">😕</span>
+          <div class="word">Confused</div>
+          <div class="meaning">สับสน</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 3: SENTENCE STRUCTURES
+       ============================================ -->
+  <section id="section3">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="section-emoji">🏗️</span>
+        <h2>โครงสร้างประโยคพื้นฐาน</h2>
+        <p>Basic Sentence Structures</p>
+        <div class="underline"></div>
+      </div>
+
+      <!-- Pattern 1 -->
+      <div class="structure-card reveal">
+        <span class="pattern-num">รูปแบบที่ 1</span>
+        <h3>Subject + be + Feeling Adjective</h3>
+
+        <div class="formula-box">
+          <span class="highlight">Subject</span> +
+          <span class="highlight2">am / is / are</span> +
+          <span class="highlight3">Feeling Adjective</span>
+        </div>
+
+        <ul class="structure-examples">
+          <li>😊 I <strong>am</strong> <strong>happy</strong>.</li>
+          <li>😄 She <strong>is</strong> <strong>excited</strong>.</li>
+          <li>😴 They <strong>are</strong> <strong>tired</strong>.</li>
+        </ul>
+      </div>
+
+      <!-- Pattern 2 -->
+      <div class="structure-card reveal">
+        <span class="pattern-num">รูปแบบที่ 2</span>
+        <h3>Subject + feel/feels + Feeling Adjective</h3>
+
+        <div class="formula-box">
+          <span class="highlight">Subject</span> +
+          <span class="highlight2">feel / feels</span> +
+          <span class="highlight3">Feeling Adjective</span>
+        </div>
+
+        <ul class="structure-examples">
+          <li>😨 I <strong>feel</strong> <strong>nervous</strong>.</li>
+          <li>😍 He <strong>feels</strong> <strong>proud</strong>.</li>
+          <li>😌 We <strong>feel</strong> <strong>relaxed</strong>.</li>
+        </ul>
+      </div>
+
+      <!-- Pattern 3 -->
+      <div class="structure-card reveal">
+        <span class="pattern-num">รูปแบบที่ 3</span>
+        <h3>Subject + be + Feeling + about + Noun</h3>
+
+        <div class="formula-box">
+          <span class="highlight">Subject</span> +
+          <span class="highlight2">am / is / are</span> +
+          <span class="highlight3">Feeling</span> +
+          <span class="highlight2">about</span> +
+          <span class="highlight">Noun</span>
+        </div>
+
+        <ul class="structure-examples">
+          <li>😟 I <strong>am</strong> <strong>worried</strong> <strong>about</strong> the <strong>exam</strong>.</li>
+          <li>😄 She <strong>is</strong> <strong>excited</strong> <strong>about</strong> the <strong>trip</strong>.</li>
+          <li>😊 They <strong>are</strong> <strong>happy</strong> <strong>about</strong> the <strong>result</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 4: EXPRESSIONS
+       ============================================ -->
+  <section id="section4">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="section-emoji">⭐</span>
+        <h2>สำนวนที่ใช้บ่อย</h2>
+        <p>Common Expressions</p>
+        <div class="underline"></div>
+      </div>
+
+      <div class="expressions-grid">
+        <div class="expression-card reveal">
+          <span class="star">⭐</span>
+          <div class="eng">"I'm glad to hear that."</div>
+          <div class="thai">ฉันดีใจที่ได้ยินแบบนั้น</div>
+          <div class="bar"></div>
+        </div>
+        <div class="expression-card reveal">
+          <span class="star">⭐</span>
+          <div class="eng">"That sounds great!"</div>
+          <div class="thai">ฟังดูดีมาก!</div>
+          <div class="bar"></div>
+        </div>
+        <div class="expression-card reveal">
+          <span class="star">⭐</span>
+          <div class="eng">"I'm sorry to hear that."</div>
+          <div class="thai">เสียใจที่ได้ยินเช่นนั้น</div>
+          <div class="bar"></div>
+        </div>
+        <div class="expression-card reveal">
+          <span class="star">⭐</span>
+          <div class="eng">"I'm really excited."</div>
+          <div class="thai">ฉันตื่นเต้นมาก</div>
+          <div class="bar"></div>
+        </div>
+        <div class="expression-card reveal">
+          <span class="star">⭐</span>
+          <div class="eng">"I'm feeling a bit nervous."</div>
+          <div class="thai">ฉันรู้สึกประหม่าเล็กน้อย</div>
+          <div class="bar"></div>
+        </div>
+        <div class="expression-card reveal">
+          <span class="star">⭐</span>
+          <div class="eng">"I'm proud of myself."</div>
+          <div class="thai">ฉันภูมิใจในตัวเอง</div>
+          <div class="bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 5: FLOW DIAGRAM
+       ============================================ -->
+  <section id="section5">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="section-emoji">🔄</span>
+        <h2>ขั้นตอนการบอกความรู้สึก</h2>
+        <p>Steps to Express Your Feelings</p>
+        <div class="underline"></div>
+      </div>
+
+      <div class="flow-container">
+        <!-- Step 1 -->
+        <div class="flow-step reveal-left">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>🧠 Identify the feeling</h4>
+            <p>ระบุความรู้สึกของตนเอง</p>
+          </div>
+        </div>
+        <div class="flow-arrow">⬇️</div>
+
+        <!-- Step 2 -->
+        <div class="flow-step reveal-left">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>📚 Choose vocabulary</h4>
+            <p>เลือกคำศัพท์ที่เหมาะสม</p>
+          </div>
+        </div>
+        <div class="flow-arrow">⬇️</div>
+
+        <!-- Step 3 -->
+        <div class="flow-step reveal-left">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>✍️ Build a sentence</h4>
+            <p>สร้างประโยคด้วยโครงสร้างที่ถูกต้อง</p>
+          </div>
+        </div>
+        <div class="flow-arrow">⬇️</div>
+
+        <!-- Step 4 -->
+        <div class="flow-step reveal-left">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>💭 Explain the reason</h4>
+            <p>อธิบายเหตุผลประกอบความรู้สึก</p>
+          </div>
+        </div>
+        <div class="flow-arrow">⬇️</div>
+
+        <!-- Step 5 -->
+        <div class="flow-step reveal-left">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4>🗣️ Share your feeling</h4>
+            <p>สื่อสารความรู้สึกให้ผู้อื่นรับรู้</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 6: CHAT DIALOGUE
+       ============================================ -->
+  <section id="section6">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="section-emoji">💬</span>
+        <h2>ตัวอย่างบทสนทนา</h2>
+        <p>Example Conversation</p>
+        <div class="underline"></div>
+      </div>
+
+      <div class="chat-container">
+        <div class="chat-bubble a" id="chat1">
+          <div class="speaker">Student A</div>
+          How do you feel about the presentation?
+        </div>
+        <div class="chat-bubble b" id="chat2">
+          <div class="speaker">Student B</div>
+          I feel excited because I prepared well. 😄
+        </div>
+        <div class="chat-bubble a" id="chat3">
+          <div class="speaker">Student A</div>
+          That's great! 👏
+        </div>
+        <div class="chat-bubble b" id="chat4">
+          <div class="speaker">Student B</div>
+          Thank you. I'm proud of my work. 😍
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 7: TIPS
+       ============================================ -->
+  <section id="section7">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="section-emoji">💡</span>
+        <h2>เคล็ดลับการใช้ภาษา</h2>
+        <p>Tips for Using Language Effectively</p>
+        <div class="underline"></div>
+      </div>
+
+      <div class="tips-container">
+        <div class="tip-item reveal">
+          <div class="check">✅</div>
+          <div class="text">ใช้คำศัพท์ให้ตรงกับอารมณ์จริงของตนเอง</div>
+        </div>
+        <div class="tip-item reveal">
+          <div class="check">✅</div>
+          <div class="text">ใช้ be (am/is/are) หรือ feel/feels ให้ถูกต้องกับประธาน</div>
+        </div>
+        <div class="tip-item reveal">
+          <div class="check">✅</div>
+          <div class="text">อธิบายเหตุผลประกอบความรู้สึกด้วย because / since / as</div>
+        </div>
+        <div class="tip-item reveal">
+          <div class="check">✅</div>
+          <div class="text">ฝึกพูดและเขียนบรรยายความรู้สึกเป็นประจำทุกวัน</div>
+        </div>
+        <div class="tip-item reveal">
+          <div class="check">✅</div>
+          <div class="text">ใช้ประโยคสั้น ๆ ก่อนแล้วค่อยพัฒนาเป็นประโยคที่ซับซ้อนขึ้น</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 8: QUIZ
+       ============================================ -->
+  <section id="section8">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="section-emoji">🎯</span>
+        <h2>Mini Quiz — ทดสอบความรู้</h2>
+        <p>เลือกคำตอบที่ถูกต้องที่สุด</p>
+        <div class="underline"></div>
+      </div>
+
+      <div class="quiz-container" id="quizContainer">
+        <!-- Quiz 1 -->
+        <div class="quiz-card reveal" data-question="1" data-correct="a">
+          <span class="q-number">ข้อที่ 1</span>
+          <div class="question">"I am <span class="blank">____</span> about the school trip."</div>
+          <div class="quiz-options">
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="option-letter">A</span> excited
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="option-letter">B</span> angry
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="option-letter">C</span> tired
+            </div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <!-- Quiz 2 -->
+        <div class="quiz-card reveal" data-question="2" data-correct="b">
+          <span class="q-number">ข้อที่ 2</span>
+          <div class="question">"She <span class="blank">____</span> proud of her achievement."</div>
+          <div class="quiz-options">
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="option-letter">A</span> feel
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="option-letter">B</span> feels
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="option-letter">C</span> feeling
+            </div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <!-- Quiz 3 -->
+        <div class="quiz-card reveal" data-question="3" data-correct="c">
+          <span class="q-number">ข้อที่ 3</span>
+          <div class="question">"I am worried <span class="blank">____</span> the exam."</div>
+          <div class="quiz-options">
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="option-letter">A</span> for
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="option-letter">B</span> with
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="option-letter">C</span> about
+            </div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <!-- Quiz 4 -->
+        <div class="quiz-card reveal" data-question="4" data-correct="a">
+          <span class="q-number">ข้อที่ 4</span>
+          <div class="question">"I'm glad <span class="blank">____</span> that."</div>
+          <div class="quiz-options">
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="option-letter">A</span> to hear
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="option-letter">B</span> hearing
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="option-letter">C</span> hear
+            </div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <!-- Quiz 5 -->
+        <div class="quiz-card reveal" data-question="5" data-correct="b">
+          <span class="q-number">ข้อที่ 5</span>
+          <div class="question">"They are happy <span class="blank">____</span> the result."</div>
+          <div class="quiz-options">
+            <div class="quiz-option" data-value="a" onclick="selectOption(this)">
+              <span class="option-letter">A</span> for
+            </div>
+            <div class="quiz-option" data-value="b" onclick="selectOption(this)">
+              <span class="option-letter">B</span> about
+            </div>
+            <div class="quiz-option" data-value="c" onclick="selectOption(this)">
+              <span class="option-letter">C</span> with
+            </div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="quiz-submit-btn" id="submitBtn" onclick="checkQuiz()">📊 ตรวจคำตอบ</button>
+
+        <!-- Result Display -->
+        <div class="quiz-result" id="quizResult">
+          <div class="score-emoji" id="scoreEmoji">🎉</div>
+          <div class="score-text" id="scoreText">0 / 5</div>
+          <div class="score-detail" id="scoreDetail">ยอดเยี่ยม!</div>
+          <div class="score-bar">
+            <div class="score-bar-fill" id="scoreBarFill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 9: SUMMARY
+       ============================================ -->
+  <section id="section9">
+    <div class="container">
+      <div class="section-title reveal">
+        <span class="section-emoji">🎯</span>
+        <h2>สรุปท้ายบท</h2>
+        <p>Lesson Summary</p>
+        <div class="underline"></div>
+      </div>
+
+      <div class="summary-box">
+        <div class="summary-formula reveal-scale">
+          <div class="formula-line">
+            <span style="color: var(--accent);">Feeling</span>
+            <span class="plus"> + </span>
+            <span style="color: var(--accent2);">Correct Structure</span>
+            <span class="plus"> + </span>
+            <span style="color: var(--secondary);">Reason</span>
+          </div>
+          <div class="equals">=</div>
+          <div class="result">🌟 Effective Communication</div>
+        </div>
+
+        <div class="summary-example reveal">
+          <div class="example-text">"I feel happy because I passed the exam."</div>
+          <div class="example-thai">ฉันรู้สึกมีความสุขเพราะฉันสอบผ่าน</div>
+        </div>
+
+        <div class="summary-closing reveal">
+          🎉 Express your feelings clearly and confidently! 🎉
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer>
+    <div class="divider"></div>
+    <p>📚 Infographic — การใช้คำศัพท์และโครงสร้างภาษาเพื่อบรรยายความรู้สึกส่วนตัว</p>
+    <p>ระดับชั้นมัธยมศึกษาปีที่ 4 | English Learning</p>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
+  <script>
+    // ============================================
+    // 1. PROGRESS BAR
+    // ============================================
+    function updateProgressBar() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    // ============================================
+    // 2. NAVIGATION VISIBILITY & BACK TO TOP
+    // ============================================
+    const navTop = document.getElementById('navTop');
+    const backToTop = document.getElementById('backToTop');
+
+    function handleScrollUI() {
+      const scrollY = window.scrollY;
+
+      // Show nav after scrolling past hero
+      if (scrollY > window.innerHeight * 0.5) {
+        navTop.classList.add('visible');
+      } else {
+        navTop.classList.remove('visible');
+      }
+
+      // Show back to top button
+      if (scrollY > 600) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+
+      updateProgressBar();
+    }
+
+    // ============================================
+    // 3. SCROLL REVEAL ANIMATION
+    // ============================================
+    function revealOnScroll() {
+      const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+
+      reveals.forEach((el, index) => {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+        const revealPoint = 120;
+
+        if (elementTop < windowHeight - revealPoint) {
+          // Add staggered delay for grid items
+          const parent = el.parentElement;
+          if (parent && (parent.classList.contains('vocab-grid') ||
+                         parent.classList.contains('expressions-grid') ||
+                         parent.classList.contains('tips-container'))) {
+            const siblings = Array.from(parent.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale'));
+            const siblingIndex = siblings.indexOf(el);
+            el.style.transitionDelay = (siblingIndex * 0.08) + 's';
+          }
+          el.classList.add('active');
+        }
+      });
+    }
+
+    // ============================================
+    // 4. CHAT BUBBLE ANIMATION
+    // ============================================
+    let chatAnimated = false;
+
+    function animateChatBubbles() {
+      if (chatAnimated) return;
+
+      const chatSection = document.getElementById('section6');
+      const rect = chatSection.getBoundingClientRect();
+
+      if (rect.top < window.innerHeight * 0.7) {
+        chatAnimated = true;
+        const bubbles = document.querySelectorAll('.chat-bubble');
+        bubbles.forEach((bubble, i) => {
+          bubble.style.animationDelay = (i * 0.3) + 's';
+          bubble.style.animationPlayState = 'running';
+        });
+      }
+    }
+
+    // ============================================
+    // 5. QUIZ FUNCTIONALITY
+    // ============================================
+    // Store user answers
+    const userAnswers = {};
+
+    /**
+     * Handle option selection for a quiz question
+     */
+    function selectOption(optionEl) {
+      const quizCard = optionEl.closest('.quiz-card');
+      const questionNum = quizCard.dataset.question;
+
+      // Remove previous selection in this question
+      quizCard.querySelectorAll('.quiz-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+
+      // Mark current option as selected
+      optionEl.classList.add('selected');
+
+      // Store the answer
+      userAnswers[questionNum] = optionEl.dataset.value;
+    }
+
+    /**
+     * Check all quiz answers and display results
+     */
+    function checkQuiz() {
+      const quizCards = document.querySelectorAll('.quiz-card');
+      let correctCount = 0;
+      let totalQuestions = quizCards.length;
+      let allAnswered = true;
+
+      // Check if all questions are answered
+      for (let i = 1; i <= totalQuestions; i++) {
+        if (!userAnswers[i]) {
+          allAnswered = false;
+          break;
+        }
+      }
+
+      if (!allAnswered) {
+        alert('⚠️ กรุณาตอบคำถามให้ครบทุกข้อก่อนตรวจคำตอบ');
+        return;
+      }
+
+      // Disable submit button
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('submitBtn').style.opacity = '0.5';
+      document.getElementById('submitBtn').textContent = '✅ ตรวจคำตอบแล้ว';
+
+      // Process each question
+      quizCards.forEach((card, index) => {
+        const questionNum = card.dataset.question;
+        const correctAnswer = card.dataset.correct;
+        const userAnswer = userAnswers[questionNum];
+        const feedback = card.querySelector('.quiz-feedback');
+        const options = card.querySelectorAll('.quiz-option');
+
+        // Disable all options
+        options.forEach(opt => opt.classList.add('disabled'));
+
+        // Mark correct and wrong answers
+        options.forEach(opt => {
+          if (opt.dataset.value === correctAnswer) {
+            opt.classList.add('correct');
+          }
+          if (opt.dataset.value === userAnswer && userAnswer !== correctAnswer) {
+            opt.classList.add('wrong');
+          }
+        });
+
+        // Show feedback
+        if (userAnswer === correctAnswer) {
+          correctCount++;
+          feedback.textContent = '✅ ถูกต้อง! เก่งมาก!';
+          feedback.className = 'quiz-feedback show correct';
+        } else {
+          // Show the correct answer text
+          const correctOption = card.querySelector(`.quiz-option[data-value="${correctAnswer}"]`);
+          const correctText = correctOption.textContent.trim().replace(/^[ABC]\s*/, '');
+          feedback.textContent = `❌ ไม่ถูกต้อง — คำตอบที่ถูกคือ: ${correctText}`;
+          feedback.className = 'quiz-feedback show wrong';
+        }
+      });
+
+      // Display overall result
+      const resultDiv = document.getElementById('quizResult');
+      const scoreEmoji = document.getElementById('scoreEmoji');
+      const scoreText = document.getElementById('scoreText');
+      const scoreDetail = document.getElementById('scoreDetail');
+      const scoreBarFill = document.getElementById('scoreBarFill');
+
+      const percentage = (correctCount / totalQuestions) * 100;
+
+      // Set emoji and message based on score
+      if (percentage === 100) {
+        scoreEmoji.textContent = '🏆';
+        scoreDetail.textContent = 'สมบูรณ์แบบ! คุณเก่งมาก!';
+      } else if (percentage >= 80) {
+        scoreEmoji.textContent = '🎉';
+        scoreDetail.textContent = 'ยอดเยี่ยม! ทำได้ดีมาก!';
+      } else if (percentage >= 60) {
+        scoreEmoji.textContent = '👍';
+        scoreDetail.textContent = 'ดีมาก! ลองทบทวนเพิ่มเติมอีกนิด';
+      } else if (percentage >= 40) {
+        scoreEmoji.textContent = '📚';
+        scoreDetail.textContent = 'พอใช้ได้ ลองอ่านทบทวนอีกครั้งนะ';
+      } else {
+        scoreEmoji.textContent = '💪';
+        scoreDetail.textContent = 'ไม่เป็นไร! ลองอ่านทบทวนแล้วทำใหม่อีกครั้ง';
+      }
+
+      scoreText.textContent = `${correctCount} / ${totalQuestions}`;
+      resultDiv.classList.add('show');
+
+      // Animate score bar
+      setTimeout(() => {
+        scoreBarFill.style.width = percentage + '%';
+      }, 300);
+
+      // Scroll to result
+      setTimeout(() => {
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 500);
+    }
+
+    // ============================================
+    // 6. EVENT LISTENERS
+    // ============================================
+    window.addEventListener('scroll', () => {
+      requestAnimationFrame(() => {
+        handleScrollUI();
+        revealOnScroll();
+        animateChatBubbles();
+      });
+    });
+
+    // Initial calls on page load
+    window.addEventListener('load', () => {
+      handleScrollUI();
+      revealOnScroll();
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-top a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          const offsetTop = targetEl.offsetTop - 60;
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
