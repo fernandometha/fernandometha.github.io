@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การแสดงความคิดเห็นต่อกิจกรรมและประสบการณ์</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-dark: #3730a3;
+            --secondary: #7c3aed;
+            --secondary-light: #a78bfa;
+            --accent: #06b6d4;
+            --accent-light: #67e8f9;
+            --bg-gradient-start: #e0e7ff;
+            --bg-gradient-end: #f5f3ff;
+            --card-bg: #ffffff;
+            --text-primary: #1e1b4b;
+            --text-secondary: #4338ca;
+            --text-muted: #6b7280;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --border-radius: 16px;
+            --shadow: 0 4px 24px rgba(79, 70, 229, 0.12);
+            --shadow-hover: 0 8px 32px rgba(79, 70, 229, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-gradient-start);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        /* Back to Top Button */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-hover);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #backToTop.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #backToTop:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 36px rgba(79, 70, 229, 0.35);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Animation Classes */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fade-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .fade-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fade-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: heroFloat 15s ease-in-out infinite;
+        }
+        @keyframes heroFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(5deg); }
+            66% { transform: translate(-20px, 20px) rotate(-3deg); }
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 40px 20px;
+        }
+        .hero-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .hero h1 {
+            font-size: clamp(1.8rem, 4vw, 3.2rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+            line-height: 1.4;
+        }
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .hero-badge i {
+            color: var(--accent-light);
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.5rem;
+            animation: scrollBounce 2s ease-in-out infinite;
+            opacity: 0.7;
+        }
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ==================== SECTIONS ==================== */
+        section {
+            padding: 80px 0;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .icon-wrapper {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+        .section-header .icon-wrapper i {
+            font-size: 1.8rem;
+            color: white;
+        }
+        .section-header h2 {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        .section-header .subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==================== CARDS ==================== */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(79, 70, 229, 0.08);
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(79, 70, 229, 0.15);
+        }
+
+        /* ==================== DEFINITION SECTION ==================== */
+        .definition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        .definition-card {
+            text-align: center;
+        }
+        .definition-card .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+            color: white;
+        }
+        .def-icon-1 { background: linear-gradient(135deg, #4f46e5, #818cf8); }
+        .def-icon-2 { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+        .def-icon-3 { background: linear-gradient(135deg, #06b6d4, #67e8f9); }
+        .definition-card h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .definition-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .example-box {
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+            border-left: 4px solid var(--primary);
+            padding: 20px 24px;
+            border-radius: 0 12px 12px 0;
+        }
+        .example-box .label {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .example-box .english {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .example-box .thai {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ==================== SENTENCE STRUCTURE TABLE ==================== */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        .structure-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+        }
+        .structure-table thead th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 16px 20px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: left;
+        }
+        .structure-table tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+            transition: background 0.3s ease;
+        }
+        .structure-table tbody tr:hover {
+            background: #f5f3ff;
+        }
+        .structure-table tbody td {
+            padding: 18px 20px;
+            vertical-align: top;
+        }
+        .structure-table .pattern-num {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+            white-space: nowrap;
+        }
+        .structure-table .formula {
+            font-weight: 600;
+            color: var(--secondary);
+            background: #f5f3ff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        .structure-table .example-en {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .structure-table .example-th {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ==================== VOCABULARY CARDS ==================== */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .vocab-card {
+            text-align: center;
+            padding: 24px 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        .vocab-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: 4px 4px 0 0;
+        }
+        .vocab-card:nth-child(1)::before { background: #4f46e5; }
+        .vocab-card:nth-child(2)::before { background: #7c3aed; }
+        .vocab-card:nth-child(3)::before { background: #06b6d4; }
+        .vocab-card:nth-child(4)::before { background: #f59e0b; }
+        .vocab-card:nth-child(5)::before { background: #ef4444; }
+        .vocab-card:nth-child(6)::before { background: #10b981; }
+        .vocab-card:nth-child(7)::before { background: #8b5cf6; }
+        .vocab-card:nth-child(8)::before { background: #ec4899; }
+        .vocab-card:hover::before {
+            height: 6px;
+        }
+        .vocab-word {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        .vocab-meaning {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+        .vocab-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            opacity: 0.7;
+        }
+        .vocab-card:nth-child(1) .vocab-icon { color: #4f46e5; }
+        .vocab-card:nth-child(2) .vocab-icon { color: #7c3aed; }
+        .vocab-card:nth-child(3) .vocab-icon { color: #06b6d4; }
+        .vocab-card:nth-child(4) .vocab-icon { color: #f59e0b; }
+        .vocab-card:nth-child(5) .vocab-icon { color: #ef4444; }
+        .vocab-card:nth-child(6) .vocab-icon { color: #10b981; }
+        .vocab-card:nth-child(7) .vocab-icon { color: #8b5cf6; }
+        .vocab-card:nth-child(8) .vocab-icon { color: #ec4899; }
+
+        /* ==================== FLOW DIAGRAM ==================== */
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .flow-step {
+            text-align: center;
+            padding: 20px 40px;
+            border-radius: 16px;
+            min-width: 280px;
+            position: relative;
+        }
+        .flow-opinion {
+            background: linear-gradient(135deg, #4f46e5, #818cf8);
+            color: white;
+        }
+        .flow-reason {
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            color: white;
+        }
+        .flow-example {
+            background: linear-gradient(135deg, #06b6d4, #67e8f9);
+            color: white;
+        }
+        .flow-step h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .flow-step p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        .flow-arrow {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin: 8px 0;
+            animation: arrowPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes arrowPulse {
+            0%, 100% { opacity: 0.5; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(4px); }
+        }
+        .flow-example-box {
+            margin-top: 40px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            width: 100%;
+        }
+        .flow-example-item {
+            margin-bottom: 16px;
+        }
+        .flow-example-item:last-child {
+            margin-bottom: 0;
+        }
+        .flow-example-item .label {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        .flow-example-item .text {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* ==================== CONJUNCTION CARDS ==================== */
+        .conjunction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .conjunction-card {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+            border: 1px solid rgba(124, 58, 237, 0.1);
+        }
+        .conjunction-word {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 4px;
+        }
+        .conjunction-meaning {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+        .conjunction-example {
+            margin-top: 30px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        .conjunction-example .label {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        .conjunction-example .text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* ==================== CHAT BUBBLES ==================== */
+        .chat-container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .chat-bubble {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-end;
+        }
+        .chat-bubble.left {
+            justify-content: flex-start;
+        }
+        .chat-bubble.right {
+            justify-content: flex-end;
+        }
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin: 0 10px;
+        }
+        .avatar-a { background: linear-gradient(135deg, #4f46e5, #818cf8); }
+        .avatar-b { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+        .chat-text {
+            max-width: 75%;
+            padding: 14px 20px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .chat-bubble.left .chat-text {
+            background: var(--card-bg);
+            border-bottom-left-radius: 6px;
+            box-shadow: var(--shadow);
+            color: var(--text-primary);
+        }
+        .chat-bubble.right .chat-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-bottom-right-radius: 6px;
+        }
+
+        /* ==================== TIMELINE ==================== */
+        .timeline {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+            padding-left: 40px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--accent));
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -33px;
+            top: 20px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+        }
+        .timeline-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        .timeline-content:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-hover);
+        }
+        .timeline-content h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        .timeline-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ==================== HIGHLIGHT BOX ==================== */
+        .highlight-box {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid #10b981;
+            border-radius: var(--border-radius);
+            padding: 36px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .highlight-box h3 {
+            color: #047857;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        .highlight-item:last-child {
+            border-bottom: none;
+        }
+        .highlight-item i {
+            color: #10b981;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .highlight-item span {
+            color: #064e3b;
+            font-weight: 500;
+        }
+
+        /* ==================== PRACTICE CARD ==================== */
+        .practice-card {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 36px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--primary-light);
+        }
+        .practice-card .question-label {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .practice-card .question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+        .practice-card .answer-label {
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .practice-card .answer {
+            background: #f0fdf4;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--success);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* ==================== MIND MAP ==================== */
+        .mindmap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .mindmap-center {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            box-shadow: var(--shadow-hover);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .mindmap-branches {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            width: 100%;
+        }
+        .mindmap-item {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 16px 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(79, 70, 229, 0.08);
+        }
+        .mindmap-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-light);
+        }
+        .mindmap-item i {
+            color: var(--primary);
+        }
+        .mindmap-connector {
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            margin-bottom: 10px;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+        }
+        .footer-quote {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+        .footer-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+            .definition-grid {
+                grid-template-columns: 1fr;
+            }
+            .vocab-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .conjunction-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .timeline {
+                padding-left: 30px;
+            }
+            .timeline::before {
+                left: 10px;
+            }
+            .timeline-dot {
+                left: -28px;
+                width: 26px;
+                height: 26px;
+                font-size: 0.75rem;
+            }
+            .chat-text {
+                max-width: 85%;
+            }
+            .flow-step {
+                min-width: auto;
+                padding: 16px 24px;
+            }
+        }
+        @media (max-width: 480px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+            .conjunction-grid {
+                grid-template-columns: 1fr;
+            }
+            .mindmap-branches {
+                flex-direction: column;
+                align-items: center;
+            }
+            .mindmap-item {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" title="กลับขึ้นด้านบน">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <h1>การแสดงความคิดเห็น<br>ต่อกิจกรรมและประสบการณ์<br>พร้อมเหตุผลประกอบ</h1>
+            <p>การแสดงความคิดเห็น (Giving Opinions) เป็นทักษะสำคัญที่ช่วยให้ผู้เรียนสามารถสื่อสารความคิด ความรู้สึก และเหตุผลเกี่ยวกับกิจกรรมหรือประสบการณ์ต่างๆ ได้อย่างเหมาะสม</p>
+            <div class="hero-badge">
+                <i class="fas fa-graduation-cap"></i>
+                ภาษาอังกฤษ ชั้นมัธยมศึกษาปีที่ 4
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- ==================== 2. DEFINITION ==================== -->
+    <section id="definition">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="icon-wrapper">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h2>ความหมายของการแสดงความคิดเห็น</h2>
+                <p class="subtitle">เข้าใจพื้นฐานก่อนเริ่มสื่อสาร</p>
+            </div>
+            <div class="definition-grid">
+                <div class="definition-card card fade-up">
+                    <div class="card-icon def-icon-1">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>การบอกความคิดหรือความรู้สึกของตนเอง</h3>
+                    <p>แสดงสิ่งที่เราคิดหรือรู้สึกต่อเหตุการณ์นั้นๆ อย่างชัดเจน</p>
+                </div>
+                <div class="definition-card card fade-up" style="transition-delay: 0.1s;">
+                    <div class="card-icon def-icon-2">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>การให้มุมมองต่อเหตุการณ์หรือประสบการณ์</h3>
+                    <p>นำเสนอวิธีคิดหรือทัศนะที่มีต่อกิจกรรมนั้น</p>
+                </div>
+                <div class="definition-card card fade-up" style="transition-delay: 0.2s;">
+                    <div class="card-icon def-icon-3">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <h3>การสนับสนุนความคิดเห็นด้วยเหตุผล</h3>
+                    <p>อธิบายว่าทำไมเราจึงคิดเช่นนั้น โดยมีเหตุผลประกอบ</p>
+                </div>
+            </div>
+            <div class="example-box fade-up" style="max-width: 600px; margin: 0 auto;">
+                <div class="label"><i class="fas fa-quote-left"></i> ตัวอย่าง (Example)</div>
+                <div class="english">"I think the activity was interesting."</div>
+                <div class="thai">(ฉันคิดว่ากิจกรรมนี้น่าสนใจ)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 3. SENTENCE STRUCTURES ==================== -->
+    <section id="structure">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="icon-wrapper">
+                    <i class="fas fa-pen-ruler"></i>
+                </div>
+                <h2>โครงสร้างประโยคพื้นฐาน</h2>
+                <p class="subtitle">รูปแบบประโยคที่ใช้แสดงความคิดเห็น</p>
+            </div>
+            <div class="table-wrapper fade-up">
+                <table class="structure-table">
+                    <thead>
+                        <tr>
+                            <th>รูปแบบ</th>
+                            <th>โครงสร้าง</th>
+                            <th>ตัวอย่าง</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="pattern-num"><i class="fas fa-star" style="color: var(--warning); margin-right: 6px;"></i>รูปแบบที่ 1</td>
+                            <td><span class="formula">I think + ประโยค</span></td>
+                            <td>
+                                <div class="example-en">I think the trip was enjoyable.</div>
+                                <div class="example-th">ฉันคิดว่าการเดินทางครั้งนี้สนุกมาก</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pattern-num"><i class="fas fa-star" style="color: var(--warning); margin-right: 6px;"></i>รูปแบบที่ 2</td>
+                            <td><span class="formula">I believe + ประโยค</span></td>
+                            <td>
+                                <div class="example-en">I believe this activity is useful.</div>
+                                <div class="example-th">ฉันเชื่อว่ากิจกรรมนี้มีประโยชน์</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pattern-num"><i class="fas fa-star" style="color: var(--warning); margin-right: 6px;"></i>รูปแบบที่ 3</td>
+                            <td><span class="formula">In my opinion, + ประโยค</span></td>
+                            <td>
+                                <div class="example-en">In my opinion, the workshop was very helpful.</div>
+                                <div class="example-th">ในความคิดเห็นของฉัน เวิร์กชอปนี้มีประโยชน์มาก</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pattern-num"><i class="fas fa-star" style="color: var(--warning); margin-right: 6px;"></i>รูปแบบที่ 4</td>
+                            <td><span class="formula">From my experience, + ประโยค</span></td>
+                            <td>
+                                <div class="example-en">From my experience, learning by doing is effective.</div>
+                                <div class="example-th">จากประสบการณ์ของฉัน การเรียนรู้ผ่านการลงมือทำมีประสิทธิภาพ</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. VOCABULARY ==================== -->
+    <section id="vocabulary">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="icon-wrapper">
+                    <i class="fas fa-spell-check"></i>
+                </div>
+                <h2>คำศัพท์ที่ใช้แสดงความคิดเห็น</h2>
+                <p class="subtitle">คำคุณศัพท์ที่พบบ่อยเมื่อแสดงความคิดเห็น</p>
+            </div>
+            <div class="vocab-grid">
+                <div class="vocab-card card scale-in">
+                    <div class="vocab-icon"><i class="fas fa-eye"></i></div>
+                    <div class="vocab-word">interesting</div>
+                    <div class="vocab-meaning">น่าสนใจ</div>
+                </div>
+                <div class="vocab-card card scale-in" style="transition-delay: 0.05s;">
+                    <div class="vocab-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="vocab-word">exciting</div>
+                    <div class="vocab-meaning">น่าตื่นเต้น</div>
+                </div>
+                <div class="vocab-card card scale-in" style="transition-delay: 0.1s;">
+                    <div class="vocab-icon"><i class="fas fa-hammer"></i></div>
+                    <div class="vocab-word">useful</div>
+                    <div class="vocab-meaning">มีประโยชน์</div>
+                </div>
+                <div class="vocab-card card scale-in" style="transition-delay: 0.15s;">
+                    <div class="vocab-icon"><i class="fas fa-gem"></i></div>
+                    <div class="vocab-word">amazing</div>
+                    <div class="vocab-meaning">ยอดเยี่ยม</div>
+                </div>
+                <div class="vocab-card card scale-in" style="transition-delay: 0.2s;">
+                    <div class="vocab-icon"><i class="fas fa-mountain"></i></div>
+                    <div class="vocab-word">challenging</div>
+                    <div class="vocab-meaning">ท้าทาย</div>
+                </div>
+                <div class="vocab-card card scale-in" style="transition-delay: 0.25s;">
+                    <div class="vocab-icon"><i class="fas fa-book-reader"></i></div>
+                    <div class="vocab-word">educational</div>
+                    <div class="vocab-meaning">ให้ความรู้</div>
+                </div>
+                <div class="vocab-card card scale-in" style="transition-delay: 0.3s;">
+                    <div class="vocab-icon"><i class="fas fa-bed"></i></div>
+                    <div class="vocab-word">boring</div>
+                    <div class="vocab-meaning">น่าเบื่อ</div>
+                </div>
+                <div class="vocab-card card scale-in" style="transition-delay: 0.35s;">
+                    <div class="vocab-icon"><i class="fas fa-brain"></i></div>
+                    <div class="vocab-word">difficult</div>
+                    <div class="vocab-meaning">ยาก</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 5. REASON FLOW ==================== -->
+    <section id="flow">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="icon-wrapper">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h2>การให้เหตุผลประกอบความคิดเห็น</h2>
+                <p class="subtitle">ขั้นตอนการให้เหตุผลอย่างเป็นระบบ</p>
+            </div>
+            <div class="flow-container fade-up">
+                <div class="flow-step flow-opinion">
+                    <h3><i class="fas fa-comment-dots"></i> Opinion (ความคิดเห็น)</h3>
+                    <p>บอกสิ่งที่เราคิด</p>
+                </div>
+                <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                <div class="flow-step flow-reason">
+                    <h3><i class="fas fa-question-circle"></i> Reason (เหตุผล)</h3>
+                    <p>อธิบายว่าทำไมจึงคิดเช่นนั้น</p>
+                </div>
+                <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                <div class="flow-step flow-example">
+                    <h3><i class="fas fa-lightbulb"></i> Example (ตัวอย่าง)</h3>
+                    <p>ยกตัวอย่างประกอบเพื่อความน่าเชื่อถือ</p>
+                </div>
+            </div>
+            <div class="flow-example-box fade-up">
+                <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);"><i class="fas fa-clipboard-list"></i> ตัวอย่าง</h3>
+                <div class="flow-example-item">
+                    <div class="label"><i class="fas fa-comment"></i> Opinion:</div>
+                    <div class="text">I think the cultural trip was interesting.</div>
+                </div>
+                <div class="flow-example-item">
+                    <div class="label"><i class="fas fa-question"></i> Reason:</div>
+                    <div class="text">Because I learned many new things.</div>
+                </div>
+                <div class="flow-example-item">
+                    <div class="label"><i class="fas fa-lightbulb"></i> Example:</div>
+                    <div class="text">I learned about local traditions and history.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. CONJUNCTIONS ==================== -->
+    <section id="conjunctions">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="icon-wrapper">
+                    <i class="fas fa-link"></i>
+                </div>
+                <h2>คำเชื่อมที่ใช้ให้เหตุผล</h2>
+                <p class="subtitle">คำเชื่อมสำคัญที่ใช้เชื่อมโยงความคิดเห็นกับเหตุผล</p>
+            </div>
+            <div class="conjunction-grid">
+                <div class="conjunction-card card scale-in">
+                    <div class="conjunction-word">because</div>
+                    <div class="conjunction-meaning">เพราะว่า</div>
+                </div>
+                <div class="conjunction-card card scale-in" style="transition-delay: 0.05s;">
+                    <div class="conjunction-word">since</div>
+                    <div class="conjunction-meaning">เนื่องจาก</div>
+                </div>
+                <div class="conjunction-card card scale-in" style="transition-delay: 0.1s;">
+                    <div class="conjunction-word">as</div>
+                    <div class="conjunction-meaning">เพราะ</div>
+                </div>
+                <div class="conjunction-card card scale-in" style="transition-delay: 0.15s;">
+                    <div class="conjunction-word">therefore</div>
+                    <div class="conjunction-meaning">ดังนั้น</div>
+                </div>
+                <div class="conjunction-card card scale-in" style="transition-delay: 0.2s;">
+                    <div class="conjunction-word">so</div>
+                    <div class="conjunction-meaning">ดังนั้น</div>
+                </div>
+                <div class="conjunction-card card scale-in" style="transition-delay: 0.25s;">
+                    <div class="conjunction-word">for example</div>
+                    <div class="conjunction-meaning">ตัวอย่างเช่น</div>
+                </div>
+            </div>
+            <div class="conjunction-example fade-up" style="margin-top: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <div class="label"><i class="fas fa-quote-left"></i> ตัวอย่างการใช้งาน</div>
+                <div class="text">"I enjoyed the activity <span style="color: var(--primary); font-weight: 700;">because</span> it was fun."</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 7. CONVERSATION ==================== -->
+    <section id="conversation">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="icon-wrapper">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <h2>ตัวอย่างบทสนทนา</h2>
+                <p class="subtitle">การนำโครงสร้างไปใช้จริงในการสนทนา</p>
+            </div>
+            <div class="chat-container fade-up">
+                <div class="chat-bubble left">
+                    <div class="chat-avatar avatar-a">A</div>
+                    <div class="chat-text">What do you think about the school camp?</div>
+                </div>
+                <div class="chat-bubble right">
+                    <div class="chat-text">I think it was exciting because I learned teamwork skills.</div>
+                    <div class="chat-avatar avatar-b">B</div>
+                </div>
+                <div class="chat-bubble left">
+                    <div class="chat-avatar avatar-a">A</div>
+                    <div class="chat-text">Would you like to join again?</div>
+                </div>
+                <div class="chat-bubble right">
+                    <div class="chat-text">Yes, because it was both fun and educational.</div>
+                    <div class="chat-avatar avatar-b">B</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 8. TIMELINE ==================== -->
+    <section id="steps">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="icon-wrapper">
+                    <i class="fas fa-list-ol"></i>
+                </div>
+                <h2>ขั้นตอนการแสดงความคิดเห็นอย่างมีเหตุผล</h2>
+                <p class="subtitle">4 ขั้นตอนง่ายๆ ในการแสดงความคิดเห็นอย่างมีประสิทธิภาพ</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item fade-left">
+                    <div class="timeline-dot">1</div>
+                    <div class="timeline-content">
+                        <h3><i class="fas fa-comment" style="color: var(--primary); margin-right: 8px;"></i>บอกความคิดเห็น</h3>
+                        <p>เริ่มต้นด้วยการบอกสิ่งที่เราคิดหรือรู้สึกอย่างชัดเจน โดยใช้โครงสร้างประโยคที่เหมาะสม</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-left" style="transition-delay: 0.1s;">
+                    <div class="timeline-dot">2</div>
+                    <div class="timeline-content">
+                        <h3><i class="fas fa-question-circle" style="color: var(--secondary); margin-right: 8px;"></i>อธิบายเหตุผล</h3>
+                        <p>อธิบายว่าทำไมเราจึงคิดเช่นนั้น ใช้คำเชื่อมเช่น because, since, as เพื่อให้เหตุผล</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-left" style="transition-delay: 0.2s;">
+                    <div class="timeline-dot">3</div>
+                    <div class="timeline-content">
+                        <h3><i class="fas fa-lightbulb" style="color: var(--warning); margin-right: 8px;"></i>ยกตัวอย่างประกอบ</h3>
+                        <p>ยกตัวอย่างหรือประสบการณ์จริงเพื่อสนับสนุนความคิดเห็น ทำให้มีความน่าเชื่อถือมากขึ้น</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-left" style="transition-delay: 0.3s;">
+                    <div class="timeline-dot">4</div>
+                    <div class="timeline-content">
+                        <h3><i class="fas fa-check-circle" style="color: var(--success); margin-right: 8px;"></i>สรุปความคิดเห็น</h3>
+                        <p>สรุปความคิดเห็นอีกครั้งเพื่อให้ผู้ฟังเข้าใจอย่างชัดเจนและมั่นใจในสิ่งที่เราสื่อสาร</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 9. REMINDERS ==================== -->
+    <section id="reminders">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="icon-wrapper">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <h2>ข้อควรจำ</h2>
+                <p class="subtitle">หลักการสำคัญที่ควร牢记ในการแสดงความคิดเห็น</p>
+            </div>
+            <div class="highlight-box fade-up">
+                <h3><i class="fas fa-star"></i> ข้อควรจำ</h3>
+                <div class="highlight-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>ใช้ภาษาสุภาพ</span>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>ให้เหตุผลสนับสนุนความคิดเห็น</span>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>เคารพความคิดเห็นของผู้อื่น</span>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>ใช้คำเชื่อมให้เหมาะสม</span>
+                </div>
+                <div class="highlight-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>ยกตัวอย่างประกอบเพื่อความน่าเชื่อถือ</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 10. PRACTICE ==================== -->
+    <section id="practice">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="icon-wrapper">
+                    <i class="fas fa-pen-fancy"></i>
+                </div>
+                <h2>แบบฝึกคิด (Mini Practice)</h2>
+                <p class="subtitle">ลองแสดงความคิดเห็นของคุณ!</p>
+            </div>
+            <div class="practice-card fade-up">
+                <div class="question-label"><i class="fas fa-question-circle"></i> Question</div>
+                <div class="question">What do you think about online learning?</div>
+                <div class="answer-label"><i class="fas fa-check-circle"></i> แนวคำตอบ (Sample Answer)</div>
+                <div class="answer">
+                    "I think online learning is useful because it allows students to study anywhere."
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 11. MIND MAP ==================== -->
+    <section id="summary">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="icon-wrapper">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h2>สรุปบทเรียน</h2>
+                <p class="subtitle">แผนภาพสรุปเนื้อหาทั้งหมด</p>
+            </div>
+            <div class="mindmap fade-up">
+                <div class="mindmap-center">
+                    <i class="fas fa-comments" style="margin-right: 8px;"></i> Giving Opinions
+                </div>
+                <div class="mindmap-connector"></div>
+                <div class="mindmap-branches">
+                    <div class="mindmap-item">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>แสดงความคิดเห็น</span>
+                    </div>
+                    <div class="mindmap-item">
+                        <i class="fas fa-pen-ruler"></i>
+                        <span>ใช้ประโยคพื้นฐาน</span>
+                    </div>
+                    <div class="mindmap-item">
+                        <i class="fas fa-question"></i>
+                        <span>ให้เหตุผล</span>
+                    </div>
+                    <div class="mindmap-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>ยกตัวอย่าง</span>
+                    </div>
+                    <div class="mindmap-item">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <span>สื่อสารอย่างสุภาพ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-quote fade-up">
+                <i class="fas fa-quote-left" style="opacity: 0.5; margin-right: 8px;"></i>
+                "Good opinions are supported by good reasons."
+                <i class="fas fa-quote-right" style="opacity: 0.5; margin-left: 8px;"></i>
+            </div>
+            <p style="opacity: 0.8; font-size: 1rem;">ความคิดเห็นที่ดี ย่อมมีเหตุผลที่ดีประกอบ</p>
+            <div class="footer-icons">
+                <i class="fas fa-graduation-cap"></i>
+                <i class="fas fa-book"></i>
+                <i class="fas fa-pencil-alt"></i>
+                <i class="fas fa-lightbulb"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="footer-badge">
+                <i class="fas fa-graduation-cap"></i>
+                วิชาภาษาอังกฤษ ชั้นมัธยมศึกษาปีที่ 4
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // ========== Scroll Animation ==========
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -80px 0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ========== Back to Top Button ==========
+        const backToTopBtn = document.getElementById('backToTop');
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    if (window.scrollY > 500) {
+                        backToTopBtn.classList.add('visible');
+                    } else {
+                        backToTopBtn.classList.remove('visible');
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // ========== Smooth scroll for internal links ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ========== Parallax effect on hero ==========
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            const scrolled = window.scrollY;
+            if (scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+                hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
+            }
+        });
+
+        // ========== Card tilt effect on hover ==========
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
