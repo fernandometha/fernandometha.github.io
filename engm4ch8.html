@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchanging Opinions about Tourism News and Events</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /* ============================================
+           CSS VARIABLES - กำหนดโทนสีหลัก
+           ============================================ */
+        :root {
+            --blue-dark: #1a2a5e;
+            --blue-primary: #2c5aa0;
+            --blue-light: #4a90d9;
+            --blue-sky: #6db8f0;
+            --teal: #2dd4bf;
+            --green: #34d399;
+            --green-light: #a7f3d0;
+            --orange: #f97316;
+            --orange-light: #fdba74;
+            --orange-soft: #fff7ed;
+            --white: #ffffff;
+            --gray-light: #f8fafc;
+            --gray: #e2e8f0;
+            --gray-dark: #64748b;
+            --text-dark: #1e293b;
+            --text-medium: #475569;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.15);
+            --shadow-glow: 0 0 30px rgba(45, 212, 191, 0.2);
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ============================================
+           BASE RESET & GLOBAL STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Prompt', 'Kanit', sans-serif;
+            color: var(--text-dark);
+            background: var(--gray-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Kanit', sans-serif;
+        }
+
+        /* ============================================
+           PROGRESS BAR - แสดงความคืบหน้าการอ่าน
+           ============================================ */
+        #progressBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue-light), var(--teal), var(--green), var(--orange));
+            z-index: 10000;
+            transition: width 0.15s ease-out;
+            border-radius: 0 2px 2px 0;
+        }
+
+        /* ============================================
+           SCROLL ANIMATION - Fade-in
+           ============================================ */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ============================================
+           CONTAINER
+           ============================================ */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-primary) 40%, var(--blue-light) 70%, var(--teal) 100%);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 60px 24px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(45,212,191,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(249,115,22,0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 20%, rgba(109,184,240,0.1) 0%, transparent 40%);
+            animation: heroFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes heroFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(2deg); }
+            66% { transform: translate(-20px, 20px) rotate(-1deg); }
+        }
+
+        /* Floating icons in hero */
+        .hero-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 2.5rem;
+            opacity: 0.15;
+            animation: floatIcon 6s ease-in-out infinite;
+            color: white;
+        }
+
+        .floating-icon:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 25%; right: 12%; animation-delay: 1s; font-size: 3rem; }
+        .floating-icon:nth-child(3) { bottom: 30%; left: 8%; animation-delay: 2s; font-size: 2rem; }
+        .floating-icon:nth-child(4) { bottom: 20%; right: 15%; animation-delay: 3s; }
+        .floating-icon:nth-child(5) { top: 60%; left: 25%; animation-delay: 1.5s; font-size: 2rem; }
+        .floating-icon:nth-child(6) { top: 10%; left: 50%; animation-delay: 2.5s; font-size: 1.8rem; }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 24px;
+            border-radius: 50px;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 400;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            color: white;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(90deg, var(--teal), var(--orange-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            color: rgba(255,255,255,0.85);
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            max-width: 650px;
+            margin: 0 auto 30px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .hero-emojis {
+            font-size: 2.5rem;
+            letter-spacing: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .hero-emojis span {
+            display: inline-block;
+            animation: emojiPop 2s ease-in-out infinite;
+        }
+
+        .hero-emojis span:nth-child(1) { animation-delay: 0s; }
+        .hero-emojis span:nth-child(2) { animation-delay: 0.3s; }
+        .hero-emojis span:nth-child(3) { animation-delay: 0.6s; }
+        .hero-emojis span:nth-child(4) { animation-delay: 0.9s; }
+
+        @keyframes emojiPop {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-scroll {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            animation: scrollBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateY(0); opacity: 0.7; }
+            50% { transform: translateY(8px); opacity: 1; }
+        }
+
+        /* ============================================
+           SECTION COMMON STYLES
+           ============================================ */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: white;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-icon.blue { background: linear-gradient(135deg, var(--blue-primary), var(--blue-light)); }
+        .section-icon.teal { background: linear-gradient(135deg, #0d9488, var(--teal)); }
+        .section-icon.orange { background: linear-gradient(135deg, #ea580c, var(--orange)); }
+        .section-icon.green { background: linear-gradient(135deg, #059669, var(--green)); }
+        .section-icon.purple { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+
+        .section-header h2 {
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            color: var(--blue-dark);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .section-header .en-title {
+            font-size: clamp(0.9rem, 2vw, 1.05rem);
+            color: var(--blue-light);
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            color: var(--text-medium);
+            font-size: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 4px;
+            border-radius: 2px;
+            margin: 16px auto 0;
+        }
+
+        .section-divider.blue { background: linear-gradient(90deg, var(--blue-primary), var(--blue-light)); }
+        .section-divider.teal { background: linear-gradient(90deg, #0d9488, var(--teal)); }
+        .section-divider.orange { background: linear-gradient(90deg, #ea580c, var(--orange)); }
+        .section-divider.green { background: linear-gradient(90deg, #059669, var(--green)); }
+
+        /* ============================================
+           SECTION 1: ความหมาย
+           ============================================ */
+        .meaning-section {
+            background: white;
+        }
+
+        .meaning-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .meaning-card {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            border: 1px solid #bae6fd;
+        }
+
+        .meaning-card h3 {
+            font-size: 1.2rem;
+            color: var(--blue-dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .meaning-card h3 i {
+            color: var(--blue-primary);
+        }
+
+        .meaning-card p {
+            color: var(--text-medium);
+            font-size: 0.95rem;
+            line-height: 1.9;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .example-item {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .example-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--teal);
+        }
+
+        .example-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .example-icon.c1 { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: var(--blue-primary); }
+        .example-icon.c2 { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #d97706; }
+        .example-icon.c3 { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #059669; }
+        .example-icon.c4 { background: linear-gradient(135deg, #ffe4e6, #fecdd3); color: #e11d48; }
+
+        .example-text {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        /* ============================================
+           SECTION 2: TIMELINE
+           ============================================ */
+        .timeline-section {
+            background: linear-gradient(180deg, var(--gray-light) 0%, #e0f2fe 100%);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        /* Vertical line */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--blue-light), var(--teal), var(--green), var(--orange-light), var(--orange));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 20px 40px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        /* Timeline dot */
+        .timeline-dot {
+            position: absolute;
+            top: 28px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            z-index: 2;
+            box-shadow: 0 0 0 6px rgba(255,255,255,0.8), var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.15);
+            box-shadow: 0 0 0 6px rgba(255,255,255,0.8), var(--shadow-lg);
+        }
+
+        .timeline-item:nth-child(1) .timeline-dot { background: linear-gradient(135deg, var(--blue-primary), var(--blue-light)); }
+        .timeline-item:nth-child(2) .timeline-dot { background: linear-gradient(135deg, #0d9488, var(--teal)); }
+        .timeline-item:nth-child(3) .timeline-dot { background: linear-gradient(135deg, #059669, var(--green)); }
+        .timeline-item:nth-child(4) .timeline-dot { background: linear-gradient(135deg, #d97706, var(--orange)); }
+        .timeline-item:nth-child(5) .timeline-dot { background: linear-gradient(135deg, #dc2626, #f87171); }
+
+        .timeline-item:nth-child(odd) .timeline-dot { right: -22px; }
+        .timeline-item:nth-child(even) .timeline-dot { left: -22px; }
+
+        .timeline-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid var(--gray);
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+        }
+
+        .timeline-card .step-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .timeline-item:nth-child(1) .step-label { color: var(--blue-primary); }
+        .timeline-item:nth-child(2) .step-label { color: #0d9488; }
+        .timeline-item:nth-child(3) .step-label { color: #059669; }
+        .timeline-item:nth-child(4) .step-label { color: #d97706; }
+        .timeline-item:nth-child(5) .step-label { color: #dc2626; }
+
+        .timeline-card h3 {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .timeline-card p {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            line-height: 1.6;
+        }
+
+        .timeline-card .timeline-icon {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        /* ============================================
+           SECTION 3: ประโยคพื้นฐาน (Card Grid)
+           ============================================ */
+        .phrases-section {
+            background: white;
+        }
+
+        .phrases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .phrase-card {
+            border-radius: var(--radius-md);
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .phrase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .phrase-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Card 1 - Asking */
+        .phrase-card.asking {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-color: #93c5fd;
+        }
+        .phrase-card.asking::before { background: linear-gradient(90deg, var(--blue-primary), var(--blue-light)); }
+
+        /* Card 2 - Giving */
+        .phrase-card.giving {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border-color: #6ee7b7;
+        }
+        .phrase-card.giving::before { background: linear-gradient(90deg, #059669, var(--green)); }
+
+        /* Card 3 - Agreeing */
+        .phrase-card.agreeing {
+            background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+            border-color: #5eead4;
+        }
+        .phrase-card.agreeing::before { background: linear-gradient(90deg, #0d9488, var(--teal)); }
+
+        /* Card 4 - Disagreeing */
+        .phrase-card.disagreeing {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border-color: #fdba74;
+        }
+        .phrase-card.disagreeing::before { background: linear-gradient(90deg, #ea580c, var(--orange)); }
+
+        .phrase-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .phrase-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .asking .phrase-card-icon { background: linear-gradient(135deg, var(--blue-primary), var(--blue-light)); }
+        .giving .phrase-card-icon { background: linear-gradient(135deg, #059669, var(--green)); }
+        .agreeing .phrase-card-icon { background: linear-gradient(135deg, #0d9488, var(--teal)); }
+        .disagreeing .phrase-card-icon { background: linear-gradient(135deg, #ea580c, var(--orange)); }
+
+        .phrase-card-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .asking .phrase-card-header h3 { color: var(--blue-primary); }
+        .giving .phrase-card-header h3 { color: #059669; }
+        .agreeing .phrase-card-header h3 { color: #0d9488; }
+        .disagreeing .phrase-card-header h3 { color: #ea580c; }
+
+        .phrase-list {
+            list-style: none;
+        }
+
+        .phrase-list li {
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            transition: var(--transition);
+            line-height: 1.6;
+        }
+
+        .phrase-list li:last-child { margin-bottom: 0; }
+
+        .asking .phrase-list li { background: rgba(255,255,255,0.7); }
+        .asking .phrase-list li:hover { background: white; box-shadow: var(--shadow-sm); }
+
+        .giving .phrase-list li { background: rgba(255,255,255,0.7); }
+        .giving .phrase-list li:hover { background: white; box-shadow: var(--shadow-sm); }
+
+        .agreeing .phrase-list li { background: rgba(255,255,255,0.7); }
+        .agreeing .phrase-list li:hover { background: white; box-shadow: var(--shadow-sm); }
+
+        .disagreeing .phrase-list li { background: rgba(255,255,255,0.7); }
+        .disagreeing .phrase-list li:hover { background: white; box-shadow: var(--shadow-sm); }
+
+        .phrase-list li i {
+            margin-top: 4px;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .asking .phrase-list li i { color: var(--blue-primary); }
+        .giving .phrase-list li i { color: #059669; }
+        .agreeing .phrase-list li i { color: #0d9488; }
+        .disagreeing .phrase-list li i { color: #ea580c; }
+
+        .phrase-list li .th-translation {
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* ============================================
+           SECTION 4: Chat Bubble
+           ============================================ */
+        .chat-section {
+            background: linear-gradient(180deg, #e0f2fe, var(--gray-light));
+        }
+
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .chat-label {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 0.85rem;
+            color: var(--gray-dark);
+            font-weight: 500;
+        }
+
+        .chat-bubble {
+            display: flex;
+            margin-bottom: 16px;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .chat-bubble.right {
+            flex-direction: row-reverse;
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .chat-bubble:not(.right) .chat-avatar {
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-light));
+        }
+
+        .chat-bubble.right .chat-avatar {
+            background: linear-gradient(135deg, #059669, var(--green));
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 14px 20px;
+            border-radius: 18px;
+            font-size: 0.92rem;
+            line-height: 1.7;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .chat-bubble:not(.right) .chat-message {
+            background: white;
+            border-bottom-left-radius: 6px;
+            box-shadow: var(--shadow-sm);
+            color: var(--text-dark);
+        }
+
+        .chat-bubble.right .chat-message {
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-light));
+            border-bottom-right-radius: 6px;
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chat-message:hover {
+            transform: scale(1.02);
+        }
+
+        .chat-message .speaker-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            opacity: 0.8;
+        }
+
+        .chat-message .th-note {
+            font-size: 0.8rem;
+            opacity: 0.75;
+            margin-top: 4px;
+            display: block;
+            font-style: italic;
+        }
+
+        .chat-bubble:not(.right) .chat-message .th-note { color: var(--gray-dark); }
+        .chat-bubble.right .chat-message .th-note { color: rgba(255,255,255,0.7); }
+
+        /* ============================================
+           SECTION 5: Vocabulary Table
+           ============================================ */
+        .vocab-section {
+            background: white;
+        }
+
+        .vocab-table-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray);
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .vocab-table thead {
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-primary));
+        }
+
+        .vocab-table thead th {
+            padding: 16px 24px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: left;
+        }
+
+        .vocab-table thead th:first-child {
+            width: 60px;
+            text-align: center;
+        }
+
+        .vocab-table tbody tr {
+            transition: var(--transition);
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .vocab-table tbody tr:last-child { border-bottom: none; }
+
+        .vocab-table tbody tr:hover {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+        }
+
+        .vocab-table tbody td {
+            padding: 14px 24px;
+            font-size: 0.95rem;
+        }
+
+        .vocab-table tbody td:first-child {
+            text-align: center;
+            font-weight: 700;
+            color: var(--blue-light);
+        }
+
+        .vocab-table tbody td:nth-child(2) {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .vocab-table tbody td:nth-child(3) {
+            color: var(--text-medium);
+        }
+
+        .vocab-table tbody td .vocab-icon {
+            margin-right: 8px;
+            color: var(--teal);
+        }
+
+        /* ============================================
+           SECTION 6: Tips
+           ============================================ */
+        .tips-section {
+            background: linear-gradient(180deg, var(--gray-light), #ecfdf5);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+        }
+
+        .tip-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tip-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--teal), var(--green));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .tip-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .tip-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--teal);
+        }
+
+        .tip-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #059669;
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+
+        .tip-card:hover .tip-icon {
+            background: linear-gradient(135deg, #059669, var(--green));
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .tip-card h4 {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .tip-card p {
+            font-size: 0.82rem;
+            color: var(--gray-dark);
+            line-height: 1.5;
+        }
+
+        /* ============================================
+           SUMMARY SECTION
+           ============================================ */
+        .summary-section {
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-primary) 50%, #0d9488 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .summary-section .section-header h2 {
+            color: white;
+        }
+
+        .summary-section .section-header p {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .summary-list {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .summary-item:hover {
+            background: rgba(255,255,255,0.18);
+            transform: translateX(8px);
+        }
+
+        .summary-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .summary-item p {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.95);
+            line-height: 1.5;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: var(--blue-dark);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 24px;
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--teal);
+            text-decoration: none;
+        }
+
+        /* ============================================
+           BACK TO TOP BUTTON
+           ============================================ */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue-primary), var(--blue-light));
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: var(--transition);
+            z-index: 9999;
+        }
+
+        #backToTop.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        #backToTop:hover {
+            background: linear-gradient(135deg, var(--blue-light), var(--teal));
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+
+        /* Tablet */
+        @media (max-width: 768px) {
+            .meaning-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .phrases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tips-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            /* Timeline responsive */
+            .timeline::before {
+                left: 22px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                text-align: left !important;
+                padding-left: 70px;
+                padding-right: 20px;
+            }
+
+            .timeline-item .timeline-dot {
+                left: 0 !important;
+                right: auto !important;
+            }
+
+            .timeline-card:hover {
+                transform: translateY(-4px);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .section {
+                padding: 60px 0;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero {
+                min-height: 90vh;
+                padding: 40px 16px;
+            }
+
+            .hero-emojis {
+                font-size: 2rem;
+                gap: 10px;
+            }
+
+            .chat-message {
+                max-width: 88%;
+            }
+
+            .vocab-table thead th,
+            .vocab-table tbody td {
+                padding: 12px 16px;
+                font-size: 0.88rem;
+            }
+
+            .phrase-card {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         PROGRESS BAR
+         ============================================ -->
+    <div id="progressBar"></div>
+
+    <!-- ============================================
+         HERO SECTION
+         ============================================ -->
+    <section class="hero" id="hero">
+        <!-- Floating background icons -->
+        <div class="hero-icons">
+            <div class="floating-icon"><i class="fas fa-globe-asia"></i></div>
+            <div class="floating-icon"><i class="fas fa-plane"></i></div>
+            <div class="floating-icon"><i class="fas fa-comments"></i></div>
+            <div class="floating-icon"><i class="fas fa-newspaper"></i></div>
+            <div class="floating-icon"><i class="fas fa-lightbulb"></i></div>
+            <div class="floating-icon"><i class="fas fa-map-marked-alt"></i></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-graduation-cap"></i> &nbsp;English for M.4 Students
+            </div>
+            <div class="hero-emojis">
+                <span>📰</span>
+                <span>🌍</span>
+                <span>✈️</span>
+                <span>💬</span>
+            </div>
+            <h1>
+                Exchanging Opinions about<br>
+                <span class="highlight">Tourism News and Events</span>
+            </h1>
+            <p>
+                การแลกเปลี่ยนความคิดเห็นเกี่ยวกับข่าวสารและเหตุการณ์ด้านการท่องเที่ยว
+                ช่วยให้ผู้เรียนฝึกคิดวิเคราะห์ สื่อสาร และใช้ภาษาอังกฤษในสถานการณ์จริง
+            </p>
+            <div class="hero-scroll">
+                <i class="fas fa-chevron-down"></i>
+                เลื่อนลงเพื่อเรียนรู้
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 1: ความหมาย
+         ============================================ -->
+    <section class="section meaning-section" id="meaning">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-icon blue">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="en-title">Section 1</div>
+                <h2>ความหมายของการแลกเปลี่ยนความคิดเห็น</h2>
+                <div class="section-divider blue"></div>
+            </div>
+
+            <div class="meaning-grid">
+                <!-- Definition Card -->
+                <div class="meaning-card fade-in-left">
+                    <h3><i class="fas fa-question-circle"></i> What is Opinion Exchange?</h3>
+                    <p>
+                        <strong>การแลกเปลี่ยนความคิดเห็น</strong> คือ การพูดคุย แสดงความคิดเห็น และรับฟังความคิดเห็นของผู้อื่น
+                        เกี่ยวกับข่าวสารหรือเหตุการณ์ต่าง ๆ โดยมีวัตถุประสงค์เพื่อสร้างความเข้าใจร่วมกัน
+                        ฝึกทักษะการคิดวิเคราะห์ และการสื่อสารอย่างสร้างสรรค์
+                    </p>
+                </div>
+
+                <!-- Examples Card -->
+                <div class="fade-in-right">
+                    <h3 style="font-size: 1.1rem; color: var(--blue-dark); margin-bottom: 16px; font-weight: 600;">
+                        <i class="fas fa-list-ul" style="color: var(--teal); margin-right: 8px;"></i>
+                        ตัวอย่างสถานการณ์
+                    </h3>
+                    <div class="examples-grid">
+                        <div class="example-item">
+                            <div class="example-icon c1">
+                                <i class="fas fa-map-pin"></i>
+                            </div>
+                            <div class="example-text">ข่าวเปิดแหล่งท่องเที่ยวใหม่</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-icon c2">
+                                <i class="fas fa-masks-theater"></i>
+                            </div>
+                            <div class="example-text">เทศกาลวัฒนธรรม</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-icon c3">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="example-text">การท่องเที่ยวเชิงอนุรักษ์</div>
+                        </div>
+                        <div class="example-item">
+                            <div class="example-icon c4">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="example-text">กิจกรรมส่งเสริมการท่องเที่ยว</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 2: TIMELINE - กระบวนการ
+         ============================================ -->
+    <section class="section timeline-section" id="timeline">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-icon teal">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div class="en-title">Section 2</div>
+                <h2>กระบวนการแลกเปลี่ยนความคิดเห็น</h2>
+                <p>ขั้นตอน 5 ขั้น ในการแลกเปลี่ยนความคิดเห็นเกี่ยวกับข่าวสารด้านการท่องเที่ยว</p>
+                <div class="section-divider teal"></div>
+            </div>
+
+            <div class="timeline">
+                <!-- Step 1 -->
+                <div class="timeline-item fade-in-left">
+                    <div class="timeline-dot">1</div>
+                    <div class="timeline-card">
+                        <div class="timeline-icon">📰</div>
+                        <div class="step-label">Step 1</div>
+                        <h3>Read or Listen to the News</h3>
+                        <p>อ่านหรือฟังข่าวสารก่อน เพื่อรับข้อมูลเบื้องต้น</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="timeline-item fade-in-right">
+                    <div class="timeline-dot">2</div>
+                    <div class="timeline-card">
+                        <div class="timeline-icon">🧠</div>
+                        <div class="step-label">Step 2</div>
+                        <h3>Understand the Information</h3>
+                        <p>ทำความเข้าใจข้อมูลสำคัญ วิเคราะห์เนื้อหา</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="timeline-item fade-in-left">
+                    <div class="timeline-dot">3</div>
+                    <div class="timeline-card">
+                        <div class="timeline-icon">💬</div>
+                        <div class="step-label">Step 3</div>
+                        <h3>Express Your Opinion</h3>
+                        <p>แสดงความคิดเห็นของตนเองอย่างชัดเจน</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="timeline-item fade-in-right">
+                    <div class="timeline-dot">4</div>
+                    <div class="timeline-card">
+                        <div class="timeline-icon">📝</div>
+                        <div class="step-label">Step 4</div>
+                        <h3>Give Reasons</h3>
+                        <p>อธิบายเหตุผลสนับสนุนความคิดเห็น</p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="timeline-item fade-in-left">
+                    <div class="timeline-dot">5</div>
+                    <div class="timeline-card">
+                        <div class="timeline-icon">🤝</div>
+                        <div class="step-label">Step 5</div>
+                        <h3>Respect Different Opinions</h3>
+                        <p>เคารพความคิดเห็นที่แตกต่าง เปิดใจรับฟัง</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 3: ประโยคพื้นฐาน
+         ============================================ -->
+    <section class="section phrases-section" id="phrases">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-icon orange">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <div class="en-title">Section 3</div>
+                <h2>ประโยคพื้นฐานในการแสดงความคิดเห็น</h2>
+                <p>ประโยคภาษาอังกฤษที่นักเรียนสามารถนำไปใช้ได้จริง</p>
+                <div class="section-divider orange"></div>
+            </div>
+
+            <div class="phrases-grid">
+                <!-- Card 1: Asking -->
+                <div class="phrase-card asking fade-in">
+                    <div class="phrase-card-header">
+                        <div class="phrase-card-icon">
+                            <i class="fas fa-circle-question"></i>
+                        </div>
+                        <h3>1. Asking for Opinions</h3>
+                    </div>
+                    <ul class="phrase-list">
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                What do you think about this news?
+                                <span class="th-translation">คุณคิดอย่างไรกับข่าวนี้?</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                What's your opinion on this event?
+                                <span class="th-translation">คุณมีความคิดเห็นอย่างไรกับเหตุการณ์นี้?</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                How do you feel about it?
+                                <span class="th-translation">คุณรู้สึกอย่างไรกับเรื่องนี้?</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card 2: Giving -->
+                <div class="phrase-card giving fade-in">
+                    <div class="phrase-card-header">
+                        <div class="phrase-card-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>2. Giving Opinions</h3>
+                    </div>
+                    <ul class="phrase-list">
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                I think it is interesting.
+                                <span class="th-translation">ฉันคิดว่ามันน่าสนใจ</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                In my opinion, it is beneficial.
+                                <span class="th-translation">ในความคิดของฉัน มันมีประโยชน์</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                I believe this event attracts tourists.
+                                <span class="th-translation">ฉันเชื่อว่าเหตุการณ์นี้ดึงดูดนักท่องเที่ยว</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card 3: Agreeing -->
+                <div class="phrase-card agreeing fade-in">
+                    <div class="phrase-card-header">
+                        <div class="phrase-card-icon">
+                            <i class="fas fa-thumbs-up"></i>
+                        </div>
+                        <h3>3. Agreeing</h3>
+                    </div>
+                    <ul class="phrase-list">
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                I agree with you.
+                                <span class="th-translation">ฉันเห็นด้วยกับคุณ</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                That's a good point.
+                                <span class="th-translation">นั่นเป็นประเด็นที่ดี</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                I think so too.
+                                <span class="th-translation">ฉันก็คิดแบบนั้นเหมือนกัน</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card 4: Disagreeing -->
+                <div class="phrase-card disagreeing fade-in">
+                    <div class="phrase-card-header">
+                        <div class="phrase-card-icon">
+                            <i class="fas fa-hand"></i>
+                        </div>
+                        <h3>4. Disagreeing Politely</h3>
+                    </div>
+                    <ul class="phrase-list">
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                I don't completely agree.
+                                <span class="th-translation">ฉันไม่เห็นด้วย sepenuhnya</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                I see it differently.
+                                <span class="th-translation">ฉันมองเห็นต่างออกไป</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-chevron-right"></i>
+                            <div>
+                                That's an interesting idea, but...
+                                <span class="th-translation">นั่นเป็นความคิดที่น่าสนใจ แต่...</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 4: บทสนทนาตัวอย่าง (Chat Bubbles)
+         ============================================ -->
+    <section class="section chat-section" id="chat">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-icon purple">
+                    <i class="fas fa-people-arrows"></i>
+                </div>
+                <div class="en-title">Section 4</div>
+                <h2>ตัวอย่างบทสนทนา</h2>
+                <p>ตัวอย่างการแลกเปลี่ยนความคิดเห็นระหว่างนักเรียน</p>
+                <div class="section-divider teal"></div>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-label">💬 Conversation Example</div>
+
+                <!-- Student A -->
+                <div class="chat-bubble fade-in">
+                    <div class="chat-avatar">A</div>
+                    <div class="chat-message">
+                        <div class="speaker-name">Student A</div>
+                        What do you think about the new cultural festival?
+                        <span class="th-note">คุณคิดอย่างไรกับเทศกาลวัฒนธรรมใหม่?</span>
+                    </div>
+                </div>
+
+                <!-- Student B -->
+                <div class="chat-bubble right fade-in">
+                    <div class="chat-avatar">B</div>
+                    <div class="chat-message">
+                        <div class="speaker-name">Student B</div>
+                        I think it is a great opportunity for tourists.
+                        <span class="th-note">ฉันคิดว่าเป็นโอกาสที่ดีสำหรับนักท่องเที่ยว</span>
+                    </div>
+                </div>
+
+                <!-- Student A -->
+                <div class="chat-bubble fade-in">
+                    <div class="chat-avatar">A</div>
+                    <div class="chat-message">
+                        <div class="speaker-name">Student A</div>
+                        I agree. It can promote local culture.
+                        <span class="th-note">ฉันเห็นด้วย มันสามารถส่งเสริมวัฒนธรรมท้องถิ่น</span>
+                    </div>
+                </div>
+
+                <!-- Student B -->
+                <div class="chat-bubble right fade-in">
+                    <div class="chat-avatar">B</div>
+                    <div class="chat-message">
+                        <div class="speaker-name">Student B</div>
+                        Yes, and it can help local businesses too.
+                        <span class="th-note">ใช่ และมันยังช่วยธุรกิจท้องถิ่นได้ด้วย</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 5: Useful Vocabulary
+         ============================================ -->
+    <section class="section vocab-section" id="vocabulary">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-icon green">
+                    <i class="fas fa-spell-check"></i>
+                </div>
+                <div class="en-title">Section 5</div>
+                <h2>คำศัพท์ที่ควรทราบ</h2>
+                <p>Useful Vocabulary for Tourism Topics</p>
+                <div class="section-divider green"></div>
+            </div>
+
+            <div class="vocab-table-wrapper fade-in">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th><i class="fas fa-language"></i> &nbsp;English</th>
+                            <th><i class="fas fa-translate"></i> &nbsp;ความหมาย</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><i class="fas fa-plane vocab-icon"></i> Tourism</td>
+                            <td>การท่องเที่ยว</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><i class="fas fa-user vocab-icon"></i> Tourist</td>
+                            <td>นักท่องเที่ยว</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><i class="fas fa-masks-theater vocab-icon"></i> Festival</td>
+                            <td>เทศกาล</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><i class="fas fa-landmark vocab-icon"></i> Culture</td>
+                            <td>วัฒนธรรม</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><i class="fas fa-camera vocab-icon"></i> Attraction</td>
+                            <td>แหล่งท่องเที่ยว</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td><i class="fas fa-tree vocab-icon"></i> Environment</td>
+                            <td>สิ่งแวดล้อม</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td><i class="fas fa-store vocab-icon"></i> Local Business</td>
+                            <td>ธุรกิจท้องถิ่น</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td><i class="fas fa-people-group vocab-icon"></i> Community</td>
+                            <td>ชุมชน</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 6: Tips for Good Discussion
+         ============================================ -->
+    <section class="section tips-section" id="tips">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-icon teal">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="en-title">Section 6</div>
+                <h2>Tips for Good Discussion</h2>
+                <p>เคล็ดลับสำหรับการแลกเปลี่ยนความคิดเห็นที่ดี</p>
+                <div class="section-divider teal"></div>
+            </div>
+
+            <div class="tips-grid">
+                <div class="tip-card scale-in">
+                    <div class="tip-icon">
+                        <i class="fas fa-ear-listen"></i>
+                    </div>
+                    <h4>Listen Carefully</h4>
+                    <p>ตั้งใจฟังผู้อื่นอย่างมีสมาธิ</p>
+                </div>
+                <div class="tip-card scale-in">
+                    <div class="tip-icon">
+                        <i class="fas fa-face-smile"></i>
+                    </div>
+                    <h4>Speak Politely</h4>
+                    <p>พูดอย่างสุภาพ มีมารยาท</p>
+                </div>
+                <div class="tip-card scale-in">
+                    <div class="tip-icon">
+                        <i class="fas fa-list-check"></i>
+                    </div>
+                    <h4>Give Clear Reasons</h4>
+                    <p>ให้เหตุผลที่ชัดเจน</p>
+                </div>
+                <div class="tip-card scale-in">
+                    <div class="tip-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4>Respect Others</h4>
+                    <p>เคารพความคิดเห็นของผู้อื่น</p>
+                </div>
+                <div class="tip-card scale-in">
+                    <div class="tip-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h4>Use English Confidently</h4>
+                    <p>ใช้ภาษาอังกฤษอย่างมั่นใจ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SUMMARY SECTION
+         ============================================ -->
+    <section class="summary-section" id="summary">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-icon orange" style="background: rgba(255,255,255,0.2);">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div class="en-title" style="color: rgba(255,255,255,0.7);">Summary</div>
+                <h2>Remember 📌</h2>
+                <p>สรุปสาระสำคัญที่ควรจำ</p>
+                <div class="section-divider" style="background: linear-gradient(90deg, var(--teal), var(--orange));"></div>
+            </div>
+
+            <div class="summary-list">
+                <div class="summary-item fade-in">
+                    <div class="summary-number">1</div>
+                    <p><strong>Understand the news.</strong> — ทำความเข้าใจข่าวสารก่อน</p>
+                </div>
+                <div class="summary-item fade-in">
+                    <div class="summary-number">2</div>
+                    <p><strong>Express your opinion clearly.</strong> — แสดงความคิดเห็นอย่างชัดเจน</p>
+                </div>
+                <div class="summary-item fade-in">
+                    <div class="summary-number">3</div>
+                    <p><strong>Give supporting reasons.</strong> — ให้เหตุผลสนับสนุน</p>
+                </div>
+                <div class="summary-item fade-in">
+                    <div class="summary-number">4</div>
+                    <p><strong>Respect different viewpoints.</strong> — เคารพมุมมองที่แตกต่าง</p>
+                </div>
+                <div class="summary-item fade-in">
+                    <div class="summary-number">5</div>
+                    <p><strong>Communicate politely.</strong> — สื่อสารอย่างสุภาพ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer">
+        <p>
+            <i class="fas fa-heart" style="color: #f87171;"></i> &nbsp;
+            สื่อการเรียนรู้ภาษาอังกฤษ สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 4
+            &nbsp;|&nbsp; Exchanging Opinions about Tourism News and Events
+        </p>
+    </footer>
+
+    <!-- ============================================
+         BACK TO TOP BUTTON
+         ============================================ -->
+    <button id="backToTop" title="กลับด้านบน">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // ============================================
+        // 1. SCROLL PROGRESS BAR
+        // ============================================
+        function updateProgressBar() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('progressBar').style.width = scrollPercent + '%';
+        }
+
+        // ============================================
+        // 2. BACK TO TOP BUTTON
+        // ============================================
+        const backToTopBtn = document.getElementById('backToTop');
+
+        function toggleBackToTop() {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        }
+
+        backToTopBtn.addEventListener('click', function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // ============================================
+        // 3. SCROLL ANIMATION (Intersection Observer)
+        // ============================================
+        function initScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in');
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // หยุด observe หลังจากแสดง animation แล้ว
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            animatedElements.forEach(function (el) {
+                observer.observe(el);
+            });
+        }
+
+        // ============================================
+        // 4. STAGGERED ANIMATION FOR GRID ITEMS
+        // ============================================
+        function initStaggeredAnimations() {
+            const tipCards = document.querySelectorAll('.tip-card.scale-in');
+            const phraseCards = document.querySelectorAll('.phrase-card.fade-in');
+
+            // Stagger tips
+            const tipObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        const cards = document.querySelectorAll('.tip-card.scale-in');
+                        cards.forEach(function (card, index) {
+                            setTimeout(function () {
+                                card.classList.add('visible');
+                            }, index * 120);
+                        });
+                        tipObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            if (tipCards.length > 0) {
+                tipObserver.observe(tipCards[0]);
+            }
+
+            // Stagger phrase cards
+            const phraseObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        const cards = document.querySelectorAll('.phrase-card.fade-in');
+                        cards.forEach(function (card, index) {
+                            setTimeout(function () {
+                                card.classList.add('visible');
+                            }, index * 150);
+                        });
+                        phraseObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            if (phraseCards.length > 0) {
+                phraseObserver.observe(phraseCards[0]);
+            }
+        }
+
+        // ============================================
+        // 5. INITIALIZE ON DOM READY
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize scroll animations
+            initScrollAnimations();
+            initStaggeredAnimations();
+
+            // Scroll event listeners
+            window.addEventListener('scroll', function () {
+                updateProgressBar();
+                toggleBackToTop();
+            }, { passive: true });
+
+            // Initial call
+            updateProgressBar();
+        });
+    </script>
+
+</body>
+</html>
