@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍽️ สำนวนที่ใช้ในการสั่งอาหารในสถานการณ์ต่างๆ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #5c6bc0;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-link:hover {
+            background: #5c6bc0;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #e91e63;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #5c6bc0;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #ff7043;
+        }
+
+        /* Card Styles */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: #e91e63;
+            margin-bottom: 1rem;
+        }
+
+        /* Table Style */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #5c6bc0;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        /* Conversation Box */
+        .conversation {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            font-style: italic;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #5c6bc0;
+            margin-right: 0.5rem;
+        }
+
+        /* Exercise Section */
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .question {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .options {
+            margin-top: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .option input {
+            margin-right: 0.5rem;
+        }
+
+        .answer {
+            color: #4caf50;
+            font-weight: bold;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: #e8f5e8;
+            border-radius: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 3rem;
+        }
+
+        .footer h2 {
+            color: #e91e63;
+            margin-bottom: 1rem;
+        }
+
+        .footer-icons {
+            font-size: 2rem;
+            margin-top: 1rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .back-to-top:hover {
+            background: #d81b60;
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-container {
+                gap: 0.5rem;
+            }
+            
+            .nav-link {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 2rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#intro" class="nav-link">📋 ความสำคัญ</a>
+            <a href="#vocabulary" class="nav-link">📚 คำศัพท์</a>
+            <a href="#expressions" class="nav-link">💬 สำนวน</a>
+            <a href="#details" class="nav-link">🔍 รายละเอียด</a>
+            <a href="#dialogue" class="nav-link">🗣️ บทสนทนา</a>
+            <a href="#manners" class="nav-link">✨ มารยาท</a>
+            <a href="#tips" class="nav-link">💡 เคล็ดลับ</a>
+            <a href="#exercise" class="nav-link">📝 แบบฝึกหัด</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero" id="intro">
+            <h1>🍽️ สำนวนที่ใช้ในการสั่งอาหารในสถานการณ์ต่างๆ</h1>
+            <p>เรียนรู้สำนวนภาษาอังกฤษที่ใช้ในการสั่งอาหารในชีวิตประจำวัน</p>
+        </section>
+
+        <!-- Section 1: ความสำคัญ -->
+        <section id="importance">
+            <h2 class="section-title">📋 ความสำคัญของการสั่งอาหาร</h2>
+            <p>การสั่งอาหารเป็นทักษะภาษาอังกฤษที่ใช้ในชีวิตประจำวัน เช่น ร้านอาหาร ร้านกาแฟ ฟาสต์ฟู้ด และการสั่งอาหารระหว่างเดินทาง การมีความรู้ในสำนวนเหล่านี้จะช่วยให้สามารถสื่อสารได้อย่างมั่นใจและเหมาะสมกับสถานการณ์</p>
+        </section>
+
+        <!-- Section 2: คำศัพท์พื้นฐาน -->
+        <section id="vocabulary">
+            <h2 class="section-title">📚 คำศัพท์พื้นฐานเกี่ยวกับการสั่งอาหาร</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>คำศัพท์</th>
+                        <th>ความหมาย</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Menu</td><td>เมนูอาหาร</td></tr>
+                    <tr><td>Order</td><td>สั่งอาหาร</td></tr>
+                    <tr><td>Dish</td><td>อาหารจานหนึ่ง</td></tr>
+                    <tr><td>Drink</td><td>เครื่องดื่ม</td></tr>
+                    <tr><td>Dessert</td><td>ของหวาน</td></tr>
+                    <tr><td>Bill / Check</td><td>ใบเสร็จ</td></tr>
+                    <tr><td>Waiter</td><td>พนักงานเสิร์ฟชาย</td></tr>
+                    <tr><td>Waitress</td><td>พนักงานเสิร์ฟหญิง</td></tr>
+                    <tr><td>Customer</td><td>ลูกค้า</td></tr>
+                    <tr><td>Restaurant</td><td>ร้านอาหาร</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 3: สำนวนที่ใช้ -->
+        <section id="expressions">
+            <h2 class="section-title">💬 สำนวนที่ใช้ในการสั่งอาหาร</h2>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🍽️ เมื่อต้องการสั่งอาหาร</h3>
+                    <p><strong>I'd like...</strong> ฉันต้องการ...</p>
+                    <p><strong>I'd like to order...</strong> ฉันต้องการสั่ง...</p>
+                    <p><strong>Can I have...?</strong> ฉันขอ... ได้ไหม?</p>
+                    <p><strong>Could I get...?</strong> ฉันขอ... ได้ไหม? (สุภาพ)</p>
+                    <br>
+                    <p><strong>ตัวอย่าง:</strong></p>
+                    <p>• I'd like fried rice.</p>
+                    <p>• Can I have a glass of water?</p>
+                </div>
+                
+                <div class="card">
+                    <h3>🥤 เมื่อต้องการสั่งเครื่องดื่ม</h3>
+                    <p><strong>I'd like a coffee.</strong> ฉันต้องการกาแฟ</p>
+                    <p><strong>Can I get some orange juice?</strong> ฉันขอสั่งน้ำส้มได้ไหม?</p>
+                    <p><strong>May I have a bottle of water?</strong> ฉันขอขวดน้ำได้ไหม?</p>
+                </div>
+                
+                <div class="card">
+                    <h3>➕ เมื่อต้องการสั่งเพิ่ม</h3>
+                    <p><strong>I'd like to add...</strong> ฉันต้องการเพิ่ม...</p>
+                    <p><strong>Can I also have...?</strong> ฉันขอ... เพิ่มได้ไหม?</p>
+                    <br>
+                    <p><strong>ตัวอย่าง:</strong></p>
+                    <p>• I'd like to add a salad.</p>
+                    <p>• Can I also have some fries?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: สำนวนถามรายละเอียด -->
+        <section id="details">
+            <h2 class="section-title">🔍 สำนวนถามรายละเอียดอาหาร</h2>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>❓ ถามส่วนประกอบ</h3>
+                    <p><strong>What's in this dish?</strong> ในจานนี้มีอะไรบ้าง?</p>
+                    <p><strong>Does it contain nuts?</strong> มีถั่วอยู่ในนี้ไหม?</p>
+                    <p><strong>Is it spicy?</strong> มันเผ็ดไหม?</p>
+                </div>
+                
+                <div class="card">
+                    <h3>💰 ถามราคา</h3>
+                    <p><strong>How much is it?</strong> อันนี้ราคาเท่าไหร่?</p>
+                    <p><strong>What's the price of this dish?</strong> จานนี้ราคาเท่าไหร่?</p>
+                </div>
+                
+                <div class="card">
+                    <h3>⭐ ถามคำแนะนำ</h3>
+                    <p><strong>What do you recommend?</strong> คุณแนะนำอะไร?</p>
+                    <p><strong>What's today's special?</strong> ของพิเศษวันนี้คืออะไร?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: บทสนทนาตัวอย่าง -->
+        <section id="dialogue">
+            <h2 class="section-title">🗣️ บทสนทนาตัวอย่าง</h2>
+            <div class="conversation">
+                <p><span class="speaker">Customer:</span>Hello. I'd like a cheeseburger and a cola, please.</p>
+                <p><span class="speaker">Waiter:</span>Certainly. Would you like fries with that?</p>
+                <p><span class="speaker">Customer:</span>Yes, please.</p>
+                <p><span class="speaker">Waiter:</span>Anything else?</p>
+                <p><span class="speaker">Customer:</span>No, thank you.</p>
+                <p><span class="speaker">Waiter:</span>Great! Your total comes to $12.50.</p>
+            </div>
+        </section>
+
+        <!-- Section 6: มารยาท -->
+        <section id="manners">
+            <h2 class="section-title">✨ มารยาทในการสั่งอาหาร</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>✅ คำสุภาพที่ควรใช้</h3>
+                    <p><strong>Please</strong> - คำกรุณา</p>
+                    <p><strong>Thank you</strong> - ขอบคุณ</p>
+                    <p><strong>Excuse me</strong> - ขอโทษครับ/ค่ะ</p>
+                    <p><strong>You're welcome</strong> - ยินดีเสมอ</p>
+                    <br>
+                    <p>ควรใช้คำสุภาพเสมอเมื่อติดต่อกับพนักงาน เพื่อแสดงความเคารพและมารยาทที่ดี</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: เคล็ดลับ -->
+        <section id="tips">
+            <h2 class="section-title">💡 เคล็ดลับจำง่าย</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🍔 อาหาร</h3>
+                    <p><strong>I'd like...</strong></p>
+                    <p>ใช้เมื่อสั่งอาหารหลัก</p>
+                </div>
+                <div class="card">
+                    <h3>🥤 เครื่องดื่ม</h3>
+                    <p><strong>Can I have...</strong></p>
+                    <p>ใช้เมื่อสั่งเครื่องดื่ม</p>
+                </div>
+                <div class="card">
+                    <h3>➕ สั่งเพิ่ม</h3>
+                    <p><strong>Also have...</strong></p>
+                    <p>ใช้เมื่อต้องการสั่งเพิ่ม</p>
+                </div>
+                <div class="card">
+                    <h3>❓ ถามข้อมูล</h3>
+                    <p><strong>What / How / Does...</strong></p>
+                    <p>ใช้เมื่อต้องการสอบถาม</p>
+                </div>
+                <div class="card">
+                    <h3>🙏 สุภาพ</h3>
+                    <p><strong>Please & Thank you</strong></p>
+                    <p>ใช้เสมอเพื่อความสุภาพ</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: แบบฝึกหัด -->
+        <section id="exercise" class="exercise">
+            <h2 class="section-title">📝 แบบฝึกหัดท้ายบท</h2>
+            
+            <div class="question">
+                <p><strong>1. ข้อใดใช้สั่งอาหารได้ถูกต้อง</strong></p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q1" value="A"> A. I'd like pizza.</div>
+                    <div class="option"><input type="radio" name="q1" value="B"> B. Where pizza?</div>
+                    <div class="option"><input type="radio" name="q1" value="C"> C. Pizza go.</div>
+                    <div class="option"><input type="radio" name="q1" value="D"> D. I pizza.</div>
+                </div>
+                <div class="answer">คำตอบ: A</div>
+            </div>
+            
+            <div class="question">
+                <p><strong>2. ข้อใดใช้เมื่อต้องการสั่งเครื่องดื่ม</strong></p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q2" value="A"> A. I'd like to eat.</div>
+                    <div class="option"><input type="radio" name="q2" value="B"> B. Can I have water?</div>
+                    <div class="option"><input type="radio" name="q2" value="C"> C. Water now.</div>
+                    <div class="option"><input type="radio" name="q2" value="D"> D. Water please!</div>
+                </div>
+                <div class="answer">คำตอบ: B</div>
+            </div>
+            
+            <div class="question">
+                <p><strong>3. "What's in this dish?" หมายความว่าอย่างไร</strong></p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q3" value="A"> A. จานนี้ราคาเท่าไหร่?</div>
+                    <div class="option"><input type="radio" name="q3" value="B"> B. ในจานนี้มีอะไรบ้าง?</div>
+                    <div class="option"><input type="radio" name="q3" value="C"> C. จานนี้อร่อยไหม?</div>
+                    <div class="option"><input type="radio" name="q3" value="D"> D. จานไหน?</div>
+                </div>
+                <div class="answer">คำตอบ: B</div>
+            </div>
+            
+            <div class="question">
+                <p><strong>4. คำใดใช้เมื่อต้องการขอคำแนะนำ</strong></p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q4" value="A"> A. What do you recommend?</div>
+                    <div class="option"><input type="radio" name="q4" value="B"> B. What you want?</div>
+                    <div class="option"><input type="radio" name="q4" value="C"> C. Recommend me!</div>
+                    <div class="option"><input type="radio" name="q4" value="D"> D. Tell me food.</div>
+                </div>
+                <div class="answer">คำตอบ: A</div>
+            </div>
+            
+            <div class="question">
+                <p><strong>5. ข้อใดเป็นคำสุภาพที่ใช้เมื่อขอบคุณ</strong></p>
+                <div class="options">
+                    <div class="option"><input type="radio" name="q5" value="A"> A. Thanks!</div>
+                    <div class="option"><input type="radio" name="q5" value="B"> B. Thank you.</div>
+                    <div class="option"><input type="radio" name="q5" value="C"> C. Much thanks.</div>
+                    <div class="option"><input type="radio" name="q5" value="D"> D. A และ B ถูกต้อง</div>
+                </div>
+                <div class="answer">คำตอบ: D</div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <section class="footer">
+            <h2>English for Everyday Life : Ordering Food</h2>
+            <p>เรียนรู้ภาษาอังกฤษสำหรับชีวิตประจำวันอย่างมั่นใจและมีประสิทธิภาพ</p>
+            <div class="footer-icons">
+                🍔 🥤 🍕 🍝 🍜 🍲 🍎 🍊 🍰 🥧
+            </div>
+        </section>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Scroll Reveal Animation
+        function revealOnScroll() {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if (sectionTop < window.innerHeight - 100) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        // Initial check on load
+        window.addEventListener('load', revealOnScroll);
+        window.addEventListener('scroll', revealOnScroll);
+
+        // Back to Top Function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/Hide back to top button
+        window.addEventListener('scroll', function() {
+            const backToTopButton = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add animation classes to sections initially
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            sections.forEach((section, index) => {
+                setTimeout(() => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
