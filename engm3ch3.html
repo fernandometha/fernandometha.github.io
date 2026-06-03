@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Vocabulary - ภาษาอังกฤษสำหรับโรงแรม</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #06b6d4;
+            --accent-color: #f59e0b;
+            --bg-color: #f0f9ff;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow: 0 10px 40px rgba(0,0,0,0.1);
+            --shadow-hover: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-3);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            z-index: 999;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Header */
+        header {
+            background: var(--gradient-1);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '🏨';
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInDown 1s ease;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 60px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-3);
+            border-radius: 2px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Vocabulary Grid */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .vocab-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .vocab-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .vocab-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .vocab-word {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .vocab-meaning {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Expressions Section */
+        .expression-category {
+            background: var(--gradient-3);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .expression-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .expression-item {
+            background: rgba(255,255,255,0.95);
+            color: var(--text-primary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .expression-item strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        /* Sentence Patterns */
+        .pattern-box {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--accent-color);
+        }
+
+        .pattern-formula {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .example-list {
+            list-style: none;
+        }
+
+        .example-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .example-list li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+        }
+
+        /* Chat Bubbles */
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .chat-bubble {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .chat-bubble.guest {
+            background: var(--gradient-1);
+            color: white;
+            margin-left: 60px;
+            text-align: right;
+        }
+
+        .chat-bubble.receptionist {
+            background: var(--gradient-3);
+            color: white;
+            margin-right: 60px;
+        }
+
+        .chat-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+        }
+
+        .chat-bubble.guest::before {
+            right: -20px;
+            bottom: 20px;
+            border-right-color: #667eea;
+        }
+
+        .chat-bubble.receptionist::before {
+            left: -20px;
+            bottom: 20px;
+            border-left-color: #4facfe;
+        }
+
+        .speaker-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Tips Section */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .tip-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: rotate(2deg) scale(1.05);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Summary Section */
+        .summary-box {
+            background: var(--gradient-2);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .checklist {
+            list-style: none;
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .checklist li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist li::before {
+            content: '✔';
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Challenge Section */
+        .challenge-box {
+            background: white;
+            border: 3px dashed var(--accent-color);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .challenge-title {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .challenge-instruction {
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .writing-area {
+            width: 100%;
+            min-height: 150px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            margin-top: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .writing-area:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-primary);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-bubble.guest {
+                margin-left: 20px;
+            }
+
+            .chat-bubble.receptionist {
+                margin-right: 20px;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .emoji-deco {
+            font-size: 3rem;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+
+    <!-- Header -->
+    <header>
+        <h1>🏨 Hotel Vocabulary</h1>
+        <p class="subtitle">คำศัพท์ สำนวน และประโยคที่ใช้เกี่ยวกับโรงแรม<br>สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 3</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Section 1: Hotel Meaning -->
+        <section id="section1">
+            <h2 class="section-title">🏨 ความหมายของ Hotel</h2>
+            <div class="card" style="text-align: center; padding: 50px;">
+                <div class="emoji-deco">🏨</div>
+                <h3 style="font-size: 2rem; color: var(--primary-color); margin-bottom: 20px;">Hotel = โรงแรม</h3>
+                <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                    สถานที่สำหรับพักค้างคืนที่ให้บริการห้องพัก อาหาร และสิ่งอำนวยความสะดวกแก่ผู้เข้าพัก
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 2: Vocabulary -->
+        <section id="section2">
+            <h2 class="section-title">📚 คำศัพท์สำคัญเกี่ยวกับโรงแรม</h2>
+            <div class="vocab-grid">
+                <div class="vocab-card">
+                    <div class="vocab-icon">🏨</div>
+                    <div class="vocab-word">Hotel</div>
+                    <div class="vocab-meaning">โรงแรม</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">👤</div>
+                    <div class="vocab-word">Guest</div>
+                    <div class="vocab-meaning">ผู้เข้าพัก</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">🏢</div>
+                    <div class="vocab-word">Reception</div>
+                    <div class="vocab-meaning">แผนกต้อนรับ</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">👩‍💼</div>
+                    <div class="vocab-word">Receptionist</div>
+                    <div class="vocab-meaning">พนักงานต้อนรับ</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">📝</div>
+                    <div class="vocab-word">Reservation</div>
+                    <div class="vocab-meaning">การจอง</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">📥</div>
+                    <div class="vocab-word">Check-in</div>
+                    <div class="vocab-meaning">ลงทะเบียนเข้าพัก</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">📤</div>
+                    <div class="vocab-word">Check-out</div>
+                    <div class="vocab-meaning">คืนห้องพัก</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">️</div>
+                    <div class="vocab-word">Room</div>
+                    <div class="vocab-meaning">ห้องพัก</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">🔑</div>
+                    <div class="vocab-word">Key Card</div>
+                    <div class="vocab-meaning">คีย์การ์ด</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">️</div>
+                    <div class="vocab-word">Lobby</div>
+                    <div class="vocab-meaning">ล็อบบี้</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">⬆️</div>
+                    <div class="vocab-word">Elevator</div>
+                    <div class="vocab-meaning">ลิฟต์</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">🍽️</div>
+                    <div class="vocab-word">Restaurant</div>
+                    <div class="vocab-meaning">ร้านอาหาร</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">🍳</div>
+                    <div class="vocab-word">Breakfast</div>
+                    <div class="vocab-meaning">อาหารเช้า</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">🏊</div>
+                    <div class="vocab-word">Swimming Pool</div>
+                    <div class="vocab-meaning">สระว่ายน้ำ</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-icon">📶</div>
+                    <div class="vocab-word">Wi-Fi</div>
+                    <div class="vocab-meaning">อินเทอร์เน็ตไร้สาย</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Expressions -->
+        <section id="section3">
+            <h2 class="section-title">💬 สำนวนที่ใช้ในโรงแรม</h2>
+            
+            <div class="expression-category">
+                <h3>📞 เมื่อต้องการจองห้องพัก</h3>
+                <div class="expression-item">
+                    <strong>🗣️ I'd like to book a room.</strong>
+                    ฉันต้องการจองห้องพัก
+                </div>
+                <div class="expression-item">
+                    <strong>🗣️ Do you have any rooms available?</strong>
+                    มีห้องว่างหรือไม่
+                </div>
+                <div class="expression-item">
+                    <strong>🗣️ How much is the room per night?</strong>
+                    ห้องพักคืนละเท่าไร
+                </div>
+            </div>
+
+            <div class="expression-category" style="background: var(--gradient-2);">
+                <h3>🏨 เมื่อต้องการเช็กอิน</h3>
+                <div class="expression-item">
+                    <strong>🗣️ I'd like to check in.</strong>
+                    ฉันต้องการเข้าพัก
+                </div>
+                <div class="expression-item">
+                    <strong>🗣️ I have a reservation.</strong>
+                    ฉันได้จองไว้แล้ว
+                </div>
+                <div class="expression-item">
+                    <strong>🗣️ Can I see your ID, please?</strong>
+                    ขอดูบัตรประจำตัวได้ไหม
+                </div>
+            </div>
+
+            <div class="expression-category" style="background: var(--gradient-1);">
+                <h3>👋 เมื่อต้องการเช็กเอาต์</h3>
+                <div class="expression-item">
+                    <strong>🗣️ I'd like to check out.</strong>
+                    ฉันต้องการคืนห้องพัก
+                </div>
+                <div class="expression-item">
+                    <strong>🗣️ Could I have the bill, please?</strong>
+                    ขอดูใบเรียกเก็บเงินได้ไหม
+                </div>
+                <div class="expression-item">
+                    <strong>🗣️ Thank you for staying with us.</strong>
+                    ขอบคุณที่เข้าพักกับเรา
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Sentence Patterns -->
+        <section id="section4">
+            <h2 class="section-title">📝 รูปแบบประโยคพื้นฐาน</h2>
+            
+            <div class="pattern-box">
+                <h3 style="color: var(--primary-color); margin-bottom: 15px;">🔍 การขอข้อมูล</h3>
+                <div class="pattern-formula">Can I + กริยา + ... ?</div>
+                <ul class="example-list">
+                    <li>Can I book a room?</li>
+                    <li>Can I use the Wi-Fi?</li>
+                </ul>
+            </div>
+
+            <div class="pattern-box" style="border-top-color: var(--secondary-color);">
+                <h3 style="color: var(--secondary-color); margin-bottom: 15px;">🤝 การขอความช่วยเหลือ</h3>
+                <div class="pattern-formula" style="color: var(--secondary-color);">Could you + กริยา + ... ?</div>
+                <ul class="example-list">
+                    <li>Could you help me?</li>
+                    <li>Could you call a taxi?</li>
+                </ul>
+            </div>
+
+            <div class="pattern-box" style="border-top-color: var(--accent-color);">
+                <h3 style="color: var(--accent-color); margin-bottom: 15px;">💰 การถามราคา</h3>
+                <div class="pattern-formula" style="color: var(--accent-color);">How much is + คำนาม ?</div>
+                <ul class="example-list">
+                    <li>How much is the room?</li>
+                    <li>How much is breakfast?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 5: Dialogue -->
+        <section id="section5">
+            <h2 class="section-title">💭 บทสนทนาตัวอย่าง</h2>
+            <div class="chat-container">
+                <div class="chat-bubble guest">
+                    <div class="speaker-label">👨 Guest</div>
+                    Hello. I'd like to check in.
+                </div>
+                <div class="chat-bubble receptionist">
+                    <div class="speaker-label">👩 Receptionist</div>
+                    Certainly. Do you have a reservation?
+                </div>
+                <div class="chat-bubble guest">
+                    <div class="speaker-label">👨 Guest</div>
+                    Yes, I do.
+                </div>
+                <div class="chat-bubble receptionist">
+                    <div class="speaker-label">👩 Receptionist</div>
+                    Here is your key card.
+                </div>
+                <div class="chat-bubble guest">
+                    <div class="speaker-label">👨 Guest</div>
+                    Thank you.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Tips -->
+        <section id="section6">
+            <h2 class="section-title">⭐ เคล็ดลับการใช้ภาษาอังกฤษในโรงแรม</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">😊</div>
+                    <h4>พูดด้วยความสุภาพ</h4>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">🙏</div>
+                    <h4>ใช้คำว่า Please และ Thank you</h4>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">🐢</div>
+                    <h4>พูดช้าและชัดเจน</h4>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">👂</div>
+                    <h4>ฟังคำแนะนำจากพนักงาน</h4>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">❓</div>
+                    <h4>กล้าถามเมื่อไม่เข้าใจ</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Summary -->
+        <section id="section7">
+            <h2 class="section-title">📋 สรุปความรู้</h2>
+            <div class="summary-box">
+                <h3>Hotel English Essentials</h3>
+                <ul class="checklist">
+                    <li>รู้จักคำศัพท์เกี่ยวกับโรงแรม</li>
+                    <li>ใช้ประโยคจองห้องพักได้</li>
+                    <li>ใช้ประโยคเช็กอินและเช็กเอาต์ได้</li>
+                    <li>ถามข้อมูลและขอความช่วยเหลือได้</li>
+                    <li>สื่อสารภาษาอังกฤษในโรงแรมได้อย่างมั่นใจ</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Challenge Section -->
+        <section id="challenge">
+            <div class="challenge-box">
+                <h3 class="challenge-title">🎯 Challenge Yourself</h3>
+                <div class="challenge-instruction">
+                    <p><strong>คำสั่ง:</strong> ให้นักเรียนฝึกแต่งประโยคภาษาอังกฤษเกี่ยวกับโรงแรม 3 ประโยค โดยใช้โครงสร้างต่อไปนี้</p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Can I ... ?</li>
+                        <li>Could you ... ?</li>
+                        <li>I'd like to ...</li>
+                    </ul>
+                </div>
+                <textarea class="writing-area" placeholder="เขียนคำตอบของคุณที่นี่...&#10;&#10;1. &#10;&#10;2. &#10;&#10;3. "></textarea>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Hotel Vocabulary Lesson - สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 3</p>
+        <p style="margin-top: 10px; opacity: 0.8;">🏨 เรียนรู้ภาษาอังกฤษเพื่อการท่องเที่ยวและการโรงแรม 🌍</p>
+    </footer>
+
+    <script>
+        // Progress Bar
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+
+            // Back to Top Button
+            if (winScroll > 300) {
+                document.getElementById("backToTop").classList.add("visible");
+            } else {
+                document.getElementById("backToTop").classList.remove("visible");
+            }
+
+            // Scroll Animation
+            animateOnScroll();
+        };
+
+        // Back to Top Function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Intersection Observer for Scroll Animations
+        function animateOnScroll() {
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const scrollPosition = window.scrollY;
+
+                if (scrollPosition >= sectionTop - 200) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        // Smooth Scroll for Internal Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add hover effect to vocabulary cards
+        const vocabCards = document.querySelectorAll('.vocab-card');
+        vocabCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.05)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Initialize animations on load
+        window.addEventListener('load', () => {
+            animateOnScroll();
+        });
+
+        // Add click animation to challenge box
+        const challengeBox = document.querySelector('.challenge-box');
+        challengeBox.addEventListener('click', function() {
+            this.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+
+        // Typing effect for header subtitle
+        const subtitle = document.querySelector('.subtitle');
+        const text = subtitle.innerHTML;
+        subtitle.innerHTML = '';
+        let i = 0;
+        
+        function typeWriter() {
+            if (i < text.length) {
+                subtitle.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+        
+        // Start typing effect after page load
+        setTimeout(typeWriter, 1000);
+    </script>
+</body>
+</html>
