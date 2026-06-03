@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิกการเรียนรู้: การฟังประกาศรอบเที่ยวบินต่าง ๆ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reset และพื้นฐาน */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #e0f7fa, #b3e5fc);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%234fc3f7" width="100" height="100"/><path d="M50 20 L70 40 L60 40 L60 60 L40 60 L40 40 L30 40 Z" fill="%23ffffff"/></svg>');
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* หัวข้อหลัก */
+        .section-title {
+            font-size: 1.8rem;
+            color: #0288d1;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4fc3f7;
+            text-align: center;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        /* บล็อกรูปแบบทั่วไป */
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* ความสำคัญ */
+        .importance-list {
+            list-style-type: none;
+        }
+
+        .importance-list li {
+            padding: 10px 0;
+            padding-left: 40px;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .importance-list li::before {
+            content: "✈️";
+            position: absolute;
+            left: 0;
+            top: 10px;
+        }
+
+        /* ตารางคำศัพท์ */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #b3e5fc;
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4fc3f7;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e1f5fe;
+        }
+
+        /* ตัวอย่างประโยค */
+        .example-box {
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            border-left: 5px solid #0288d1;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* ฟลอว์เชิร์ต */
+        .flowchart {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .flow-step {
+            background-color: #0288d1;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 120px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .flow-step p {
+            margin: 5px 0;
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            color: #0288d1;
+        }
+
+        /* การ์ดคำศัพท์ */
+        .vocab-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .vocab-card {
+            background: linear-gradient(to bottom right, #e1f5fe, #b3e5fc);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .vocab-word {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #0288d1;
+        }
+
+        .vocab-pron {
+            color: #0277bd;
+            font-style: italic;
+        }
+
+        .vocab-meaning {
+            margin-top: 10px;
+            color: #006064;
+        }
+
+        /* คำถาม */
+        .question {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+        }
+
+        .options label {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .options label:hover {
+            background-color: #e1f5fe;
+        }
+
+        .submit-btn {
+            background-color: #0288d1;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: #0277bd;
+        }
+
+        .result {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        /* คำแนะนำ */
+        .tip {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #e1f5fe;
+            border-radius: 8px;
+        }
+
+        .tip-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        /* กริยา */
+        .grammar-box {
+            background-color: #e0f7fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        /* บทสนทนา */
+        .dialogue {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ef6c00;
+        }
+
+        /* แอนิเมชัน */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* รีสปอนซีฟ */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .flowchart {
+                flex-direction: column;
+            }
+            .arrow {
+                transform: rotate(90deg);
+            }
+            .vocab-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>✈️ การฟังประกาศรอบเที่ยวบินต่าง ๆ</h1>
+        <p>เรียนรู้คำศัพท์ ประโยค และเทคนิคสำคัญในการฟังประกาศในสนามบิน</p>
+    </div>
+
+    <!-- ความสำคัญ -->
+    <h2 class="section-title">1. ความสำคัญของการฟังประกาศเที่ยวบิน</h2>
+    <div class="card">
+        <ul class="importance-list">
+            <li>ช่วยให้ผู้โดยสารทราบข้อมูลสำคัญ</li>
+            <li>รู้เวลาขึ้นเครื่อง</li>
+            <li>รู้การเปลี่ยนแปลงประตูขึ้นเครื่อง</li>
+            <li>รับทราบการล่าช้าหรือยกเลิกเที่ยวบิน</li>
+            <li>เดินทางได้อย่างถูกต้องและปลอดภัย</li>
+        </ul>
+    </div>
+
+    <!-- คำศัพท์ -->
+    <h2 class="section-title">2. คำศัพท์สำคัญเกี่ยวกับเที่ยวบิน</h2>
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Vocabulary</th>
+                    <th>Pronunciation</th>
+                    <th>Meaning</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Flight</td>
+                    <td>ไฟลท์</td>
+                    <td>เที่ยวบิน</td>
+                </tr>
+                <tr>
+                    <td>Boarding</td>
+                    <td>บอร์ดดิง</td>
+                    <td>การขึ้นเครื่อง</td>
+                </tr>
+                <tr>
+                    <td>Departure</td>
+                    <td>ดีพาร์เชอร์</td>
+                    <td>ขาออก</td>
+                </tr>
+                <tr>
+                    <td>Arrival</td>
+                    <td>อะไรวัล</td>
+                    <td>ขาเข้า</td>
+                </tr>
+                <tr>
+                    <td>Gate</td>
+                    <td>เกท</td>
+                    <td>ประตูขึ้นเครื่อง</td>
+                </tr>
+                <tr>
+                    <td>Delayed</td>
+                    <td>ดีเลย์ด</td>
+                    <td>ล่าช้า</td>
+                </tr>
+                <tr>
+                    <td>Cancelled</td>
+                    <td>แคนเซิลด์</td>
+                    <td>ยกเลิก</td>
+                </tr>
+                <tr>
+                    <td>Passenger</td>
+                    <td>แพสเซนเจอร์</td>
+                    <td>ผู้โดยสาร</td>
+                </tr>
+                <tr>
+                    <td>Airport</td>
+                    <td>แอร์พอร์ต</td>
+                    <td>สนามบิน</td>
+                </tr>
+                <tr>
+                    <td>Boarding Pass</td>
+                    <td>บอร์ดดิง พาส</td>
+                    <td>บัตรขึ้นเครื่อง</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ประโยคตัวอย่าง -->
+    <h2 class="section-title">3. ประโยคประกาศที่พบบ่อยในสนามบิน</h2>
+    <div class="card">
+        <div class="example-box">
+            <strong>Example 1:</strong><br>
+            Attention please. Flight TG123 to Bangkok is now boarding at Gate 5.<br>
+            <em>ความหมาย:</em> ขอเชิญผู้โดยสาร เที่ยวบิน TG123 ไปกรุงเทพฯ ขึ้นเครื่องที่ประตู 5 ได้แล้ว
+        </div>
+        <div class="example-box">
+            <strong>Example 2:</strong><br>
+            Flight FD456 to Phuket has been delayed for 30 minutes.<br>
+            <em>ความหมาย:</em> เที่ยวบิน FD456 ไปภูเก็ตล่าช้า 30 นาที
+        </div>
+        <div class="example-box">
+            <strong>Example 3:</strong><br>
+            Final call for passengers on Flight SL789 to Chiang Mai.<br>
+            <em>ความหมาย:</em> ประกาศเรียกครั้งสุดท้ายสำหรับผู้โดยสารเที่ยวบิน SL789 ไปเชียงใหม่
+        </div>
+        <div class="example-box">
+            <strong>Example 4:</strong><br>
+            Flight TG999 has been cancelled.<br>
+            <em>ความหมาย:</em> เที่ยวบิน TG999 ถูกยกเลิก
+        </div>
+    </div>
+
+    <!-- ฟลอว์เชิร์ต -->
+    <h2 class="section-title">4. รูปแบบการฟังประกาศ</h2>
+    <div class="card">
+        <div class="flowchart">
+            <div class="flow-step">
+                <p>✈️</p>
+                <p>Hear Announcement</p>
+                <p>(ฟังประกาศ)</p>
+            </div>
+            <div class="arrow">⬇️</div>
+            <div class="flow-step">
+                <p>👂</p>
+                <p>Listen Carefully</p>
+                <p>(ฟังอย่างระมัดระวัง)</p>
+            </div>
+            <div class="arrow">⬇️</div>
+            <div class="flow-step">
+                <p>🔍</p>
+                <p>Check Flight Number</p>
+                <p>(ตรวจสอบเลขเที่ยวบิน)</p>
+            </div>
+            <div class="arrow">⬇️</div>
+            <div class="flow-step">
+                <p>🚪</p>
+                <p>Check Gate</p>
+                <p>(ตรวจสอบประตูขึ้นเครื่อง)</p>
+            </div>
+            <div class="arrow">⬇️</div>
+            <div class="flow-step">
+                <p>✅</p>
+                <p>Follow Instructions</p>
+                <p>(ทำตามคำแนะนำ)</p>
+            </div>
+            <div class="arrow">⬇️</div>
+            <div class="flow-step">
+                <p>🛩️</p>
+                <p>Board the Plane</p>
+                <p>(ขึ้นเครื่องบิน)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ประโยคประโยคประโยชน์ -->
+    <h2 class="section-title">5. Useful Expressions</h2>
+    <div class="card vocab-cards">
+        <div class="vocab-card">
+            <div class="vocab-word">What gate is my flight?</div>
+            <div class="vocab-meaning">ประตูขึ้นเครื่องของฉันอยู่ที่ไหน</div>
+        </div>
+        <div class="vocab-card">
+            <div class="vocab-word">Has the flight been delayed?</div>
+            <div class="vocab-meaning">เที่ยวบินล่าช้าหรือไม่</div>
+        </div>
+        <div class="vocab-card">
+            <div class="vocab-word">When does boarding start?</div>
+            <div class="vocab-meaning">เริ่มขึ้นเครื่องเมื่อไร</div>
+        </div>
+        <div class="vocab-card">
+            <div class="vocab-word">Where is Gate 10?</div>
+            <div class="vocab-meaning">ประตู 10 อยู่ที่ไหน</div>
+        </div>
+    </div>
+
+    <!-- บทสนทนา -->
+    <h2 class="section-title">6. ตัวอย่างบทสนทนา</h2>
+    <div class="card">
+        <div class="dialogue">
+            <div class="speaker">Passenger:</div>
+            Excuse me, has Flight TG123 started boarding?<br>
+            <em>(ขอโทษครับ/ค่ะ เที่ยวบิน TG123 ขึ้นเครื่องหรือยัง)</em><br><br>
+            <div class="speaker">Staff:</div>
+            Yes. Please proceed to Gate 5.<br>
+            <em>(ใช่แล้วครับ/ค่ะ กรุณาไปที่ประตู 5)</em><br><br>
+            <div class="speaker">Passenger:</div>
+            Thank you.<br>
+            <em>(ขอบคุณครับ/ค่ะ)</em><br><br>
+            <div class="speaker">Staff:</div>
+            You're welcome.<br>
+            <em>(ไม่เป็นไรครับ/ค่ะ)</em>
+        </div>
+    </div>
+
+    <!-- คำแนะนำ -->
+    <h2 class="section-title">7. Listening Tips</h2>
+    <div class="card">
+        <div class="tip">
+            <span class="tip-icon">🎧</span>
+            <span>ฟังหมายเลขเที่ยวบินให้ชัดเจน</span>
+        </div>
+        <div class="tip">
+            <span class="tip-icon">🎧</span>
+            <span>ฟังหมายเลขประตูขึ้นเครื่อง</span>
+        </div>
+        <div class="tip">
+            <span class="tip-icon">⏰</span>
+            <span>ฟังเวลาที่ประกาศ</span>
+        </div>
+        <div class="tip">
+            <span class="tip-icon">⚠️</span>
+            <span>สังเกตคำว่า Delayed หรือ Cancelled</span>
+        </div>
+        <div class="tip">
+            <span class="tip-icon">📋</span>
+            <span>ตรวจสอบจอแสดงผลเที่ยวบินควบคู่กัน</span>
+        </div>
+    </div>
+
+    <!-- กริยา -->
+    <h2 class="section-title">8. Grammar Focus</h2>
+    <div class="card">
+        <div class="grammar-box">
+            <strong>Present Simple</strong><br>
+            Flight TG123 departs at 10 a.m.<br>
+            <em>เที่ยวบิน TG123 ออกเวลา 10 โมงเช้า</em>
+        </div>
+        <div class="grammar-box">
+            <strong>Present Perfect Passive</strong><br>
+            The flight has been delayed.<br>
+            <em>เที่ยวบินถูกเลื่อนออกไปแล้ว</em>
+        </div>
+    </div>
+
+    <!-- แบบทดสอบ -->
+    <h2 class="section-title">9. Mini Quiz</h2>
+    <div class="card">
+        <form id="quizForm">
+            <div class="question">
+                <strong>คำถาม 1:</strong> What does "Boarding" mean?<br>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="A"> A. ลงจากเครื่อง</label>
+                    <label><input type="radio" name="q1" value="B"> B. ขึ้นเครื่อง</label>
+                    <label><input type="radio" name="q1" value="C"> C. ยกเลิกเที่ยวบิน</label>
+                    <label><input type="radio" name="q1" value="D"> D. รับกระเป๋า</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <strong>คำถาม 2:</strong> What does "Delayed" mean?<br>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="A"> A. มาถึงแล้ว</label>
+                    <label><input type="radio" name="q2" value="B"> B. ออกก่อนเวลา</label>
+                    <label><input type="radio" name="q2" value="C"> C. ล่าช้า</label>
+                    <label><input type="radio" name="q2" value="D"> D. ยกเลิก</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <strong>คำถาม 3:</strong> What does "Gate" refer to?<br>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="A"> A. ตั๋วเครื่องบิน</label>
+                    <label><input type="radio" name="q3" value="B"> B. กระเป๋า</label>
+                    <label><input type="radio" name="q3" value="C"> C. ประตูขึ้นเครื่อง</label>
+                    <label><input type="radio" name="q3" value="D"> D. เครื่องบิน</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <strong>คำถาม 4:</strong> What should you do when you hear "Final call"?<br>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="A"> A. รอต่อไป</label>
+                    <label><input type="radio" name="q4" value="B"> B. ไปที่ประตูทันที</label>
+                    <label><input type="radio" name="q4" value="C"> C. ไปรับกระเป๋า</label>
+                    <label><input type="radio" name="q4" value="D"> D. กลับบ้าน</label>
+                </div>
+            </div>
+
+            <div class="question">
+                <strong>คำถาม 5:</strong> Which word means "to cancel"?<br>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="A"> A. Depart</label>
+                    <label><input type="radio" name="q5" value="B"> B. Arrive</label>
+                    <label><input type="radio" name="q5" value="C"> C. Delay</label>
+                    <label><input type="radio" name="q5" value="D"> D. Cancel</label>
+                </div>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="checkAnswers()">ตรวจคำตอบ</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <!-- ส่วนท้าย -->
+    <div class="card" style="background: linear-gradient(to right, #4fc3f7, #29b6f6); color: white; text-align: center;">
+        <h3>📝 สรุป</h3>
+        <p>"การฟังประกาศเที่ยวบินเป็นทักษะสำคัญในการเดินทางทางอากาศ ผู้เรียนควรรู้คำศัพท์พื้นฐาน เข้าใจข้อความประกาศ และสามารถปฏิบัติตามคำแนะนำได้อย่างถูกต้อง"</p>
+    </div>
+
+</div>
+
+<script>
+// ฟังก์ชันตรวจคำตอบ
+function checkAnswers() {
+    // คำตอบที่ถูกต้อง
+    const correctAnswers = ['B', 'C', 'C', 'B', 'D'];
+    
+    // รับคำตอบจากผู้ใช้
+    let userAnswers = [];
+    for (let i = 1; i <= 5; i++) {
+        const selectedOption = document.querySelector(`input[name=q${i}]:checked`);
+        if (selectedOption) {
+            userAnswers.push(selectedOption.value);
+        } else {
+            userAnswers.push(null); // ถ้าไม่ได้เลือก
+        }
+    }
+    
+    // คำนวณคะแนน
+    let score = 0;
+    for (let i = 0; i < correctAnswers.length; i++) {
+        if (userAnswers[i] === correctAnswers[i]) {
+            score++;
+        }
+    }
+    
+    // แสดงผลลัพธ์
+    const resultDiv = document.getElementById('result');
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `<p>คะแนนของคุณ: ${score}/${correctAnswers.length}</p>`;
+    
+    if (score === 5) {
+        resultDiv.innerHTML += `<p>🎉 ยอดเยี่ยม! คุณทำได้ดีมาก!</p>`;
+        resultDiv.style.backgroundColor = '#c8e6c9';
+        resultDiv.style.color = '#2e7d32';
+    } else if (score >= 3) {
+        resultDiv.innerHTML += `<p>👍 คุณทำได้ดี! ลองทบทวนเพิ่มเติมอีกนิด</p>`;
+        resultDiv.style.backgroundColor = '#fff9c4';
+        resultDiv.style.color = '#f57f17';
+    } else {
+        resultDiv.innerHTML += `<p>📚 ลองศึกษาเพิ่มเติมอีกนิดนะครับ</p>`;
+        resultDiv.style.backgroundColor = '#ffcdd2';
+        resultDiv.style.color = '#c62828';
+    }
+}
+
+// เพิ่มเอฟเฟกต์เล็กน้อยเมื่อโหลดหน้า
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("อินโฟกราฟิกการเรียนรู้: การฟังประกาศรอบเที่ยวบินต่าง ๆ พร้อมใช้งานแล้ว!");
+});
+</script>
+
+</body>
+</html>
