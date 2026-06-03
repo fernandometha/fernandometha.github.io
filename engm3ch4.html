@@ -1,1 +1,1247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การขอและให้ข้อมูลเกี่ยวกับโรงแรม - Asking for and Giving Information about Hotels</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --light-blue: #60a5fa;
+            --accent-blue: #93c5fd;
+            --bg-light: #f0f9ff;
+            --white: #ffffff;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+            --shadow-hover: 0 20px 60px -15px rgba(0,0,0,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: var(--white);
+            padding: 100px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Kanit', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .hero-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 2.2rem;
+            color: var(--primary-blue);
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-blue), var(--light-blue));
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Card Design */
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Importance Section */
+        .importance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .importance-item {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .importance-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--secondary-blue), var(--light-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--white);
+            font-size: 1.8rem;
+        }
+
+        .importance-item h3 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Vocabulary Section */
+        .vocab-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .vocab-card {
+            background: linear-gradient(135deg, var(--white) 0%, #f8fafc 100%);
+            border-left: 4px solid var(--secondary-blue);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .vocab-card:hover {
+            transform: translateX(5px);
+            border-left-color: var(--primary-blue);
+        }
+
+        .vocab-card .english {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .vocab-card .thai {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Phrases Section */
+        .phrases-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .phrase-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phrase-card::before {
+            content: '\f10d';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--accent-blue);
+            opacity: 0.5;
+        }
+
+        .phrase-card .icon-wrapper {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--secondary-blue), var(--light-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .phrase-card .english {
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        .phrase-card .thai {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Dialogue Section */
+        .dialogue-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .chat-bubble {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-bubble.guest {
+            align-items: flex-start;
+        }
+
+        .chat-bubble.receptionist {
+            align-items: flex-end;
+        }
+
+        .bubble {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            position: relative;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-bubble.guest .bubble {
+            background: linear-gradient(135deg, var(--light-blue), var(--secondary-blue));
+            color: var(--white);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-bubble.receptionist .bubble {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            color: var(--text-dark);
+            border-bottom-right-radius: 4px;
+        }
+
+        .bubble-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+
+        .chat-bubble.receptionist .bubble-label {
+            text-align: right;
+        }
+
+        /* Grammar Section */
+        .grammar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .grammar-box {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--secondary-blue);
+        }
+
+        .grammar-box h3 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .grammar-box h3 i {
+            color: var(--secondary-blue);
+        }
+
+        .grammar-formula {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Poppins', monospace;
+            color: var(--primary-blue);
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+            border: 2px dashed var(--light-blue);
+        }
+
+        .grammar-example {
+            color: var(--text-gray);
+            font-style: italic;
+            padding-left: 15px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        /* Tips Section */
+        .tips-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px) rotate(2deg);
+        }
+
+        .tip-number {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 15px;
+            font-size: 1.2rem;
+        }
+
+        /* Summary Section */
+        .summary-box {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .summary-box p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-question {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            border-left: 4px solid var(--secondary-blue);
+        }
+
+        .quiz-question h4 {
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 12px 20px;
+            background: var(--white);
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--secondary-blue);
+            background: #f8fafc;
+        }
+
+        .quiz-option input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .quiz-option.correct {
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #166534;
+        }
+
+        .quiz-option.incorrect {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+
+        .quiz-btn {
+            background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+            color: var(--white);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+            margin: 30px auto 0;
+        }
+
+        .quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.5);
+        }
+
+        .quiz-result {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .quiz-result.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        footer h3 {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        footer p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .footer-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .chat-bubble .bubble {
+                max-width: 85%;
+            }
+
+            .dialogue-container {
+                padding: 25px;
+            }
+
+            .quiz-container {
+                padding: 25px;
+            }
+
+            .vocab-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 60px 0 40px;
+            }
+
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            section {
+                padding: 40px 0;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-blue);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <div class="hero-icon">
+                    <i class="fas fa-hotel"></i>
+                </div>
+                <h1>การขอและให้ข้อมูลเกี่ยวกับโรงแรม</h1>
+                <p class="subtitle">Asking for and Giving Information about Hotels</p>
+                <p class="description">
+                    เรียนรู้คำศัพท์ สำนวน และบทสนทนาพื้นฐานที่ใช้ในการสอบถามและให้ข้อมูลเกี่ยวกับโรงแรม 
+                    เพื่อเตรียมความพร้อมสำหรับการเดินทางและการท่องเที่ยว
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Importance Section -->
+    <section id="importance">
+        <div class="container">
+            <h2 class="section-title fade-in">ความสำคัญของบทเรียน</h2>
+            <div class="importance-grid">
+                <div class="card importance-item fade-in">
+                    <div class="importance-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>การจองห้องพัก</h3>
+                    <p>ใช้สื่อสารเมื่อต้องการจองห้องพักล่วงหน้าหรือสอบถามห้องว่าง</p>
+                </div>
+                <div class="card importance-item fade-in">
+                    <div class="importance-icon">
+                        <i class="fas fa-concierge-bell"></i>
+                    </div>
+                    <h3>สิ่งอำนวยความสะดวก</h3>
+                    <p>ใช้สอบถามสิ่งอำนวยความสะดวกและบริการต่างๆ ในโรงแรม</p>
+                </div>
+                <div class="card importance-item fade-in">
+                    <div class="importance-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3>ราคาและบริการ</h3>
+                    <p>ใช้ขอข้อมูลราคาห้องพักและบริการเสริมต่างๆ</p>
+                </div>
+                <div class="card importance-item fade-in">
+                    <div class="importance-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>เพิ่มความมั่นใจ</h3>
+                    <p>ช่วยเพิ่มความมั่นใจในการเดินทางและการสื่อสารกับชาวต่างชาติ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vocabulary Section -->
+    <section id="vocabulary" style="background: var(--white);">
+        <div class="container">
+            <h2 class="section-title fade-in">คำศัพท์สำคัญ (Hotel Vocabulary)</h2>
+            <div class="vocab-container fade-in">
+                <div class="vocab-card">
+                    <div class="english">Hotel</div>
+                    <div class="thai">โรงแรม</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Reception</div>
+                    <div class="thai">แผนกต้อนรับ</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Reservation</div>
+                    <div class="thai">การจอง</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Room</div>
+                    <div class="thai">ห้องพัก</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Single Room</div>
+                    <div class="thai">ห้องเดี่ยว</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Double Room</div>
+                    <div class="thai">ห้องคู่</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Suite</div>
+                    <div class="thai">ห้องสวีท</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Check-in</div>
+                    <div class="thai">เข้าพัก</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Check-out</div>
+                    <div class="thai">ออกจากที่พัก</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Facility</div>
+                    <div class="thai">สิ่งอำนวยความสะดวก</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Wi-Fi</div>
+                    <div class="thai">อินเทอร์เน็ตไร้สาย</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Breakfast</div>
+                    <div class="thai">อาหารเช้า</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Swimming Pool</div>
+                    <div class="thai">สระว่ายน้ำ</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="english">Parking</div>
+                    <div class="thai">ที่จอดรถ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Asking for Information Section -->
+    <section id="asking">
+        <div class="container">
+            <h2 class="section-title fade-in">ประโยคสำหรับการขอข้อมูล</h2>
+            <div class="phrases-container fade-in">
+                <div class="phrase-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="english">Do you have any rooms available?</div>
+                    <div class="thai">คุณมีห้องว่างไหม</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="english">How much is a room per night?</div>
+                    <div class="thai">ห้องพักคืนละเท่าไร</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="english">Is breakfast included?</div>
+                    <div class="thai">รวมอาหารเช้าหรือไม่</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <div class="english">Does the hotel have free Wi-Fi?</div>
+                    <div class="thai">โรงแรมมี Wi-Fi ฟรีหรือไม่</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-swimming-pool"></i>
+                    </div>
+                    <div class="english">What facilities are available?</div>
+                    <div class="thai">มีสิ่งอำนวยความสะดวกอะไรบ้าง</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Giving Information Section -->
+    <section id="giving" style="background: var(--white);">
+        <div class="container">
+            <h2 class="section-title fade-in">ประโยคสำหรับการให้ข้อมูล</h2>
+            <div class="phrases-container fade-in">
+                <div class="phrase-card">
+                    <div class="icon-wrapper" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="english">We have rooms available.</div>
+                    <div class="thai">เรามีห้องว่าง</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="icon-wrapper" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <div class="english">The room costs 1,000 baht per night.</div>
+                    <div class="thai">ห้องพักราคา 1,000 บาทต่อคืน</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="icon-wrapper" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="english">Breakfast is included.</div>
+                    <div class="thai">รวมอาหารเช้าแล้ว</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="icon-wrapper" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                        <i class="fas fa-signal"></i>
+                    </div>
+                    <div class="english">Free Wi-Fi is available.</div>
+                    <div class="thai">มี Wi-Fi ฟรี</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="icon-wrapper" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <div class="english">The hotel has a swimming pool and parking.</div>
+                    <div class="thai">โรงแรมมีสระว่ายน้ำและที่จอดรถ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dialogue Section -->
+    <section id="dialogue">
+        <div class="container">
+            <h2 class="section-title fade-in">ตัวอย่างบทสนทนา (Dialogue)</h2>
+            <div class="dialogue-container fade-in">
+                <div class="chat-bubble guest">
+                    <div class="bubble-label">Guest</div>
+                    <div class="bubble">
+                        Hello. Do you have any rooms available?
+                    </div>
+                </div>
+                <div class="chat-bubble receptionist">
+                    <div class="bubble-label">Receptionist</div>
+                    <div class="bubble">
+                        Yes, we do.
+                    </div>
+                </div>
+                <div class="chat-bubble guest">
+                    <div class="bubble-label">Guest</div>
+                    <div class="bubble">
+                        How much is a room per night?
+                    </div>
+                </div>
+                <div class="chat-bubble receptionist">
+                    <div class="bubble-label">Receptionist</div>
+                    <div class="bubble">
+                        It is 1,000 baht per night and breakfast is included.
+                    </div>
+                </div>
+                <div class="chat-bubble guest">
+                    <div class="bubble-label">Guest</div>
+                    <div class="bubble">
+                        Great. I'd like to book a room.
+                    </div>
+                </div>
+                <div class="chat-bubble receptionist">
+                    <div class="bubble-label">Receptionist</div>
+                    <div class="bubble">
+                        Certainly.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grammar Section -->
+    <section id="grammar" style="background: var(--white);">
+        <div class="container">
+            <h2 class="section-title fade-in">โครงสร้างประโยคสำคัญ (Grammar Focus)</h2>
+            <div class="grammar-grid fade-in">
+                <div class="grammar-box">
+                    <h3><i class="fas fa-question"></i> รูปแบบการถาม</h3>
+                    <div class="grammar-formula">Do you have + สิ่งที่ต้องการ + ?</div>
+                    <div class="grammar-example">
+                        <strong>ตัวอย่าง:</strong><br>
+                        Do you have any rooms available?
+                    </div>
+                </div>
+                <div class="grammar-box">
+                    <h3><i class="fas fa-info-circle"></i> รูปแบบการให้ข้อมูล (1)</h3>
+                    <div class="grammar-formula">Subject + have/has + ...</div>
+                    <div class="grammar-example">
+                        <strong>ตัวอย่าง:</strong><br>
+                        The hotel has free Wi-Fi.
+                    </div>
+                </div>
+                <div class="grammar-box">
+                    <h3><i class="fas fa-coins"></i> รูปแบบการให้ข้อมูล (2)</h3>
+                    <div class="grammar-formula">Subject + costs + ราคา</div>
+                    <div class="grammar-example">
+                        <strong>ตัวอย่าง:</strong><br>
+                        The room costs 1,000 baht per night.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips Section -->
+    <section id="tips">
+        <div class="container">
+            <h2 class="section-title fade-in">เทคนิคจำง่าย (Quick Tips)</h2>
+            <div class="tips-container fade-in">
+                <div class="tip-card">
+                    <div class="tip-number">1</div>
+                    <h3>เริ่มต้นอย่างสุภาพ</h3>
+                    <p>เริ่มต้นด้วยคำสุภาพ เช่น Hello หรือ Excuse me</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">2</div>
+                    <h3>ใช้ Do you have...?</h3>
+                    <p>ใช้ Do you have...? เมื่อต้องการสอบถามว่ามีสิ่งนั้นหรือไม่</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">3</div>
+                    <h3>ถามราคาด้วย How much</h3>
+                    <p>ใช้ How much...? เมื่อต้องการถามราคา</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">4</div>
+                    <h3>ขอบคุณเสมอ</h3>
+                    <p>ฟังข้อมูลและตอบ Thank you เมื่อได้รับความช่วยเหลือ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary Section -->
+    <section id="summary">
+        <div class="container">
+            <div class="summary-box fade-in">
+                <h3><i class="fas fa-graduation-cap"></i> สรุปท้ายบทเรียน</h3>
+                <p>
+                    "การขอและให้ข้อมูลเกี่ยวกับโรงแรมเป็นทักษะภาษาอังกฤษที่สำคัญสำหรับการเดินทางและการท่องเที่ยว 
+                    ช่วยให้สามารถสอบถาม จองห้องพัก และรับข้อมูลบริการต่าง ๆ ได้อย่างมั่นใจ"
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" style="background: var(--white);">
+        <div class="container">
+            <h2 class="section-title fade-in">Mini Quiz</h2>
+            <div class="quiz-container fade-in">
+                <form id="quizForm">
+                    <div class="quiz-question">
+                        <h4>1. What does "Reception" mean?</h4>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q1" value="a">
+                                <span>ก. ห้องพัก</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q1" value="b">
+                                <span>ข. แผนกต้อนรับ</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q1" value="c">
+                                <span>ค. อาหารเช้า</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q1" value="d">
+                                <span>ง. สระว่ายน้ำ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>2. "Do you have any rooms available?" means?</h4>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q2" value="a">
+                                <span>ก. คุณมีห้องว่างไหม</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q2" value="b">
+                                <span>ข. ห้องพักราคาเท่าไร</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q2" value="c">
+                                <span>ค. รวมอาหารเช้าหรือไม่</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q2" value="d">
+                                <span>ง. เช็คอินเวลาไหน</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>3. Which sentence is correct for asking about price?</h4>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q3" value="a">
+                                <span>ก. Do you have breakfast?</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q3" value="b">
+                                <span>ข. How much is a room per night?</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q3" value="c">
+                                <span>ค. Is Wi-Fi available?</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q3" value="d">
+                                <span>ง. Where is the hotel?</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>4. "Breakfast is included" means?</h4>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q4" value="a">
+                                <span>ก. ไม่มีอาหารเช้า</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q4" value="b">
+                                <span>ข. อาหารเช้าราคาแพง</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q4" value="c">
+                                <span>ค. รวมอาหารเช้าแล้ว</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q4" value="d">
+                                <span>ง. อาหารเช้าไม่อร่อย</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>5. What does "Check-out" mean?</h4>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q5" value="a">
+                                <span>ก. เข้าพัก</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q5" value="b">
+                                <span>ข. จองห้อง</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q5" value="c">
+                                <span>ค. ออกจากที่พัก</span>
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q5" value="d">
+                                <span>ง. ยกเลิกการจอง</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="button" class="quiz-btn" onclick="checkQuiz()">
+                        <i class="fas fa-check-circle"></i> ตรวจคำตอบ
+                    </button>
+                </form>
+
+                <div id="quizResult" class="quiz-result"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <h3>English for Communication | Grade 9 (M.3)</h3>
+            <p>Learning English Through Real-Life Situations</p>
+            <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.7;">
+                © 2026 Educational Infographic
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for Fade-in Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach(el => observer.observe(el));
+        });
+
+        // Quiz Functionality
+        function checkQuiz() {
+            const answers = {
+                q1: 'b',
+                q2: 'a',
+                q3: 'b',
+                q4: 'c',
+                q5: 'c'
+            };
+
+            let score = 0;
+            let total = 5;
+            let allAnswered = true;
+
+            // Reset previous results
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+
+            // Check each question
+            for (let i = 1; i <= total; i++) {
+                const questionName = 'q' + i;
+                const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+                
+                if (!selectedOption) {
+                    allAnswered = false;
+                    continue;
+                }
+
+                const selectedValue = selectedOption.value;
+                const parentOption = selectedOption.closest('.quiz-option');
+
+                if (selectedValue === answers[questionName]) {
+                    score++;
+                    parentOption.classList.add('correct');
+                } else {
+                    parentOption.classList.add('incorrect');
+                    // Highlight correct answer
+                    const correctOption = document.querySelector(`input[name="${questionName}"][value="${answers[questionName]}"]`).closest('.quiz-option');
+                    correctOption.classList.add('correct');
+                }
+            }
+
+            // Show result
+            const resultDiv = document.getElementById('quizResult');
+            let message = '';
+            let color = '';
+
+            if (!allAnswered) {
+                message = 'กรุณาตอบคำถามทุกข้อก่อนตรวจคำตอบ';
+                color = '#f59e0b';
+            } else if (score === total) {
+                message = `ยอดเยี่ยม! คุณได้ ${score} จาก ${total} คะแนน <i class="fas fa-trophy" style="color: gold;"></i>`;
+                color = '#10b981';
+            } else if (score >= 3) {
+                message = `ดีมาก! คุณได้ ${score} จาก ${total} คะแนน <i class="fas fa-thumbs-up"></i>`;
+                color = '#3b82f6';
+            } else {
+                message = `พยายามอีกนิด! คุณได้ ${score} จาก ${total} คะแนน <i class="fas fa-book"></i>`;
+                color = '#ef4444';
+            }
+
+            resultDiv.innerHTML = message;
+            resultDiv.style.background = color + '20';
+            resultDiv.style.color = color;
+            resultDiv.style.border = `2px solid ${color}`;
+            resultDiv.classList.add('show');
+
+            // Scroll to result
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Smooth scroll for navigation (if needed in future)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
