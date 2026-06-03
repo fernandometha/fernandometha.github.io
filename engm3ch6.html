@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การขอและให้ข้อมูลเกี่ยวกับแหล่งท่องเที่ยวในท้องถิ่น</title>
+    
+    <!-- นำเข้าฟอนต์ Prompt จาก Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================== 
+           Global & Reset 
+           ==================== */
+        :root {
+            --primary: #4A90E2;      /* สีฟ้าสดใส */
+            --secondary: #F5A623;    /* สีส้มอบอุ่น */
+            --accent: #7ED321;       /* สีเขียวธรรมชาติ */
+            --bg-light: #F4F7F6;     /* พื้นหลังอ่อน */
+            --text-dark: #2C3E50;    /* สีตัวอักษรเข้ม */
+            --white: #FFFFFF;
+            --shadow: 0 8px 20px rgba(0,0,0,0.08);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==================== 
+           Animation Classes 
+           ==================== */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==================== 
+           Layout & Sections 
+           ==================== */
+        section {
+            padding: 60px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* ==================== 
+           Section 1: Cover 
+           ==================== */
+        #cover {
+            background: linear-gradient(135deg, var(--primary) 0%, #6DD5FA 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 100px 20px;
+            max-width: 100%;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        #cover h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #cover h3 {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .cover-illustration {
+            font-size: 5rem;
+            margin-top: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* ==================== 
+           Section 2: Importance 
+           ==================== */
+        .importance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .importance-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            border-top: 5px solid var(--accent);
+            transition: transform 0.3s;
+        }
+
+        .importance-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .check-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* ==================== 
+           Section 3: Vocabulary 
+           ==================== */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .vocab-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            border-left: 5px solid var(--secondary);
+            transition: all 0.3s;
+        }
+
+        .vocab-card:hover {
+            background: var(--secondary);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+
+        .vocab-en {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .vocab-th {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* ==================== 
+           Section 4 & 5: Speech Bubbles 
+           ==================== */
+        .bubble-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .bubble {
+            background: var(--white);
+            padding: 20px 25px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            max-width: 80%;
+        }
+
+        .bubble.asking {
+            align-self: flex-start;
+            border-left: 5px solid var(--primary);
+        }
+
+        .bubble.asking::before {
+            content: "🗣️";
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+
+        .bubble.giving {
+            align-self: flex-end;
+            border-right: 5px solid var(--accent);
+            background: #E8F5E9;
+        }
+
+        .bubble.giving::before {
+            content: "💡";
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+
+        .bubble-en {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .bubble.giving .bubble-en {
+            color: #2E7D32;
+        }
+
+        .bubble-th {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* ==================== 
+           Section 6: Dialogue 
+           ==================== */
+        .chat-box {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .chat-line {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-line.person-a {
+            align-items: flex-start;
+        }
+
+        .chat-line.person-b {
+            align-items: flex-end;
+        }
+
+        .chat-bubble {
+            padding: 15px 20px;
+            border-radius: 18px;
+            max-width: 85%;
+            position: relative;
+        }
+
+        .person-a .chat-bubble {
+            background: #E3F2FD;
+            color: #1565C0;
+            border-bottom-left-radius: 4px;
+        }
+
+        .person-b .chat-bubble {
+            background: #FFF3E0;
+            color: #E65100;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #888;
+        }
+
+        .chat-trans {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        /* ==================== 
+           Section 7: Flowchart 
+           ==================== */
+        .flowchart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .flow-box {
+            background: var(--white);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            width: 250px;
+            border-top: 5px solid var(--primary);
+        }
+
+        .flow-box.answer {
+            border-top-color: var(--accent);
+        }
+
+        .flow-arrow {
+            font-size: 2rem;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        .flow-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .flow-item {
+            background: #F0F4F8;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        /* ==================== 
+           Section 8: Tips 
+           ==================== */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, #FFF9C4 0%, #FFFFFF 100%);
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 2px solid #FFF59D;
+        }
+
+        .tip-star {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .tip-text {
+            font-weight: 600;
+            color: #F57F17;
+        }
+
+        /* ==================== 
+           Section 9: Summary 
+           ==================== */
+        #summary {
+            background: linear-gradient(135deg, #2C3E50 0%, #4CA1AF 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 100%;
+            margin-top: 40px;
+        }
+
+        .summary-box {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .summary-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .summary-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .closing-quote {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .closing-icons {
+            font-size: 2.5rem;
+            margin-top: 20px;
+            letter-spacing: 15px;
+        }
+
+        /* ==================== 
+           Responsive Design 
+           ==================== */
+        @media (max-width: 768px) {
+            #cover h1 { font-size: 1.8rem; }
+            #cover h3 { font-size: 1rem; }
+            
+            h2 { font-size: 1.5rem; }
+            
+            .bubble { max-width: 90%; }
+            .bubble.asking::before, .bubble.giving::before {
+                display: none; /* ซ่อนไอคอนด้านข้างบนมือถือเพื่อประหยัดพื้นที่ */
+            }
+            
+            .flowchart {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+
+            .chat-bubble {
+                max-width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ส่วนที่ 1: หน้าปก -->
+    <header id="cover">
+        <div class="animate-on-scroll">
+            <h1>🏞️ การขอและให้ข้อมูลเกี่ยวกับแหล่งท่องเที่ยวในท้องถิ่น</h1>
+            <h3>Asking for and Giving Information about Local Tourist Attractions</h3>
+            <div class="cover-illustration">
+                🏔️ 🌳 🗺️ 🚶‍♂️ 📸
+            </div>
+        </div>
+    </header>
+
+    <!-- ส่วนที่ 2: ความสำคัญ -->
+    <section id="importance">
+        <h2 class="animate-on-scroll">ทำไมการสื่อสารเรื่องนี้ถึงสำคัญ?</h2>
+        <div class="importance-grid">
+            <div class="importance-card animate-on-scroll">
+                <span class="check-icon">✅</span>
+                <p>สอบถามข้อมูลได้อย่างถูกต้อง</p>
+            </div>
+            <div class="importance-card animate-on-scroll">
+                <span class="check-icon">✅</span>
+                <p>แนะนำสถานที่ให้ผู้อื่นได้</p>
+            </div>
+            <div class="importance-card animate-on-scroll">
+                <span class="check-icon">✅</span>
+                <p>สื่อสารกับนักท่องเที่ยวได้อย่างมั่นใจ</p>
+            </div>
+            <div class="importance-card animate-on-scroll">
+                <span class="check-icon">✅</span>
+                <p>ส่งเสริมการท่องเที่ยวในชุมชน</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ส่วนที่ 3: คำศัพท์สำคัญ -->
+    <section id="vocabulary">
+        <h2 class="animate-on-scroll">📚 คำศัพท์สำคัญ (Vocabulary)</h2>
+        <div class="vocab-grid">
+            <div class="vocab-card animate-on-scroll">
+                <span class="vocab-en">tourist attraction</span>
+                <span class="vocab-th">แหล่งท่องเที่ยว</span>
+            </div>
+            <div class="vocab-card animate-on-scroll">
+                <span class="vocab-en">temple</span>
+                <span class="vocab-th">วัด</span>
+            </div>
+            <div class="vocab-card animate-on-scroll">
+                <span class="vocab-en">waterfall</span>
+                <span class="vocab-th">น้ำตก</span>
+            </div>
+            <div class="vocab-card animate-on-scroll">
+                <span class="vocab-en">museum</span>
+                <span class="vocab-th">พิพิธภัณฑ์</span>
+            </div>
+            <div class="vocab-card animate-on-scroll">
+                <span class="vocab-en">market</span>
+                <span class="vocab-th">ตลาด</span>
+            </div>
+            <div class="vocab-card animate-on-scroll">
+                <span class="vocab-en">national park</span>
+                <span class="vocab-th">อุทยานแห่งชาติ</span>
+            </div>
+            <div class="vocab-card animate-on-scroll">
+                <span class="vocab-en">famous</span>
+                <span class="vocab-th">มีชื่อเสียง</span>
+            </div>
+            <div class="vocab-card animate-on-scroll">
+                <span class="vocab-en">beautiful</span>
+                <span class="vocab-th">สวยงาม</span>
+            </div>
+            <div class="vocab-card animate-on-scroll">
+                <span class="vocab-en">located</span>
+                <span class="vocab-th">ตั้งอยู่</span>
+            </div>
+            <div class="vocab-card animate-on-scroll">
+                <span class="vocab-en">visit</span>
+                <span class="vocab-th">เยี่ยมชม</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ส่วนที่ 4: ประโยคขอข้อมูล -->
+    <section id="asking">
+        <h2 class="animate-on-scroll">🙋‍♂️ ประโยคสำหรับการขอข้อมูล</h2>
+        <div class="bubble-container">
+            <div class="bubble asking animate-on-scroll">
+                <div class="bubble-en">Where is the tourist attraction?</div>
+                <div class="bubble-th">แหล่งท่องเที่ยวอยู่ที่ไหน</div>
+            </div>
+            <div class="bubble asking animate-on-scroll">
+                <div class="bubble-en">How can I get there?</div>
+                <div class="bubble-th">ฉันจะเดินทางไปที่นั่นได้อย่างไร</div>
+            </div>
+            <div class="bubble asking animate-on-scroll">
+                <div class="bubble-en">What can I see there?</div>
+                <div class="bubble-th">ฉันสามารถเห็นอะไรได้บ้างที่นั่น</div>
+            </div>
+            <div class="bubble asking animate-on-scroll">
+                <div class="bubble-en">Is it popular?</div>
+                <div class="bubble-th">สถานที่นั้นเป็นที่นิยมหรือไม่</div>
+            </div>
+            <div class="bubble asking animate-on-scroll">
+                <div class="bubble-en">What activities can tourists do there?</div>
+                <div class="bubble-th">นักท่องเที่ยวสามารถทำกิจกรรมอะไรได้บ้าง</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ส่วนที่ 5: ประโยคให้ข้อมูล -->
+    <section id="giving">
+        <h2 class="animate-on-scroll">🙋‍♀️ ประโยคสำหรับการให้ข้อมูล</h2>
+        <div class="bubble-container">
+            <div class="bubble giving animate-on-scroll">
+                <div class="bubble-en">It is located in the city center.</div>
+                <div class="bubble-th">สถานที่นั้นตั้งอยู่ใจกลางเมือง</div>
+            </div>
+            <div class="bubble giving animate-on-scroll">
+                <div class="bubble-en">You can go there by bus.</div>
+                <div class="bubble-th">คุณสามารถเดินทางไปที่นั่นโดยรถประจำทาง</div>
+            </div>
+            <div class="bubble giving animate-on-scroll">
+                <div class="bubble-en">It is famous for its beautiful scenery.</div>
+                <div class="bubble-th">สถานที่นั้นมีชื่อเสียงด้านทิวทัศน์ที่สวยงาม</div>
+            </div>
+            <div class="bubble giving animate-on-scroll">
+                <div class="bubble-en">Tourists can take photos and enjoy nature.</div>
+                <div class="bubble-th">นักท่องเที่ยวสามารถถ่ายภาพและชมธรรมชาติได้</div>
+            </div>
+            <div class="bubble giving animate-on-scroll">
+                <div class="bubble-en">It is open every day.</div>
+                <div class="bubble-th">เปิดให้เข้าชมทุกวัน</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ส่วนที่ 6: บทสนทนาตัวอย่าง -->
+    <section id="dialogue">
+        <h2 class="animate-on-scroll">💬 บทสนทนาตัวอย่าง (Example Dialogue)</h2>
+        <div class="chat-box animate-on-scroll">
+            <div class="chat-line person-a">
+                <span class="chat-label">Tourist (A)</span>
+                <div class="chat-bubble">
+                    Excuse me. Where is the local museum?
+                    <div class="chat-trans">ขอโทษนะครับ/คะ พิพิธภัณฑ์ท้องถิ่นอยู่ที่ไหนครับ/คะ?</div>
+                </div>
+            </div>
+            <div class="chat-line person-b">
+                <span class="chat-label">Local (B)</span>
+                <div class="chat-bubble">
+                    It is near the town hall.
+                    <div class="chat-trans">มันอยู่ใกล้กับศาลากลางเมืองครับ/ค่ะ</div>
+                </div>
+            </div>
+            <div class="chat-line person-a">
+                <span class="chat-label">Tourist (A)</span>
+                <div class="chat-bubble">
+                    How can I get there?
+                    <div class="chat-trans">ฉันจะเดินทางไปที่นั่นได้อย่างไร?</div>
+                </div>
+            </div>
+            <div class="chat-line person-b">
+                <span class="chat-label">Local (B)</span>
+                <div class="chat-bubble">
+                    You can walk for about 10 minutes.
+                    <div class="chat-trans">คุณสามารถเดินไปได้ประมาณ 10 นาทีครับ/ค่ะ</div>
+                </div>
+            </div>
+            <div class="chat-line person-a">
+                <span class="chat-label">Tourist (A)</span>
+                <div class="chat-bubble">
+                    Thank you.
+                    <div class="chat-trans">ขอบคุณครับ/ค่ะ</div>
+                </div>
+            </div>
+            <div class="chat-line person-b">
+                <span class="chat-label">Local (B)</span>
+                <div class="chat-bubble">
+                    You're welcome.
+                    <div class="chat-trans">ด้วยความยินดีครับ/ค่ะ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ส่วนที่ 7: โครงสร้างประโยค -->
+    <section id="structure">
+        <h2 class="animate-on-scroll">🔄 โครงสร้างประโยคที่ควรรู้ (Sentence Structure)</h2>
+        <div class="flowchart animate-on-scroll">
+            <div class="flow-box">
+                <div class="flow-title">❓ Question (การถาม)</div>
+                <div class="flow-item">Where is + สถานที่ ?</div>
+                <div class="flow-item">How can I get to + สถานที่ ?</div>
+                <div class="flow-item">What can I do there ?</div>
+            </div>
+            
+            <div class="flow-arrow">➡️</div>
+            
+            <div class="flow-box answer">
+                <div class="flow-title" style="color: var(--accent);">✅ Answer (การตอบ)</div>
+                <div class="flow-item">It is located + สถานที่</div>
+                <div class="flow-item">You can go by + ยานพาหนะ</div>
+                <div class="flow-item">You can + กิจกรรม</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ส่วนที่ 8: เทคนิคการตอบคำถาม -->
+    <section id="tips">
+        <h2 class="animate-on-scroll">⭐ เทคนิคการตอบคำถาม (Tips)</h2>
+        <div class="tips-grid">
+            <div class="tip-card animate-on-scroll">
+                <span class="tip-star">🗣️</span>
+                <div class="tip-text">พูดสุภาพ</div>
+            </div>
+            <div class="tip-card animate-on-scroll">
+                <span class="tip-star">🎯</span>
+                <div class="tip-text">ใช้ข้อมูลที่ถูกต้อง</div>
+            </div>
+            <div class="tip-card animate-on-scroll">
+                <span class="tip-star">🗺️</span>
+                <div class="tip-text">อธิบายเส้นทางให้ชัดเจน</div>
+            </div>
+            <div class="tip-card animate-on-scroll">
+                <span class="tip-star">💬</span>
+                <div class="tip-text">ใช้ประโยคสั้น เข้าใจง่าย</div>
+            </div>
+            <div class="tip-card animate-on-scroll">
+                <span class="tip-star">😊</span>
+                <div class="tip-text">ยิ้มแย้มและเป็นมิตร</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ส่วนที่ 9: สรุปบทเรียน -->
+    <footer id="summary">
+        <div class="summary-box animate-on-scroll">
+            <div class="summary-title">
+                <span>📚</span> Summary (สรุปบทเรียน)
+            </div>
+            <p class="summary-text">
+                การขอและให้ข้อมูลเกี่ยวกับแหล่งท่องเที่ยวในท้องถิ่นเป็นทักษะสำคัญในการสื่อสารภาษาอังกฤษ 
+                ช่วยให้สามารถแนะนำสถานที่ อธิบายเส้นทาง และให้ข้อมูลแก่นักท่องเที่ยวได้อย่างถูกต้องและมั่นใจ 
+                ซึ่งเป็นส่วนสำคัญในการช่วยโปรโมทชุมชนของเราให้เป็นที่รู้จักในระดับสากล
+            </p>
+            <div class="closing-quote">
+                "Practice English, Promote Your Community!"
+            </div>
+            <div class="closing-icons">
+                🗺️ ✈️ 📸 🌏
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript สำหรับ Animation เมื่อเลื่อนหน้าจอ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ใช้ Intersection Observer เพื่อตรวจจับเมื่อองค์ประกอบปรากฏบนหน้าจอ
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // เริ่มทำงานเมื่อเห็นองค์ประกอบ 10%
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // หยุดการสังเกตหลังจากแสดงแอนิเมชันแล้ว (เพื่อให้แสดงแค่ครั้งเดียว)
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // เลือกทุกองค์ประกอบที่มีคลาส animate-on-scroll
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
