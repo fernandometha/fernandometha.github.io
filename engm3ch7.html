@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✈️ Airport Vocabulary & Flight Booking | อินโฟกราฟิกเพื่อการเรียนรู้</title>
+    
+    <!-- Google Fonts: Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --primary-blue: #0056b3;
+            --light-blue: #e3f2fd;
+            --sky-blue: #87ceeb;
+            --navy: #002147;
+            --white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --shadow: 0 8px 32px rgba(0, 33, 71, 0.1);
+            --success: #28a745;
+            --error: #dc3545;
+            --warning: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f2ff 50%, #d4e6f1 100%);
+            color: var(--navy);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Progress Bar --- */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--sky-blue), var(--primary-blue));
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* --- Layout & Typography --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            border-left: 5px solid var(--sky-blue);
+            padding-left: 15px;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* --- Glassmorphism Card --- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 33, 71, 0.15);
+        }
+
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Section 1: Intro --- */
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--navy));
+            color: var(--white);
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .intro-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .intro-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* --- Section 2: Vocab Grid --- */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .vocab-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .vocab-card:hover {
+            border-color: var(--primary-blue);
+            background: var(--light-blue);
+        }
+
+        .vocab-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .vocab-en {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        .vocab-th {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        /* --- Section 3: Timeline/Travel Card --- */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--sky-blue);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            background: var(--white);
+            padding: 1.2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .timeline-item::before {
+            content: '✈️';
+            position: absolute;
+            left: -2.6rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 4px;
+        }
+
+        /* --- Section 4 & 5: Expressions & Sentences --- */
+        .expression-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .expression-box {
+            background: var(--light-blue);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .expression-en {
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .expression-th {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .speech-bubble {
+            background: var(--white);
+            padding: 1.2rem 1.5rem;
+            border-radius: 20px;
+            border-bottom-left-radius: 4px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            position: relative;
+            max-width: 80%;
+        }
+
+        .speech-bubble.right {
+            margin-left: auto;
+            background: var(--primary-blue);
+            color: var(--white);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .speech-bubble .thai-meaning {
+            display: block;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 0.3rem;
+            font-weight: 300;
+        }
+
+        /* --- Section 6: Chat Conversation --- */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 16px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .chat-bubble {
+            max-width: 75%;
+            padding: 1rem 1.2rem;
+            border-radius: 18px;
+            position: relative;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .chat-bubble.staff {
+            align-self: flex-start;
+            background: var(--white);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .chat-bubble.passenger {
+            align-self: flex-end;
+            background: var(--primary-blue);
+            color: var(--white);
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 86, 179, 0.2);
+        }
+
+        .chat-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            opacity: 0.7;
+        }
+
+        .chat-text-en {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .chat-text-th {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        /* --- Section 7: Memory Cards --- */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .memory-card {
+            background: linear-gradient(135deg, #fff, #f0f8ff);
+            padding: 1.5rem 1rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--sky-blue);
+            transition: transform 0.3s;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05) rotate(1deg);
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        }
+
+        .memory-word {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .memory-meaning {
+            font-size: 1rem;
+            color: var(--navy);
+            margin-top: 0.5rem;
+        }
+
+        /* --- Section 8: Summary --- */
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            border-left: 5px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .highlight-box ul {
+            list-style: none;
+        }
+
+        .highlight-box li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .highlight-box li::before {
+            content: '✈️';
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* --- Section 9: Quiz --- */
+        .quiz-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .quiz-question h4 {
+            margin-bottom: 0.8rem;
+            color: var(--navy);
+        }
+
+        .quiz-options label {
+            display: block;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            background: var(--white);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quiz-options label:hover {
+            background: var(--light-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .btn-submit {
+            background: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        .btn-submit:hover {
+            background: var(--navy);
+        }
+
+        .quiz-result {
+            display: none;
+            margin-top: 2rem;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .result-excellent { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .result-good { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .result-practice { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        .correct-answer {
+            background: #d4edda !important;
+            border-color: #28a745 !important;
+            color: #155724;
+        }
+
+        .wrong-answer {
+            background: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #721c24;
+        }
+
+        /* --- Back to Top --- */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-blue);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        #backToTop:hover {
+            background: var(--navy);
+            transform: translateY(-3px);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.5rem; }
+            .vocab-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .chat-bubble { max-width: 90%; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Header -->
+    <header class="hero">
+        <div class="container">
+            <h1>✈️ Airport Vocabulary & Flight Booking</h1>
+            <p>คำศัพท์ สำนวน และประโยคที่ใช้ในสนามบินและการจองตั๋วเครื่องบิน</p>
+            <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.8;">ระดับชั้นมัธยมศึกษาปีที่ 3</p>
+        </div</header>
+
+    <main class="container">
+
+        <!-- Section 1 -->
+        <section id="intro" class="reveal">
+            <h2>📌 ความหมายของสนามบินและการจองตั๋ว</h2>
+            <div class="intro-grid">
+                <div class="glass-card intro-item">
+                    <div class="intro-icon">🏢</div>
+                    <h3>Airport</h3>
+                    <p><strong>สนามบิน</strong> คือ สถานที่สำหรับขึ้นและลงเครื่องบิน</p>
+                </div>
+                <div class="glass-card intro-item">
+                    <div class="intro-icon">🎫</div>
+                    <h3>Flight Booking</h3>
+                    <p><strong>การจองตั๋วเครื่องบิน</strong> คือ การสำรองที่นั่งสำหรับการเดินทางทางอากาศ</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="vocab" class="reveal">
+            <h2>🧳 คำศัพท์สำคัญในสนามบิน</h2>
+            <div class="vocab-grid">
+                <div class="vocab-card"><span class="vocab-emoji">✈️</span><div class="vocab-en">Airport</div><div class="vocab-th">สนามบิน</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🏢</span><div class="vocab-en">Airline</div><div class="vocab-th">สายการบิน</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🛩️</span><div class="vocab-en">Airplane</div><div class="vocab-th">เครื่องบิน</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🛫</span><div class="vocab-en">Flight</div><div class="vocab-th">เที่ยวบิน</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🎟️</span><div class="vocab-en">Ticket</div><div class="vocab-th">ตั๋ว</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🎫</span><div class="vocab-en">Boarding Pass</div><div class="vocab-th">บัตรขึ้นเครื่อง</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🛂</span><div class="vocab-en">Passport</div><div class="vocab-th">หนังสือเดินทาง</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">👩‍💼</span><div class="vocab-en">Check-in Counter</div><div class="vocab-th">เคาน์เตอร์เช็กอิน</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🛫</span><div class="vocab-en">Departure</div><div class="vocab-th">ขาออก</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🛬</span><div class="vocab-en">Arrival</div><div class="vocab-th">ขาเข้า</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🚪</span><div class="vocab-en">Gate</div><div class="vocab-th">ประตูขึ้นเครื่อง</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🧳</span><div class="vocab-en">Baggage / Luggage</div><div class="vocab-th">สัมภาระ / กระเป๋าเดินทาง</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🎒</span><div class="vocab-en">Carry-on Bag</div><div class="vocab-th">กระเป๋าถือขึ้นเครื่อง</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🔍</span><div class="vocab-en">Security Check</div><div class="vocab-th">จุดตรวจความปลอดภัย</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🛣️</span><div class="vocab-en">Runway</div><div class="vocab-th">รันเวย์</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🪟</span><div class="vocab-en">Window Seat</div><div class="vocab-th">ที่นั่งริมหน้าต่าง</div></div>
+                <div class="vocab-card"><span class="vocab-emoji">🚶</span><div class="vocab-en">Aisle Seat</div><div class="vocab-th">ที่นั่งติดทางเดิน</div></div>
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section id="booking-vocab" class="reveal">
+            <h2>📅 คำศัพท์เกี่ยวกับการจองตั๋วเครื่องบิน</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <strong>Book a Flight</strong> = จองเที่ยวบิน
+                </div>
+                <div class="timeline-item">
+                    <strong>Round-trip Ticket</strong> = ตั๋วไป-กลับ
+                </div>
+                <div class="timeline-item">
+                    <strong>One-way Ticket</strong> = ตั๋วเที่ยวเดียว
+                </div>
+                <div class="timeline-item">
+                    <strong>Reservation</strong> = การสำรองที่นั่ง
+                </div>
+                <div class="timeline-item">
+                    <strong>Departure Date</strong> = วันที่เดินทาง
+                </div>
+                <div class="timeline-item">
+                    <strong>Return Date</strong> = วันที่เดินทางกลับ
+                </div>
+                <div class="timeline-item">
+                    <strong>Economy Class</strong> = ชั้นประหยัด
+                </div>
+                <div class="timeline-item">
+                    <strong>Business Class</strong> = ชั้นธุรกิจ
+                </div>
+                <div class="timeline-item">
+                    <strong>First Class</strong> = ชั้นหนึ่ง
+                </div>
+                <div class="timeline-item">
+                    <strong>Boarding Time</strong> = เวลาขึ้นเครื่อง
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section id="expressions" class="reveal">
+            <h2>🗣️ สำนวนที่ใช้ในสนามบิน</h2>
+            <div class="expression-grid">
+                <div class="expression-box">
+                    <h3>❓ Asking for Information (การถาม)</h3>
+                    <br>
+                    <div class="expression-en">✈️ Where is the check-in counter?</div>
+                    <div class="expression-th">(เคาน์เตอร์เช็กอินอยู่ที่ไหน)</div>
+                    <br>
+                    <div class="expression-en">✈️ Which gate is my flight?</div>
+                    <div class="expression-th">(เที่ยวบินของฉันขึ้นที่ประตูไหน)</div>
+                    <br>
+                    <div class="expression-en">✈️ What time does the flight depart?</div>
+                    <div class="expression-th">(เที่ยวบินออกกี่โมง)</div>
+                    <br>
+                    <div class="expression-en">✈️ Can you help me?</div>
+                    <div class="expression-th">(คุณช่วยฉันได้ไหม)</div>
+                </div>
+                <div class="expression-box">
+                    <h3>💡 Giving Information (การให้ข้อมูล)</h3>
+                    <br>
+                    <div class="expression-en">✈️ The check-in counter is over there.</div>
+                    <div class="expression-th">(เคาน์เตอร์เช็กอินอยู่ตรงนั้น)</div>
+                    <br>
+                    <div class="expression-en">✈️ Your gate is Gate 12.</div>
+                    <div class="expression-th">(ประตูขึ้นเครื่องของคุณคือประตู 12)</div>
+                    <br>
+                    <div class="expression-en">✈️ The flight departs at 9 a.m.</div>
+                    <div class="expression-th">(เที่ยวบินออกเวลา 09.00 น.)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 -->
+        <section id="sentences" class="reveal">
+            <h2>💬 ประโยคสำหรับการจองตั๋วเครื่องบิน</h2>
+            <div class="speech-bubble">
+                I would like to book a flight to Bangkok.
+                <span class="thai-meaning">(ฉันต้องการจองเที่ยวบินไปกรุงเทพฯ)</span>
+            </div>
+            <div class="speech-bubble right">
+                How much is the ticket?
+                <span class="thai-meaning">(ตั๋วราคาเท่าไร)</span>
+            </div>
+            <div class="speech-bubble">
+                Do you have any available seats?
+                <span class="thai-meaning">(มีที่นั่งว่างไหม)</span>
+            </div>
+            <div class="speech-bubble right">
+                I would like a window seat.
+                <span class="thai-meaning">(ฉันต้องการที่นั่งริมหน้าต่าง)</span>
+            </div>
+            <div class="speech-bubble">
+                Can I change my booking?
+                <span class="thai-meaning">(ฉันสามารถเปลี่ยนการจองได้หรือไม่)</span>
+            </div>
+        </section>
+
+        <!-- Section 6 -->
+        <section id="conversation" class="reveal">
+            <h2>👥 ตัวอย่างบทสนทนา: Booking a Flight</h2>
+            <div class="chat-container">
+                <div class="chat-bubble passenger">
+                    <div class="chat-label">Passenger (ผู้โดยสาร)</div>
+                    <div class="chat-text-en">Hello, I would like to book a flight to Chiang Mai.</div>
+                    <div class="chat-text-th">สวัสดีครับ/ค่ะ ฉันต้องการจองเที่ยวบินไปเชียงใหม่</div>
+                </div>
+                <div class="chat-bubble staff">
+                    <div class="chat-label">Staff (เจ้าหน้าที่)</div>
+                    <div class="chat-text-en">Certainly. When would you like to travel?</div>
+                    <div class="chat-text-th">ได้เลยครับ/ค่ะ คุณต้องการเดินทางเมื่อไร</div>
+                </div>
+                <div class="chat-bubble passenger">
+                    <div class="chat-label">Passenger (ผู้โดยสาร)</div>
+                    <div class="chat-text-en">Next Friday, please.</div>
+                    <div class="chat-text-th">วันศุกร์หน้าครับ/ค่ะ</div>
+                </div>
+                <div class="chat-bubble staff">
+                    <div class="chat-label">Staff (เจ้าหน้าที่)</div>
+                    <div class="chat-text-en">We have available seats on the morning flight.</div>
+                    <div class="chat-text-th">เรามีที่นั่งว่างในเที่ยวบินเช้า</div>
+                </div>
+                <div class="chat-bubble passenger">
+                    <div class="chat-label">Passenger (ผู้โดยสาร)</div>
+                    <div class="chat-text-en">Great! I would like a window seat.</div>
+                    <div class="chat-text-th">เยี่ยมเลย! ฉันต้องการที่นั่งริมหน้าต่าง</div>
+                </div>
+                <div class="chat-bubble staff">
+                    <div class="chat-label">Staff (เจ้าหน้าที่)</div>
+                    <div class="chat-text-en">Your booking is confirmed.</div>
+                    <div class="chat-text-th">การจองของคุณได้รับการยืนยันแล้ว</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7 -->
+        <section id="memory" class="reveal">
+            <h2>🎯 เทคนิคการจำ (Memory Cards)</h2>
+            <div class="memory-grid">
+                <div class="memory-card">
+                    <div class="memory-word">Airport</div>
+                    <div class="memory-meaning">สนามบิน</div>
+                </div>
+                <div class="memory-card">
+                    <div class="memory-word">Passport</div>
+                    <div class="memory-meaning">หนังสือเดินทาง</div>
+                </div>
+                <div class="memory-card">
+                    <div class="memory-word">Boarding Pass</div>
+                    <div class="memory-meaning">บัตรขึ้นเครื่อง</div>
+                </div>
+                <div class="memory-card">
+                    <div class="memory-word">Gate</div>
+                    <div class="memory-meaning">ประตูขึ้นเครื่อง</div>
+                </div>
+                <div class="memory-card">
+                    <div class="memory-word">Flight</div>
+                    <div class="memory-meaning">เที่ยวบิน</div>
+                </div>
+                <div class="memory-card">
+                    <div class="memory-word">Ticket</div>
+                    <div class="memory-meaning">ตั๋ว</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8 -->
+        <section id="summary" class="reveal">
+            <h2>📝 สรุปท้ายบท</h2>
+            <div class="highlight-box">
+                <ul>
+                    <li><strong>Airport</strong> คือสถานที่ขึ้นและลงเครื่องบิน</li>
+                    <li>ต้องมี <strong>Passport</strong> และ <strong>Boarding Pass</strong> ก่อนขึ้นเครื่องเสมอ</li>
+                    <li>ควรทราบ <strong>Gate</strong> (ประตูขึ้นเครื่อง) และ <strong>Boarding Time</strong> (เวลาขึ้นเครื่อง) ให้ชัดเจน</li>
+                    <li>ใช้ประโยคสุภาพ (เช่น I would like..., Can you...) เมื่อติดต่อเจ้าหน้าที่</li>
+                    <li>ฝึกใช้คำศัพท์เกี่ยวกับการเดินทางบ่อยๆ จะช่วยให้จำได้แม่นยำ</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 9 -->
+        <section id="quiz" class="reveal">
+            <h2>📝 Interactive Quiz (แบบทดสอบท้ายบท)</h2>
+            <div class="glass-card">
+                <form id="quizForm">
+                    <!-- Q1 -->
+                    <div class="quiz-question" data-answer="B">
+                        <h4>1. Passport หมายถึงอะไร?</h4>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q1" value="A"> ตั๋วเครื่องบิน</label>
+                            <label><input type="radio" name="q1" value="B"> หนังสือเดินทาง</label>
+                            <label><input type="radio" name="q1" value="C"> กระเป๋าเดินทาง</label>
+                            <label><input type="radio" name="q1" value="D"> ประตูขึ้นเครื่อง</label>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div class="quiz-question" data-answer="B">
+                        <h4>2. Gate หมายถึงอะไร?</h4>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q2" value="A"> สนามบิน</label>
+                            <label><input type="radio" name="q2" value="B"> ประตูขึ้นเครื่อง</label>
+                            <label><input type="radio" name="q2" value="C"> ที่นั่ง</label>
+                            <label><input type="radio" name="q2" value="D"> สายการบิน</label>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div class="quiz-question" data-answer="A">
+                        <h4>3. "I would like to book a flight." หมายถึงอะไร?</h4>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q3" value="A"> ฉันต้องการจองเที่ยวบิน</label>
+                            <label><input type="radio" name="q3" value="B"> ตั๋วราคาเท่าไร</label>
+                            <label><input type="radio" name="q3" value="C"> มีที่นั่งว่างไหม</label>
+                            <label><input type="radio" name="q3" value="D"> ฉันต้องการที่นั่งริมหน้าต่าง</label>
+                        </div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div class="quiz-question" data-answer="C">
+                        <h4>4. Boarding Pass ใช้สำหรับอะไร?</h4>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q4" value="A"> จองตั๋ว</label>
+                            <label><input type="radio" name="q4" value="B"> เช็กอินกระเป๋า</label>
+                            <label><input type="radio" name="q4" value="C"> บัตรสำหรับขึ้นเครื่อง</label>
+                            <label><input type="radio" name="q4" value="D"> แสดงตัวตนที่ด่านตรวจคนเข้าเมือง</label>
+                        </div>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="quiz-question" data-answer="A">
+                        <h4>5. "Which gate is my flight?" ใช้ถามเกี่ยวกับอะไร?</h4>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q5" value="A"> ประตูขึ้นเครื่อง</label>
+                            <label><input type="radio" name="q5" value="B"> เวลาออกเดินทาง</label>
+                            <label><input type="radio" name="q5" value="C"> ราคาตั๋ว</label>
+                            <label><input type="radio" name="q5" value="D"> น้ำหนักกระเป๋า</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">ส่งคำตอบและตรวจคะแนน</button>
+                </form>
+
+                <div id="quizResult" class="quiz-result">
+                    <h3 id="resultTitle"></h3>
+                    <p id="resultMessage" style="font-size: 1.2rem; margin-top: 0.5rem;"></p>
+                    <button onclick="resetQuiz()" style="margin-top: 1rem; padding: 0.5rem 1.5rem; border: none; background: var(--navy); color: white; border-radius: 20px; cursor: pointer; font-family: 'Prompt';">ทำแบบทดสอบอีกครั้ง</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" title="เลื่อนไปด้านบน">⬆</button>
+
+    <script>
+        // --- 1. Progress Bar ---
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+            
+            // Back to Top Button Visibility
+            const backToTopBtn = document.getElementById('backToTop');
+            if (winScroll > 300) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+
+        // --- 2. Back to Top Functionality ---
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- 3. Scroll Animation (Intersection Observer) ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // --- 4. Quiz Logic ---
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let score = 0;
+            const totalQuestions = 5;
+            const questions = document.querySelectorAll('.quiz-question');
+            
+            questions.forEach((q, index) => {
+                const correctAnswer = q.getAttribute('data-answer');
+                const selectedOption = q.querySelector(`input[name="q${index + 1}"]:checked`);
+                const labels = q.querySelectorAll('label');
+                
+                // Reset styles
+                labels.forEach(label => {
+                    label.classList.remove('correct-answer', 'wrong-answer');
+                });
+
+                if (selectedOption) {
+                    const selectedValue = selectedOption.value;
+                    const selectedLabel = selectedOption.parentElement;
+
+                    if (selectedValue === correctAnswer) {
+                        score++;
+                        selectedLabel.classList.add('correct-answer');
+                    } else {
+                        selectedLabel.classList.add('wrong-answer');
+                        // Highlight correct answer
+                        const correctLabel = q.querySelector(`input[value="${correctAnswer}"]`).parentElement;
+                        correctLabel.classList.add('correct-answer');
+                    }
+                } else {
+                    // If not answered, still highlight the correct one
+                    const correctLabel = q.querySelector(`input[value="${correctAnswer}"]`).parentElement;
+                    correctLabel.classList.add('correct-answer');
+                }
+            });
+
+            // Display Result
+            const resultDiv = document.getElementById('quizResult');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultMessage = document.getElementById('resultMessage');
+            
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'quiz-result'; // Reset classes
+
+            if (score === 5) {
+                resultDiv.classList.add('result-excellent');
+                resultTitle.textContent = '⭐ 5 / 5 คะแนน = Excellent!';
+                resultMessage.textContent = 'ยอดเยี่ยมมาก! คุณเข้าใจคำศัพท์และประโยคได้เป็นอย่างดี';
+            } else if (score >= 3) {
+                resultDiv.classList.add('result-good');
+                resultTitle.textContent = `⭐ ${score} / 5 คะแนน = Good Job!`;
+                resultMessage.textContent = 'ทำได้ดี! แต่ลองทบทวนส่วนที่ผิดอีกนิดจะสมบูรณ์แบบเลย';
+            } else {
+                resultDiv.classList.add('result-practice');
+                resultTitle.textContent = `⭐ ${score} / 5 คะแนน = Keep Practicing!`;
+                resultMessage.textContent = 'อย่าท้อ! ลองอ่านเนื้อหาข้างบนอีกครั้งแล้วกลับมาทำใหม่นะ';
+            }
+
+            // Scroll to result
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        function resetQuiz() {
+            document.getElementById('quizForm').reset();
+            document.getElementById('quizResult').style.display = 'none';
+            document.querySelectorAll('.quiz-options label').forEach(label => {
+                label.classList.remove('correct-answer', 'wrong-answer');
+            });
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
