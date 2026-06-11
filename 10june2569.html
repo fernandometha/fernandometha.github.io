@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สรุปข้อมูลนักเรียน ณ 10 มิถุนายน 2569</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background-color: #f4f6f9; }
+        .dashboard-card { border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: none; }
+        .card-header { font-weight: bold; border-radius: 10px 10px 0 0 !important; }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h2 class="text-center mb-4 fw-bold text-primary">สรุปข้อมูลนักเรียน ณ 10 มิถุนายน 2569</h2>
+        
+        <div id="dashboardContainer">
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card dashboard-card h-100 border-primary">
+                        <div class="card-body text-center d-flex flex-column justify-content-center">
+                            <h5 class="text-muted">จำนวนนักเรียนทั้งหมด</h5>
+                            <h1 class="display-3 text-primary fw-bold" id="totalStudents">0</h1>
+                            <p class="mb-0 text-muted">คน</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-8 mb-3">
+                    <div class="card dashboard-card h-100 border-success">
+                        <div class="card-header bg-success text-white">สรุปจำนวนนักเรียน แยก ม.ต้น และ ม.ปลาย</div>
+                        <div class="card-body d-flex justify-content-around align-items-center text-center">
+                            <div>
+                                <h1 class="display-4 text-success fw-bold" id="juniorHigh">0</h1>
+                                <h5>มัธยมศึกษาตอนต้น</h5>
+                                <p class="text-muted">คน</p>
+                            </div>
+                            <div class="vr"></div>
+                            <div>
+                                <h1 class="display-4 text-success fw-bold" id="seniorHigh">0</h1>
+                                <h5>มัธยมศึกษาตอนปลาย</h5>
+                                <p class="text-muted">คน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="card dashboard-card border-info">
+                        <div class="card-header bg-info text-dark">สรุปจำนวนนักเรียนแยกชั้น - เพศ</div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>ระดับชั้น</th>
+                                            <th class="text-primary">ชาย (คน)</th>
+                                            <th class="text-danger">หญิง (คน)</th>
+                                            <th class="bg-light">รวม (คน)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gradeGenderTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card dashboard-card border-secondary">
+                <div class="card-header bg-secondary text-white d-flex flex-column flex-md-row justify-content-between align-items-center">
+                    <span class="mb-2 mb-md-0">รายการรายชื่อนักเรียน (ไม่แสดงเลข ปชช.)</span>
+                    <div class="d-flex gap-2">
+                        <select id="gradeFilter" class="form-select form-select-sm" style="width: auto;">
+                            <option value="all">ทุกระดับชั้น</option>
+                        </select>
+                        <button class="btn btn-warning btn-sm fw-bold" onclick="exportCSV()">ดาวน์โหลด CSV</button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                        <table class="table table-striped table-hover mb-0">
+                            <thead class="table-dark" style="position: sticky; top: 0;">
+                                <tr>
+                                    <th>ลำดับ</th>
+                                    <th>คำนำหน้า</th>
+                                    <th>ชื่อ-สกุล</th>
+                                    <th>ระดับชั้น</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // นำข้อมูลจาก CSV มาแปลงเป็น JSON ฝังไว้ในตัวแปรนี้แล้ว (มีรายชื่อ 155 คน)
+        const rawData = [{"no": "1", "title": "เด็กชาย", "name": "เด็กชายณฐพล  คอยขุนทด", "grade": "ม.1"}, {"no": "2", "title": "เด็กชาย", "name": "เด็กชายธิติพัทธ์  กิ่งนอก", "grade": "ม.1"}, {"no": "3", "title": "เด็กชาย", "name": "เด็กชายนพมงคล  ลอยเมฆ", "grade": "ม.1"}, {"no": "4", "title": "เด็กชาย", "name": "เด็กชายนพรัตน์  เบ้าคำ", "grade": "ม.1"}, {"no": "5", "title": "เด็กชาย", "name": "เด็กชายนันทภัทร  ปนสันเทียะ", "grade": "ม.1"}, {"no": "6", "title": "เด็กชาย", "name": "เด็กชายปฎิภาณ  ระหาญนอก", "grade": "ม.1"}, {"no": "7", "title": "เด็กชาย", "name": "เด็กชายพสุธร  ยอดคำ", "grade": "ม.1"}, {"no": "8", "title": "เด็กชาย", "name": "เด็กชายพิชัยยุทธ  มุ่งกลาง", "grade": "ม.1"}, {"no": "9", "title": "เด็กชาย", "name": "เด็กชายรภัทร  ไชยโคตร", "grade": "ม.1"}, {"no": "10", "title": "เด็กชาย", "name": "เด็กชายวันปิยะ  พลเยี่ยม", "grade": "ม.1"}, {"no": "11", "title": "เด็กชาย", "name": "เด็กชายศักรินทร์  โฉมศรี", "grade": "ม.1"}, {"no": "12", "title": "เด็กชาย", "name": "เด็กชายอภิรักษ์  กิ่งนอก", "grade": "ม.1"}, {"no": "13", "title": "เด็กหญิง", "name": "เด็กหญิงกรรณิการ์  พูนสวัสดิ์", "grade": "ม.1"}, {"no": "14", "title": "เด็กหญิง", "name": "เด็กหญิงชุติมา  พึ่งพงษ์", "grade": "ม.1"}, {"no": "15", "title": "เด็กหญิง", "name": "เด็กหญิงฐิติรัตน์  คงนันทะ", "grade": "ม.1"}, {"no": "16", "title": "เด็กหญิง", "name": "เด็กหญิงณัฐธิดา  กิ่งนอก", "grade": "ม.1"}, {"no": "17", "title": "เด็กหญิง", "name": "เด็กหญิงปวันรัตน์  พรมมาตย์", "grade": "ม.1"}, {"no": "18", "title": "เด็กหญิง", "name": "เด็กหญิงปิยธิดา  จันทะสุทธิ์", "grade": "ม.1"}, {"no": "19", "title": "เด็กหญิง", "name": "เด็กหญิงพัชราภรณ์  พิกุลศรี", "grade": "ม.1"}, {"no": "20", "title": "เด็กหญิง", "name": "เด็กหญิงรัตนาภรณ์  แคนนอก", "grade": "ม.1"}, {"no": "21", "title": "เด็กหญิง", "name": "เด็กหญิงรุ่งทิวา  มีนิล", "grade": "ม.1"}, {"no": "22", "title": "เด็กหญิง", "name": "เด็กหญิงศกุนตลา  กิ่งนอก", "grade": "ม.1"}, {"no": "23", "title": "เด็กหญิง", "name": "เด็กหญิงสุชานาถ  ศิริปัญญา", "grade": "ม.1"}, {"no": "24", "title": "เด็กชาย", "name": "เด็กชายกฤษณะ    ทองภูธร", "grade": "ม.2"}, {"no": "25", "title": "เด็กชาย", "name": "เด็กชายชิษณุพงศ์    กล้าหาญ", "grade": "ม.2"}, {"no": "26", "title": "เด็กชาย", "name": "เด็กชายณัฐชนนท์    ประพฤติ", "grade": "ม.2"}, {"no": "27", "title": "เด็กชาย", "name": "เด็กชายทรงพล    มุ่งกลาง", "grade": "ม.2"}, {"no": "28", "title": "เด็กชาย", "name": "เด็กชายธีรเดช    หอมเย็น", "grade": "ม.2"}, {"no": "29", "title": "เด็กชาย", "name": "เด็กชายธีระเทพ    กล่อมจอหอ", "grade": "ม.2"}, {"no": "30", "title": "เด็กชาย", "name": "เด็กชายนภัส    ซังข้าว", "grade": "ม.2"}, {"no": "31", "title": "เด็กชาย", "name": "เด็กชายปัณณวิชญ์    สายแวว", "grade": "ม.2"}, {"no": "32", "title": "เด็กชาย", "name": "เด็กชายพัชรพงศ์    พลซา", "grade": "ม.2"}, {"no": "33", "title": "เด็กชาย", "name": "เด็กชายวรพล    โสนาคา", "grade": "ม.2"}, {"no": "34", "title": "เด็กชาย", "name": "เด็กชายวรโชติ    คอยขุนทด", "grade": "ม.2"}, {"no": "35", "title": "เด็กชาย", "name": "เด็กชายวัชระพงษ์    ปนสันเทียะ", "grade": "ม.2"}, {"no": "36", "title": "เด็กหญิง", "name": "เด็กหญิงกชกร    ท้าวฬา", "grade": "ม.2"}, {"no": "37", "title": "เด็กหญิง", "name": "เด็กหญิงดุษฎี    คำภู", "grade": "ม.2"}, {"no": "38", "title": "เด็กหญิง", "name": "เด็กหญิงธิดารัตน์    อินทรกุศล", "grade": "ม.2"}, {"no": "39", "title": "เด็กหญิง", "name": "เด็กหญิงปณิดา    ลอยเมฆ", "grade": "ม.2"}, {"no": "40", "title": "เด็กหญิง", "name": "เด็กหญิงพัชราภา    รุ่งศิริ", "grade": "ม.2"}, {"no": "41", "title": "เด็กหญิง", "name": "เด็กหญิงรัชรินทร์    ลอยเมฆ", "grade": "ม.2"}, {"no": "42", "title": "เด็กหญิง", "name": "เด็กหญิงศศินิภา    ลอยเมฆ", "grade": "ม.2"}, {"no": "43", "title": "เด็กหญิง", "name": "เด็กหญิงสิริมา    บำรุงพงศ์", "grade": "ม.2"}, {"no": "44", "title": "เด็กหญิง", "name": "เด็กหญิงอรวรรณ    โชชัย", "grade": "ม.2"}, {"no": "45", "title": "เด็กหญิง", "name": "เด็กหญิงนันท์นภัส    พรานสูงเนิน", "grade": "ม.2"}, {"no": "46", "title": "เด็กหญิง", "name": "เด็กหญิงปรียาภรณ์    ลอยเมฆ", "grade": "ม.2"}, {"no": "47", "title": "เด็กชาย", "name": "เด็กชายสุวิจักขณ์  วิลัยกุล", "grade": "ม.3"}, {"no": "48", "title": "เด็กชาย", "name": "เด็กชายชิษณุพงษ์    สาสุนทร", "grade": "ม.3"}, {"no": "49", "title": "เด็กชาย", "name": "เด็กชายณัฐพล    เพ็ญพิมพ์", "grade": "ม.3"}, {"no": "50", "title": "เด็กชาย", "name": "เด็กชายธีรศักดิ์    พงษ์ชะอุ่ม", "grade": "ม.3"}, {"no": "51", "title": "เด็กชาย", "name": "เด็กชายพชรดนัย    ยวงกลาง", "grade": "ม.3"}, {"no": "52", "title": "เด็กชาย", "name": "เด็กชายพัชรพงษ์    บุญเพิ่ม", "grade": "ม.3"}, {"no": "53", "title": "เด็กชาย", "name": "เด็กชายรัฐภูมิ    ซังข้าว", "grade": "ม.3"}, {"no": "54", "title": "เด็กชาย", "name": "เด็กชายศิวัชพงษ์    สุขสันติ์", "grade": "ม.3"}, {"no": "55", "title": "เด็กชาย", "name": "เด็กชายสรายุทธ    บำรุงนา", "grade": "ม.3"}, {"no": "56", "title": "เด็กชาย", "name": "เด็กชายสุทัศน์    ซังข้าว", "grade": "ม.3"}, {"no": "57", "title": "เด็กชาย", "name": "เด็กชายสุทธิพงษ์    พรมพิทักษ์", "grade": "ม.3"}, {"no": "58", "title": "เด็กหญิง", "name": "เด็กหญิงณัฏฐธิดา    เพ็ญพิมพ์", "grade": "ม.3"}, {"no": "59", "title": "เด็กหญิง", "name": "เด็กหญิงณัฐนรี    ยอดคำ", "grade": "ม.3"}, {"no": "60", "title": "เด็กหญิง", "name": "เด็กหญิงรัญชิดา    ไตรนาท", "grade": "ม.3"}, {"no": "61", "title": "เด็กหญิง", "name": "เด็กหญิงวิรากานต์    แก้วหลวง", "grade": "ม.3"}, {"no": "62", "title": "เด็กหญิง", "name": "เด็กหญิงสิริประภา    ยอดคำ", "grade": "ม.3"}, {"no": "63", "title": "เด็กหญิง", "name": "เด็กหญิงสิริรัตน์    ไกรรัตน์", "grade": "ม.3"}, {"no": "64", "title": "เด็กหญิง", "name": "เด็กหญิงสุนารี    แหวนเพชร", "grade": "ม.3"}, {"no": "65", "title": "นาย", "name": "นายกรวิชญ์    แหวนเพชร", "grade": "ม.4"}, {"no": "66", "title": "นาย", "name": "นายคฑาวุธ    พลเยี่ยม", "grade": "ม.4"}, {"no": "67", "title": "นาย", "name": "นายจิรภัทร    หงส์ลอยลม", "grade": "ม.4"}, {"no": "68", "title": "นาย", "name": "นายชินดนัย    ยอดคำ", "grade": "ม.4"}, {"no": "69", "title": "นาย", "name": "นายโชคชัย    ขอบสันเทียะ", "grade": "ม.4"}, {"no": "70", "title": "นาย", "name": "นายโชติกาล    เจริญยศ", "grade": "ม.4"}, {"no": "71", "title": "นาย", "name": "นายณัฐพร    ปนสันเทียะ", "grade": "ม.4"}, {"no": "72", "title": "นาย", "name": "นายณัฐภัทร    เบ้าคำ", "grade": "ม.4"}, {"no": "73", "title": "นาย", "name": "นายทัพพสาร    ยอดคำ", "grade": "ม.4"}, {"no": "74", "title": "นาย", "name": "นายธนพล    กิ่งนอก", "grade": "ม.4"}, {"no": "75", "title": "นาย", "name": "นายธนากร    มุ่งกลาง", "grade": "ม.4"}, {"no": "76", "title": "นาย", "name": "นายธีรวัฒน์    สิมพะราช", "grade": "ม.4"}, {"no": "77", "title": "นาย", "name": "นายปรีชา    คงนันทะ", "grade": "ม.4"}, {"no": "78", "title": "นาย", "name": "นายพันธกานต์    แหวนเพชร", "grade": "ม.4"}, {"no": "79", "title": "นาย", "name": "นายมงคล    คงนันทะ", "grade": "ม.4"}, {"no": "80", "title": "นาย", "name": "นายศักดิ์สิทธิ์    คอยขุนทด", "grade": "ม.4"}, {"no": "81", "title": "นาย", "name": "นายศุภกิจ    กริ่งกระโทก", "grade": "ม.4"}, {"no": "82", "title": "นางสาว", "name": "นางสาวจุฬาลักษณ์    บุญล้น", "grade": "ม.4"}, {"no": "83", "title": "นางสาว", "name": "นางสาวญาณิศา    ผันสันเทียะ", "grade": "ม.4"}, {"no": "84", "title": "นางสาว", "name": "นางสาวปัณชญา    อินนิล", "grade": "ม.4"}, {"no": "85", "title": "นางสาว", "name": "นางสาวปิยฉัตร    ทนทาน", "grade": "ม.4"}, {"no": "86", "title": "นางสาว", "name": "นางสาวพิมลภัส    ลอยเมฆ", "grade": "ม.4"}, {"no": "87", "title": "นางสาว", "name": "นางสาวลลิตา    ชุ่มปาน", "grade": "ม.4"}, {"no": "88", "title": "นางสาว", "name": "นางสาวสุวภัทร    จันทนาลา", "grade": "ม.4"}, {"no": "89", "title": "นางสาว", "name": "นางสาวนภัสชญา    ไชยเชษฐ", "grade": "ม.4"}, {"no": "90", "title": "นางสาว", "name": "นางสาวแพรทองธาร    ท้าวฬา", "grade": "ม.4"}, {"no": "91", "title": "นาย", "name": "นายคทาวุธ    กิ่งนอก", "grade": "ม.5"}, {"no": "92", "title": "นาย", "name": "นายจักรภัทร    โชชัย", "grade": "ม.5"}, {"no": "93", "title": "นาย", "name": "นายจิรายุ    มีนิล", "grade": "ม.5"}, {"no": "94", "title": "นาย", "name": "นายชัชวาลย์    พงษ์ชะอุ่ม", "grade": "ม.5"}, {"no": "95", "title": "นาย", "name": "นายณัฐภัทร    จันทะคัด", "grade": "ม.5"}, {"no": "96", "title": "นาย", "name": "นายธีรภัทร    ซังข้าว", "grade": "ม.5"}, {"no": "97", "title": "นาย", "name": "นายปริญญา    ปนสันเทียะ", "grade": "ม.5"}, {"no": "98", "title": "นาย", "name": "นายพชร    อินทสิทธิ์", "grade": "ม.5"}, {"no": "99", "title": "นาย", "name": "นายพันธกานต์    แก้วสีขาว", "grade": "ม.5"}, {"no": "100", "title": "นาย", "name": "นายพิสิษฐ์    สายแวว", "grade": "ม.5"}, {"no": "101", "title": "นาย", "name": "นายภูมินทร์    ลอยเมฆ", "grade": "ม.5"}, {"no": "102", "title": "นาย", "name": "นายวันชนะ    ไตรนาท", "grade": "ม.5"}, {"no": "103", "title": "นาย", "name": "นายสัณหพิชญ์    สุขสันติ์", "grade": "ม.5"}, {"no": "104", "title": "นาย", "name": "นายอำพล    หมายติดกลาง", "grade": "ม.5"}, {"no": "105", "title": "นางสาว", "name": "นางสาวกรรณิการ์    แหวนเพชร", "grade": "ม.5"}, {"no": "106", "title": "นางสาว", "name": "นางสาวณัฐวดี    หมายติดกลาง", "grade": "ม.5"}, {"no": "107", "title": "นางสาว", "name": "นางสาวตะวันวาด    ระหาญนอก", "grade": "ม.5"}, {"no": "108", "title": "นางสาว", "name": "นางสาวปภาวรินทร์    ลอยเมฆ", "grade": "ม.5"}, {"no": "109", "title": "นางสาว", "name": "นางสาวปริญญา    ศรีสง่าวงค์", "grade": "ม.5"}, {"no": "110", "title": "นางสาว", "name": "นางสาวศิราณี    สายแสง", "grade": "ม.5"}, {"no": "111", "title": "นางสาว", "name": "นางสาวสุพัตรา    บำรุงนา", "grade": "ม.5"}, {"no": "112", "title": "นางสาว", "name": "นางสาวอรปรียา    สมบูรณ์กุล", "grade": "ม.5"}, {"no": "113", "title": "นาย", "name": "นายก้องกิดากร    ลอยเมฆ", "grade": "ม.6"}, {"no": "114", "title": "นาย", "name": "นายชัชวิช    ไตรนาท", "grade": "ม.6"}, {"no": "115", "title": "นาย", "name": "นายญาณวรุตม์    กิ่งนอก", "grade": "ม.6"}, {"no": "116", "title": "นาย", "name": "นายณัฐพงษ์    ปนสันเทียะ", "grade": "ม.6"}, {"no": "117", "title": "นาย", "name": "นายธนวัฒน์    ดวงเงิน", "grade": "ม.6"}, {"no": "118", "title": "นาย", "name": "นายธนาทิป    ศรีเมือง", "grade": "ม.6"}, {"no": "119", "title": "นาย", "name": "นายธนาพร    พินผุน", "grade": "ม.6"}, {"no": "120", "title": "นาย", "name": "นายธนาภัทร    บำรุงพงศ์", "grade": "ม.6"}, {"no": "121", "title": "นาย", "name": "นายนราวิชญ์    มุ่งกลาง", "grade": "ม.6"}, {"no": "122", "title": "นาย", "name": "นายปฎิพัทธ์    หมายติดกลาง", "grade": "ม.6"}, {"no": "123", "title": "นาย", "name": "นายประสาน    ไกรรัตน์", "grade": "ม.6"}, {"no": "124", "title": "นาย", "name": "นายภานุเดช    ไชยเชษฐ", "grade": "ม.6"}, {"no": "125", "title": "นาย", "name": "นายภานุวัฒน์    ลอยเมฆ", "grade": "ม.6"}, {"no": "126", "title": "นาย", "name": "นายภาสกร    ออมสิน", "grade": "ม.6"}, {"no": "127", "title": "นาย", "name": "นายรชต    ลอยเมฆ", "grade": "ม.6"}, {"no": "128", "title": "นาย", "name": "นายวงศธร    พิกุลศรี", "grade": "ม.6"}, {"no": "129", "title": "นาย", "name": "นายวิชชากร    ผันสันเทียะ", "grade": "ม.6"}, {"no": "130", "title": "นาย", "name": "นายวีรพงศ์    ไกรรัตน์", "grade": "ม.6"}, {"no": "131", "title": "นาย", "name": "นายวีระพล    กิ่งนอก", "grade": "ม.6"}, {"no": "132", "title": "นาย", "name": "นายสมปราชญ์    ปัณทุรา", "grade": "ม.6"}, {"no": "133", "title": "นาย", "name": "นายสหรัถ    มุ่งกฤษณะ", "grade": "ม.6"}, {"no": "134", "title": "นาย", "name": "นายอภิวัฒน์    ยอดคำ", "grade": "ม.6"}, {"no": "135", "title": "นาย", "name": "นายพัชรพล    สัตยโส", "grade": "ม.6"}, {"no": "136", "title": "นาย", "name": "นายพีรศักดิ์    จี่พิมาย", "grade": "ม.6"}, {"no": "137", "title": "นาย", "name": "นายสุทัศน์    หมายติดกลาง", "grade": "ม.6"}, {"no": "138", "title": "นางสาว", "name": "นางสาวกันต์ธิดา    แหวนเพชร", "grade": "ม.6"}, {"no": "139", "title": "นางสาว", "name": "นางสาวนภัสวรรณ    แก้วหลวง", "grade": "ม.6"}, {"no": "140", "title": "นางสาว", "name": "นางสาววณิชยา    กิ่มนอก", "grade": "ม.6"}, {"no": "141", "title": "นางสาว", "name": "นางสาวศุภัชชา    บำรุงนา", "grade": "ม.6"}, {"no": "142", "title": "นาย", "name": "นายธนวัชร    จันทนาลา", "grade": "ม.6"}, {"no": "143", "title": "นาย", "name": "นายนินรพัทร    กล่อมจอหอ", "grade": "ม.6"}, {"no": "144", "title": "นาย", "name": "นายศิรสิทธิ์    มีนิล", "grade": "ม.6"}, {"no": "145", "title": "นางสาว", "name": "นางสาววรัญญา    พลเยี่ยม", "grade": "ม.6"}, {"no": "146", "title": "นาย", "name": "นายธนายุทธ    ซังข้าว", "grade": "ม.6"}, {"no": "147", "title": "นาย", "name": "นายรพีภัทร    กล้าหาญ", "grade": "ม.6"}, {"no": "148", "title": "นาย", "name": "นายอนิวัตติ์    เจริญยศ", "grade": "ม.6"}, {"no": "149", "title": "นาย", "name": "นายพัสกร    ออมสิน", "grade": "ม.6"}, {"no": "150", "title": "นาย", "name": "นายพิสิษฐ์    ทองนึก", "grade": "ม.6"}, {"no": "151", "title": "นางสาว", "name": "นางสาวเกณิกา    ชุ่มปาน", "grade": "ม.6"}, {"no": "152", "title": "นางสาว", "name": "นางสาวศิริวิภาภรณ์    พลซา", "grade": "ม.6"}, {"no": "153", "title": "นาย", "name": "นายพีรพงศ์    จี่พิมาย", "grade": "ม.6"}, {"no": "154", "title": "นาย", "name": "นายกฤษณพงษ์    แหวนเพชร", "grade": "ม.6"}, {"no": "155", "title": "นาย", "name": "นายคชากฤษ  ลอยเมฆ", "grade": "ม.6"}];
+
+        // ประมวลผลข้อมูลเพิ่มเติม (แยกเพศ, ม.ต้น/ปลาย) โดยเพิ่ม Properties ใหม่เข้าไปใน Object แต่ละตัว
+        const gradeOrder = ['ม.1', 'ม.2', 'ม.3', 'ม.4', 'ม.5', 'ม.6'];
+        
+        window.studentData = rawData.map(d => ({
+            ...d,
+            gender: (d.title === 'เด็กชาย' || d.title === 'นาย') ? 'ชาย' : 'หญิง',
+            level: ['ม.1', 'ม.2', 'ม.3'].includes(d.grade) ? 'ม.ต้น' : 'ม.ปลาย'
+        }));
+
+        // เรียงลำดับนักเรียนตามระดับชั้น ม.1 - ม.6
+        window.studentData.sort((a, b) => gradeOrder.indexOf(a.grade) - gradeOrder.indexOf(b.grade));
+
+        // ฟังก์ชันเริ่มทำงานวาดหน้าตา Dashboard ทันทีที่โหลดไฟล์เสร็จ
+        function initDashboard() {
+            const data = window.studentData;
+
+            // 1. อัปเดตจำนวนนักเรียนทั้งหมด
+            document.getElementById('totalStudents').innerText = data.length;
+
+            // 2. อัปเดตจำนวน ม.ต้น และ ม.ปลาย
+            const juniorCount = data.filter(s => s.level === 'ม.ต้น').length;
+            const seniorCount = data.filter(s => s.level === 'ม.ปลาย').length;
+            document.getElementById('juniorHigh').innerText = juniorCount;
+            document.getElementById('seniorHigh').innerText = seniorCount;
+
+            // 3. คำนวณสรุปแยกชั้นและเพศ
+            let gradeStats = {};
+            gradeOrder.forEach(g => gradeStats[g] = { male: 0, female: 0, total: 0 });
+
+            data.forEach(s => {
+                if(gradeStats[s.grade]) {
+                    if(s.gender === 'ชาย') gradeStats[s.grade].male++;
+                    else gradeStats[s.grade].female++;
+                    gradeStats[s.grade].total++;
+                }
+            });
+
+            // สร้างตารางแยกชั้น-เพศ
+            const tbody = document.getElementById('gradeGenderTable');
+            tbody.innerHTML = '';
+            gradeOrder.forEach(g => {
+                if(gradeStats[g].total > 0) {
+                    tbody.innerHTML += `<tr>
+                        <td class="fw-bold">${g}</td>
+                        <td class="text-primary">${gradeStats[g].male}</td>
+                        <td class="text-danger">${gradeStats[g].female}</td>
+                        <td class="bg-light fw-bold">${gradeStats[g].total}</td>
+                    </tr>`;
+                }
+            });
+
+            // 4. สร้างตัวเลือก (Dropdown) ตัวกรองระดับชั้น
+            const filter = document.getElementById('gradeFilter');
+            filter.innerHTML = '<option value="all">ทุกระดับชั้น</option>';
+            gradeOrder.forEach(g => {
+                if(gradeStats[g].total > 0) {
+                    filter.innerHTML += `<option value="${g}">${g}</option>`;
+                }
+            });
+
+            // 5. แสดงตารางรายชื่อนักเรียนเริ่มต้น
+            renderTable(data);
+        }
+
+        // ฟังก์ชันวาดตารางรายชื่อนักเรียน
+        function renderTable(data) {
+            const tbody = document.getElementById('studentTableBody');
+            tbody.innerHTML = '';
+            data.forEach((s, index) => {
+                tbody.innerHTML += `<tr>
+                    <td>${index + 1}</td>
+                    <td>${s.title}</td>
+                    <td>${s.name}</td>
+                    <td>${s.grade}</td>
+                </tr>`;
+            });
+        }
+
+        // Event ดักจับเมื่อผู้ใช้เปลี่ยนตัวกรองระดับชั้นในตารางล่างสุด
+        document.getElementById('gradeFilter').addEventListener('change', function(e) {
+            const val = e.target.value;
+            if(val === 'all') renderTable(window.studentData);
+            else renderTable(window.studentData.filter(s => s.grade === val));
+        });
+
+        // ฟังก์ชันปุ่มดาวน์โหลด CSV
+        function exportCSV() {
+            const val = document.getElementById('gradeFilter').value;
+            let exportData = val === 'all' ? window.studentData : window.studentData.filter(s => s.grade === val);
+            
+            // ใส่ Byte Order Mark (BOM) ป้องกันภาษาไทยเพี้ยนใน Excel
+            let csvContent = "\uFEFFลำดับ,คำนำหน้า,ชื่อ-สกุล,ระดับชั้น\n";
+            exportData.forEach((s, index) => {
+                csvContent += `${index + 1},${s.title},${s.name},${s.grade}\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `student_summary_${val}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // สั่งให้ Dashboard เริ่มทำงานทันทีที่โหลดโครงสร้างเว็บเสร็จ
+        window.onload = initDashboard;
+    </script>
+</body>
+</html>
