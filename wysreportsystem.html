@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="th" class="h-full">
+ <head><script src="/_sdk/telemetry_sdk.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>กำลังปรับปรุงระบบ</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&amp;family=Space+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans Thai', sans-serif; }
+    .gear-spin { animation: spin 8s linear infinite; }
+    .gear-spin-reverse { animation: spin 8s linear infinite reverse; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    .float-anim { animation: float 3s ease-in-out infinite; }
+    @keyframes pulse-ring { 0% { transform: scale(0.8); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
+    .pulse-ring { animation: pulse-ring 2.5s ease-out infinite; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full overflow-auto flex items-center justify-center" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);">
+   <div class="text-center px-6 py-12 max-w-2xl mx-auto relative"><!-- Decorative elements -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full opacity-10" style="background: radial-gradient(circle, #38bdf8, transparent 70%);"></div><!-- Icon -->
+    <div class="relative inline-block mb-8 float-anim">
+     <div class="absolute inset-0 rounded-full bg-sky-500/20 pulse-ring"></div>
+     <div class="relative w-24 h-24 rounded-full bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-sky-500/30"><i data-lucide="cpu" style="width:44px;height:44px;color:#fff;"></i>
+     </div>
+    </div><!-- Gears -->
+    <div class="flex justify-center gap-2 mb-8 opacity-40"><i data-lucide="settings" class="gear-spin" style="width:28px;height:28px;color:#38bdf8;"></i> <i data-lucide="settings" class="gear-spin-reverse" style="width:20px;height:20px;color:#818cf8;margin-top:8px;"></i>
+    </div><!-- Text -->
+    <h1 id="heading" class="text-3xl md:text-4xl font-bold text-white mb-4 leading-relaxed">กำลังปรับปรุงระบบรายงานผล</h1>
+    <p id="body" class="text-lg md:text-xl text-slate-300 leading-relaxed mb-8 max-w-lg mx-auto">การรายงานผลการดำเนินงานกำลังปรับปรุงเพื่อรองรับการประมวลผลโดย AI และเพิ่มความสะดวกในการรายงานให้มากที่สุด ขออภัยในความไม่สะดวก</p><!-- Status badge -->
+    <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-sky-500/10 border border-sky-500/30"><span class="w-2.5 h-2.5 rounded-full bg-sky-400 animate-pulse"></span> <span class="text-sky-300 text-sm font-medium">ระบบจะกลับมาใช้งานได้เร็ว ๆ นี้</span>
+    </div>
+   </div>
+  </div>
+  <script>
+  lucide.createIcons();
+
+  const defaultConfig = {
+    heading_text: 'กำลังปรับปรุงระบบรายงานผล',
+    body_text: 'การรายงานผลการดำเนินงานกำลังปรับปรุงเพื่อรองรับการประมวลผลโดย AI และเพิ่มความสะดวกในการรายงานให้มากที่สุด ขออภัยในความไม่สะดวก',
+    primary_color: '#38bdf8',
+    surface_color: '#1e293b',
+    text_color: '#ffffff',
+    font_family: 'Noto Sans Thai',
+    font_size: 18
+  };
+
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => {
+      const h = document.getElementById('heading');
+      const b = document.getElementById('body');
+      h.textContent = config.heading_text || defaultConfig.heading_text;
+      b.textContent = config.body_text || defaultConfig.body_text;
+
+      const font = config.font_family || defaultConfig.font_family;
+      const size = config.font_size || defaultConfig.font_size;
+      h.style.fontFamily = `${font}, Noto Sans Thai, sans-serif`;
+      b.style.fontFamily = `${font}, Noto Sans Thai, sans-serif`;
+      h.style.fontSize = `${size * 2}px`;
+      b.style.fontSize = `${size}px`;
+
+      h.style.color = config.text_color || defaultConfig.text_color;
+      b.style.color = config.primary_color || defaultConfig.primary_color;
+    },
+    mapToCapabilities: (config) => ({
+      recolorables: [
+        { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+        { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+        { get: () => config.primary_color || defaultConfig.primary_color, set: (v) => { config.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); } }
+      ],
+      borderables: [],
+      fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+      fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+    }),
+    mapToEditPanelValues: (config) => new Map([
+      ['heading_text', config.heading_text || defaultConfig.heading_text],
+      ['body_text', config.body_text || defaultConfig.body_text]
+    ])
+  });
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0adc136144f894c',t:'MTc4MTMxODY4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
